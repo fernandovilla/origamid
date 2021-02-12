@@ -1,0 +1,57 @@
+.endereco {
+  max-width: 400px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid grey;
+}
+
+.endereco label {
+  display: block;
+  line-height: 3rem;
+  font-size: 1.5rem;
+}
+
+.bitcoin {
+  font-size: 2rem;
+  font-weight: bold;
+  color: green;
+}
+
+#piada {
+  border: 1px solid green;
+  border-radius: 5px;
+  padding: 10px;
+  width: 500px;
+  box-shadow: 2px 2px 6px 0 rgba(0,0,0,0.5);
+}
+
+#piada p {
+  font-style: italic;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 10px;
+  margin: 0px;
+}
+
+#piada span {
+  display: flex;
+  justify-content: center;
+  margin: 0px;
+}
+
+#piada button {
+  border: 0px;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px 0 rgba(0,0,0,.5);
+  color: white;
+  background: green;
+  width: 100px;
+  height: 28px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#piada button:hover {
+  background: darkgreen;
+  cursor: pointer;
+}

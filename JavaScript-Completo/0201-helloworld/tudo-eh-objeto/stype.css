@@ -1,0 +1,11 @@
+.bloco {
+  margin: 10px 0;
+  width: 200px;
+  height: 200px;
+  border: 1px solid grey;
+  background: grey;
+}
+
+.ligado {
+  background: green;
+}

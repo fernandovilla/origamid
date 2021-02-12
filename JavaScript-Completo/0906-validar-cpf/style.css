@@ -1,0 +1,45 @@
+label {
+  display: block;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  margin: 10px 0 5px 0;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  border: 2px solid black;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+input.erro {
+  border-color: red;
+}
+
+input.valido {
+  border-color: green;
+}
+
+input::placeholder {
+  color: rgba(0, 0, 0, 0.2);
+}
+
+form {
+  width: 400px;
+  border: 2px solid rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+
+.error-text {
+  display: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.875rem;
+  color: red;
+}
+
+.error-text.ativo {
+  display: block;
+}

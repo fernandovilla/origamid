@@ -1,0 +1,19 @@
+git add -A                       Inclui arquivos novos e remove os deletados;
+git rm <arquivo/pasta> -r        Remove um arquivo;
+git branch                       Lista os branchs existentes e marca com * o qual estou;
+git branch <nome>                Cria um novo branch;
+git checkout <nome>              Muda de branch;
+git checkout -b <nome_branch>    Cria o branch e muda para ele;
+git pull                         Download das diferenças, sempre executar o comando antes de commit, quando estáiver em outro branch
+git merge master                 Estando em outro branch, vai juntar os códigos alterados com o branch 'master';
+git push --set-upstream origin <nome_branch>       Usar esse 'push' quando estiver trabalhando com branchs
+git branch -d <nome_branch>      Deleta o branch local
+
+
+.gitignore:
+   Na pasta do repositório vai funcionar para todas as sub-pastas;
+   Nas pastas específicas, funcionará para as pastas;
+
+Sites hospedados no Github:
+   Aula 1006-git-3
+   criar um repositório com o nome "<usuário>.github.io"

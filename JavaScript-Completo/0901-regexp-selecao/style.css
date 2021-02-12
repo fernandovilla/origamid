@@ -1,0 +1,23 @@
+button {
+  background: #800080;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  font-family: "Courier New", Courier, monospace;
+  text-transform: uppercase;
+  width: 180px;
+  height: 50px;
+  margin: 10px;
+  box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+}
+
+button:hover {
+  background: gray;
+  color: white;
+  font-size: 2.1rem;
+  width: 184px;
+  height: 54px;
+  margin: 8px;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.5);
+}

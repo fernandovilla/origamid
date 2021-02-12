@@ -1,0 +1,8 @@
+li {
+   list-style: none;  
+   line-height: 2em;
+}
+
+li.ativo {
+   font-weight: bold;
+}

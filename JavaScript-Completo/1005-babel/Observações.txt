@@ -1,0 +1,15 @@
+Serve para dar 'Browser Suporte', ou seja transforma o código novo em código antigo;
+
+babeljs.io -> Converte o código novo para o antigo;
+caniuse.com -> Mostra a compatibilidade com browsers;
+
+Polyfill -> Criar métodos com código antigo que simulam o funcionamento novo;
+Transpiler -> Transforma código novo em antigo, ex: const -> var;
+
+Instalação:
+   npm install --save-dev @babel/core @babel/cli @babel/preset-env
+   npm install --save @babel/polyfill
+   npm install whatwg-fetch --save     (instala um polyfill para fetch - github)
+
+webpack.config.js -> arquivo de configuração do webpack;
+   

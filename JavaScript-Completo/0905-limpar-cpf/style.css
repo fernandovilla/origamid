@@ -1,0 +1,13 @@
+ul {
+  width: 250px;
+}
+
+li {
+  padding: 5px;
+  font-family: "Courier New", Courier, monospace;
+  list-style: none;
+}
+
+li:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.1);
+}

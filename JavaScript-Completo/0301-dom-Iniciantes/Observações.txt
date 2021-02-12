@@ -1,0 +1,7 @@
+DOM -> Document Object Model;
+   > Interface que representa documentos HTML e XML através de objetos;
+   > Com ela é possível manipular a estrutura, estilo e conteúdo desses documentos;
+   > No JS é representado pelo objeto 'window';
+   > 'window.document' ou apenas 'document', representa o próprio código HTML da página;
+
+

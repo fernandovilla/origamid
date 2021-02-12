@@ -1,0 +1,18 @@
+[
+   {
+      "id": 1,
+      "disciplina": "JavaScript"
+   },
+   {
+      "id": 2,
+      "disciplina":"CSS"
+   },
+   {
+      "id": 3,
+      "disciplina":"HTML"
+   },
+   {
+      "id": 4,
+      "disciplina":"AspNet Core"
+   }
+]
