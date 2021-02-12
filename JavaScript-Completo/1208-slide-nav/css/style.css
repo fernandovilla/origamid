@@ -1,0 +1,69 @@
+body {
+  margin: 0px;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.slide-wrapper {
+  overflow: hidden; /* remove a barra de rolagem, não permitindo mais navegação*/
+}
+
+.slide {
+  display: flex;
+}
+
+.slide:hover {
+  will-change: transform;
+}
+
+.slide li {
+  /* flex-shrink: 0, indica que os li contidos no .slide não vão ajustar o tamanho para caber todos na tela. Coloca a barra horizontal*/
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 800px;
+  margin: 0 20px;
+
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  opacity: 0.8;
+  transform: scale(0.8);
+  transition: 0.3s;
+}
+
+.slide li.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+[data-control="slide"] {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+[data-control="slide"] li a {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: #fb5;
+  border-radius: 50%;
+  overflow: hidden;
+  text-indent: -999px;
+  margin: 5px;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+[data-control="slide"] li.active a,
+[data-control="slide"] li a:hover {
+  background: #e54;
+}

@@ -1,0 +1,46 @@
+body {
+  margin: 0px;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.slide-wrapper {
+  overflow: hidden; /* remove a barra de rolagem, não permitindo mais navegação*/
+}
+
+.slide {
+  display: flex;
+}
+
+.slide:hover {
+  will-change: transform;
+}
+
+.slide li {
+  /* flex-shrink: 0, indica que os li contidos no .slide não vão ajustar o tamanho para caber todos na tela. Coloca a barra horizontal*/
+  flex-shrink: 0;
+  width: 80vw;
+  max-width: 800px;
+  margin: 0 20px;
+
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  opacity: 0.8;
+  transform: scale(0.8);
+  transition: 0.3s;
+}
+
+.slide li.active {
+  opacity: 1;
+  transform: scale(1);
+}
