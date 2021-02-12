@@ -1,0 +1,21 @@
+0701 - PropTypes:
+  - Usado para tipar o 'props', argumentos passados para os componentes;
+  - Usado no Button.js tipando os parâmetros passados;
+
+0702 - Lazy e Suspense:
+  - Com eles podemos dividir o código da aplicação, assim o React só carregar certas partes do programa qdo forem necessárias;
+  - Usado no Contato.js para carregar o jQuery;
+    
+0703 - Memo:
+  - Retorna um componente memorizado, evitando que o mesmo seja atualizado toda vez que o elemento pai mudar;
+  - Use apenas para elementos que não dependem de estados diferentes;
+  - Muito util para evitar renderização de elementos estáticos, ex: header, footer, menus, etc;
+  - Usado no Header.js, ao exportar o componente;
+
+0704 - useReducer:
+  - Serve para lidermos com estados que possuem funções fixas responsáveis por mudar o mesmo;
+  - Usado no Contador.js e ReduceArray.js;
+
+0705 - Classes:
+  - Era o único meio antigamente usado para criação de componentes;
+  - Usado no Produto.js;

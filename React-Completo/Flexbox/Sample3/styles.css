@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Spectral', arial, sans-serif;
+}
+
+a {
+}
+
+.navbar {
+  /* <ul> */
+  background-color: #bd1620;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  /* <li> */
+}
+
+.nav-link {
+  /* <a> */
+  text-decoration: none;
+  display: block; /* o tamanho do link é o tamanho do conteúdo, 'display: block' faz com que o link preencha o tamanho do pai */
+  color: cornsilk;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  transition: 0.3s linear all;
+}
+
+.nav-link:hover {
+  background-color: darkred;
+}
+
+/*
+justfy-content: alinhamento no eixo X (principal)
+align-items: alinhamento no eixo Y
+
+*/
+
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(
+      to bottom right,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.8)
+    ),
+    url('./sushi.png') 0 0 / cover;
+  margin: 0;
+  padding: 10px;
+}
+
+.wrapper p {
+  margin: 0;
+}
+
+@media screen and (min-width: 700px) {
+  .navbar {
+    display: flex;
+    justify-content: space-around; /* espaços em volta dos elementos*/
+  }
+
+  .nav-item {
+    flex-grow: 1; /* faz com que os itens cresçam na mesma proporção que o pai*/
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .navbar {
+    justify-content: flex-end;
+    padding-right: 30px;
+  }
+
+  .nav-item {
+    flex-grow: 0;
+  }
+}

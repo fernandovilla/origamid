@@ -1,0 +1,62 @@
+body {
+  margin: 2rem;
+}
+
+img {
+  max-width: 100%; /* Deixa a imagem reativa, cresce conforme o tamanho do container dela*/
+  border-radius: 0.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+.App {
+  display: flex;
+  flex-direction: column; /* Apresenta os dados em colunas*/
+  height: calc(100vh + 10rem);
+
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.content {
+  flex: 1; /*Faz com que o elemento se expanda o máximo que conseguir na tela, respeitando a direction*/
+}
+
+.animeLeft {
+  /* Desloca 20px à esquerda, a animação trará para o local original depois*/
+  transform: translateX(-20px);
+  /* Deixa o item 100% transparente, a animação o deixará 100% visível depois*/
+  opacity: 0;
+  animation: animeLeft 0.3s forwards;
+}
+
+@keyframes animeLeft {
+  to {
+    /* Volta para o lugar de origem*/
+    transform: initial;
+    /* Volta para a opacidade original = 1*/
+    opacity: initial;
+  }
+}
+
+.loading {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 10px solid #ccc;
+  border-right-color: transparent;
+  animation: loading 1s infinite; /* Fica rodando 360 graus infinitamente...*/
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}

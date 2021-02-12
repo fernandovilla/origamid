@@ -1,0 +1,12 @@
+> Criar um novo projeto React:
+  - npx create-react-app <nome_projeto>     // Cria uma pasta com o projeto dentro
+  - npm install history                     // instala o history
+  - npm install react-router-dom@next       // Instala a última versão (beta) do React Router Dom - Rotas;
+
+> Consumir API com segurança JWT;
+  - Passa o token nos headers;
+
+> UserContext, para utilizar informações públicas em toda a API
+
+> Reduz serve para colocar os estados em um contexto global, exemplo: UserContext;
+> MobX é um framework semelhante ao Reduz, serve para a mesma coisa

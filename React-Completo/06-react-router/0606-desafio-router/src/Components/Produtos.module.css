@@ -1,0 +1,9 @@
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Cria 3 colunas com tamanhos iguais*/
+  gap: 2rem;
+}
+
+.nome {
+  margin: 0.5rem 0;
+}

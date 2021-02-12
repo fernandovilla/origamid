@@ -1,0 +1,27 @@
+.avatar {
+  width: 60px;
+  height: 100px;
+  padding: 5px 10px;
+  margin: 5px 0px;
+  background: coral;
+  border-radius: 5px;
+}
+
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  background-image: url('./img/dog.jpg');
+  background-size: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  overflow: hidden;
+}
+
+.avatar-nome {
+  margin: 0px;
+  line-height: 0.5rem;
+  text-align: center;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+}

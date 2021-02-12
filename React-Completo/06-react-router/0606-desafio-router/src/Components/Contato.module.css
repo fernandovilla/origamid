@@ -1,0 +1,25 @@
+.contato {
+  display: grid; /* Configura o container para ser exibido em grid*/
+  grid-template-columns: 1fr 1fr; /* Divide o grid em duas frações iguais, duas colunas*/
+  gap: 2rem; /* Distância entre as colunas do grid*/
+}
+
+.dados {
+  padding: 0px;
+  list-style: none;
+}
+
+.dados li {
+  font-size: 1.2rem;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 0.8rem;
+}
+
+.dados li::before {
+  content: '';
+  display: inline-block;
+  width: 15px;
+  height: 2px;
+  background: #ddd;
+  margin-right: 10px;
+}

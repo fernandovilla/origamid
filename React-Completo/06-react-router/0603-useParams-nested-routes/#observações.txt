@@ -1,0 +1,6 @@
+Neste projeto é visto:
+  Rotas e Rotas Aninhadas;
+  Links;
+  Acesso a tag Head via JS (React não possui acesso a tag);
+  Componente para acesso a tag Head: https://github.com/nfl/react-helmet
+  Parametros entre components/rotas
