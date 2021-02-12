@@ -1,0 +1,27 @@
+.menu {
+  background: #252525;
+  padding: 20px 0;
+}
+
+.menu-logo {
+  display: block;
+  float: left;
+  margin-left: 10px;
+}
+
+.menu-nav {
+  float: right;
+  margin-right: 10px;
+}
+
+.menu-nav li {
+  display: inline-block; /* para deixar um li ao lado do outro*/
+}
+
+.menu-nav a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 1.125em;
+}

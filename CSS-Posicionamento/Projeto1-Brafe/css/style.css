@@ -1,0 +1,14 @@
+/* CSS Geral do site*/
+
+.container {
+  max-width: 960px;
+  margin: 0 auto; /* top/bottom = 0, left/right = auto -> centraliza horizontalmente */
+}
+
+/*Clearfix - usado nos containers que os elementos flutuam. Com flex layout não é mais necessário*/
+.container::after,
+.container::before {
+  content: '';
+  display: table;
+  clear: both;
+}

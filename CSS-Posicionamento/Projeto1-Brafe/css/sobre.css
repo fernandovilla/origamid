@@ -1,0 +1,44 @@
+.sobre {
+  padding: 60px 0;
+}
+
+.sobre h2 {
+  text-align: center;
+  font-size: 2.25em;
+  margin-bottom: 60px;
+}
+
+.sobre-item {
+  width: 460px;
+  float: left;
+  margin: 0 10px;
+}
+
+.sobre-item img {
+  display: block;
+  max-width: 100%;
+}
+
+.sobre-item h3 {
+  background: #252525;
+  color: #fff;
+  width: 220px;
+  line-height: 1em;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 2.25em;
+  text-align: center;
+  padding: 5px 0 10px 0;
+  position: relative; /* position absolute posicionaria o elemento em relação ao body*/
+  top: -25px;
+}
+
+/* Seleciona um elemento p, filho direto do .sobre*/
+.sobre > p {
+  max-width: 460px;
+  font-size: 1.125em;
+  font-style: italic;
+  line-height: 1.4em;
+  text-align: center;
+  margin: 20px auto;
+}
