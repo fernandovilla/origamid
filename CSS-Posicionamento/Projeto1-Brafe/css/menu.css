@@ -25,3 +25,10 @@
   color: white;
   font-size: 1.125em;
 }
+
+@media only screen and (max-width: 739px) {
+  .menu-nav {
+    float: none;
+    clear: both; /* limpa a flutuação */
+  }
+}

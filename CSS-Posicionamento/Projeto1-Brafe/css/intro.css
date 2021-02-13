@@ -24,3 +24,13 @@
   font-style: italic;
   font-size: 1.125em;
 }
+
+@media only screen and (max-width: 739px) {
+  .intro {
+    padding: 60px 0;
+  }
+
+  .intro h1 {
+    font-size: 2.25em;
+  }
+}
