@@ -1,0 +1,35 @@
+/* Menu */
+
+.menu {
+  background: #252525;
+  padding: 15px 0;
+}
+
+.menu-nav ul {
+  float: right;
+}
+
+.menu-nav ul li {
+  display: inline-block;
+}
+
+.menu-nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.125em;
+  display: block;
+  margin-left: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 739px) {
+  .menu-nav ul {
+    float: none;
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  .menu-nav a {
+    padding: 20px 4px;
+    margin-left: 0;
+  }
+}

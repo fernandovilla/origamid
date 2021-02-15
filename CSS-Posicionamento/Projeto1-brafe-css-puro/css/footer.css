@@ -15,3 +15,17 @@
   margin: 0 10px;
   display: block;
 }
+
+@media (max-width: 739px) {
+  .footer > .container {
+    max-width: 300px;
+  }
+  .footer p {
+    float: none;
+    margin: 0px;
+  }
+  .footer img {
+    float: none;
+    margin: 20px 0 0 0;
+  }
+}
