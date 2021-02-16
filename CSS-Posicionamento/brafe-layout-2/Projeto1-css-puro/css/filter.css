@@ -1,0 +1,68 @@
+.filtro {
+  background: #e7e4d8;
+  border: 3px solid #d6d3c8;
+  width: 300px;
+  margin: 0 10px;
+  padding: 20px;
+  float: left;
+}
+
+.filtro h2 {
+  font-size: 1.125em;
+  padding: 10px 0;
+}
+
+.filtro ul {
+  border-top: 3px solid #c0beb4;
+  border-bottom: 3px solid #c0beb4;
+  padding: 10px 0;
+}
+
+.filtro li {
+  font-style: italic;
+  font-size: 1.125em;
+  line-height: 2em;
+}
+
+.filtro li::after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #c0beb4;
+  float: right;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.sabor {
+  overflow: hidden; /* indica que deve esconder tudo que não couber no elemento*/
+}
+
+.sabor span {
+  text-indent: -200px; /* Cria um parágrafo com espaço de Npx, -200px some com o conteúdo da tela*/
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: lime;
+  vertical-align: middle; /* Alinha verticalmente ao centro do line-height */
+  background: currentColor; /* Cores dos itens seão definidas abaixo */
+}
+
+.sabor span.sabor-3 {
+  color: #492901;
+  box-shadow: 20px 0 0 0 currentColor, 40px 0 0 0 currentColor;
+}
+
+.sabor span.sabor-4 {
+  color: #c17139;
+  box-shadow: 20px 0 0 0 currentColor, 40px 0 0 0 currentColor,
+    60px 0 0 0 currentColor;
+}
+
+.sabor span.sabor-5 {
+  color: #d7a54d;
+  box-shadow: 20px 0 0 0 currentColor, 40px 0 0 0 currentColor,
+    60px 0 0 0 currentColor, 80px 0 0 0 currentColor;
+}

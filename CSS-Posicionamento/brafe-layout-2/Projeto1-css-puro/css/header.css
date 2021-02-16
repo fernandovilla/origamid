@@ -1,0 +1,42 @@
+.header-informacoes {
+  font-size: 0.875em;
+  background: #d6d3c8;
+  padding: 5px 0;
+  text-align: center;
+}
+
+.header-logo img {
+  display: block; /* faz com que o elemento se ajuste ao tamanho da imagem, senão ele é do tamanho da linha e não centraliza */
+  margin: 40px auto;
+}
+
+.header-menu {
+  border-top: 3px solid #d6d3c8;
+  border-bottom: 3px solid #d6d3c8;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.header-menu li {
+  display: inline-block;
+}
+
+.header-menu li a {
+  display: block;
+  text-decoration: none;
+  padding: 5px 10px 5px 0;
+  color: #252525;
+  font-size: 1.125em;
+}
+
+/* Cria um separdos nas opções do menu */
+.header-menu li a::before {
+  content: '|';
+  padding-right: 10px;
+}
+
+/* Remove o separador do primeiro item do menu */
+.header-menu li:first-child a::before {
+  content: '';
+}
