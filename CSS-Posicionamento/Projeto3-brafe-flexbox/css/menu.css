@@ -1,0 +1,27 @@
+/* Menu */
+
+.menu {
+  background: #252525;
+  padding: 15px 0;
+}
+
+.menu-nav {
+  flex: 1; /* torna os itens block, pegando 100 do espaço do elemento pai*/
+  align-self: center;
+}
+
+.menu-nav ul {
+  list-style: none;
+  display: flex;
+  float: right;
+}
+
+.menu-nav ul li a {
+  padding: 10px;
+}
+
+.menu-nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.125em;
+}
