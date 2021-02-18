@@ -66,3 +66,15 @@
   box-shadow: 20px 0 0 0 currentColor, 40px 0 0 0 currentColor,
     60px 0 0 0 currentColor, 80px 0 0 0 currentColor;
 }
+
+@media (min-width: 740px) and (max-width: 980px) {
+  .filtro {
+    width: 220px; /* ((720 / 12) * colunas_do_filtro_ocupa) - gutter */
+  }
+}
+
+@media (max-width: 739px) {
+  .filtro {
+    display: none;
+  }
+}

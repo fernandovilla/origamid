@@ -2,3 +2,22 @@
   max-width: 960px;
   margin: 0 auto;
 }
+
+.container::before,
+.container::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+@media (min-width: 740px) and (max-width: 980px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 739px) {
+  .container {
+    max-width: 300px;
+  }
+}
