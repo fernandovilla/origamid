@@ -1,0 +1,22 @@
+body,
+p,
+h1,
+h2,
+ul,
+li {
+  margin: 0px;
+  padding: 0px;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: Georgia, serif;
+  color: #252525;
+}
+
+* {
+  box-sizing: border-box;
+}

@@ -1,0 +1,28 @@
+/*PRODUTOS*/
+
+.produtos h1 {
+  font-size: 3em;
+  font-weight: normal;
+}
+
+.produtos li img {
+  display: block;
+  max-width: 100%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #252525;
+  margin: 40px 3px 0 3px;
+}
+
+.produtos li span {
+  background: #e7e4d8;
+  padding: 10px;
+  font-size: 0.875em;
+  font-weight: bold;
+  position: relative;
+  top: -15px;
+}
+
+.produtos li h2 {
+  font-size: 0.875em;
+  font-weight: normal;
+}
