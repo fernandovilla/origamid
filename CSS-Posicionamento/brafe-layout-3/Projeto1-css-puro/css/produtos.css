@@ -7,7 +7,7 @@
 }
 
 .produtos header {
-  background: lime;
+  /* background: lime; */
 }
 
 .produtos header::before,
@@ -33,4 +33,63 @@
   text-align: center;
   padding: 15px 20px;
   border-radius: 4px;
+}
+
+.produtos-item {
+  background: #fff;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+  margin-top: 20px;
+  position: relative; /* se um elemento filho for 'position: absolute' ele vai ficar dentro do elemento pai */
+  border-radius: 4px;
+}
+
+/* clearfix */
+.produtos-item::before,
+.produtos-item::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.produtos-item img {
+  float: left;
+  border-radius: 4px 0 0 4px;
+}
+
+.produtos-item a {
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  text-indent: -200px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: url('../img/edit.svg') no-repeat;
+}
+
+.produtos-item a:hover {
+  background: url('../img/edit-hover.svg') no-repeat;
+}
+
+.produtos-item ul {
+  float: left;
+  padding: 15px;
+  width: calc(100% - 140px);
+}
+
+.produtos-item li {
+  border-bottom: 1px solid #e7e4d8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.125em;
+  padding: 8px 0;
+}
+
+.produtos-item li:last-child {
+  border: none;
+}
+
+.produtos-item span {
+  font-weight: bold;
+  width: 70px;
+  display: inline-block;
 }
