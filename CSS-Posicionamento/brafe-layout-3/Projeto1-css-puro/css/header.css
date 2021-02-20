@@ -32,3 +32,13 @@
 .header-menu li:first-child a {
   padding-left: 0px;
 }
+
+@media (max-width: 739px) {
+  .header-logo {
+    float: none;
+  }
+  .header-menu ul {
+    float: none;
+    margin-top: 10px;
+  }
+}

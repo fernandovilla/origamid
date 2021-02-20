@@ -93,3 +93,31 @@
   width: 70px;
   display: inline-block;
 }
+
+@media (min-width: 740px) and (max-width: 980px) {
+  .produtos {
+    width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 739px) {
+  .produtos {
+    width: 100%;
+  }
+  .produtos h1 {
+    float: none;
+  }
+  .adicionar-produto {
+    float: none;
+    display: inline-block;
+    margin: 10px 0;
+  }
+  .produtos-item img {
+    float: none;
+    border-radius: 4px 0 0 0;
+  }
+  .produtos-item ul {
+    float: none;
+    width: 100%;
+  }
+}
