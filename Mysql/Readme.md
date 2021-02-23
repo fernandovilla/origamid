@@ -1,4 +1,4 @@
-# Curso de MySQL 8.0
+<h1 class="center">Curso de MySQL 8.0</h1>
 
 - https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview
 
@@ -6,8 +6,8 @@
 
 ## AULA 2 - NOVIDADES DA VERSÃO 8.0:
 
-https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html
-
+- https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html
+- https://medium.com/@adamhooper/in-mysql-never-use-utf8-use-utf8mb4-11761243e434
 - 2x mais rápida que a versão 5;
 - Document Store Evoluido (NoSQL);
 - Data Dictionary Transacional;
