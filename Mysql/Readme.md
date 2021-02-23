@@ -1,9 +1,9 @@
 <h1 class="center">Curso de MySQL 8.0</h1>
 <a href="https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview">Link do curso na Udemy</a>
 
-## Sesão #1
+## SEÇÃO 1 - CONTEÚDO DO CURSO
 
-### AULA #2 - Novidades do MySQL 8.0
+### Aula 2 - Novidades do MySQL 8.0:
 
 - 2x mais rápida que a versão 5;
 - Document Store Evoluido (NoSQL);
@@ -20,3 +20,25 @@
 - OpenSSL com suporte a TLS 1.3;
 <p><a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html">Link do site oficial</a></p>
 <p><a href="https://medium.com/@adamhooper/in-mysql-never-use-utf8-use-utf8mb4-11761243e434">Artigo UTF-8 no MySQL</a></p>
+
+### Aula 3 - Documentação, download e ambiente:
+
+-
+
+## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
+
+## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
+
+## SEÇÃO 4 - O SERVER EM FUNCIONAMENTO
+
+## SEÇÃO 5 - TABLESPACE
+
+## SEÇÃO 6 - PARTITIONING
+
+## SEÇÃO 7 - RELICAÇÃO
+
+## SEÇÃO 8 - GRUPO DE REPLICAÇÃO
+
+## SEÇÃO 9 - INNODB CLUSTER
+
+## SEÇÃO 10 - BACKUP - PLUGIN CLONE
