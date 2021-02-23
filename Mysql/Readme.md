@@ -19,7 +19,7 @@
 - Melhora significativa na InnoDB Cluster e Replicação;
 - OpenSSL com suporte a TLS 1.3;
 
-[Link do site oficial](https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html)
+[Link do site oficial](https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html)\_
 [Medium - UTF-8 no MySQL](https://medium.com/@adamhooper/in-mysql-never-use-utf8-use-utf8mb4-11761243e434)
 
 ### Aula 3 - Documentação, download e ambiente:
@@ -37,7 +37,7 @@
 
 <h6>Comandos de inicialização</h6>
   
-  - bin\mysqld.exe --initialize-insecure  => <i>Cria o usuário 'root' sem senha</i>;
+  - '''bin\mysqld.exe --initialize-insecure'''  <i>'Cria o usuário \'root\' sem senha'</i>;
   - Comando acima vai criar a pasta \data com seu devido conteúdo;
   - No bin\mysql.exe, mysql.exe -u root;
 
