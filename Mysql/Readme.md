@@ -19,7 +19,7 @@
 - Melhora significativa na InnoDB Cluster e Replicação;
 - OpenSSL com suporte a TLS 1.3;
 
-[Link do site oficial](https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html)\_
+[Link do site oficial](https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html) |
 [Medium - UTF-8 no MySQL](https://medium.com/@adamhooper/in-mysql-never-use-utf8-use-utf8mb4-11761243e434)
 
 ### Aula 3 - Documentação, download e ambiente:
