@@ -38,12 +38,14 @@
 
 <h6>Comandos de inicialização</h6>
   
-  - '''
-    bin\mysqld.exe --initialize-insecure
-    '''  
-    <i>'Cria o usuário \'root\' sem senha'</i>;
-  - Comando acima vai criar a pasta \data com seu devido conteúdo;
-  - No bin\mysql.exe, mysql.exe -u root;
+  '''
+  bin\mysqld.exe --initialize-insecure
+  '''
+
+- <i>'Cria o usuário \'root\' sem senha'</i>;
+
+- Comando acima vai criar a pasta \data com seu devido conteúdo;
+- No bin\mysql.exe, mysql.exe -u root;
 
 ## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
 
