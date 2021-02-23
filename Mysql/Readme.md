@@ -1,9 +1,10 @@
 <h1 class="center">Curso de MySQL 8.0</h1>
+
 [Curso na Udemy](https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview)
 
-# SEÇÃO 1 - CONTEÚDO DO CURSO
+## SEÇÃO 1 - CONTEÚDO DO CURSO
 
-## Aula 2 - Novidades do MySQL 8.0:
+### Aula 2 - Novidades do MySQL 8.0:
 
 - 2x mais rápida que a versão 5;
 - Document Store Evoluido (NoSQL);
