@@ -1,6 +1,5 @@
 <h1 class="center">Curso de MySQL 8.0</h1>
-
-- https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview
+<a href="https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview">Curso na Udemy</a>
 
 # SEÇÃO 1:
 
