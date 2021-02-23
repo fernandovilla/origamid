@@ -38,9 +38,10 @@
 
 <h4>Comandos de inicialização</h4>
 
-- bin\mysqld.exe --initialize-insecure => <i>Cria o usuário root sem senha</i>;
-- Comando acima vai criar a pasta \data com seu devido conteúdo;
-- bin\mysql.exe -u root => <i>Conecta no server com o client</i>
+1. bin\mysqld.exe --initialize-insecure => <i>Cria o usuário root sem senha</i>;
+   - Comando acima vai criar a pasta \data com seu devido conteúdo;
+2. bin\mysql.exe -u root
+   - <i>Conecta no server com o client</i>
 
 ## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
 
@@ -57,6 +58,85 @@
 - \run: utilizada na compilação e geração de binários;
 - \share: miscelânia de arquivos, ex.: mensagens, idiomas, conjunto de caracteres, exemplo de configuração, etc;
 - \var: utilizada na compilação e geração de binários;
+
+### Aula 6 - Conhecendo os arquivos do diretório data:
+
+- \auto.cnf:
+  - Gerado quando o servidor é inicializado caso ele não exista, se existe ele é lido, contem o UUID do server;
+- \binlog.0000N:
+  - Contém todos os comandos SQL disparados contra o servidor e que alteram dados; Show, Select, etc., não estarão neste arquivo;
+  - Usado para replicação, recuperação de crash;
+  - mysqlbinlog.exe é o programa que pode lê-lo;
+  - É possível desliga-lo ou alterar o caminho;
+  - row: linha que foi alterada;
+  - statement: comando executado;
+  - mixed: mistura entre os dois;
+- \binlog.index: É o indice dos arquivos binlog.0000X;
+- \ca.pem: Usados para conexão segura;
+- \*.err:
+  - Geralmente nome-da-maquina.ERR;
+  - Warnings e erros que o MySQL vai gravando;
+- \*.PID: Número do processo no windows;
+- \ib_buffer_pool:
+  - Grava o mapeamento do Buffer Pool;
+- \ib_logfile0, ib_logfile1:
+  - ReDo log - log de refazimento;
+  - Contém instruções que alteraram o BD, assim como o log binário;
+  - É de uso esclusivo do MySQL para recuperação de crash;
+- \ibdata1:
+  - System Table Space;
+  - Áreas onde são armazenadas tudo o que o mysql precisa para funcionar plenamente: tabelas, indices, views, procedures, etc.;
+  - É onde os dados são gravados propriamente ditos;
+- \ibdtmp1: Semelhante ao ibdata1, porém seu funcionamento é para tabelas temporárias;
+- \mysql.ibd: Também é um table space, novo na versão 8.0;
+- \undo_001 e undo_002:
+  - Responsáveis pelo controle transacional: begin, commit e rollback;
+  - Pode ser criado em outro disco;
+- \\#innodb_temp\:
+  - Diretório que em parceria com o arquivo ibtemp1 para gravação de tabelas temporárias;
+  - Também pode ser criado em outro local ou disco;
+- \\mysql\:
+  - Diretório do servidor;
+  - Contém logs geral de tudo que entra e sai no MySQL;
+- \\performance_schema\:
+  - É uma Store Engine do MySQL;
+- \\sys\:
+  - Conjunto de objetos que auxiliam os DBA a extrair informações do performance_schema;
+
+### Aula 7 - Os programas que compoem o server:
+
+<h4>Programas do Server:</h4>
+ - mysqld.exe: o serviço do servidor propriamente dito;
+
+<h4>Programas para instalação e upgrade:</h4>
+ - mysql_secure_installation.exe: melhora a segurança da sua instalação;
+ - mysql_ssl_rsa_setup.exe: gerador de arquivos para conexão segura SSL e RSA;
+ - mysql_tzinfo_to_sql.exe: responsável por carregar a tabela de timezone;
+ - mysql_upgrade: atualiza o diretório DATA após uma atualização de versão;
+ 
+<h4>Programas clientes:</h4>
+  - mysql.exe: executa linha de comando para interação com o servidor;
+  - mysqladmin.exe: programa para operações administrativas;
+  - mysqlcheck.exe: manutenção de tabelas, verificações, reparações e otimizações;
+  - mysqldump.exe: utilizado para geração de backup lógico;
+  - mysqlpump.exe: utilizado para geração de backup lógico (evolução do dump);
+  - mysqlshow.exe: informações sobre base de dados, tabelas, colunas, indices, etc.;
+  - mysqlslap.exe: emulador de carga para testes no servidor;
+  
+<h4>Programas administrativos e utilitários:</h4>
+  - innochecksum.exe: verificador de checksum offline  de base de dados (checksum = rotinas de verificação da integridade dos dados);
+  - mysql_config_editor.exe: utilitário para ofuscação de senhas de clientes em arquivos de configuração;
+  - mysqlbinlog.exe: utilitário para leitura dos arquivos de log binários;
+  - my_print_defaults.exe exibe as opções presentes nos grupos de opções de arquivos de config (my.ini, my.cnf, etc);
+  - ibd2sdi.exe: gerador de SDI a partir de um tablespace ibd ou ibdata;
+
+<h4>Miscelânia de utilitários:</h4>
+ - lz4_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com LZ4;
+ - zlib_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com ZLIB;
+ - perror.exe: exibe o que significa os erros gerados pelo MySQL;
+ 
+<h4>MySQL Router:</h4> 
+  - Os binários já acompanham o servidor;
 
 ## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
 
