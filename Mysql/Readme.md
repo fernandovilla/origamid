@@ -34,7 +34,7 @@
 - bin\libssl-1_1-x64.dll;
 
 <p>Comandos de inicialização</p>
-- bin\mysqld.exe --initialize-insecure  => *Cria o usuário 'root' sem senha*;
+- bin\mysqld.exe --initialize-insecure  => <i>Cria o usuário 'root' sem senha</i>;
 
 ## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
 
