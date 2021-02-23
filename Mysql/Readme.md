@@ -27,7 +27,7 @@
 
 ### Aula 4 - Instalação Básica - 4 arquivos:
 
-<h6>Arquivos, pastas e programas necessários:</h6>
+<h4>Arquivos, pastas e programas necessários:</h4>
   
   - Visual c++;
   - bin\mysqld.exe (server);
@@ -36,16 +36,11 @@
   - bin\libprotobuf-lite.dll;
   - bin\libssl-1_1-x64.dll;
 
-<h6>Comandos de inicialização</h6>
-  
-  '''
-  bin\mysqld.exe --initialize-insecure
-  '''
+<h4>Comandos de inicialização</h4>
 
-- <i>'Cria o usuário \'root\' sem senha'</i>;
-
+- bin\mysqld.exe --initialize-insecure => <i>Cria o usuário root sem senha</i>;
 - Comando acima vai criar a pasta \data com seu devido conteúdo;
-- No bin\mysql.exe, mysql.exe -u root;
+- bin\mysql.exe -u root => <i>Conecta no server com o client</i>
 
 ## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
 
