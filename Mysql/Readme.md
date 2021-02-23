@@ -46,6 +46,18 @@
 
 ### Aula 5 - Conhecendo o server e sua árvore de arquivos:
 
+- \bin:
+  - exe: programas;
+  - lib e dll: bibliotecas;
+  - pdb: program database - necessários para depuração
+- \doc: documentação do MySQL;
+- \etc:
+- \include: possui arquivos de cabeçalhos de compilação,
+- \lib: plugins e outras bibliotecas. Se eu fizer um plugin, é aqui que ele ficará;
+- \run: utilizada na compilação e geração de binários;
+- \share: miscelânia de arquivos, ex.: mensagens, idiomas, conjunto de caracteres, exemplo de configuração, etc;
+- \var: utilizada na compilação e geração de binários;
+
 ## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
 
 ## SEÇÃO 4 - O SERVER EM FUNCIONAMENTO
