@@ -2,7 +2,7 @@
 <a href="https://www.udemy.com/course/mysql_8_0/learn/lecture/18325436?start=0#overview">Link do curso na Udemy</a>
 
 <h2>Sesão #1</h2>
-<div style="margin-left: 10px">
+<div style="margin-left: 10px;">
   <h3>AULA #2 - Novidades do MySQL 8.0</h3>
   <p><a href="https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html">Link do site oficial</a></p>
   <p><a href="https://medium.com/@adamhooper/in-mysql-never-use-utf8-use-utf8mb4-11761243e434">Artigo UTF-8 no MySQL</a></p>
