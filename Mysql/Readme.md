@@ -106,37 +106,43 @@
 ### Aula 7 - Os programas que compoem o server:
 
 <h4>Programas do Server:</h4>
- - mysqld.exe: o serviço do servidor propriamente dito;
+
+- mysqld.exe: o serviço do servidor propriamente dito;
 
 <h4>Programas para instalação e upgrade:</h4>
- - mysql_secure_installation.exe: melhora a segurança da sua instalação;
- - mysql_ssl_rsa_setup.exe: gerador de arquivos para conexão segura SSL e RSA;
- - mysql_tzinfo_to_sql.exe: responsável por carregar a tabela de timezone;
- - mysql_upgrade: atualiza o diretório DATA após uma atualização de versão;
- 
+
+- mysql_secure_installation.exe: melhora a segurança da sua instalação;
+- mysql_ssl_rsa_setup.exe: gerador de arquivos para conexão segura SSL e RSA;
+- mysql_tzinfo_to_sql.exe: responsável por carregar a tabela de timezone;
+- mysql_upgrade: atualiza o diretório DATA após uma atualização de versão;
+
 <h4>Programas clientes:</h4>
-  - mysql.exe: executa linha de comando para interação com o servidor;
-  - mysqladmin.exe: programa para operações administrativas;
-  - mysqlcheck.exe: manutenção de tabelas, verificações, reparações e otimizações;
-  - mysqldump.exe: utilizado para geração de backup lógico;
-  - mysqlpump.exe: utilizado para geração de backup lógico (evolução do dump);
-  - mysqlshow.exe: informações sobre base de dados, tabelas, colunas, indices, etc.;
-  - mysqlslap.exe: emulador de carga para testes no servidor;
-  
+
+- mysql.exe: executa linha de comando para interação com o servidor;
+- mysqladmin.exe: programa para operações administrativas;
+- mysqlcheck.exe: manutenção de tabelas, verificações, reparações e otimizações;
+- mysqldump.exe: utilizado para geração de backup lógico;
+- mysqlpump.exe: utilizado para geração de backup lógico (evolução do dump);
+- mysqlshow.exe: informações sobre base de dados, tabelas, colunas, indices, etc.;
+- mysqlslap.exe: emulador de carga para testes no servidor;
+
 <h4>Programas administrativos e utilitários:</h4>
-  - innochecksum.exe: verificador de checksum offline  de base de dados (checksum = rotinas de verificação da integridade dos dados);
-  - mysql_config_editor.exe: utilitário para ofuscação de senhas de clientes em arquivos de configuração;
-  - mysqlbinlog.exe: utilitário para leitura dos arquivos de log binários;
-  - my_print_defaults.exe exibe as opções presentes nos grupos de opções de arquivos de config (my.ini, my.cnf, etc);
-  - ibd2sdi.exe: gerador de SDI a partir de um tablespace ibd ou ibdata;
+
+- innochecksum.exe: verificador de checksum offline de base de dados (checksum = rotinas de verificação da integridade dos dados);
+- mysql_config_editor.exe: utilitário para ofuscação de senhas de clientes em arquivos de configuração;
+- mysqlbinlog.exe: utilitário para leitura dos arquivos de log binários;
+- my_print_defaults.exe exibe as opções presentes nos grupos de opções de arquivos de config (my.ini, my.cnf, etc);
+- ibd2sdi.exe: gerador de SDI a partir de um tablespace ibd ou ibdata;
 
 <h4>Miscelânia de utilitários:</h4>
- - lz4_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com LZ4;
- - zlib_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com ZLIB;
- - perror.exe: exibe o que significa os erros gerados pelo MySQL;
- 
-<h4>MySQL Router:</h4> 
-  - Os binários já acompanham o servidor;
+
+- lz4_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com LZ4;
+- zlib_decompress.exe: descompactador de arquivos gerados por mysqlpump.exe gerados com ZLIB;
+- perror.exe: exibe o que significa os erros gerados pelo MySQL;
+
+<h4>MySQL Router:</h4>
+
+- Os binários já acompanham o servidor;
 
 ## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
 
