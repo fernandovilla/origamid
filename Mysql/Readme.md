@@ -193,6 +193,20 @@
   - _DATADIR\mysqld-auto.cnf_: variáveis de sistemas como SET, PERSIST ou SETPERSIST ONLY;
 - A leitura dos arquivos não é excludente, o MySQL vai ler a configiração de todos os arquivos encontrados se nenhum for indicado;
 
+### Aula 12 - Sintaxe dos arquivos de configuração:
+
+- Comentários:
+  - \# ou ;
+- [group] => [mysqld]
+- Opções
+  - somente a opção, ex: _console_;
+  - opção e valor, ex: _console=true_;
+- Caminhos de arquivos e diretórios:
+  - Utilizar aspas dupla no caminho, barra invertida dupla ou barra normal única;
+  - _basedir="C:\\\Arquivos de Programas\\\MySQL\\\MySQL Server 8.0"_;
+  - _basedir="C:/Arquivos de Programas/MySQL/MySQL Server 8.0"_;
+  - _basedir=C:\\\Arquivos de Programas\\MySQL\\MySQL Server 8.0_;
+
 ## SEÇÃO 4 - O SERVER EM FUNCIONAMENTO
 
 ## SEÇÃO 5 - TABLESPACE
