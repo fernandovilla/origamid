@@ -146,21 +146,52 @@
 
 - Os binários já acompanham o servidor;
 
-### Aula 8 - Inicialização do Server:
+### Aula 8, 9 - Inicialização do Server:
 
 - Encerramento de forma correta com mysqladmin.exe:
   - mysqladmin shutdown -u root;
-- Inicialização do sistema:
-  - _bin\mysqld_: inicialização mais básica, carrega com as configurações default;
-  - _bin\mysqld --console_: carrega o server, listando os processos;
-  - _bin\mysqld --console --port=9101_: carrega o server na porta 9101;
-- Observações:
+  - mysqladmin shutdown -u root -P 9101;
+- Inicialização do sistema - _\bin\mysqld.exe_:
+  - _bin\mysqld_: apenas executar o programa é a inicialização mais básica, carrega com as configurações default;
+  - _--console_: carrega o server, listando os processos;
+  - _--port=9101_: carrega o server na porta 9101;
+  - _--lc-messages=pt_BR_: adiciona mensagens em português;
+- Inicialização do sistema com arquivo de configuração - _my.ini_ ou _my.cnf_:
+  - Criar o arquivo _my.ini_ no diretório que está instalado o MySQL;
+- **Observações**:
   - Adicionar no antivirus uma exclusão para a pasta \DATA;
-  - Liberar a porta 9101 (default) no Firewall;
+  - Liberar a porta 9101 (default é 3306) no Firewall;
 
 [Outras opções de inicialização](https://dev.mysql.com/doc/refman/8.0/en/server-options.html)
 
+## Aula 10 - Inicialização do Server como Serviço do Windows:
+
+- Sempre acessar o prompt de comando como admin;
+- É uma boa prática instalar o serviço com um nome diferente do padrão;
+- Instalação do serviço: - _bin\mysqld_:
+  - _--install_: registra um serviço chamado _"MySQL"_;
+  - _--install [nome-serviço]_: registra um serviço com o nome indicado;
+  - _--install --defaults-file=[arquivo-configiracao]_: registra o serviço indicando um arquivo de configuração. Informar o local e nome do arquivo;
+- Iniciar/Parar do serviço:
+  - _net start [nome-serviço]_: comando do windows para iniciar um serviço registrado;
+  - _net stop [nome-serviço]_: comando do windows para parar um serviço registrado;
+  - _sc start [nome-serviço]_: comando do windows para iniciar um serviço registrado;
+  - _sc stop [nome-serviço]_: comando do windows para parar um serviço registrado;
+- Desinstalação do serviço:
+  - _sc delete [nome-serviço]_: comando do windows para deletar serviços;
+
 ## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
+
+### Aula 11 - my.ini em muitos lugares:
+
+- Locais que o MySQL busca o my.ini ou my.cnf:
+  - _%windir%\my.ini_: opções globais;
+  - _c:\my.ini_: opções globais;
+  - _BASEDIR\my.ini_: opções globais. Diretório de instalação do MySQL;
+  - _defaults-extra-file_: lê o arquivo específicado e todos os demais encontrados;
+  - _%APPDATA%\mysql\.mylogin.cnf_: login path;
+  - _DATADIR\mysqld-auto.cnf_: variáveis de sistemas como SET, PERSIST ou SETPERSIST ONLY;
+- A leitura dos arquivos não é excludente, o MySQL vai ler a configiração de todos os arquivos encontrados se nenhum for indicado;
 
 ## SEÇÃO 4 - O SERVER EM FUNCIONAMENTO
 
