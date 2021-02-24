@@ -40,7 +40,9 @@
 
 1. bin\mysqld.exe --initialize-insecure => <i>Cria o usuário root sem senha</i>;
    - Comando acima vai criar a pasta \data com seu devido conteúdo;
-2. bin\mysql.exe -u root
+2. bin\mysqld.exe:
+   - Carrega o servidor MySQL;
+3. bin\mysql.exe -u root
    - <i>Conecta no server com o client</i>
 
 ## SEÇÃO 2 - INSTALAÇÃO EM DETALHES
@@ -143,6 +145,20 @@
 <h4>MySQL Router:</h4>
 
 - Os binários já acompanham o servidor;
+
+### Aula 8 - Inicialização do Server:
+
+- Encerramento de forma correta com mysqladmin.exe:
+  - mysqladmin shutdown -u root;
+- Inicialização do sistema:
+  - _bin\mysqld_: inicialização mais básica, carrega com as configurações default;
+  - _bin\mysqld --console_: carrega o server, listando os processos;
+  - _bin\mysqld --console --port=9101_: carrega o server na porta 9101;
+- Observações:
+  - Adicionar no antivirus uma exclusão para a pasta \DATA;
+  - Liberar a porta 9101 (default) no Firewall;
+
+[Outras opções de inicialização](https://dev.mysql.com/doc/refman/8.0/en/server-options.html)
 
 ## SEÇÃO 3 - MY.INI - A ALMA DO SERVER
 
