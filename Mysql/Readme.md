@@ -197,17 +197,42 @@
 
 - Comentários:
   - \# ou ;
-- [group] => [mysqld]
-- Opções
+- Grupos:
+  - [group] => [mysqld]
+  - [client] => grupo que é lido apenas pelos programas clientes, ignorado pelo server;
+  - [mysqld-8.0] => grupo que apenas a versão 8.0 vai ler. Versão X.X.XXX;
+  - [mysqld-5.7] => grupo que apenas a versão 5.7 vai ler;
+  - [mysql80port9101] => grupo que apenas o serviço "mysql80port9101" vai ler;
+- Opções:
   - somente a opção, ex: _console_;
   - opção e valor, ex: _console=true_;
 - Caminhos de arquivos e diretórios:
-  - Utilizar aspas dupla no caminho, barra invertida dupla ou barra normal única;
-  - _basedir="C:\\\Arquivos de Programas\\\MySQL\\\MySQL Server 8.0"_;
-  - _basedir="C:/Arquivos de Programas/MySQL/MySQL Server 8.0"_;
-  - _basedir=C:\\\Arquivos de Programas\\MySQL\\MySQL Server 8.0_;
+  - Aspas dupla + barras duplas: _basedir="C:\\\Arquivos de Programas\\\MySQL\\\MySQL Server 8.0"_;
+  - Aspas duplas + barra simples: _basedir="C:\\Arquivos de Programas\\MySQL\\MySQL Server 8.0"_;
+  - Aspas dupla + barra normal (unix): _basedir="C:/Arquivos de Programas/MySQL/MySQL Server 8.0"_;
+  - Sem aspas + barras duplas: _basedir=C:\\\Arquivos de Programas\\\MySQL\\\MySQL Server 8.0_;
+- Medidas:
+  - K, M , G, T, P, E (maiúsculas e minúsculas)
+  - bytes: _max-allowed-packed=16777216_;
+  - megabytes: _max-allowed-packed=16M_ ou _max-allowed-packed=16m_;
+  - calculo: _max-allowed-packed=16*1024*1024_;
+  - opção abreviada: _max-a=16M_;
+
+### Aula 13 - Diretivas !include e !includedir:
+
+- Opção útil quando é necessário trabalhar com mais de um server na mesma maquina;
+- Na primeira linha do arquivo de configuração:
+  - _!include c:\mysql\mygeneral.ini_ -> as configurações existentes no 'mygeneral.ini' passam a ser aceitas no arquivo que fez o !include;
+  - _!includedir c:\mysql\optconfig_ -> todas os arquivos de configuração existentes no diretório passam a ser considerados;
+- Outras opções de sintaxe:
+  - barras simples: _!include c:\\mysql\\myconfig.ini_;
+  - barras duplas: _!include c:\\\mysql\\\myconfig.ini_;
+  - barras normal: _!include c:/mysql/myconfig.ini_;
+  - Não utilizar aspas ou escapes, mesmo que o path tenha espaço;
 
 ## SEÇÃO 4 - O SERVER EM FUNCIONAMENTO
+
+### Aula 14 - Criando o primeiro arquivo de opções de inicialização:
 
 ## SEÇÃO 5 - TABLESPACE
 
