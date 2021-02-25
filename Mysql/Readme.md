@@ -236,6 +236,8 @@
 
 - _Arquivo ini com configurações básicas:_ [my.ini](my-14.ini)
 
+### Aula 15 - O MySQL Schema e o Data Dict:
+
 ## SEÇÃO 5 - TABLESPACE
 
 ## SEÇÃO 6 - PARTITIONING
