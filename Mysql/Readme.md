@@ -234,7 +234,9 @@
 
 ### Aula 14 - Criando o primeiro arquivo de opções de inicialização:
 
-[my.ini](my-14.ini);
+#### Arquivo ini com configurações básicas:
+
+[my.ini](my-14.ini)
 
 ## SEÇÃO 5 - TABLESPACE
 
