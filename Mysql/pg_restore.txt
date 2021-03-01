@@ -1,0 +1,10 @@
+1. Liberar o host no data\pg_hba.cong;
+  host    all             all             0.0.0.0/0            md5
+
+2. Reuniciar o serviço;
+
+3. Criar o BD:
+  bin\createdb.exe -h 192.168.0.14 -U postgres -W farmaunidos_esc
+
+4. Restore:
+  bin\pg_restore.exe -h 192.168.0.14 -p 5432 -U postgres -d farmaunidos_esc [backup_file]
