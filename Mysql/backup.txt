@@ -1,0 +1,6 @@
+Backup: 
+   bin\mysqldump --databases controle > c:\controle.sql -u root
+
+Restore:
+   bin\mysqldump -u root -p controle < c:\controle.sql
+
