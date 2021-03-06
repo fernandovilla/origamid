@@ -1,11 +1,9 @@
 Criação de um projeto React:
 https://www.origamid.com/slide/react-completo/#/0204-webpack-e-babel/5
 
-PREPARAÇÃO:
+1. Instalar o pacote inicial no node:
 
-1. Iniciar um pacote npm:
-
-   - npm init -y
+   - npm init -y;
 
 2. Instalar o webpack, webpack-cli e o webpack-dev-server:
 
