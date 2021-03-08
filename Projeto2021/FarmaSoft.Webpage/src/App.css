@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  /* padding-top: 4rem; */
+  margin: 0px;
+  color: #333;
+  --type-first: Helvetica, Arial, sans-serif;
+  --type-second: 'Spectral', Georgia;
+
+  --border-color: #3b3b3b;
+  font-family: var(--type-first);
+  --font-color: var(var(--border-color));
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0px;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input {
+  display: block;
+  font-size: 1rem;
+  font-family: var(--type-first);
+  /* color: #333; */
+  color: var(--font-color);
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
