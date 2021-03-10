@@ -3,14 +3,14 @@
 .header {
   background: #d6d3c8;
   padding: 20px;
-  display: flex; /* para os itens ficarem flutuando o container deve ser display: flex*/
+  display: flex /* para os itens ficarem flutuando o container deve ser display: flex*/
 }
 .header-logo {
-  flex-grow: 1; /* força o logo crescer mais que o menu, jogando o menu para a direita */
+  flex-grow: 1 /* força o logo crescer mais que o menu, jogando o menu para a direita */
 }
 
 .header-menu ul {
-  display: flex; /* faz com que itens sejam alinhados um ao lado do outro*/
+  display: flex /* faz com que itens sejam alinhados um ao lado do outro*/
   flex-wrap: wrap;
 }
 

@@ -75,20 +75,20 @@
  */
 
 function sample1() {
-  const frase = "JavaScript";
+  const frase = 'JavaScript';
   console.log(frase);
 
-  const novaFrase = frase.replace(/a/g, "_"); //g significa que vai selecionar todas as ocorrências de 'a'
+  const novaFrase = frase.replace(/a/g, '_'); //g significa que vai selecionar todas as ocorrências de 'a'
   console.log(novaFrase);
-  const cpf = "313.650.408-95";
+  const cpf = '313.650.408-95';
   const regexCPF = /[.-]/g;
-  const cpfFormatado = cpf.replace(regexCPF, "");
+  const cpfFormatado = cpf.replace(regexCPF, '');
   console.log(cpfFormatado);
 }
 
 function validarCEP() {
   const cepRegex = /\d{5}[\s-]?\d{3}/g;
-  const ceps = ["13612-030", "13610 210", "13610000"];
+  const ceps = ['13612-030', '13610 210', '13610000'];
   ceps.forEach((cep) => {
     console.log(cep, cep.match(cepRegex));
   });
@@ -98,13 +98,13 @@ function validarCPF() {
   //const cpfRegex = /(\d{2,3})[\s\.]?(\d{3})[\s\.]?(\d{3})[\s-]?(\d{2})/g;
   const cpfRegex = /(?:\d{3}[\.\s-]?){3}\d{2}/g;
   const cpfs = [
-    "313.650.408-95",
-    "000000000-11",
-    "00000000000",
-    "000 000 000 00",
-    "000-000-000-00",
-    "000-000.000.00",
-    "000.000.000.00",
+    '313.650.408-95',
+    '000000000-11',
+    '00000000000',
+    '000 000 000 00',
+    '000-000-000-00',
+    '000-000.000.00',
+    '000.000.000.00',
   ];
   cpfs.forEach((cpf) => {
     console.log(cpf, cpf.match(cpfRegex));
@@ -114,11 +114,11 @@ function validarCPF() {
 function validarCNPJ() {
   const regex = /\d{2}[-.\s]?(?:\d{3}[-.\s]?){2}[/\s]?\d{4}[-.\s]?\d{2}/g;
   const cnpjs = [
-    "00.000.000/0000-00",
-    "00 000 000 0000 00",
-    "00-000-000-0000-00",
-    "00000000000000",
-    "00.000.000.0000-00",
+    '00.000.000/0000-00',
+    '00 000 000 0000 00',
+    '00-000-000-0000-00',
+    '00000000000000',
+    '00.000.000.0000-00',
   ];
   cnpjs.forEach((cnpj) => {
     console.log(cnpj, cnpj.match(regex));
@@ -128,15 +128,15 @@ function validarCNPJ() {
 function validarTelefone() {
   const regex = /(?:\+?55\s?)?(?:[\(]?\d{2}[\)]?[\s-]?)?\d{4,5}[-\s]?\d{4}/g;
   const telefones = [
-    "+55(11)98888-1234",
-    "+55 (11) 98888-1234",
-    "+55 11 98888-1234",
-    "+55 11 98888 1234",
-    "+5511988881234",
-    "(11) 98888-1234",
-    "(11)98888-1234",
-    "11 98888 1234",
-    "11988881234",
+    '+55(11)98888-1234',
+    '+55 (11) 98888-1234',
+    '+55 11 98888-1234',
+    '+55 11 98888 1234',
+    '+5511988881234',
+    '(11) 98888-1234',
+    '(11)98888-1234',
+    '11 98888 1234',
+    '11988881234',
   ];
 
   telefones.forEach((fone) => {
@@ -147,14 +147,14 @@ function validarTelefone() {
 function validarEmail() {
   const regex = /[\w.-]+@[\w-]+\.[\w.-]+/gi;
   const emails = [
-    "email@email.com",
-    "email@email.com.org",
-    "email-email@email.com",
-    "email_email@email.com",
-    "email.email@email.com",
-    "email123@email.com.br",
-    "email.email123@sua-empresa.com.br",
-    "c@email.cc",
+    'email@email.com',
+    'email@email.com.org',
+    'email-email@email.com',
+    'email_email@email.com',
+    'email.email@email.com',
+    'email123@email.com.br',
+    'email.email123@sua-empresa.com.br',
+    'c@email.cc',
   ];
 
   emails.forEach((email) => {
@@ -165,7 +165,7 @@ function validarEmail() {
 function validarTags() {
   const regex = /<\/?[\w\s='".]+\/?>/gi;
   const tags = [
-    "<div>blablabla</div>",
+    '<div>blablabla</div>',
     '<div class="ativo">blablabla</div>',
     "<div class='ativo'>blablabla</div>",
     '<img src="imagem.jpg">',
@@ -178,16 +178,16 @@ function validarTags() {
 }
 
 function validarTagsSomenteNome() {
-  //const regex = /(?<=<\/?)[\w]+/gi; //(?<=) positive lockedbehind
-  const regex = new RegExp(/(?<=<\/?)[\w]+/, "gi");
+  //const regex = /(?<=<\/?)[\w]+/gi //(?<=) positive lockedbehind
+  const regex = new RegExp(/(?<=<\/?)[\w]+/, 'gi');
 
   const tags = [
-    "<div>blablabla</div>",
+    '<div>blablabla</div>',
     '<div class="ativo">blablabla</div>',
     "<div class='ativo'>blablabla</div>",
     '<img src="imagem.jpg">',
     "<img src='imagem.jpg' />",
-    "<ul></ul>",
+    '<ul></ul>',
   ];
 
   tags.forEach((tag) => {
@@ -196,9 +196,9 @@ function validarTagsSomenteNome() {
 }
 
 function objetoRegExp() {
-  const frase = "JavaScript, TypeScript, CoffeeScript, NodeJS, VBScript";
-  const regexp = new RegExp(/SCRIPT/, "gi"); //retorna todas as posições onde encontrou 'SCRIPT';
-  //const regexp = new RegExp(/\w+/, "gi");   //retorna todas as palavras encontradas, separando por caracter não alfanumérico: ', ';
+  const frase = 'JavaScript, TypeScript, CoffeeScript, NodeJS, VBScript';
+  const regexp = new RegExp(/SCRIPT/, 'gi'); //retorna todas as posições onde encontrou 'SCRIPT';
+  //const regexp = new RegExp(/\w+/, "gi")   //retorna todas as palavras encontradas, separando por caracter não alfanumérico: ', ';
 
   let value;
   while ((value = regexp.exec(frase)) !== null) {
@@ -214,7 +214,7 @@ function replaceRegexp() {
 </ul>`;
 
   const regexp = /ul/g;
-  const htmlReplaced = html.replace(regexp, "div");
+  const htmlReplaced = html.replace(regexp, 'div');
 
   console.log(htmlReplaced);
 }

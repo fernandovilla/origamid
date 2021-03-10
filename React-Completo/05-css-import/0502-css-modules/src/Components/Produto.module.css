@@ -15,12 +15,12 @@ html {
 }
 
 .preco {
-  /* composes: titulo;  --> Faz uma herança do css*/
+  /* composes: titulo  --> Faz uma herança do css*/
   font-weight: bold;
 }
 
 .comprar {
-  /* transform: rotate(90deg) translateY(-120px); */
+  /* transform: rotate(90deg) translateY(-120px) */
   background: green;
   height: 40px;
   padding: 0px 20px;

@@ -48,7 +48,7 @@ h2.produtos-mineiro::before {
 
 .produtos-btn {
   width: 180px;
-  display: block; /* <a> é display:inline, não respeita o width se não definir display:block */
+  display: block /* <a> é display:inline, não respeita o width se não definir display:block */
   border: 3px solid;
   color: #252525;
   text-decoration: none;

@@ -6,7 +6,7 @@
 }
 
 .menu-nav {
-  flex: 1; /* torna os itens block, pegando 100 do espaço do elemento pai*/
+  flex: 1 /* torna os itens block, pegando 100 do espaço do elemento pai*/
   align-self: center;
 }
 

@@ -3,7 +3,7 @@
 }
 
 .slide-wrapper {
-  overflow: hidden; /* remove a barra de rolagem, não permitindo mais navegação*/
+  overflow: hidden /* remove a barra de rolagem, não permitindo mais navegação*/
   grid-column: 1 / -1;
 }
 

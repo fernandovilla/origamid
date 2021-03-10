@@ -6,7 +6,7 @@
 }
 
 .header-logo img {
-  display: block; /* faz com que o elemento se ajuste ao tamanho da imagem, senão ele é do tamanho da linha e não centraliza */
+  display: block /* faz com que o elemento se ajuste ao tamanho da imagem, senão ele é do tamanho da linha e não centraliza */
   margin: 40px auto;
 }
 

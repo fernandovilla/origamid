@@ -5,11 +5,11 @@ export default class ValidacaoCPF {
   }
 
   limpar(cpf) {
-    return cpf.replace(/\D/g, "");
+    return cpf.replace(/\D/g, '');
   }
 
   construir(cpf) {
-    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, "$1.$2.$3-$4");
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4');
   }
 
   formatar(cpf) {
@@ -20,22 +20,22 @@ export default class ValidacaoCPF {
   validarOnChange(cpfElement) {
     if (this.validarCpf(cpfElement.value)) {
       cpfElement.value = this.formatar(cpfElement.value);
-      cpfElement.classList.add("valido");
-      cpfElement.classList.remove("erro");
-      cpfElement.nextElementSibling.classList.remove("ativo"); //span
+      cpfElement.classList.add('valido');
+      cpfElement.classList.remove('erro');
+      cpfElement.nextElementSibling.classList.remove('ativo'); //span
     } else {
-      cpfElement.classList.remove("valido");
-      cpfElement.classList.add("erro");
-      cpfElement.nextElementSibling.classList.add("ativo"); //span
+      cpfElement.classList.remove('valido');
+      cpfElement.classList.add('erro');
+      cpfElement.nextElementSibling.classList.add('ativo'); //span
     }
 
     console.log(this.validarCpf(cpfElement.value));
   }
 
   addSpanError() {
-    const errorElement = document.createElement("span");
-    errorElement.classList.add("error-text");
-    errorElement.innerText = "CPF inválido!";
+    const errorElement = document.createElement('span');
+    errorElement.classList.add('error-text');
+    errorElement.innerText = 'CPF inválido!';
     this.element.parentElement.insertBefore(
       errorElement,
       this.element.nextElementSibling,
@@ -50,7 +50,7 @@ export default class ValidacaoCPF {
   }
 
   addEvent() {
-    this.element.addEventListener("change", () => {
+    this.element.addEventListener('change', () => {
       this.validarOnChange(this.element);
     });
   }

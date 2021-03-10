@@ -2,7 +2,7 @@ import React from 'react';
 
 function operacaoLenta() {
   let c;
-  for (let i = 0; i < 100000000; i++) {
+  for (let i = 0 i < 100000000 i++) {
     c = c + (i + i) / 10;
   }
   return c;
@@ -35,7 +35,7 @@ const Sample2 = () => {
   // }
 
   const handleClick = React.useCallback(() => {
-    setContar((f) => f + 1); // 'f' representa o 'contar'
+    setContar((f) => f + 1) // 'f' representa o 'contar'
   }, []);
 
   return (

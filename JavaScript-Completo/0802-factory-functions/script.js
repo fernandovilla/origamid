@@ -4,7 +4,7 @@ function initConteudoAula() {
 
   function createButton(text) {
     function element() {
-      const buttonElement = document.createElement("button");
+      const buttonElement = document.createElement('button');
       buttonElement.innerText = text;
       return buttonElement;
     }
@@ -15,10 +15,10 @@ function initConteudoAula() {
     });
   }
 
-  const btnComprar = createButton("Comprar");
-  btnComprar.text = "Voltar"; //Não acontece nada, porém se declarar 'use strict' no topo da página, ocorre erro ao tentar editar o valor
+  const btnComprar = createButton('Comprar');
+  btnComprar.text = 'Voltar'; //Não acontece nada, porém se declarar 'use strict' no topo da página, ocorre erro ao tentar editar o valor
 
-  const btnVender = createButton("Vender");
+  const btnVender = createButton('Vender');
 
   console.log(btnComprar);
   console.log(btnVender);
@@ -33,7 +33,7 @@ function initConteudoAula() {
     this.nome = nome;
   }
 
-  const designer = Pessoa("Fernando Villa");
+  const designer = Pessoa('Fernando Villa');
   console.log(designer);
 }
 
@@ -43,7 +43,7 @@ function initExercicios() {
 
     function hide() {
       elements.forEach((element) => {
-        element.style.display = "none";
+        element.style.display = 'none';
       });
 
       return this;
@@ -51,7 +51,7 @@ function initExercicios() {
 
     function show() {
       elements.forEach((element) => {
-        element.style.display = "initial";
+        element.style.display = 'initial';
       });
 
       return this;
@@ -88,11 +88,11 @@ function initExercicios() {
     };
   }
 
-  const btns = $$("button");
+  const btns = $$('button');
   console.log(btns);
 
-  btns.on("click", (event) => {
-    alert("Hello! " + event.target.innerText);
+  btns.on('click', (event) => {
+    alert('Hello! ' + event.target.innerText);
   });
 }
 initExercicios();

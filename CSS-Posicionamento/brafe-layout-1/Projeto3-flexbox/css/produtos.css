@@ -55,7 +55,7 @@ h2.produtos-mineiro::before {
   font-size: 1.125em;
   font-weight: bold;
   text-transform: uppercase;
-  display: block; /* como é um <a>, precisa ser display:block para respeitar o width */
+  display: block /* como é um <a>, precisa ser display:block para respeitar o width */
   width: 180px;
   padding: 15px 0;
   margin: 20px auto 0 auto;

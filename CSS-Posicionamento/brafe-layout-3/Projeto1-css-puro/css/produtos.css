@@ -7,7 +7,7 @@
 }
 
 .produtos header {
-  /* background: lime; */
+  /* background: lime */
 }
 
 .produtos header::before,
@@ -39,7 +39,7 @@
   background: #fff;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
   margin-top: 20px;
-  position: relative; /* se um elemento filho for 'position: absolute' ele vai ficar dentro do elemento pai */
+  position: relative /* se um elemento filho for 'position: absolute' ele vai ficar dentro do elemento pai */
   border-radius: 4px;
 }
 

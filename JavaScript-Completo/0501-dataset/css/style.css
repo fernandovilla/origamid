@@ -32,7 +32,7 @@ body {
   background: teal;
 }
 
-[data-cor="azul"] {
+[data-cor='azul'] {
   color: blue;
 }
 
@@ -55,7 +55,7 @@ body {
   margin-right: 10px;
   color: #222;
   text-decoration: none;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-weight: bold;
   text-transform: uppercase;
   font-size: 0.875em;
@@ -82,7 +82,7 @@ html.textomaior {
 }
 
 .titulo {
-  font-family: "Playfair Display SC", Georgia, "Times New Roman", Times, serif;
+  font-family: 'Playfair Display SC', Georgia, 'Times New Roman', Times, serif;
   font-size: 6rem;
   line-height: 1;
   font-weight: 400;
@@ -91,7 +91,7 @@ html.textomaior {
 }
 
 .animais h2 {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -101,7 +101,7 @@ html.textomaior {
 }
 
 .animais h2::before {
-  content: "";
+  content: '';
   display: inline-block;
   width: 40px;
   height: 10px;
@@ -149,7 +149,7 @@ html.textomaior {
 }
 
 .faq-lista dt {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-weight: bold;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
@@ -157,7 +157,7 @@ html.textomaior {
 }
 
 .faq-lista dt::before {
-  content: "";
+  content: '';
   display: inline-block;
   width: 20px;
   height: 10px;
@@ -185,7 +185,7 @@ html.textomaior {
 }
 
 .dados li::before {
-  content: "";
+  content: '';
   display: inline-block;
   width: 20px;
   height: 10px;
@@ -201,7 +201,7 @@ html.textomaior {
 
 .copy p {
   padding: 20px;
-  font-family: "IBM Plax Mono", monospace;
+  font-family: 'IBM Plax Mono', monospace;
   font-weight: bold;
 }
 
@@ -249,22 +249,22 @@ html.textomaior {
 }
 
 /*classe 'js' é adicionada à tag 'html' no <head> da página. Se não existir, significa que o JS pode estar desabilitado no browser*/
-.js [data-tab="content"] section {
+.js [data-tab='content'] section {
   display: none; /*some o conteúdo*/
 }
 
-[data-tab="content"] > section.ativo {
+[data-tab='content'] > section.ativo {
   display: block !important;
   /*animation: show 0.5s forwards;*/
   /*executa a aninação, dura 0,5 segundos e o 'forwards' indica que após executada, para na posição final*/
 }
 
-[data-tab="content"] > section.ativo.show-right {
+[data-tab='content'] > section.ativo.show-right {
   /*display: block !important;*/
   animation: show-right 0.5s forwards;
 }
 
-[data-tab="content"] > section.ativo.show-down {
+[data-tab='content'] > section.ativo.show-down {
   /*display: block !important;*/
   animation: show-down 0.5s forwards;
 }
@@ -303,21 +303,21 @@ html.textomaior {
   }
 }
 
-[data-anime="accordion"] dd {
+[data-anime='accordion'] dd {
   display: none;
 }
 
-[data-anime="accordion"] dt:after {
-  content: "⮧";
+[data-anime='accordion'] dt:after {
+  content: '⮧';
   margin-left: 10px;
 }
 
-[data-anime="accordion"] dt.ativo:after {
-  content: "⮥";
+[data-anime='accordion'] dt.ativo:after {
+  content: '⮥';
   animation: slideUp 0.5s forwards;
 }
 
-[data-anime="accordion"] dd.ativo {
+[data-anime='accordion'] dd.ativo {
   display: block;
   animation: slideDown 0.5s forwards;
 }
@@ -333,13 +333,13 @@ html.textomaior {
   }
 }
 
-.js [data-anime="scroll"] {
+.js [data-anime='scroll'] {
   opacity: 0;
   transform: translate3d(-30px, 0, 0);
   transition: 0.3s;
 }
 
-.js [data-anime="scroll"].ativo {
+.js [data-anime='scroll'].ativo {
   opacity: 1;
   transform: translate3d(0, 0, 0);
 }

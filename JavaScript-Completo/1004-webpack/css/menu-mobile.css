@@ -30,13 +30,13 @@
     height: 2px;
     width: 12px;
     background: #fff;
-    box-shadow: 0 4px #fff, 0 -4px #fff; /*coloca duas sombras chamapadas para simular o traço de cima e o de baixo*/
+    box-shadow: 0 4px #fff, 0 -4px #fff /*coloca duas sombras chamapadas para simular o traço de cima e o de baixo*/
     margin-right: 4px;
     transition: transform 0.3s;
   }
 
   .js [data-menu="list"] {
-    display: none; /*oculta o menu todo*/
+    display: none /*oculta o menu todo*/
     position: absolute;
     background: #fb5;
     width: 160px;

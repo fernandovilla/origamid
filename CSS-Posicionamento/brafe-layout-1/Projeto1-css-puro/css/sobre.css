@@ -29,7 +29,7 @@
   font-size: 2.25em;
   text-align: center;
   padding: 5px 0 10px 0;
-  position: relative; /* position absolute posicionaria o elemento em relação ao body*/
+  position: relative /* position absolute posicionaria o elemento em relação ao body*/
   top: -25px;
 }
 

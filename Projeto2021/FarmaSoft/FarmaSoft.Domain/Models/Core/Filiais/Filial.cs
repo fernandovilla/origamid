@@ -6,7 +6,7 @@ namespace FarmaSoft.Domain.Models.Core.Filiais
 {
     public class Filial
     {
-        public int Id { get; set; }
+        public int Id { get set }
 
     }
 }

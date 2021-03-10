@@ -8,7 +8,7 @@ const Slide = ({ slides }) => {
 
   React.useEffect(() => {
     const { width } = contentRef.current.getBoundingClientRect();
-    //setPosition(position - width); // posição atual - width do elemento pai
+    //setPosition(position - width) // posição atual - width do elemento pai
     setPosition(-(width * active));
   }, [active]);
 

@@ -5,8 +5,8 @@
 }
 
 .locais-item {
-  /* clear: both; resolve problema com flutuação dos elementos, container faz a mesma coisa */
-  /* overflow: hidden;  -> também funciona para resolver problemas com float, mas não é o ideal */
+  /* clear: both resolve problema com flutuação dos elementos, container faz a mesma coisa */
+  /* overflow: hidden  -> também funciona para resolver problemas com float, mas não é o ideal */
   margin: 40px auto;
 }
 
@@ -40,7 +40,7 @@
   text-transform: uppercase;
   text-decoration: none;
   color: #252525;
-  border: 3px solid; /* se não indicar a cor, respeita o ultimo color definido*/
+  border: 3px solid /* se não indicar a cor, respeita o ultimo color definido*/
   padding: 5px 10px;
 }
 

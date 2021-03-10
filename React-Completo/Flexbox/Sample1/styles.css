@@ -1,5 +1,5 @@
 body {
-  /* background: #222; */
+  /* background: #222 */
   background: cornsilk;
 }
 
@@ -16,20 +16,20 @@ body {
   box-sizing: border-box;
   line-height: 100px;
   text-align: center;
-  flex-basis: 200px; /* Força todos os itens flex a ficarem com uma largura de 100px */
+  flex-basis: 200px /* Força todos os itens flex a ficarem com uma largura de 100px */
   min-width: 200px;
-  /* flex-grow: 1; */
+  /* flex-grow: 1 */
   height: 100px;
   border: 2px solid red;
 }
 
 /*
 Pai:
-  display: flex;      Define que o conteúdo do pai será flex;
-  flex-wrap: wrap;    Se o conteúdo não couber no container, quebra o conteúdo para a linha de baixo
+  display: flex      Define que o conteúdo do pai será flex;
+  flex-wrap: wrap    Se o conteúdo não couber no container, quebra o conteúdo para a linha de baixo
 Filhos:
-  flex-grow: N;       Controla a taxa de Crescimento 
-  flex-shrink: N;     Controla a taxa de Decrescimento 
+  flex-grow: N       Controla a taxa de Crescimento 
+  flex-shrink: N     Controla a taxa de Decrescimento 
 */
 
 .verde {

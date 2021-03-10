@@ -1,14 +1,14 @@
 let games = ["Switch", "PS5", "XBox"];
 
-console.log(games.pop()); //remove o último da lista e retorna...
+console.log(games.pop()) //remove o último da lista e retorna...
 console.log(games);
 
-games.push("Gameboy"); //Adiciona um item na lista...
+games.push("Gameboy") //Adiciona um item na lista...
 console.log(games);
 console.log("Length: " + games.length);
 
 console.log("\nfor (...)");
-for (let i = 0; i < games.length; i++) {
+for (let i = 0 i < games.length i++) {
   console.log(`\ti => ${i} ${games[i]}`);
 }
 

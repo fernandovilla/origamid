@@ -9,8 +9,8 @@
   flex: 1;
   margin: 0 10px;
   display: flex;
-  flex-wrap: wrap; /* Quando a tela diminuir muito, quebra os itens para a linha de baixo*/
-  align-content: flex-start; /* Alinha os itens no topo do no eito Y */
+  flex-wrap: wrap /* Quando a tela diminuir muito, quebra os itens para a linha de baixo*/
+  align-content: flex-start /* Alinha os itens no topo do no eito Y */
 }
 
 .assine-info {

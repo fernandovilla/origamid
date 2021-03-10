@@ -1,6 +1,6 @@
 .intro {
   background: url('../img/bg-intro.jpg') no-repeat center center;
-  background-size: cover; /* expande a imagem se ela for menor que a laugura do site*/
+  background-size: cover /* expande a imagem se ela for menor que a laugura do site*/
   padding: 150px 0;
   text-align: center;
   color: #fff;

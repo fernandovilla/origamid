@@ -25,8 +25,8 @@ function exemplo2() {
     },
   };
 
-  frutas.addNewFruta = "Banana";
-  frutas.addNewFruta = "Morango";
+  frutas.addNewFruta = 'Banana';
+  frutas.addNewFruta = 'Morango';
 
   console.log(frutas.lista);
 }

@@ -6,6 +6,6 @@ namespace FarmaSoft.Domain.Models.Core.Produtos
 {
     public class Embalagem
     {
-        public long Id { get; set; }
+        public long Id { get set }
     }
 }

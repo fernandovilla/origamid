@@ -1,14 +1,14 @@
 .container {
-  overflow: hidden; /* esconde todos os itens que estouram o tamanho do elemento*/
+  overflow: hidden /* esconde todos os itens que estouram o tamanho do elemento*/
 }
 
 .content {
-  display: flex; /*deixa um item ao lado do outro, horizontal*/
+  display: flex /*deixa um item ao lado do outro, horizontal*/
   transition: transform 0.3s ease;
 }
 
 .item {
-  flex-shrink: 0; /*força flex não redimensionar os itens, deixando-os do tamanho definido*/
+  flex-shrink: 0 /*força flex não redimensionar os itens, deixando-os do tamanho definido*/
   width: 80%;
   margin: 0 10%;
   padding: 10rem 0;
@@ -19,7 +19,7 @@
 
 .nav {
   display: flex;
-  justify-content: space-between; /*deixa cada item em canto do elemento container*/
+  justify-content: space-between /*deixa cada item em canto do elemento container*/
   margin: 1rem auto;
   width: 80%;
 }

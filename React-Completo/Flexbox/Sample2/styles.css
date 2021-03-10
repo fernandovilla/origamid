@@ -27,7 +27,7 @@ a {
 .nav-link {
   /* <a> */
   text-decoration: none;
-  display: block; /* o tamanho do link é o tamanho do conteúdo, 'display: block' faz com que o link preencha o tamanho do pai */
+  display: block /* o tamanho do link é o tamanho do conteúdo, 'display: block' faz com que o link preencha o tamanho do pai */
   color: cornsilk;
   font-size: 1.2rem;
   padding: 5px 10px;
@@ -64,11 +64,11 @@ align-items: alinhamento no eixo Y
 @media screen and (min-width: 700px) {
   .navbar {
     display: flex;
-    justify-content: space-around; /* espaços em volta dos elementos*/
+    justify-content: space-around /* espaços em volta dos elementos*/
   }
 
   .nav-item {
-    flex-grow: 1; /* faz com que os itens cresçam na mesma proporção que o pai*/
+    flex-grow: 1 /* faz com que os itens cresçam na mesma proporção que o pai*/
     text-align: center;
   }
 }

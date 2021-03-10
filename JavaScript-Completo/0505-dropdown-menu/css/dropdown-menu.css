@@ -3,12 +3,12 @@
 }
 
 [data-dropdown] .dropdown-menu {
-  display: none; /*oculta o sub-menu*/
+  display: none /*oculta o sub-menu*/
 }
 
 [data-dropdown]:hover .dropdown-menu,
 [data-dropdown].active .dropdown-menu {
-  display: block; /*exibe o sub-menu*/
+  display: block /*exibe o sub-menu*/
   animation: showDown 0.3s forwards;
 }
 
@@ -24,11 +24,11 @@
 }
 
 .dropdown-menu {
-  position: absolute; /*absolute se podisiona em relação ao position relative*/
+  position: absolute /*absolute se podisiona em relação ao position relative*/
   background: #e54;
   border: 2px solid #333;
   z-index: 200;
-  top: 36px; /*distância exata do menu, não havendo gap entre o menu e o sub-menu*/
+  top: 36px /*distância exata do menu, não havendo gap entre o menu e o sub-menu*/
 }
 
 /*desenha o triangulo no topo do sub-menu*/

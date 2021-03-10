@@ -4,9 +4,9 @@ function initExemplo1() {
     const condicao = true;
 
     if (condicao) {
-      resolve({ message: "Resolvido com sucesso!" });
+      resolve({ message: 'Resolvido com sucesso!' });
     } else {
-      reject(Error("Ocorreu um erro na promisse"));
+      reject(Error('Ocorreu um erro na promisse'));
     }
   });
 
@@ -21,13 +21,13 @@ function initExemplo2() {
     const condicao = true;
 
     if (condicao) {
-      console.log("Resolvendo promisse");
+      console.log('Resolvendo promisse');
       setTimeout(() => {
-        resolve({ message: "Resolvido com sucesso!" });
+        resolve({ message: 'Resolvido com sucesso!' });
       }, 3 * 1000);
-      console.log("Promisse resolvida");
+      console.log('Promisse resolvida');
     } else {
-      reject(Error("Ocorreu um erro na promisse"));
+      reject(Error('Ocorreu um erro na promisse'));
     }
   });
 
@@ -36,11 +36,11 @@ function initExemplo2() {
   promessa
     .then((resultado) => {
       console.log(resultado.message); //imprime 'Resolvido com sucesso!' -> valor retornado pelo método callback 'resolve()'
-      return "OK2";
+      return 'OK2';
     })
     .then((resultado) => {
       console.log(resultado); //imprime 'OK2'
-      return "OK3";
+      return 'OK3';
     })
     .then((resultado) => {
       console.log(resultado); //imprime 'OK3'
@@ -48,10 +48,10 @@ function initExemplo2() {
     //catch() ocorre quando a função callback da promisse é executada...
     //O catch tb pode ser passado como segundo argumento do then()
     .catch((rejeitada) => {
-      console.log("Rejeição: " + rejeitada);
+      console.log('Rejeição: ' + rejeitada);
     })
     .finally(() => {
-      console.log(">FIM");
+      console.log('>FIM');
     });
 }
 
@@ -59,13 +59,13 @@ function initExemplo2() {
 function initExemplo3() {
   const login = new Promise((resolve) => {
     setTimeout(() => {
-      resolve("Usuário logado");
+      resolve('Usuário logado');
     }, 1000);
   });
 
   const dados = new Promise((resolve) => {
     setTimeout(() => {
-      resolve("Dados carregados");
+      resolve('Dados carregados');
     }, 900);
   });
 

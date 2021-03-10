@@ -3,7 +3,7 @@
 O flexbox foi criado para facilitar o posicionamento de componentes,
 principalmente quando você não sabe a largura e a altura do mesmo.
 
-Tudo começa com o display: flex; no elemento pai.
+Tudo começa com o display: flex no elemento pai.
 A interação é baseada na relação entre o elemento pais e os filhos.
 
 Sendo o pai um container e os filhos items do container.

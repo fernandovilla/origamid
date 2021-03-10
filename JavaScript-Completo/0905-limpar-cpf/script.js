@@ -5,13 +5,13 @@ function getElementsInnerText([...elements]) {
 
 //Função que remove caracteres não numéricos do CPF
 const limparCPF = (cpf) => {
-  return cpf.replace(/\D/g, ""); //\D é tudo que não é digito
+  return cpf.replace(/\D/g, ''); //\D é tudo que não é digito
 };
 
 //Função que formata o CPF
 const construirCPF = (cpfLimpo) => {
   const regexp = /(\d{3})(\d{3})(\d{3})(\d{2})/g;
-  return cpfLimpo.replace(regexp, "$1.$2.$3-$4");
+  return cpfLimpo.replace(regexp, '$1.$2.$3-$4');
 };
 
 //Função que limpa e formata a lista de CPFs
@@ -28,5 +28,5 @@ function tratarCPFS(cpfElements) {
   });
 }
 
-const listaCpfsElements = document.querySelectorAll(".cpf li");
+const listaCpfsElements = document.querySelectorAll('.cpf li');
 tratarCPFS(listaCpfsElements);

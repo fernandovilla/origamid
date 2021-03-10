@@ -11,7 +11,7 @@
 
 .produtos h1 {
   font-size: 2.25em;
-  flex-grow: 1; /* fez com que o h1 ocupasse o maior espaço possível, jogando o botão para a direita*/
+  flex-grow: 1 /* fez com que o h1 ocupasse o maior espaço possível, jogando o botão para a direita*/
   margin-right: 10px;
 }
 
@@ -31,11 +31,11 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
   margin-top: 20px;
   position: relative;
-  display: flex; /* elementos do item flutuam  um ao lado do outro*/
+  display: flex /* elementos do item flutuam  um ao lado do outro*/
 }
 
 .produtos-item img {
-  align-self: flex-start; /* imagem não vai ser redimensionada, se quiser redimensionar, usar o 'stretch'*/
+  align-self: flex-start /* imagem não vai ser redimensionada, se quiser redimensionar, usar o 'stretch'*/
 }
 
 .produtos-item a {

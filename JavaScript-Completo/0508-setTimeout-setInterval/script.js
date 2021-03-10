@@ -6,7 +6,7 @@ function initSetTimeout() {
   setTimeout(espera, 5000, "Esperou 5 segundos...");
 
   //Exemplo 2: setTimeout em um for()
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0 i < 10 i++) {
     setTimeout(() => {
       console.log(i);
     }, 1000 * i);

@@ -1,6 +1,6 @@
 export default function initAnimaNumeros() {
   function animaNumeros() {
-    const numeros = document.querySelectorAll("[data-numero]");
+    const numeros = document.querySelectorAll('[data-numero]');
     numeros.forEach((item) => {
       const total = +item.innerText;
       const incremento = Math.floor(total / 100); //arredonda para um número inteiro...
@@ -20,13 +20,13 @@ export default function initAnimaNumeros() {
   }
 
   function handleMutation(mutation) {
-    if (mutation[0].target.classList.contains("ativo")) {
+    if (mutation[0].target.classList.contains('ativo')) {
       observer.disconnect(); //para a animação...
       animaNumeros();
     }
   }
 
-  const observerTarget = document.querySelector(".numeros");
+  const observerTarget = document.querySelector('.numeros');
   const observer = new MutationObserver(handleMutation);
 
   observer.observe(observerTarget, { attributes: true });

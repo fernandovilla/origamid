@@ -3,7 +3,7 @@ body {
 }
 
 img {
-  max-width: 100%; /* Deixa a imagem reativa, cresce conforme o tamanho do container dela*/
+  max-width: 100% /* Deixa a imagem reativa, cresce conforme o tamanho do container dela*/
   border-radius: 0.5rem;
 }
 
@@ -18,7 +18,7 @@ h1 {
 
 .App {
   display: flex;
-  flex-direction: column; /* Apresenta os dados em colunas*/
+  flex-direction: column /* Apresenta os dados em colunas*/
   height: calc(100vh + 10rem);
 
   max-width: 40rem;
@@ -26,7 +26,7 @@ h1 {
 }
 
 .content {
-  flex: 1; /*Faz com que o elemento se expanda o máximo que conseguir na tela, respeitando a direction*/
+  flex: 1 /*Faz com que o elemento se expanda o máximo que conseguir na tela, respeitando a direction*/
 }
 
 .animeLeft {
@@ -52,7 +52,7 @@ h1 {
   border-radius: 50%;
   border: 10px solid #ccc;
   border-right-color: transparent;
-  animation: loading 1s infinite; /* Fica rodando 360 graus infinitamente...*/
+  animation: loading 1s infinite /* Fica rodando 360 graus infinitamente...*/
 }
 
 @keyframes loading {

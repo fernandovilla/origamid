@@ -36,18 +36,18 @@
 }
 
 .sabor {
-  overflow: hidden; /* indica que deve esconder tudo que não couber no elemento*/
+  overflow: hidden /* indica que deve esconder tudo que não couber no elemento*/
 }
 
 .sabor span {
-  text-indent: -200px; /* Cria um parágrafo com espaço de Npx, -200px some com o conteúdo da tela*/
+  text-indent: -200px /* Cria um parágrafo com espaço de Npx, -200px some com o conteúdo da tela*/
   display: inline-block;
   width: 15px;
   height: 15px;
   border-radius: 50%;
   background: lime;
-  vertical-align: middle; /* Alinha verticalmente ao centro do line-height */
-  background: currentColor; /* Cores dos itens seão definidas abaixo */
+  vertical-align: middle /* Alinha verticalmente ao centro do line-height */
+  background: currentColor /* Cores dos itens seão definidas abaixo */
 }
 
 .sabor span.sabor-3 {
@@ -69,7 +69,7 @@
 
 @media (min-width: 740px) and (max-width: 980px) {
   .filtro {
-    width: 220px; /* ((720 / 12) * colunas_do_filtro_ocupa) - gutter */
+    width: 220px /* ((720 / 12) * colunas_do_filtro_ocupa) - gutter */
   }
 }
 

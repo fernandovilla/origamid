@@ -13,8 +13,8 @@
 - Information Schema 100x mais rápido;
 - DDL Atômico: se houver erro em algum comando ddl ele aborta todo o script;
 - Upgrade Automático: teoricamente, migrar do MySQL 5.7 => 8.0 bastar iniciar o BD na nova versão;
-- Roles; - Novo mecanismos de senhas: melhorada criptografia;
-- Histórico de senhas; - Resource Groups: a cada thread que o server for iniciar, poder informar a quantidade de recursos que ele vai usar;
+- Roles - Novo mecanismos de senhas: melhorada criptografia;
+- Histórico de senhas - Resource Groups: a cada thread que o server for iniciar, poder informar a quantidade de recursos que ele vai usar;
 - Indices invisíveis e descendentes;
 - UTF8MB4 -> UTF-8 verdadeiro;
 - Melhora significativa na InnoDB Cluster e Replicação;
@@ -66,7 +66,7 @@
 - \auto.cnf:
   - Gerado quando o servidor é inicializado caso ele não exista, se existe ele é lido, contem o UUID do server;
 - \binlog.0000N:
-  - Contém todos os comandos SQL disparados contra o servidor e que alteram dados; Show, Select, etc., não estarão neste arquivo;
+  - Contém todos os comandos SQL disparados contra o servidor e que alteram dados Show, Select, etc., não estarão neste arquivo;
   - Usado para replicação, recuperação de crash;
   - mysqlbinlog.exe é o programa que pode lê-lo;
   - É possível desliga-lo ou alterar o caminho;

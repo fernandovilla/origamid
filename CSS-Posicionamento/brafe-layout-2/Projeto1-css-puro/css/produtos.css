@@ -13,7 +13,7 @@
 .produtos li {
   width: 300px;
   float: left;
-  /* text-align: center; */
+  /* text-align: center */
 }
 
 .produtos li:nth-child(even) {

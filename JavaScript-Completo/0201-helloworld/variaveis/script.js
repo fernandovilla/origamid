@@ -22,7 +22,7 @@ var modulo = 14 % 5;
 console.log(`Mod: ${modulo}`);
 
 //NaN => Not a Number
-var numero = "1+3";
+var numero = '1+3';
 console.log(isNaN(numero)); //True => não é um número
 console.log(numero);
 
@@ -37,11 +37,11 @@ console.log(x--); //x =3
 console.log(x); //x = 2
 console.log(--x); //x = 1
 
-var idade = "37";
+var idade = '37';
 var somaIdade = 5;
 console.log(+idade + somaIdade); //+idade é convertido para número
 
-var peso = +"80" / 2;
-var unidade = "kg";
+var peso = +'80' / 2;
+var unidade = 'kg';
 var pesoUnidade = peso + unidade;
 console.log(pesoUnidade);

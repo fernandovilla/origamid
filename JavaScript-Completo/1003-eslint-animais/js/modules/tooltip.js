@@ -1,29 +1,29 @@
 export default function initTooltip() {
-  const tooltips = document.querySelectorAll("[data-tooltip]");
+  const tooltips = document.querySelectorAll('[data-tooltip]');
 
   if (tooltips) {
     const onMouseLeave = {
-      tooltipbox: "",
-      element: "",
+      tooltipbox: '',
+      element: '',
       handleEvent() {
         this.tooltipbox.remove();
-        this.element.removeEventListener("mouseleave", onMouseLeave);
-        this.element.removeEventListener("mousemove", onMouseMove);
+        this.element.removeEventListener('mouseleave', onMouseLeave);
+        this.element.removeEventListener('mousemove', onMouseMove);
       },
     };
 
     const onMouseMove = {
-      tooltipbox: "",
+      tooltipbox: '',
       handleEvent(event) {
-        this.tooltipbox.style.top = event.pageY + 15 + "px";
-        this.tooltipbox.style.left = event.pageX + 12 + "px";
+        this.tooltipbox.style.top = event.pageY + 15 + 'px';
+        this.tooltipbox.style.left = event.pageX + 12 + 'px';
       },
     };
 
     function criarTooltipBox(element) {
-      const tooltipBox = document.createElement("div");
-      const text = element.getAttribute("aria-label");
-      tooltipBox.classList.add("tooltip");
+      const tooltipBox = document.createElement('div');
+      const text = element.getAttribute('aria-label');
+      tooltipBox.classList.add('tooltip');
       tooltipBox.innerText = text;
 
       return tooltipBox;
@@ -37,17 +37,17 @@ export default function initTooltip() {
       tooltipbox.style.left = `${event.pageX + 12}px`;
 
       onMouseMove.tooltipbox = tooltipbox;
-      this.addEventListener("mousemove", onMouseMove);
+      this.addEventListener('mousemove', onMouseMove);
 
       onMouseLeave.element = this;
       onMouseLeave.tooltipbox = tooltipbox;
-      this.addEventListener("mouseleave", onMouseLeave);
+      this.addEventListener('mouseleave', onMouseLeave);
     }
 
     //function onMouseLeave(event) {}
 
     tooltips.forEach((item) => {
-      item.addEventListener("mouseover", onMouseOver);
+      item.addEventListener('mouseover', onMouseOver);
     });
   }
 }

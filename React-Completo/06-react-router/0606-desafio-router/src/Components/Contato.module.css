@@ -1,7 +1,7 @@
 .contato {
-  display: grid; /* Configura o container para ser exibido em grid*/
-  grid-template-columns: 1fr 1fr; /* Divide o grid em duas frações iguais, duas colunas*/
-  gap: 2rem; /* Distância entre as colunas do grid*/
+  display: grid /* Configura o container para ser exibido em grid*/
+  grid-template-columns: 1fr 1fr /* Divide o grid em duas frações iguais, duas colunas*/
+  gap: 2rem /* Distância entre as colunas do grid*/
 }
 
 .dados {

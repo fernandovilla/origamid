@@ -45,13 +45,13 @@ img {
   transform: scale(1);
 }
 
-[data-control="slide"] {
+[data-control='slide'] {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-[data-control="slide"] li a {
+[data-control='slide'] li a {
   display: block;
   width: 12px;
   height: 12px;
@@ -63,7 +63,7 @@ img {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
 }
 
-[data-control="slide"] li.active a,
-[data-control="slide"] li a:hover {
+[data-control='slide'] li.active a,
+[data-control='slide'] li a:hover {
   background: #e54;
 }
