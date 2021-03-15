@@ -6,14 +6,16 @@
 
 body {
   /* padding-top: 4rem; */
+
+  --font-family-first: Helvetica, Arial, sans-serif;
+  --font-family-second: 'Spectral', Georgia;
+  --border-color: #bfbfbf;
+  --label-text-color: #bfbfbf;
+  --input-text-color: #000;
+
   margin: 0px;
   color: #333;
-  --type-first: Helvetica, Arial, sans-serif;
-  --type-second: 'Spectral', Georgia;
-
-  --border-color: #3b3b3b;
-  font-family: var(--type-first);
-  --font-color: var(var(--border-color));
+  font-family: var(--font-family-first);
 }
 
 h1,
@@ -40,9 +42,12 @@ button,
 input {
   display: block;
   font-size: 1rem;
-  font-family: var(--type-first);
-  /* color: #333; */
-  color: var(--font-color);
+  color: var(--input-text-color);
+}
+
+label {
+  font-family: var(--font-family-first);
+  color: var(--label-text-color);
 }
 
 a {

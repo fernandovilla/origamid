@@ -4,9 +4,10 @@ import InputText from '../Forms/InputText';
 
 const CadastroProduto = (props) => {
   return (
-    <div className="container">
+    <div className="container card p-3 mt-3">
+      <h4 className="mb-3">cadastro de produto:</h4>
       <div className="row">
-        <InputText name="descricao" label="Descricao" col="col-6" />
+        <InputText name="descricao" label="Descricao" col="col" />
       </div>
     </div>
   );
