@@ -11,7 +11,7 @@ body {
   --font-family-second: 'Spectral', Georgia;
   --border-color: #bfbfbf;
   --label-text-color: #bfbfbf;
-  --input-text-color: #000;
+  --input-text-color: #252525; /*#000;*/
 
   margin: 0px;
   color: #333;
@@ -53,4 +53,8 @@ label {
 a {
   text-decoration: none;
   color: #333;
+}
+
+.component-container {
+  margin: 0.5rem 0px;
 }

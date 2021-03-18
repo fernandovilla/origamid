@@ -1,23 +1,24 @@
 ### CADASTRO DE PRODUTOS:
 
 - Geral:
-
+  
+  - Código;
   - Nome;
-  - Tipo: Produto/Serviço
-  - Status;
-  - Embalagens (EAN, Fracionamento, Unidade Medida, Dimensões);
-  - Grupo/SubGrupo;
-  - Fabricante;
-  - Preços:
-  - Preço Custo;
-  - Markup;
-  - Margem Mínima;
-  - PMC;
-  - Preço Venda;
-  - Preço À Vista;
-  - Jornais de Oferta;
-  - Desconto Máximo: à vista, a prazo;
-  - Preço por Loja:...
+  - Tipo: Produto/Serviço (select)
+  - Status - (select)
+  - Embalagens (EAN, Fracionamento, Unidade Medida, Dimensões) - Table;
+  - Grupo/SubGrupo - Select;
+  - Fabricante - Label;
+  - Preços
+    - Preço Custo;
+    - Markup;
+    - Margem Mínima;
+    - PMC;
+    - Preço Venda;
+    - Preço À Vista;
+    - Jornais de Oferta;
+    - Desconto Máximo: à vista, a prazo;
+    - Preço por Loja:...
 
 - Medicamento:
 

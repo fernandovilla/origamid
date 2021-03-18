@@ -3,17 +3,16 @@
   font-size: 0.875rem;  
 }
 
-.input {
+.select {
+  display: block;
   width: 100%;
   border: none;
   border-bottom: 1px solid var(--border-color);
-  border-radius: 0;
-  text-transform: uppercase;
+  border-radius: 0;  
   font-size: 0.875rem;
 }
 
-.input:focus {
+.select:focus {
   outline: none;
   border-bottom: 1px solid #3483fa;
-  /* transition: 0.1s; */
 }
