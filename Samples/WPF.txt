@@ -1,0 +1,2 @@
+https://www.wpf-tutorial.com/pt/13/uma-aplicacao-wpf/manipulando-excecoes-no-wpf/
+https://www.tutorialspoint.com/wpf/index.htm
