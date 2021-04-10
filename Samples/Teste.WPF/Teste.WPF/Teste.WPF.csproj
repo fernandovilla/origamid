@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dialogs\info.png" />
+    <None Remove="folder.png" />
+    <None Remove="help.png" />
     <None Remove="inventory_2-24px.png" />
+    <None Remove="Menus\cut.png" />
+    <None Remove="newFile.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,7 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Dialogs\info.png" />
+    <Resource Include="folder.png" />
+    <Resource Include="help.png" />
     <Resource Include="inventory_2-24px.png" />
+    <Resource Include="Menus\cut.png" />
+    <Resource Include="newFile.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +41,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Sample.Binding1">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -16,18 +16,17 @@ using System.Windows.Shapes;
 namespace Teste.WPF
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for LimitedInput.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LimitedInput : UserControl
     {
-        public MainWindow()
+        public LimitedInput()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("OK");
-        }
+        public string Title { get; set; }
+        public int MaxLength { get; set; }
     }
 }

@@ -10,24 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Teste.WPF
 {
     /// <summary>
-    /// Interaction logic for TesteUC.xaml
+    /// Interaction logic for Sample_Binding_1.xaml
     /// </summary>
-    public partial class TesteUC : UserControl
+    public partial class Sample_Binding_1 : Window
     {
-        public TesteUC()
+        public Sample_Binding_1()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateSource_Click(object sender, RoutedEventArgs e)
         {
-            
+            var binding = txtWindowTitle.GetBindingExpression(TextBox.TextProperty);
+            binding.UpdateSource();
         }
     }
 }

@@ -10,24 +10,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Teste.WPF
 {
     /// <summary>
-    /// Interaction logic for TesteUC.xaml
+    /// Interaction logic for Sample_Commands2.xaml
     /// </summary>
-    public partial class TesteUC : UserControl
+    public partial class Sample_Commands2 : Window
     {
-        public TesteUC()
+        public Sample_Commands2()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            
+            e.CanExecute = true;
+        }
+
+        private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

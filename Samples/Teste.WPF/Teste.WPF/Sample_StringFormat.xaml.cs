@@ -10,24 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Teste.WPF
 {
     /// <summary>
-    /// Interaction logic for TesteUC.xaml
+    /// Interaction logic for Sample_StringFormat.xaml
     /// </summary>
-    public partial class TesteUC : UserControl
+    public partial class Sample_StringFormat : Window
     {
-        public TesteUC()
+        public Sample_StringFormat()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }

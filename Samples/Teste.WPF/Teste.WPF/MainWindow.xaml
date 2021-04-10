@@ -1,56 +1,28 @@
-﻿<Window x:Class="Teste.WPF.WindowTbControl"
+﻿<Window x:Class="Teste.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Teste.WPF"
-        mc:Ignorable="d"
-        Title="WindowTbControl" Height="450" Width="800">
-    <Grid>
-        <TabControl Margin="0,100,0,0" BorderThickness="0,3,0,0" BorderBrush="#eee" Padding="10,10" SelectionChanged="TabControl_SelectionChanged">
-            <TabControl.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Border Name="Border" BorderThickness="0,0,0,3" BorderBrush="White" CornerRadius="0,0,0,0" Margin="3,-3">
-                                    <ContentPresenter x:Name="ContentSite"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        ContentSource="Header"
-                                        Margin="15,5"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="Blue" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="#eee" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.Resources>
-            <TabItem Header="General">
-                <Grid Height="285" Margin="-12,0,-9,0">
-                    <Button Margin="400,202,301,51" Width="100">Ok</Button>
-                    <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="18" Margin="25,140,0,0" VerticalAlignment="Top" Width="203"/>
-                    <ComboBox HorizontalAlignment="Left" Height="32" Margin="43,202,0,0" VerticalAlignment="Top" Width="167"/>
-                    <Border HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="340" Margin="10,10,0,0">
-                        <Grid>
-                            <Label Content="Nome" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0"/>
-                            <TextBox HorizontalAlignment="Center" Margin="0,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340" Padding="3" FontSize="14"/>
-                        </Grid>
-                    </Border>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Security" />
-            <TabItem Header="Details" />
-        </TabControl>
-        <Image HorizontalAlignment="Left" Height="30" Margin="20,20,0,0" VerticalAlignment="Top" Width="30" Source="/inventory_2-24px.png"/>
-        <TextBlock HorizontalAlignment="Left" Margin="55,14,0,0" Text="Produtos" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="30" FontWeight="SemiBold" LineHeight="30" Height="34" Padding="0" />
-        <Label Content="Cadastro de mercadorias e servicos" FontStyle="Italic" Foreground="Gray" HorizontalAlignment="Left" Margin="26,59,0,0" VerticalAlignment="Top" Padding="0"/>
-    </Grid>
+        mc:Ignorable="d"        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="12"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Normal" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="400" Width="300">
+    <StackPanel RenderTransformOrigin="0.5,0.505">
+        <StackPanel Margin="10">
+            <Button x:Name="btnTelaPrincipal" Click="btnTelaPrincipal_Click" Margin="10,10,10,0">Tela principal</Button>
+            <Button x:Name="btnTesteCommands" Click="btnTesteCommands_Click" Margin="10,10,10,0">Teste Commands #1</Button>
+            <Button x:Name="btnTesteCommands2" Click="btnTesteCommands2_Click" Margin="10,10,10,0">Teste Commands #1</Button>
+            <Button x:Name="btnMenu" Click="btnMenu_Click" Margin="10,10,10,0">Menu</Button>
+            
+        </StackPanel>
+        
+    </StackPanel>
 </Window>

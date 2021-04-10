@@ -1,0 +1,132 @@
+﻿<Window x:Class="Teste.WPF.Menus.SampleMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Teste.WPF.Menus"
+        xmlns:properties="clr-namespace:Teste.WPF.Properties"
+        mc:Ignorable="d"
+        Title="SampleMenu" Height="400" Width="600">
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" CanExecute="CommandOpen_CanExecute" Executed="CommandOpen_Executed" />
+        <CommandBinding Command="New" CanExecute="CommandNew_CanExecute" />
+        <CommandBinding Command="Save" CanExecute="CommandSave_CanExecute" />
+    </Window.CommandBindings>
+    <Window.Resources>
+        <ContextMenu x:Key="menu2">
+            <MenuItem Header="Menu Item #1" />
+            <MenuItem Header="Menu Item #2" />
+        </ContextMenu>
+    </Window.Resources>
+    <DockPanel>
+        <Border BorderBrush="#252525" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
+            <StackPanel Orientation="Vertical">
+                <Menu FontSize="12" FontFamily="Segoe UI" FontWeight="SemiBold" Background="DarkGray">
+                    <MenuItem Header="_File" Height="30">
+                        <MenuItem Header="_New" Padding="25,0" Margin="0" Height="24" Click="menuNew_Click" />
+                        <MenuItem Header="_Open" Command="Open" />
+                        <MenuItem Header="_Save" />
+                        <MenuItem Header="Show all" IsCheckable="True" />
+                        <Separator />
+                        <MenuItem Header="_Exit" Click="MenuItem_Click_1" />
+                    </MenuItem>
+                    <MenuItem Header="_Edit" Height="30">
+                        <MenuItem Command="Cut" />
+                        <MenuItem Command="Copy" />
+                        <MenuItem Command="Paste" />
+                    </MenuItem>
+                </Menu>
+
+                <ToolBarTray>
+                    <ToolBar>
+                        <Button Command="New" Content="New" Padding="5"/>
+                        <Button Command="Open" Content="Open" Padding="5"/>
+                        <Button Command="Save" Content="Save" Padding="5"/>
+                    </ToolBar>
+                    <ToolBar >
+                        <Button Command="Cut" Padding="5" ToolBar.OverflowMode="AsNeeded">
+                            <Image Source="/Menus/cut.png" Height="16" Width="16" />
+                        </Button>
+                        <Button Command="Copy" Padding="5" ToolBar.OverflowMode="AsNeeded">
+                            <Image Source="/Menus/copy.png" Height="16" Width="16" />
+                        </Button>
+                        <Button Command="Paste" Padding="5" ToolBar.OverflowMode="AsNeeded">
+                            <Image Source="/Menus/paste.png" Height="16" Width="16" />
+                        </Button>
+                    </ToolBar>
+                </ToolBarTray>
+            </StackPanel>
+        </Border>
+        <StackPanel Margin="10">
+            <TabControl>
+                <TabItem Header="Geral" IsSelected="true">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Button Grid.ColumnSpan="3" Grid.Row="0" Content="ContextMenu #1">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Opção #1" />
+                                    <MenuItem Header="Opção #2" />
+                                    <Separator />
+                                    <MenuItem Header="Opção #3" />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Button Grid.Row="1" Grid.ColumnSpan="3" Margin="0,5" Content="ContextMenu #2" Name="btnContextMenu2" MouseRightButtonUp="btnContextMenu2_MouseRightButtonUp" />
+                        <TextBox Grid.Column="4" Grid.ColumnSpan="4" Grid.RowSpan="1" Name="txtEditor" SelectionChanged="txtEditor_SelectionChanged" AcceptsReturn="True" TextWrapping="Wrap"></TextBox>
+                        
+                        <StatusBar Grid.Row="4" Grid.ColumnSpan="12" Padding="0" Height="30">
+                            <StatusBar.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+                                </ItemsPanelTemplate>
+                            </StatusBar.ItemsPanel>
+                            <StatusBarItem>
+                                <TextBlock x:Name="lblCursorPosition" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="1" />
+                            <StatusBarItem Grid.Column="2">
+                                <TextBlock Text="c:\path\of\current\file.txt" />
+                            </StatusBarItem>
+                            <Separator Grid.Column="3" />
+                            <StatusBarItem Grid.Column="4">
+                                <ProgressBar Value="50" Maximum="100" Width="90" Height="16" />
+                            </StatusBarItem>
+                        </StatusBar>
+                    </Grid>
+                    
+                </TabItem>
+                <TabItem Header="Preços" />
+                <TabItem Header="Configurações" />
+            </TabControl>
+        </StackPanel>
+    </DockPanel>
+</Window>

@@ -1,0 +1,83 @@
+WPF:
+
+- Application Culture / UICulture
+  - Thread:CurrentCulture => controla a formação dos dados;
+  - Thread:CultureUICulture => controla a formatação que os dados serão exibidos;
+
+  - Exemplo de definição da cultura de formatação na inicialização:
+    Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
+    Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+
+  - Definição de formato default para todas as threds:
+    CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
+
+- TextBlock:
+  - É semelhante ao Label, porém usa menos recursos;
+  - Não suporte imagem dentro dele, label sim;
+  - É possível usar outras tags no conteúdo, como: <Span>, <Italic>, <Bold>, etc...
+  - Propriedade padrão é "Text";
+
+- Label:
+  - É semelhante ao TextBlock, porém pode hospedar qq tipo de conteúdo dentro dele, até mesmo outros elementos;
+
+- Button:
+  - herda de ContentControl, ou seja, podem existir outros elementos dentro dele;
+
+- CheckBox:
+  - também herda de ContentControl;
+
+- Paineis:
+  - Canvas: 
+    - Imita o WinForms;
+    - Permite informar coordenadas aos controles;
+
+  - WrapPanel:
+    - Coloca os controles filhos um próximo ao outro, horizontal ou verticalmente;
+    - Quando não houver mais espaço, os controles são reenquadrados, movido-os para a próxima linha ou coluna;
+    - Não se expande;
+
+  - StackPanel:
+    - Funciona semelhante ao WrapPanel, porém não quebra os itens para a próxima linha ou coluna;
+    - Quando os controles ocupam muito espaço, ele se expande;
+
+  - DockPanel:
+    - Permite que os controles filhos sejam 'encaixados' no top, bottom, left ou right do painel;
+    - Encaixa um controle após o outro, o último controle se expande ocupando o espaço restante do painel;
+
+  - Grid:
+    - Painel mais completo e complexo de todos;
+    - Permite a definição de linhas e colunas;
+    - Dimensionamento pode ser por quantidade absoluta de pixels, % ou automática;
+    - Cada linha ou coluna pode ter um tamanho específico;
+    - Funciona exatamente como o grid em CSS;
+    - GridSpanning: Grid.ColumnSpan e Grid.RowSpan, definem quantas colunas ou linhas o controle vai ocupar;
+    - 
+
+
+  - UniformGrid:
+    - Funciona semelhante ao grid, porém cada linha e coluna possui tamanhos iguais;
+
+- Binding Source:
+  - Para que os dados sejam atualizados do Objeto => Controle, é necessário usar um ObservableCollection quando for uma lista;
+  - Também é necessário que o item da lista implemente a interface INotifyPropertyChanged, pois é ela que avisa o controle q é necessário ser atualizado;
+  - Por padrão, um controle conectado a uma propriedade é atualizado ou atualiza o objeto quando ocorre o "LostFocos". Isso é possível mudar alterando o atributo: UpdateSourceTrigger=...;
+  - Sintaxe do Binding, propriedade_controle={Binding <nome_propriedade_objeto>};
+  - Exemplo: <TextBox text={Binding Nome} />
+
+- IValueConverter:
+  - Iterface usada no Binding para converter um valor na apresentação do valor ou na entrada;
+  - https://www.wpf-tutorial.com/pt/39/data-binding/conversao-de-valores-com-ivalueconverter/
+  - https://stackoverflow.com/questions/505397/built-in-wpf-ivalueconverters
+
+- Comandos:
+  - ICommand;
+  - Comandos já existentes:
+    - ApplicationCommands:
+    - NavigationCommands:
+    - MediaCommands:
+    - EditingCommands:
+    - ComponentCommands:
+
+15 99174-9662 / 15 97403-9797																																										
+5515991749662
+  5515974039797

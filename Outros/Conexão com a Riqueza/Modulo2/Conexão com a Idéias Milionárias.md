@@ -53,10 +53,15 @@
   - Riscar as 10 mais ridículas, ficar com as 10 mais razoáveis;
   - Descartar 7, terminando com 3 boas ideias;
   - Escolher 1 ideia e colocar no topo;
-  - Para a ideia que ficou, escrever 3 ações que farei imediatamente para colaca-la em prática;
-  - Fazendo isso por mais dias, a ideia de amanhã torna-se a ideia 2, e assim sucessivamente;
+  - Para a ideia que ficou, escrever 3 ações que fará imediatamente para colaca-la em prática;
+    - A. Ação...
+    - B. Ação...
+    - C. Ação...
+  - Fazendo isso por mais dias, a ideia de amanhã torna-se a 2ª ideia, e assim sucessivamente;
   - Nunca tomar ações para a segunda ideia sem antes ter tentado a anterior;
+
+  - 20 IDEIAS PARA GANHAR MAIS CLIENTES (VENDER MAIS);
+  - 20 IDEIAS PARA OTIMIZAR MEU TEMPO;
 
 - Uma fonte de renda não é um emprego, onde você vai trabalhar 8h por dia;
 - Se você tem uma ideia, mas não tem dinheiro, consiga um socia que tenha dinheiro;
-- 
