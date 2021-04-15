@@ -21,7 +21,7 @@
             <Button x:Name="btnTesteCommands" Click="btnTesteCommands_Click" Margin="10,10,10,0">Teste Commands #1</Button>
             <Button x:Name="btnTesteCommands2" Click="btnTesteCommands2_Click" Margin="10,10,10,0">Teste Commands #1</Button>
             <Button x:Name="btnMenu" Click="btnMenu_Click" Margin="10,10,10,0">Menu</Button>
-            
+            <Button x:Name="btnTabContro" Click="btnTabContro_Click" Margin="10,10,10,0">TabControl</Button>
         </StackPanel>
         
     </StackPanel>

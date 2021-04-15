@@ -22,29 +22,29 @@ namespace Teste.WPF
     /// </summary>
     public partial class Sample_Binding_2 : Window
     {
-        private ObservableCollection<User> users = new ObservableCollection<User>();
+        private ObservableCollection<UserNotify> users = new ObservableCollection<UserNotify>();
 
         public Sample_Binding_2()
         {
             InitializeComponent();
 
-            users.Add(new User { Id = 1, Name = "Fernando Villa" });
-            users.Add(new User { Id = 2, Name = "Denise Villa" });            
+            users.Add(new UserNotify { Id = 1, Name = "Fernando Villa" });
+            users.Add(new UserNotify { Id = 2, Name = "Denise Villa" });            
 
             listUsers.ItemsSource = users;
         }
 
         private void btnAddUser_Click(object sender, RoutedEventArgs e)
         {
-            users.Add(new User { Id = 3, Name = "Maria Fernanda Villa" });
+            users.Add(new UserNotify { Id = 3, Name = "Maria Fernanda Villa" });
         }
 
         private void btnChangeUser_Click(object sender, RoutedEventArgs e)
         {
             if (listUsers.SelectedItem != null)
             {
-                string name = (listUsers.SelectedItem as User).Name;
-                (listUsers.SelectedItem as User).Name = $"#{name}";
+                string name = (listUsers.SelectedItem as UserNotify).Name;
+                (listUsers.SelectedItem as UserNotify).Name = $"#{name}";
             }
         }
 
@@ -52,13 +52,13 @@ namespace Teste.WPF
         {
             if (listUsers.SelectedItem != null)
             {
-                var user = listUsers.SelectedItem as User;
+                var user = listUsers.SelectedItem as UserNotify;
                 users.Remove(user);
             }
         }
     }
 
-    public class User: INotifyPropertyChanged
+    public class UserNotify: INotifyPropertyChanged
     {
         private int id;
         private string name;

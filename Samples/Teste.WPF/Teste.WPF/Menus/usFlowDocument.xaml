@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="Teste.WPF.Menus.usFlowDocument"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Teste.WPF.Menus"
+             xmlns:root="clr-namespace:Teste.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="600">
+    <UserControl.Resources>
+        <x:Array x:Key="UserArray" Type="{x:Type root:User}">
+            <root:User Name="Fernando Villa" Age="38" />
+            <root:User Name="José da Silva" Age="52" />
+            <root:User Name="Maria Fernanda" Age="4" />
+        </x:Array>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Executed" />
+        <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Executed" />
+    </UserControl.CommandBindings>
+    <StackPanel Orientation="Vertical">
+        <TabControl>
+            <TabItem Header="FlowDocumentScrollViewer">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <FlowDocumentScrollViewer Grid.Column="0" IsToolBarVisible="true" Zoom="80" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <FlowDocument>
+                            <Paragraph FontSize="36">Hello, would!</Paragraph>
+                            <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="14" Foreground="gray">The ultimating programming greeting!</Paragraph>
+                            <Paragraph FontStyle="Italic" FontSize="14" Foreground="Gray">
+                                By setting the <Bold>IsOptimalParagraphEnabled</Bold> property to true,
+                                you will allow WPF to look ahead on the lines to come, before deciding
+                                where to break. This will usually result in a more pleasant reading
+                                experience. It works especially well in combination with the
+                                <Bold>IsHyphenationEnabled</Bold> property.
+                            </Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                    <Border Grid.Column="1" BorderBrush="Navy" BorderThickness="1,4,1,4">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="LightCyan" Offset="0.0"/>
+                                <GradientStop Color="LightBlue" Offset="0.5" />
+                                <GradientStop Color="DarkTurquoise" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <FlowDocumentScrollViewer IsToolBarVisible="True" VerticalScrollBarVisibility="Auto" Zoom="80">
+                            <FlowDocument IsOptimalParagraphEnabled="True" IsHyphenationEnabled="True">
+                                <Paragraph FontStyle="Italic" FontSize="14" Foreground="Gray">
+                                    By setting the
+                                    <Bold>IsOptimalParagraphEnabled</Bold> property to true,
+                                you will allow WPF to look ahead on the lines to come, before deciding
+                                where to break. This will usually result in a more pleasant reading
+                                experience. It works especially well in combination with the
+                                    <Bold>IsHyphenationEnabled</Bold> property.
+                                </Paragraph>
+                            </FlowDocument>
+                        </FlowDocumentScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="FlowDocumentPageViewer">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="166*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="121*"/>
+                    </Grid.ColumnDefinitions>
+                    <FlowDocumentPageViewer Grid.ColumnSpan="3" Margin="0,0,0,-626">
+                        <FlowDocument>
+                            <Paragraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus odio arcu, luctus vestibulum tortor congue in. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec lacinia neque. Donec malesuada, ligula non vestibulum cursus, urna purus pellentesque orci, aliquet accumsan dui velit ac justo. Phasellus sagittis ligula in leo dapibus, vel vestibulum felis mattis. Fusce vitae auctor nibh. Ut sit amet fringilla turpis. Aenean tincidunt feugiat sapien, quis scelerisque enim pretium commodo. Mauris fermentum posuere nulla, vitae fermentum quam malesuada in. Cras ultrices bibendum nulla eu mollis. Sed accumsan pretium magna, non sodales velit viverra id. Sed eu elit sit amet sem ullamcorper rhoncus.</Paragraph>
+                            <Paragraph>Nulla vitae suscipit tellus. Nunc sit amet tortor fermentum, sollicitudin enim cursus, sagittis lacus. Pellentesque tincidunt massa nisl, nec tempor nulla consequat a. Proin pharetra neque vel dolor congue, at condimentum arcu varius. Sed vel luctus enim. Curabitur eleifend dui et arcu faucibus, sit amet vulputate libero suscipit. Vestibulum ultrices nisi id metus ultrices, eu ultricies ligula rutrum. Phasellus rhoncus aliquam pretium. Quisque in nunc erat. Etiam mollis turpis cursus, sagittis felis vel, dignissim risus. Ut at est nec tellus lobortis venenatis. Fusce elit mi, gravida sed tortor at, faucibus interdum felis. Phasellus porttitor dolor in nunc pellentesque, eu hendrerit nulla porta. Vestibulum cursus placerat elit. Nullam malesuada dictum venenatis. Interdum et malesuada fames ac ante ipsum primis in faucibus.</Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentPageViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <Grid>
+                    <FlowDocumentScrollViewer>
+                        <FlowDocument>
+                            <Paragraph FontSize="36" Margin="0">Users</Paragraph>
+                            <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="14" Foreground="Gray">Here's a list of our users, inside our FlowDocument, in a completely interactive ListView control!</Paragraph>
+                            <BlockUIContainer>
+                                <ListView ItemsSource="{StaticResource UserArray}" FontFamily="Segoe UI" BorderThickness="0">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Nome"/>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Age}" Header="Idade"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </BlockUIContainer>
+                            <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="14" Foreground="Gray">More content can go here...</Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Editor">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <DockPanel>
+                        <ToolBar DockPanel.Dock="Top" Padding="0" Margin="0" Height="24">
+                            <Button Name="btnOpen" Height="24" Width="24" Padding="0" Command="ApplicationCommands.Open">
+                                <Image Height="16" Width="16" Source="/Menus/open-folder.png" />
+                            </Button>
+                            <Button Name="btnSave" Height="24" Width="24" Padding="0" Command="ApplicationCommands.Save">
+                                <Image Height="16" Width="16" Source="/Menus/save.png" />
+                            </Button>
+                            <Separator />
+                            <ToggleButton x:Name="btnBold" Command="EditingCommands.ToggleBold" Height="24" Width="24">
+                                <Image Height="16" Width="16" Source="/Menus/bold.png" />
+                            </ToggleButton>
+                            <ToggleButton x:Name="btnItalic" Command="EditingCommands.ToggleItalic" Height="24" Width="24">
+                                <Image Height="16" Width="16" Source="/Menus/italic.png" />
+                            </ToggleButton>
+                            <ToggleButton x:Name="btnUnderline" Command="EditingCommands.ToggleUnderline" Height="24" Width="24">
+                                <Image Height="16" Width="16" Source="/Menus/underline.png" />
+                            </ToggleButton>
+                            <Separator />
+                            <ComboBox Name="cboFontFamily" Width="150" SelectionChanged="cboFontFamily_SelectionChanged" />
+                            <ComboBox Name="cboFontSize" Width="50" IsEditable="True" TextBoxBase.TextChanged="cboFontSize_TextChanged" />
+                        </ToolBar>
+                        <RichTextBox x:Name="rtbEditor" SelectionChanged="rtbEditor_SelectionChanged" Height="250" />
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
+</UserControl>

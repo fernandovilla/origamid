@@ -72,5 +72,12 @@ namespace Teste.WPF.Menus
             int col = txtEditor.CaretIndex - txtEditor.GetCharacterIndexFromLineIndex(row);
             lblCursorPosition.Text = $"Line: {row + 1}, Char: {col + 1}";
         }
+
+       
+        private void slide_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var color = Color.FromRgb((byte)slideR.Value, (byte)slideG.Value, (byte)slideB.Value);
+            panelBorder.Background = new SolidColorBrush(color);
+        }
     }
 }

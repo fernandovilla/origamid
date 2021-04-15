@@ -77,7 +77,3 @@ WPF:
     - MediaCommands:
     - EditingCommands:
     - ComponentCommands:
-
-15 99174-9662 / 15 97403-9797																																										
-5515991749662
-  5515974039797

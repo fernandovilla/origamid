@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Teste.WPF.Menus"
         xmlns:properties="clr-namespace:Teste.WPF.Properties"
         mc:Ignorable="d"
-        Title="SampleMenu" Height="400" Width="600">
+        Title="SampleMenu" Height="450" Width="600">
     <Window.CommandBindings>
         <CommandBinding Command="Open" CanExecute="CommandOpen_CanExecute" Executed="CommandOpen_Executed" />
         <CommandBinding Command="New" CanExecute="CommandNew_CanExecute" />
@@ -94,7 +94,7 @@
                         </Button>
                         <Button Grid.Row="1" Grid.ColumnSpan="3" Margin="0,5" Content="ContextMenu #2" Name="btnContextMenu2" MouseRightButtonUp="btnContextMenu2_MouseRightButtonUp" />
                         <TextBox Grid.Column="4" Grid.ColumnSpan="4" Grid.RowSpan="1" Name="txtEditor" SelectionChanged="txtEditor_SelectionChanged" AcceptsReturn="True" TextWrapping="Wrap"></TextBox>
-                        
+
                         <StatusBar Grid.Row="4" Grid.ColumnSpan="12" Padding="0" Height="30">
                             <StatusBar.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -122,11 +122,105 @@
                             </StatusBarItem>
                         </StatusBar>
                     </Grid>
-                    
+
                 </TabItem>
-                <TabItem Header="Preços" />
-                <TabItem Header="Configurações" />
+                <TabItem Header="FlowDocument">
+                    <local:usFlowDocument />
+                </TabItem>
+                <TabItem Header="Configurações">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Slider Grid.Column="0" x:Name="slideValue" Maximum="100" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True"/>
+                            <TextBox Grid.Column="1" x:Name="txtValueSlide"  Margin="10,0" Text="{Binding ElementName=slideValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <Border x:Name="panelBorder" BorderBrush="Gray" BorderThickness="1,2,1,2" Padding="10" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="5">
+                            <StackPanel  VerticalAlignment="Center">
+
+                                <DockPanel VerticalAlignment="Center">
+                                    <Label DockPanel.Dock="Left" FontWeight="Bold" Content="R:"/>
+                                    <TextBox DockPanel.Dock="Right" Text="{Binding ElementName=slideR, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" />
+                                    <Slider x:Name="slideR" Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="slide_ValueChanged" Margin="10,0"/>
+                                </DockPanel>
+
+                                <DockPanel VerticalAlignment="Center">
+                                    <Label DockPanel.Dock="Left" FontWeight="Bold" Content="G:"/>
+                                    <TextBox DockPanel.Dock="Right" Text="{Binding ElementName=slideG, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" />
+                                    <Slider x:Name="slideG" Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="slide_ValueChanged" Margin="10,0"/>
+                                </DockPanel>
+
+                                <DockPanel VerticalAlignment="Center">
+                                    <Label DockPanel.Dock="Left" FontWeight="Bold" Content="B:"/>
+                                    <TextBox DockPanel.Dock="Right" Text="{Binding ElementName=slideB, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" />
+                                    <Slider x:Name="slideB" Maximum="255" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="slide_ValueChanged" Margin="10,0"/>
+                                </DockPanel>
+
+
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="5" Orientation="Vertical">
+                            <Label Content="Data:" Padding="0" Margin="0"/>
+                            <DatePicker Width="100" HorizontalAlignment="Left" Margin="0" Padding="2" SelectedDate="2021-04-13" />
+                            <DatePicker Width="100" HorizontalAlignment="Left" Margin="0" Padding="2">
+                                <DatePicker.BlackoutDates>
+                                    <CalendarDateRange Start="2021-04-01" End="2021-04-05"/>
+                                </DatePicker.BlackoutDates>
+                            </DatePicker>
+                        </StackPanel>
+                        <Border Grid.Column="3" Grid.ColumnSpan="3" BorderBrush="Silver" BorderThickness="2" CornerRadius="4">
+                            <StackPanel >
+                                <Expander IsExpanded="True" ExpandDirection="Down" Header="Click">
+                                    <StackPanel Margin="10">
+                                        <Label Name="lblExpander1" FontSize="18" FontWeight="Bold" FontStyle="Italic" Padding="0,0,0,10">Lorem Ipsum</Label>
+                                        <TextBlock TextWrapping="Wrap" FontSize="14">
+                                    Here we can have text wich can be hidden/shown using the built-in functionality of the Expander control.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Expander>
+                                <Expander Header="{Binding ElementName=lblExpander2, Path=Content}">
+                                    <StackPanel Margin="10">
+                                        <Label Name="lblExpander2" FontSize="18" FontWeight="Bold" FontStyle="Italic" Padding="0,0,0,10">Lorem Ipsum</Label>
+                                        <TextBlock TextWrapping="Wrap" FontSize="14" FontStyle="Italic">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Expander>
+                                <Expander ExpandDirection="Down">
+                                    <Expander.Header>
+                                        <DockPanel>
+                                            <Label Content="Clique aqui para expandir" FontSize="14" FontWeight="Bold" Foreground="Red" Padding="0"/>
+                                        </DockPanel>
+                                    </Expander.Header>
+                                    <StackPanel Margin="10">
+                                        <Label Name="lblExpander3" FontSize="18" FontWeight="Bold" FontStyle="Italic" Padding="0,0,0,10">Lorem Ipsum</Label>
+                                        <TextBlock TextWrapping="Wrap" FontSize="14" FontStyle="Italic">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Expander>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </TabItem>
             </TabControl>
+
         </StackPanel>
     </DockPanel>
 </Window>

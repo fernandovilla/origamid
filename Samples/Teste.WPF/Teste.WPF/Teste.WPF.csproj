@@ -11,7 +11,12 @@
     <None Remove="folder.png" />
     <None Remove="help.png" />
     <None Remove="inventory_2-24px.png" />
+    <None Remove="Menus\bold.png" />
     <None Remove="Menus\cut.png" />
+    <None Remove="Menus\italic.png" />
+    <None Remove="Menus\open-folder.png" />
+    <None Remove="Menus\save.png" />
+    <None Remove="Menus\underline.png" />
     <None Remove="newFile.png" />
   </ItemGroup>
 
@@ -24,7 +29,12 @@
     <Resource Include="folder.png" />
     <Resource Include="help.png" />
     <Resource Include="inventory_2-24px.png" />
+    <Resource Include="Menus\bold.png" />
     <Resource Include="Menus\cut.png" />
+    <Resource Include="Menus\italic.png" />
+    <Resource Include="Menus\open-folder.png" />
+    <Resource Include="Menus\save.png" />
+    <Resource Include="Menus\underline.png" />
     <Resource Include="newFile.png" />
   </ItemGroup>
 

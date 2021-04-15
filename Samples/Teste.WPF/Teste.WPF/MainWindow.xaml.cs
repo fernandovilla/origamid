@@ -56,5 +56,11 @@ namespace Teste.WPF
             var form = new Menus.SampleMenu();
             form.ShowDialog();
         }
+
+        private void btnTabContro_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new CustomTabControl.Sample_CustomTabControl();
+            form.ShowDialog();
+        }
     }
 }
