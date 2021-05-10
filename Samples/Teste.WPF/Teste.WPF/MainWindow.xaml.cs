@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Teste.WPF.ListView;
+using Teste.WPF.TreeView;
 
 namespace Teste.WPF
 {
@@ -60,6 +62,30 @@ namespace Teste.WPF
         private void btnTabContro_Click(object sender, RoutedEventArgs e)
         {
             var form = new CustomTabControl.Sample_CustomTabControl();
+            form.ShowDialog();
+        }
+
+        private void btnListView_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new Sample_ListView();
+            form.ShowDialog();
+        }
+
+        private void btnTreeView_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new Sample_TreeView();
+            form.ShowDialog();
+        }
+
+        private void btnProduto_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new Cadastros.Produtos.CadastroProduto();
+            form.ShowDialog();
+        }
+
+        private void btnComboBox_Click(object sender, RoutedEventArgs e)
+        {
+            var form = new ComboBoxes.Sample_ComboBox();
             form.ShowDialog();
         }
     }

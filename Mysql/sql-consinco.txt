@@ -1,0 +1,71 @@
+GARDENAL SANOFI 100MG C/20 COMP
+
+
+--> Produtos: map_produto + Mrl_Produtoempresa + MAP_FAMILIA
+--> EAN: SELECT * FROM MAP_PRODCODIGO WHERE SEQPRODUTO = 438 AND TIPCODIGO = 'E';
+--> CUSTO: select * from MACV_CUSTOCOMPRAUF WHERE SEQFAMiLIA = 425 ordEr by dtaultalTeracao desc ;
+--> PRECO VENDA: mrl_prodempseg
+
+SELECT
+   p.seqproduto "chave",
+   p.desccompleta  "nome",   
+   emp.estqloja "estoque",   
+   (select custo.VLRCUSTOBRUTO from MACV_CUSTOCOMPRAUF custo where custo.SEQFAMILIA = p.seqfamilia order by custo.DTAULTALTERACAO desc fetch first 1 row only) "PrecoCusto",
+   pv.precobasenormal "PrecoVenda",
+   pv.precomaxconsumidor "PMC",
+   case when pv.statusvenda = 'A' then 'Normal' else 'Bloqueado' end  "Status",
+   p.nroregminsaude "numero_ms",
+   f.indsimilar "similar", 
+   f.indetico "etico", 
+   f.indgenerico "generico", 
+   f.indmedicamento "eh_medicamento", 
+   f.indmedcontrolado "psico",
+   f.indantimicrobiano "antimicrobiano",
+   f.situacaonfpissai "cst_pis",
+   f.situacaonfcofinssai "cst_cofins",
+   f.codmedcontrolado "cat_psico",
+   f.indfarmaciapopular "farm_popoular", 
+   f.CODNBMSH "ncm", 
+   f.codcest "cest",
+   emp.dtaultvenda "data_ult_venda",
+   p.dtahorinclusao "data_inclusao",
+   p.dtahoralteracao "data_alteracao",
+   cod.codacesso "EAN",
+   cod.qtdembalagem "Fracionamento"
+FROM MAP_PRODUTO p INNER JOIN Mrl_Produtoempresa emp ON p.seqproduto = emp.seqproduto
+LEFT JOIN MAP_FAMILIA f ON f.seqfamilia = p.seqfamilia
+LEFT JOIN MAP_PRODCODIGO cod ON cod.seqproduto = p.seqproduto and cod.seqfamilia = p.seqfamilia and cod.indutilvenda = 'S'
+LEFT JOIN mrl_prodempseg pv ON pv.seqproduto = p.seqproduto and pv.nroempresa = emp.nroempresa
+WHERE (P.USUARIOINCLUSAO = 'MARIA.L' OR P.USUARIOALTERACAO = 'MARIA.L')
+and emp.nroempresa = 200
+order by p.desccompleta;
+
+
+SELECT table_name FROM DBA_TABLES WHERE TABLE_NAME LIKE '%CUSTO%' AND OWNER = 'CONSINCO' ORDER BY TABLE_NAME;
+SELECT * FROM DBA_VIEWS WHERE VIEW_NAME LIKE '%CUSTO%' AND OWNER = 'CONSINCO' ORDER BY view_NAME;
+SELECT * FROM DBA_VIEWS where OWNER = 'CONSINCO' ORDER BY view_NAME;
+
+SELECT * FROM DBA_VIEWS WHERE VIEW_NAME ='PDV_PRODPRECO';
+select * from map_famembalagem where seqfamilia = 425;
+select * from mrl_produtoempresa where seqproduto = 438 and nroempresa = 200;
+
+
+-> PESSOAS
+SELECT * FROM ge_pessoa;
+select * from MAD_CLIENTECONDPAGTO
+SELECT * FROM MAD_REPRESENTANTE
+select * from MADV_REPCLIENTE
+SELECT * FROM DBA_VIEWS WHERE text_vc LIKE '%b.nomerazao%' AND OWNER = 'CONSINCO' ORDER BY view_NAME;
+select * from MRLV_CONVENIADOS;
+select distinct nroformapagto, formapagto from MRLV_CONVENIADOS order by formapagto;
+
+--> CLIENTES
+select * from MRLV_CONVENIADOS C INNER JOIN GE_PESSOA P ON C.seqpessoatitular = P.SEQPESSOA WHERE p.fisicajuridica = 'F' AND P.STATUS = 'A' and c.formapagto like '%SOLAR%';
+
+--> FORNECEDORES
+select * from ETLV_FORNECEDOR where foRnecedor like '%DROGA%'
+
+Gardenal 100
+  Custo 7,76
+  Venda 9,70
+  PMC   9,75

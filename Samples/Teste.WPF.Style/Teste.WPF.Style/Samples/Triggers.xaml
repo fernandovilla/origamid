@@ -1,0 +1,165 @@
+﻿<Window x:Class="TesteWPF.Style.Samples.Triggers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Teste.WPF.Style"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource H1}" Text="Exemplo de uso do style" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="Gray"/>
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="Padding" Value="10,3,3,10" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Header 1"/>
+                <TextBlock Text="Header 2"/>
+                <TextBlock Text="Header 3" Foreground="MediumPurple"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <Label Content="Header 1"/>
+                <Label Content="Header 2"/>
+                <Label Content="Header 3" Foreground="Purple" FontWeight="Bold" FontStyle="Normal"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock Style="{StaticResource Link}" Text="Hello, styled would!" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="10">
+                <CheckBox x:Name="chkSample1" Content="Check here!" FontSize="16"/>
+                <TextBlock>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="FontSize" Value="24"/>
+                            <Setter Property="Text" Value="Unchecked"/>
+                            <Setter Property="Foreground" Value="Orange"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=chkSample1, Path=IsChecked}" Value="true">
+                                    <Setter Property="Text" Value="Checked!" />
+                                    <Setter Property="Foreground" Value="Green"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="10">
+                <TextBlock x:Name="lblStyled" Text="Hello, styled world!" FontSize="18" HorizontalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.300" Storyboard.TargetProperty="FontSize" To="26"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0:0:0.600" Storyboard.TargetProperty="FontSize" To="18" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="10,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderBrush="MediumPurple" BorderThickness="2" CornerRadius="4" Padding="5">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Exemplo de MultiTrigger" Padding="0,3" FontStyle="Italic" FontWeight="Bold"/>
+                    <TextBox x:Name="txtTeste1" VerticalAlignment="Center" Text="Hover and focus here">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsKeyboardFocused" Value="true"/>
+                                            <Condition Property="IsMouseOver" Value="true"/>
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter Property="Background" Value="LightGreen"/>
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Line Margin="0,10" Stroke="MediumPurple" StrokeThickness="3" X1="0" X2="230" />
+
+                    <TextBlock Text="Exemplo de MultiDataTrigger" Padding="0,3" FontStyle="Italic" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <CheckBox x:Name="chkSampleYes" Content="Yes"/>
+                            <CheckBox x:Name="chkSampleSure" Content="Sure"/>
+                        </StackPanel>
+                        <TextBlock Padding="0,3" FontSize="18" Margin="20,0,0,0" >
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Unverified"/>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding ElementName=chkSampleYes, Path=IsChecked}" Value="true"/>
+                                                <Condition Binding="{Binding ElementName=chkSampleSure, Path=IsChecked}" Value="true"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="Verified"/>
+                                            <Setter Property="Foreground" Value="Green"/>
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                    
+                    
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

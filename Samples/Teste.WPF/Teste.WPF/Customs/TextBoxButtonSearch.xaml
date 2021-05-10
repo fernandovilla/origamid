@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="Teste.WPF.Customs.TextBoxButtonSearch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Teste.WPF.Customs"
+             mc:Ignorable="d" 
+             d:DesignWidth="130" d:MinHeight="24" d:MinWidth="30">
+    <UserControl.Resources>
+        <Color x:Key="BorderColor">LightGray</Color>
+        <Color x:Key="ControlColor">white</Color>
+        <Color x:Key="ColorSearchIcon">#252525</Color>
+
+        <Style x:Key="textBoxSearch" TargetType="TextBox">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Padding" Value="2,0"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderThickness="1,1,0,1" CornerRadius="2,0,0,2" >
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{DynamicResource BorderColor}"/>
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource ControlColor}"/>
+                            </Border.Background>
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="buttonSearch" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Border" BorderThickness="1,1,1,1" CornerRadius="0,2,2,0">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{StaticResource BorderColor}"/>
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource ControlColor}"/>
+                            </Border.Background>
+
+                            <Path Data="M 15.62,13.69
+                                       C 15.62,13.69 11.94,10.01 11.94,10.01
+                                         12.57,9.01 12.93,7.84 12.93,6.57
+                                         12.93,3.00 10.04,0.11 6.47,0.11
+                                         2.89,0.11 0.00,3.00 0.00,6.57
+                                         0.00,10.14 2.89,13.04 6.47,13.04
+                                         7.84,13.04 9.11,12.61 10.16,11.88
+                                         10.16,11.88 13.79,15.51 13.79,15.51
+                                         14.04,15.77 14.38,15.89 14.71,15.89
+                                         15.04,15.89 15.37,15.77 15.62,15.51
+                                         16.13,15.01 16.13,14.19 15.62,13.69 Z
+                                       M 6.47,10.94
+                                       C 4.05,10.94 2.09,8.99 2.09,6.57
+                                         2.09,4.16 4.05,2.20 6.47,2.20
+                                         8.88,2.20 10.84,4.16 10.84,6.57
+                                         10.84,8.99 8.88,10.94 6.47,10.94 Z" 
+                                      Fill="#252525" 
+                                      HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"
+                                      Width="16"
+                                      Height="16"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Panel.Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{DynamicResource BorderColor}"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="24"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Column="0" Name="txtSearch" Style="{StaticResource textBoxSearch}"/>
+        <Button Grid.Column="1" Name="btnSearch" Style="{StaticResource buttonSearch}" Click="onButtonClick" />
+    </Grid>
+</UserControl>

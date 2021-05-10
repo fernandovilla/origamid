@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teste.WPF
+namespace Teste.WPF.TreeView
 {
-    public class User
+    public class FamilyMember
     {
         public string Name { get; set; }
         public int Age { get; set; }
-        public string Email { get; set; }
-        public string Sex { get; set; }
     }
 }

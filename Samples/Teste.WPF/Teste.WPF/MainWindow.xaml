@@ -14,14 +14,18 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowState="Normal" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="400" Width="300">
+        Title="MainWindow" Height="450" Width="300">
     <StackPanel RenderTransformOrigin="0.5,0.505">
         <StackPanel Margin="10">
             <Button x:Name="btnTelaPrincipal" Click="btnTelaPrincipal_Click" Margin="10,10,10,0">Tela principal</Button>
             <Button x:Name="btnTesteCommands" Click="btnTesteCommands_Click" Margin="10,10,10,0">Teste Commands #1</Button>
             <Button x:Name="btnTesteCommands2" Click="btnTesteCommands2_Click" Margin="10,10,10,0">Teste Commands #1</Button>
             <Button x:Name="btnMenu" Click="btnMenu_Click" Margin="10,10,10,0">Menu</Button>
-            <Button x:Name="btnTabContro" Click="btnTabContro_Click" Margin="10,10,10,0">TabControl</Button>
+            <Button x:Name="btnTabContro" Click="btnTabContro_Click" Margin="10,10,10,0" Content="TabControl" />
+            <Button x:Name="btnListView" Click="btnListView_Click" Margin="10,10,10,0" Content="ListView"/>
+            <Button x:Name="btnTreeView" Click="btnTreeView_Click" Margin="10,10,10,0" Content="TreeView" />
+            <Button x:Name="btnComboBox" Click="btnComboBox_Click" Margin="10,10,10,0" Content="ComboBox"/>
+            <Button x:Name="btnProduto" Click="btnProduto_Click" Margin="10,10,10,0" Content="Produto" />
         </StackPanel>
         
     </StackPanel>

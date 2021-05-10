@@ -9,11 +9,13 @@
         Title="Sample_CustomTabControl" Height="450" Width="500" WindowState="Maximized">
     <StackPanel>
         <Label FontSize="16" FontWeight="Bold" >Sample Custom TabControl</Label>
+        
         <TabControl>
             <TabItem Header="Sample #1">
                 <StackPanel>
                     <Label Content="TabControl com tabs na lateral e texto na vertical" FontStyle="Italic" />
                     <TabControl TabStripPlacement="Left">
+                        
                         <TabControl.Resources>
                             <Style TargetType="{x:Type TabItem}">
                                 <Setter Property="HeaderTemplate">
@@ -31,6 +33,7 @@
                                 <Setter Property="FontWeight" Value="SemiBold" />
                             </Style>
                         </TabControl.Resources>
+                        
                         <TabItem Header="Exemplos #1">
                             <StackPanel>
                                 <Label Content="Abaixo, exemplos de uso do controle ItemControl:" FontSize="14" />
@@ -132,6 +135,7 @@
                                 </Border>
                             </StackPanel>
                         </TabItem>
+                        
                         <TabItem Header="Exemplos #2">
                             <StackPanel>
                                 <Label Content="Abaixo, exemplos de uso do controle ListBox" FontSize="14" />
@@ -185,174 +189,11 @@
                                 </Border>
                             </StackPanel>
                         </TabItem>
-                        <TabItem Header="Exemplos #3">
-                            <StackPanel Margin="10">
-                                <Label Content="Exemplo de uso do contro ListView" FontSize="14" />
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Border BorderBrush="AliceBlue" BorderThickness="2" CornerRadius="4" Margin="5">
-                                        <StackPanel>
-                                            <Label Content="Exemplo simples do ListView" FontStyle="Italic" />
-                                            <ListView Margin="5">
-                                                <ListViewItem Height="24" Padding="8,0,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Images/dotBlue.png" Width="10" Height="10" Margin="0,0,5,0" />
-                                                        <TextBlock Text="Blue" />
-                                                    </StackPanel>
-                                                </ListViewItem>
-                                                <ListViewItem IsSelected="true" Height="24" Padding="8,0,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Images/dotGreen.png" Width="10" Height="10" Margin="0,0,5,0" />
-                                                        <TextBlock Text="Green" />
-                                                    </StackPanel>
-                                                </ListViewItem>
-                                                <ListViewItem Height="24" Padding="8,0,0,0">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="/Images/dotRed.png" Width="10" Height="10" Margin="0,0,5,0" />
-                                                        <TextBlock Text="Red" />
-                                                    </StackPanel>
-                                                </ListViewItem>
-                                            </ListView>
-                                        </StackPanel>
-
-                                    </Border>
-                                    <Border Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="2" CornerRadius="4" Margin="5">
-                                        <StackPanel Orientation="Vertical">
-                                            <Label Content="Exemplo de ListView com binding" FontStyle="Italic" />
-                                            <ListView x:Name="lstDataBinding" Margin="5">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel>
-                                                            <TextBlock Text="Name: " FontWeight="Bold"/>
-                                                            <TextBlock Text="{Binding Name}" />
-                                                            <TextBlock Text=", Age: " FontWeight="Bold"/>
-                                                            <TextBlock Text="{Binding Age}" />
-                                                            <TextBlock Text=", Email: " FontWeight="Bold"/>
-                                                            <TextBlock Text="{Binding Email}" TextDecorations="Underline"  Foreground="Blue" Cursor="Hand"/>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                        </StackPanel>
-                                    </Border>
-                                    <Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="AliceBlue" BorderThickness="2" CornerRadius="4" Margin="5">
-                                        <ListView x:Name="lstUsers" Margin="5">
-                                            <ListView.Resources>
-                                                <Style TargetType="{x:Type GridViewColumnHeader}">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                                    <Setter Property="Padding" Value="10,5" />
-                                                    <Setter Property="Margin" Value="0" />
-                                                    <Setter Property="Background" Value="#fafafa"/>
-                                                </Style>
-                                            </ListView.Resources>
-                                            <ListView.View>
-                                                <GridView>
-                                                    <GridViewColumn Header="Nome" Width="200" DisplayMemberBinding="{Binding Name}"/>
-                                                    <GridViewColumn Header="Age" Width="100" DisplayMemberBinding="{Binding Age}" />
-                                                    <GridViewColumn Header="Email" Width="200">
-                                                        <GridViewColumn.CellTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding Email}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand"/>
-                                                            </DataTemplate>
-                                                        </GridViewColumn.CellTemplate>
-                                                    </GridViewColumn>
-                                                </GridView>
-                                            </ListView.View>
-                                        </ListView>
-                                    </Border>
-                                    <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border Grid.Column="0" BorderBrush="AliceBlue" BorderThickness="2" CornerRadius="4" Margin="5">
-                                            <ListView x:Name="lstUsers2" Margin="5">
-                                                <ListView.Resources>
-                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                                        <Setter Property="Padding" Value="10,5" />
-                                                        <Setter Property="Margin" Value="0" />
-                                                        <Setter Property="Background" Value="#fafafa"/>
-                                                    </Style>
-                                                </ListView.Resources>
-                                                <ListView.View>
-                                                    <GridView>
-                                                        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}" />
-                                                        <GridViewColumn Header="Age" Width="100" DisplayMemberBinding="{Binding Age}" />
-                                                    </GridView>
-                                                </ListView.View>
-                                                <ListView.GroupStyle>
-                                                    <GroupStyle>
-                                                        <GroupStyle.HeaderTemplate>
-                                                            <DataTemplate>
-                                                                <!-- Bingind Name, onde 'Name' é o nome do grupo e não do objeto User -->
-                                                                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}" Padding="5,10" Background="LightBlue" />
-                                                            </DataTemplate>
-                                                        </GroupStyle.HeaderTemplate>
-                                                    </GroupStyle>
-                                                </ListView.GroupStyle>
-                                            </ListView>
-                                        </Border>
-                                        <Border Grid.Column="1" BorderBrush="AliceBlue" BorderThickness="2" CornerRadius="4" Margin="5" >
-                                            <ListView x:Name="lstUsers3" Margin="5">
-                                                <!--<ListView.Resources>
-                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                                        <Setter Property="Padding" Value="10,5" />
-                                                        <Setter Property="Margin" Value="0" />
-                                                        <Setter Property="Background" Value="#fafafa"/>
-                                                    </Style>
-                                                </ListView.Resources>-->
-                                                <ListView.View>
-                                                    <GridView>
-                                                        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}" />
-                                                        <GridViewColumn Header="Age" Width="100" DisplayMemberBinding="{Binding Age}" />
-                                                    </GridView>
-                                                </ListView.View>
-                                                <ListView.GroupStyle>
-                                                    <GroupStyle>
-                                                        <GroupStyle.ContainerStyle>
-                                                            <Style TargetType="{x:Type GroupItem}">
-                                                                <Setter Property="Template">
-                                                                    <Setter.Value>
-                                                                        <ControlTemplate>
-                                                                            <Expander IsExpanded="True">
-                                                                                <Expander.Header>
-                                                                                    <StackPanel Orientation="Horizontal" Margin="0">
-                                                                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                                                        <TextBlock Text="{Binding ItemCount}" FontWeight="Bold" Foreground="Green" FontSize="22" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
-                                                                                        <TextBlock Text=" Item(s)" Foreground="Silver" FontSize="22" FontStyle="Italic" VerticalAlignment="Bottom"/>
-                                                                                    </StackPanel>
-                                                                                </Expander.Header>
-                                                                                <ItemsPresenter />
-                                                                            </Expander>
-                                                                        </ControlTemplate>
-                                                                    </Setter.Value>
-                                                                </Setter>
-                                                            </Style>
-                                                        </GroupStyle.ContainerStyle>
-                                                    </GroupStyle>
-                                                </ListView.GroupStyle>
-                                            </ListView>
-                                        </Border>
-                                    </Grid>
-
-
-                                </Grid>
-
-                            </StackPanel>
-                        </TabItem>
+                                                
                     </TabControl>
                 </StackPanel>
             </TabItem>
+            
             <TabItem Header="Sample #2">
                 <StackPanel>
                     <Label Content="TabControl com tabs estiizadas" FontStyle="Italic" />
@@ -395,6 +236,7 @@
                     </TabControl>
                 </StackPanel>
             </TabItem>
+            
             <TabItem Header="Sample #3">
                 <StackPanel>
                     <Label Content="TabControl com tabs estiizadas #2" FontStyle="Italic" />

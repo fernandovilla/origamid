@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cadastros\Produtos\package32.png" />
+    <None Remove="Cadastros\Produtos\package64.png" />
+    <None Remove="Cadastros\Produtos\produto24.png" />
     <None Remove="Dialogs\info.png" />
     <None Remove="folder.png" />
     <None Remove="help.png" />
@@ -18,6 +21,13 @@
     <None Remove="Menus\save.png" />
     <None Remove="Menus\underline.png" />
     <None Remove="newFile.png" />
+    <None Remove="Resources\cam18-line-white.png" />
+    <None Remove="Resources\cancel24-line-white.png" />
+    <None Remove="Resources\delete18-line-white.png" />
+    <None Remove="Resources\media18-line-white.png" />
+    <None Remove="Resources\quadrinhos.png" />
+    <None Remove="Resources\save24.png" />
+    <None Remove="Resources\save24_line.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Cadastros\Produtos\package32.png" />
+    <Resource Include="Cadastros\Produtos\package64.png" />
+    <Resource Include="Cadastros\Produtos\produto24.png" />
     <Resource Include="Dialogs\info.png" />
     <Resource Include="folder.png" />
     <Resource Include="help.png" />
@@ -36,6 +49,27 @@
     <Resource Include="Menus\save.png" />
     <Resource Include="Menus\underline.png" />
     <Resource Include="newFile.png" />
+    <Resource Include="Resources\cam18-line-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\cancel24-line-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\delete18-line-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\media18-line-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\quadrinhos.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\save24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\save24_line.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
