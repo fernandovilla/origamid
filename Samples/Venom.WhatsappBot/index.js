@@ -1,7 +1,5 @@
 const venom = require('venom-bot');
 
-
-
 venom
   .create()
   .then((client) => start(client))
