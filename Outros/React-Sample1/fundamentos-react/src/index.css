@@ -1,0 +1,19 @@
+body {
+  background: #444;
+  color: #fff;  
+  font-family: 'Verdana';
+}
+
+h1, h2, h3 {
+  text-align: center;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 3rem;
+}
+
+p {
+  text-align: center;
+  font-size: 2rem;
+}
