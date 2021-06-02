@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample #1 - Redux + JS</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./immer.umd.production.min.js"></script>
+  <script src="./redux.min.js"></script>
+  
+</head>
+
+<body>
+  
+  <script>
+    const MUDAR_NOME = 'MUDAR_NOME';
+    const MUDAR_IDADE = 'MUDAR_IDADE';
+
+    const initialState = {
+      nome: 'Fernando',
+      idade: 37
+    };
+
+    // Modo #1 de fazer o reducer, não alterando o objeto 'state', mas criando um novo objeto;
+    // function reducer(state = initialState, action) {
+    //   switch (action.type) {
+    //     case MUDAR_NOME:
+    //         return {...state, nome: action.payload};
+    //     default:
+    //       return state;
+    //   }
+    // }
+
+    // Modo #2 de fazer o reducer, utilizando o immer.produce(), que sempre retornará um novo objeto;
+    const reducer = immer.produce((state, action) => {
+      switch (action.type) {        
+        case MUDAR_NOME: 
+          state.nome = action.payload;  
+          break;      
+        case MUDAR_IDADE:
+          state.idade = action.payload;
+          break;
+      }
+
+    }, initialState);
+
+    const store = Redux.createStore(
+      reducer,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+
+  store.dispatch({type: MUDAR_NOME, payload: 'Fernando Villa'});
+  store.dispatch({type: MUDAR_NOME, payload: 'Luis Fernando Villa'});
+  store.dispatch({type: MUDAR_NOME, payload: 'Luis Fernando De Moraes Villa'});
+  store.dispatch({type: MUDAR_NOME, payload: 'LUIS FERNANDO DE MORAES VILLA'});
+  store.dispatch({type: MUDAR_IDADE, payload: 38});
+
+
+
+  // Realizar cópia de objetos ---------------------------------------
+  const objA = { nome: 'Fernando', idade: 37};
+  const objB = objA;        // Aponta para a mesma referência
+  const objC = {...objA}    // Desestrutura o objeto
+  const objD = Object.assign({}, objA); console.log('objD: ', objD);
+  const objE = Object.assign({}, objA, {nome: 'Mário Azevedo'}); console.log('objE: ', objE);
+  const objF = immer.produce(objA, (draft) => { draft.nome = 'José da Silva';}); console.log('objF: ', objF);
+
+  console.log('objA === objB -> ', objA === objB);
+  console.log('objA === objC -> ', objA === objC);
+  console.log('objA === objD -> ', objA === objD);
+  console.log('objA === objE -> ', objA === objE);
+  console.log('objA === objF -> ', objA === objF);
+  // ------------------------------------------------------------------
+
+
+
+
+    /*
+        function render() {
+          // Efeito colateral da alteração do estado deve estar sempre no render(), nunca no reducer();
+          const caixa = document.getElementById("caixa");
+          caixa.style.width = store.getState() + 'px';
+        }
+    
+        // subscribe() é executado todas vez que muda um estado;
+        store.subscribe(render);
+        store.dispatch({ type: MODIFICAR_WIDTH, payload: 100 });
+        store.dispatch({ type: MODIFICAR_WIDTH, payload: 200 });
+        store.dispatch({ type: MODIFICAR_WIDTH, payload: 300 });
+    */
+
+  </script>
+</body>
+
+</html>

@@ -1,8 +1,8 @@
-.card{
+.card { 
   flex: 1;
   display: flex;
   flex-direction: column;
-  border: 3px solid #000;
+  border: 5px solid #000;
   border-radius: 10px;
   margin: 10px;
   min-width: 300px;
@@ -13,7 +13,7 @@
 .card .footer {
   background: #000;
   color: #fff;    
-  padding: 10px;
+  padding: 10px;  
 }
 
 .card .footer h3 {
@@ -21,7 +21,7 @@
 }
 
 .content {
-  flex:1; /*faz com que o content cresça mais que o header em relação ao card */
+  flex: 1; /*faz com que o content cresça mais que o header em relação ao card */
   padding: 5px;
   color: #252525;
 }

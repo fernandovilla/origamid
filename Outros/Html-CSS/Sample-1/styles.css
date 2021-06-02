@@ -1,0 +1,34 @@
+.caixa1 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;   /* distribui os elementos contidos em caixa criando um espaço igual entre eles */
+}
+
+.caixa2 {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;  /* alinha os elementos do caixa à direita*/
+  align-items: center;
+}
+
+.caixa {
+  display: flex;
+  align-items: flex-end; /* alinha o caixa*/
+}
+
+
+.objeto {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  background: #FF0000;
+}
+
+/*
+  - Por padrão, Div são elementos display: block, ou seja, ocupam uma linha inteira ao serem exibidos;
+    'display:flex' os deixarão "inline-block";
+
+  - 
+
+
+*/

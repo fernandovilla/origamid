@@ -1,7 +1,11 @@
 body {
-  background: #444;
+  /* background: #444; */
   color: #fff;  
   font-family: 'Verdana';
+
+  background: #232526;
+  background: -webkit-linear-gradient(to right, #414345, #232526 );
+  background: linear-gradient(to right, #414345, #232526);
 }
 
 h1, h2, h3 {

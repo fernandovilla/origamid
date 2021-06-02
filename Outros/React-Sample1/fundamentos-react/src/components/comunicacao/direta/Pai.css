@@ -1,0 +1,11 @@
+.filhos li {
+  list-style-type: none;
+}
+
+.filhos li p {
+  font-size: 1rem;
+  line-height: 2rem;
+  text-align: left;
+  padding: 0px;
+  margin: 0px;
+}
