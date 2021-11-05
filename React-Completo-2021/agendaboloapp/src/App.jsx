@@ -1,9 +1,13 @@
 import React from 'react';
 
+const Titulo = () => {
+  return <h1>Agenda de Bolos - App - Release 1.0.0</h1>;
+};
+
 const App = () => {
   return (
     <div>
-      <h1>Agenda Boloes - APP</h1>
+      <Titulo />
     </div>
   );
 };
