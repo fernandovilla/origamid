@@ -20,4 +20,8 @@ React Completo:
     0302 I - useEffect;
     0302 II - useEffect - Exercício;
 
-    1,618
+  12/11/2021
+    0303 I e II - useRef - Guarda uma referência de um objeto, controle ou item qualquer;
+    0304 - useMemo - É executado uma única vez. Guarda um trecho de código que poderá ser reutilizado depois. Geralmente códigos de realizam alguma operação lenta;
+    0305 I - useContext - Compartilhamento de estado em diversos componentes e telas;
+    0305 II - FAZER -> useContext - Exercídio prático
