@@ -1,48 +1,71 @@
 import React from 'react';
 
+const produtos = [
+  { id: '1', nome: 'Notebook' },
+  { id: '2', nome: 'Smartphone' },
+  { id: '3', nome: 'Table' },
+];
+
 const App = () => {
-  // const [nome, setNome] = React.useState('');
-  // const [email, setEmail] = React.useState('');
+  const [textarea, setTextarea] = React.useState('');
+  const [select, setSelect] = React.useState('');
+  const [radio, setRadio] = React.useState('2');
+  const [checkbox, setCheckbox] = React.useState(false);
 
-  const [form, setForm] = React.useState({ nome: '', email: '' });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log(form);
-  };
-
-  const handleChange = ({ target }) => {
-    const { id, value } = target;
-    setForm({ ...form, [id]: value });
+  const handleChange = async ({ target }) => {
+    setRadio(target.id);
   };
 
   return (
-    <>
-      <h1>0401 - Forms - Input</h1>
-      <form action="" onSubmit={handleSubmit}>
-        <label htmlFor="nome">Nome</label>
-        <input
-          id="nome"
-          type="text"
-          value={form.nome}
-          //onChange={(event) => setNome(event.target.value)}
-          onChange={handleChange}
-        />
-        <p>{form.nome}</p>
+    <div>
+      <h1>0402 - TextArea, 0403 - Select, 0404 - Radio, 0405 - Checkbox</h1>
+      <textarea
+        value={textarea}
+        onChange={({ target }) => setTextarea(target.value)}
+        rows="2"
+      />
 
-        <label htmlFor="email">Email</label>
+      <select
+        id="produtos"
+        value={select}
+        onChange={({ target }) => setSelect(target.value)}
+      >
+        <option disabled value="">
+          Selecione
+        </option>
+        {produtos.map((prod, index) => (
+          <option key={prod.id} value={prod.id}>
+            {prod.nome}
+          </option>
+        ))}
+      </select>
+      <p>Select: {select}</p>
+
+      {produtos.map((prod, index) => (
+        <label key={index}>
+          <input
+            name="produtos"
+            id={prod.id}
+            type="radio"
+            onChange={handleChange}
+            checked={radio === prod.id}
+          />
+          {prod.nome}
+        </label>
+      ))}
+      <p>Radio: {radio}</p>
+
+      <label>
         <input
-          id="email"
-          type="email"
-          value={form.email}
-          //onChange={(event) => setEmail(event.target.value)}
-          onChange={handleChange}
+          type="checkbox"
+          value="termos"
+          checked={checkbox}
+          onChange={({ target }) => setCheckbox(target.checked)}
         />
-        <p>{form.email}</p>
-        <button type="submit">Enviar</button>
-      </form>
-    </>
+        Li e aceito os termos do contrato
+      </label>
+      <p>{checkbox ? 'True' : 'False'}</p>
+    </div>
   );
 };
 
