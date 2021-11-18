@@ -35,4 +35,7 @@ React Completo:
     0402 - TextArea
     0403 - Select
     0404 - Radio
-    0405 - Checkbox... ainda não terminei
+    0405 - Checkbox
+    
+  18/11/2021
+    0406 - Formulários... inicada
