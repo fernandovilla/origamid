@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Input = ({ id, label, setValue, ...props }) => {
-  const handleChange = ({ target }) => {
-    setValue(target.value);
-  };
+const Input = ({ id, label, onChange, ...props }) => {
+  // const handleChange = ({ target }) => {
+  //   setValue(target.value);
+  // };
 
   return (
     <>
@@ -12,7 +12,7 @@ const Input = ({ id, label, setValue, ...props }) => {
         type="text"
         id={id}
         name={id}
-        onChange={handleChange}
+        onChange={onChange}
         {...props} //spread -> espalhar
       />
     </>

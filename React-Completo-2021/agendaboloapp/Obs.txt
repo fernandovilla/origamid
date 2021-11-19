@@ -38,4 +38,11 @@ React Completo:
     0405 - Checkbox
     
   18/11/2021
-    0406 - Formulários... inicada
+    0406 - Formulários
+    
+  19/11/2021
+    0407|0408|0409 - Componentes...
+    0410 - Validação de componentes;
+    0411 - Validação usando Hooks - useForm (NÃO INCIADA)
+
+    CaylinL
