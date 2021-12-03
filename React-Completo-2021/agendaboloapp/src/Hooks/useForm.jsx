@@ -12,15 +12,13 @@ const types = {
   },
 };
 
-const useForm = (type) => {
+export const useForm = (type) => {
   const [value, setValue] = React.useState('');
   const [error, setError] = React.useState(null);
 
   const validate = (value) => {
-    if (type === false) return true;
-
     if (value.length === 0) {
-      setError('Preencha um valor');
+      setError('Valor não informado.');
       return false;
     }
 
