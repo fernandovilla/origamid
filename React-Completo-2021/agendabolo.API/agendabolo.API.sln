@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "agendabolo.API", "agendabolo.API\agendabolo.API.csproj", "{CC2627B0-58E5-4D00-9957-11AA5A759A7B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC2627B0-58E5-4D00-9957-11AA5A759A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2627B0-58E5-4D00-9957-11AA5A759A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2627B0-58E5-4D00-9957-11AA5A759A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2627B0-58E5-4D00-9957-11AA5A759A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1927C8D7-9AF8-46D6-853E-E1BE2075D22D}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,50 @@
+import React from 'react'
+
+const types = {
+  cep: {
+    regex: /^\d{5}-?\d{3}$/,
+    message: 'CEP Inválido'
+  },
+  email: {
+    regex: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    message: 'E-mail inválido'
+  }
+}
+
+export const useForm = (type) => {
+  const [value, setValue] = React.useState('');
+  const [error, setError] = React.useState(null);
+
+  const validade = (value) => {
+
+    if (value.length === 0)
+    {
+      setError('Valor não informado.');
+      return false;
+    }
+
+    if (types[type] && !types[type].regex.test(value)){  
+      setError(types[type].message);
+      return false;
+    }
+
+    setError(null);
+    return true;
+  }
+
+  const onChange = ({target}) => {
+    if (error) validade(target.value);
+    setValue(target.value);
+  }
+
+  return {
+    value, 
+    setValue, 
+    error, 
+    onChange, 
+    onBlur: () => validade(value), 
+    validade: () => validade(value)
+  }
+}
+
+export default useForm;

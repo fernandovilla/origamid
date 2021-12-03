@@ -1,9 +1,10 @@
 import React from 'react';
+import { CadastroIngrediente } from './Form/CadastroIngrediente/CadastroIngrediente';
 
 const App = () => {
   return (
     <div>
-      <h1>0411</h1>
+      <CadastroIngrediente />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({ id, label, onChange, ...props }) => {
+const Input = ({ id, label, value, type, placeholder, error, onChange, onBlur }) => {
   // const handleChange = ({ target }) => {
   //   setValue(target.value);
   // };
@@ -9,12 +9,16 @@ const Input = ({ id, label, onChange, ...props }) => {
     <>
       <label htmlFor={id}>{label}</label>
       <input
-        type="text"
+        type={type}
         id={id}
         name={id}
+        value={value}
+        placeholder={placeholder}      
         onChange={onChange}
-        {...props} //spread -> espalhar
+        onBlur={onBlur}
+        //{...props} //spread -> espalhar
       />
+      {error && <p>{error}</p>}
     </>
   );
 };
