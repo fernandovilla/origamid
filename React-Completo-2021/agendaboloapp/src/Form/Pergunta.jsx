@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Pergunta = ({ pergunta, value, onChange }) => {
+const Pergunta = ({ pergunta, value, onChange, active }) => {
+  if (!active) return null;
+
   return (
     <fieldset
       style={{
@@ -20,7 +22,7 @@ const Pergunta = ({ pergunta, value, onChange }) => {
         >
           <input
             type="radio"
-            id={index}
+            id={pergunta.id}
             name={pergunta.id}
             value={option}
             onChange={onChange}

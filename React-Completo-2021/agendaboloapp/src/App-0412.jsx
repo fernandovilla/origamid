@@ -37,6 +37,8 @@ const perguntas = [
 ];
 
 const App = () => {
+  const [slide, setSlide] = React.useState(0);
+  const [resultado, setResultado] = React.useState(null);
   const [respostas, setRespostas] = React.useState({
     p1: '',
     p2: '',
@@ -46,26 +48,48 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('respondeu...');
   };
 
   const handleChange = ({ target }) => {
-    //setRespostas({...respostas, [target.id]})
+    setRespostas({ ...respostas, [target.id]: target.value });
+  };
+
+  const handleClick = () => {
+    if (slide < perguntas.length - 1) {
+      setSlide(slide + 1);
+    } else {
+      setSlide(10); // Para sumir com a pergunta...
+      calculaResultado();
+    }
+  };
+
+  const calculaResultado = () => {
+    console.log('Resultado...');
+    const corretas = perguntas.filter(
+      ({ id, resposta }) => respostas[id] === resposta,
+    );
+    console.log('Calculando resutado...');
+    setResultado(`Você acertou ${corretas.length} de ${perguntas.length}`);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {perguntas.map((pergunta) => (
+        {perguntas.map((pergunta, index) => (
           <Pergunta
+            id={pergunta.id}
             pergunta={pergunta}
             key={pergunta.id}
             onChange={handleChange}
             value={respostas[pergunta.id]}
+            active={slide === index}
           />
         ))}
-
-        <button type="submit">Próxima</button>
+        {resultado ? (
+          <p>{resultado}</p>
+        ) : (
+          <button onClick={handleClick}>Próxima</button>
+        )}
       </form>
     </div>
   );

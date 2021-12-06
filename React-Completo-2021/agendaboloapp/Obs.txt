@@ -46,4 +46,7 @@ React Completo:
     0411 - Validação usando Hooks - useForm (NÃO INCIADA)
 
   02/12/2021
-    0412 - Iniciada... parei em 09:37
+    0412 - Exercício de "perguntas e respostas"
+
+  06/12/2021
+    0501 - CSS Import
