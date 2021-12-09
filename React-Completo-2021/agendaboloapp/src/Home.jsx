@@ -1,10 +1,12 @@
 import React from 'react';
 import Titulo from './Titulo';
 
-const Home = () => {
+const Home = ({ title }) => {
+  if (title === undefined) title = 'Título da Home';
+
   return (
     <section>
-      <Titulo texto="Home" />
+      <Titulo texto={title} />
       <p>Essa é a página Home</p>
     </section>
   );

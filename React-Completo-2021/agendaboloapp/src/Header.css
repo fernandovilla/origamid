@@ -1,0 +1,12 @@
+a {
+  text-decoration: none;
+  color: #111;
+}
+
+a:nth-child(even) {
+  /*margin: 0 5px;*/
+}
+
+.active {
+  color: tomato;
+}

@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ text }) => {
+  if (text === undefined) text = 'Todos os direitos reservados.';
+
   return (
     <footer>
-      <p>Todos os direitos reservados.</p>
+      <p>{text}</p>
     </footer>
   );
 };

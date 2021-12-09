@@ -21,16 +21,26 @@ const App = () => {
     <BrowserRouter>
       <Header text="Nome do Site" />
 
+      {/* <header style={{ backgroundColor: '#eee' }}>
+
+        <Titulo texto="Header da Página" />
+        <hr style={{ border: '1px solid green', marginTop: '0' }} />
+      </header> */}
+
       <Routes>
         <Route path="/" element={<Home title="0601 - Router" />} />
         <Route path="sobre" element={<Sobre />} />
         <Route path="contato" element={<Contato />} />
         <Route path="login" element={<Login />} />
         <Route path="produtos" element={<Produtos />} />
-        {/*<Route path="produtos/:id" element={<Produto />} />*/}
-        <Route path="produtos/:id/*" element={<Produto />} />
+        <Route path="produtos/:id" element={<Produto />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+
+      {/* <footer style={{ backgroundColor: '#eee' }}>
+        <hr style={{ border: '1px solid green', marginBottom: '0' }} />
+        <Titulo texto="Footer da Página" />
+      </footer> */}
 
       <Footer text="Footer da Página" />
     </BrowserRouter>

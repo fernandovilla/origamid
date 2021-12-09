@@ -49,4 +49,8 @@ React Completo:
     0412 - Exercício de "perguntas e respostas"
 
   06/12/2021
-    0501 - CSS Import
+    0501 - CSS Import - PULAR
+    0601 - Reouter - instalação do React-Router;
+    0602 - Router + Link + NavLink + useNavigate;
+    0603 - Reote + id na rota, useParams, useLocation, URLSearchParams, useLocation com GoogleAnalitics
+    0604 - Nested Routes, rotas aninhadas, 
