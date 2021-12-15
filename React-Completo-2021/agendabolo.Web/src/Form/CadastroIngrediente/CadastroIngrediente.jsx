@@ -29,6 +29,8 @@ export const CadastroIngrediente = () => {
       options,
     );
 
+      console.log(response);
+
     if (response.ok && error == null) {
       console.log("Cadastrado com sucesso...");
     } else {
