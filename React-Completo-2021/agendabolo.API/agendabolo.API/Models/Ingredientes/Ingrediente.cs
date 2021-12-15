@@ -9,7 +9,6 @@ namespace agendabolo.Models.Ingredientes
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public decimal PrecoCusto { get; set; }
-        
+        public decimal PrecoCusto { get; set; }        
     }
 }
