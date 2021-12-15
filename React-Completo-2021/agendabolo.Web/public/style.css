@@ -55,6 +55,7 @@ label {
 }
 
 input[type='text'],
+input[type='number'],
 input[type='password'],
 input[type='email'],
 textarea {
@@ -69,6 +70,7 @@ textarea {
 }
 
 input[type='text']:focus,
+input[type='number']:focus,
 input[type='password']:focus,
 input[type='email']:focus,
 textarea:focus {

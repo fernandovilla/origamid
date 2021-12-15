@@ -1,11 +1,14 @@
-﻿using agendabolo.Models.Ingredientes;
+﻿using Sistema.Models.Ingredientes;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using Sistema.Models.Logs;
 
-namespace agendabolo.Controllers
+namespace Sistema.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -13,17 +16,71 @@ namespace agendabolo.Controllers
     {
         public IActionResult get()
         {
-            return Ok(new Ingrediente() { Id = 1, Nome = "Farinha de Trigo", PrecoCusto = 2.50m });
+            try
+            {
+                var service = new IngredienteService();
+
+                var ingredientes = service.Select();
+
+                if (ingredientes != null && ingredientes.Any())
+                    return Ok(ingredientes);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult get(ulong id)
+        {
+            try
+            {
+                var service = new IngredienteService();
+
+                var ingrediente = service.Select(id);
+
+                if (ingrediente != null)
+                    return Ok(ingrediente);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
 
         [HttpPost]
-        public IActionResult post(Ingrediente ingrediente)
+        public IActionResult post(IngredienteRequest ingrediente)
         {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var service = new IngredienteService();
+                    var result = service.Save(ingrediente);
 
-
-
-            return Ok();
+                    if (result.Item1)
+                        return Ok(result.Item2);
+                    else
+                        return BadRequest();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

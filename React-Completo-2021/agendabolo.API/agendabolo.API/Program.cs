@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.API
+namespace Sistema.API
 {
     public class Program
     {

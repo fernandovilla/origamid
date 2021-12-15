@@ -1,6 +1,6 @@
 using System;
 
-namespace agendabolo.API
+namespace Sistema.API
 {
     public class WeatherForecast
     {

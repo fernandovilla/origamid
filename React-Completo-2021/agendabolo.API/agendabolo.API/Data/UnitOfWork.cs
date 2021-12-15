@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Sistema.Models.Ingredientes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.Data
+namespace Sistema.Data
 {
     public partial class UnitOfWork
     {
-        // Repositories...
+        private IngredienteRepository _ingredienteRepository;
+
+
+        public IngredienteRepository GetIngredienteRepository()
+        {
+            return _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_databaseContext));
+        }
     }
 
 
@@ -18,6 +25,7 @@ namespace agendabolo.Data
         public UnitOfWork()
         {
             _databaseContext = new MySqlDatabaseContext();
+            _databaseContext.Open();
             _databaseContext.BeginTrans();
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.API.Controllers
+namespace Sistema.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

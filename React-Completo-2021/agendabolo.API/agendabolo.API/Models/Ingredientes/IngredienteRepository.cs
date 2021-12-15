@@ -1,12 +1,13 @@
-﻿using agendabolo.Data;
+﻿using Sistema.Data;
+using Sistema.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.Models.Ingredientes
+namespace Sistema.Models.Ingredientes
 {
-    public class IngredienteRepository: IRepositoryBase<Ingrediente, int>
+    public class IngredienteRepository : IRepositoryBase<Ingrediente, ulong>
     {
         private IDatabaseContext _databaseContext;
 
@@ -15,37 +16,73 @@ namespace agendabolo.Models.Ingredientes
             _databaseContext = databaseContext;
         }
 
-        public void Delete(int id)
+        public void Delete(ulong id)
         {
-            throw new NotImplementedException();
+            string sql = $"DELETE FROM ingredientes WHERE id = {id.ToSql()};";
+            _databaseContext.ExecuteScalar(sql);            
         }
 
-        public int Insert(Ingrediente ingrediente)
+        public ulong Insert(Ingrediente ingrediente)
         {
-            var sql = 
-                "INSERT INTO ingredientes VALUES (" +
-                $"{ingrediente.Nome}, " +
-                $"{ingrediente.PrecoCusto});";
+            var sql =
+                "INSERT INTO ingredientes (nome, precocusto) VALUES (" +
+                $"{ingrediente.Nome.ToSql()}, " +
+                $"{ingrediente.PrecoCusto.ToSql()});";
+            var id = _databaseContext.ExecuteReturningId(sql);
 
-            using (var cmd = _databaseContext.CreateCommand(""))
+            if (id != null)
+                return Convert.ToUInt64(id);
+
+            return 0u;
+        }
+
+        public Ingrediente Select(ulong id)
+        {
+            var sql = $"SELECT id, nome, precocusto FROM ingredientes WHERE id = {id};";
+            using (var cmd = _databaseContext.CreateCommand(sql))
+            using (var reader = cmd.ExecuteReader())
             {
-
+                if (reader.Read())
+                {
+                    return new Ingrediente
+                    {
+                        Id = reader.GetUInt32("id"),
+                        Nome = reader.GetString("nome"),
+                        PrecoCusto = reader.GetDecimal("precocusto")
+                    };
+                }
             }
-        }
 
-        public Ingrediente Select(int id)
-        {
-            throw new NotImplementedException();
+            return null;
         }
 
         public IEnumerable<Ingrediente> SelectAll()
         {
-            throw new NotImplementedException();
+            var sql = "SELECT id, nome, precocusto FROM ingredientes ORDER BY nome;";
+            using (var cmd = _databaseContext.CreateCommand(sql))
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    yield return new Ingrediente
+                    {
+                        Id = reader.GetUInt64("id"),
+                        Nome = reader.GetString("nome"),
+                        PrecoCusto = reader.GetDecimal("precocusto")
+                    };
+                }
+            }
         }
 
         public void Update(Ingrediente ingrediente)
         {
-            throw new NotImplementedException();
+            var sql =
+               "UPDATE ingredientes SET " +
+               $"nome = {ingrediente.Nome.ToSql()}, " +
+               $"precocusto = {ingrediente.PrecoCusto.ToSql()} " +
+               $"WHERE id = {ingrediente.Id.ToSql()};";
+
+            _databaseContext.ExecuteScalar(sql);
         }
     }
 }

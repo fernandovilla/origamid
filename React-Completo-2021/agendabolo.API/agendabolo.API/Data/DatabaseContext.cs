@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.Data
+namespace Sistema.Data
 {
     public abstract class DatabaseContext : IDatabaseContext
     {
+        private readonly string fileLog = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DatabaseContext.log");
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
@@ -19,7 +21,7 @@ namespace agendabolo.Data
         protected abstract string GetConnectionString();
         protected virtual void ClearPoolConnection(IDbConnection connection)
         {
-            throw new NotImplementedException();
+            
         }
 
         public abstract IDbCommand CreateCommand(string query);
@@ -38,8 +40,9 @@ namespace agendabolo.Data
                 if (_connection.State != ConnectionState.Open)
                     _connection.Open();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Models.Logs.LogDeErros.Default.Write(ex);
                 throw;
             }
 
@@ -58,8 +61,9 @@ namespace agendabolo.Data
             {
                 _connection.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Models.Logs.LogDeErros.Default.Write(ex);
                 throw;
             }
         }
@@ -76,8 +80,9 @@ namespace agendabolo.Data
             {
                 _transaction = _transaction ?? _connection.BeginTransaction();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Models.Logs.LogDeErros.Default.Write(ex);
                 throw;
             }
 
@@ -95,8 +100,9 @@ namespace agendabolo.Data
                 _transaction.Dispose();
                 _transaction = null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Models.Logs.LogDeErros.Default.Write(ex);
                 throw;
             }
         }
@@ -112,8 +118,9 @@ namespace agendabolo.Data
                 _transaction.Dispose();
                 _transaction = null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Models.Logs.LogDeErros.Default.Write(ex);
                 throw;
             }
         }

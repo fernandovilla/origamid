@@ -5,13 +5,13 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace agendabolo.Data
+namespace Sistema.Data
 {
     public class MySqlDatabaseContext : DatabaseContext
     {
         protected override string GetConnectionString()
         {
-            return "Server=localhost;Port=3306;Database=agendabolo;Uid=root;Pwd=root;";
+            return "Server=localhost;Port=3306;Database=agendabolo;Uid=root;Pwd=;";
         }
 
         protected override IDbConnection CreateNewConnection(string connectionString)
