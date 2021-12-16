@@ -14,6 +14,7 @@ namespace Sistema.Controllers
     [Route("[controller]")]
     public class IngredientesController : ControllerBase
     {
+        [HttpGet]
         public IActionResult get()
         {
             try
