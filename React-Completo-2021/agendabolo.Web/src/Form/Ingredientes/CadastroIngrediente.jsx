@@ -24,7 +24,7 @@ export const CadastroIngrediente = () => {
 
     const retorno = await cadastrarIngrediente(ingrediente);
 
-    if (retorno){
+    if (retorno) {
       //cadastrado com sucesso...
     }
   };
