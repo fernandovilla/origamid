@@ -2,37 +2,30 @@ import React from 'react';
 import Input from '../Input3';
 import useForm from '../../Hooks/useForm';
 import useFetch from '../../Hooks/useFetch';
+import { useIngredientes } from './useIngredientes';
 
 export const CadastroIngrediente = () => {
   const nome = useForm();
   const precoCusto = useForm();
   const { request, data, loading, error } = useFetch();
+  const { cadastrarIngrediente } = useIngredientes();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await cadastrarIngrediente();
+
+    await cadastraIngrediente();
   };
 
-  const cadastrarIngrediente = async () => {
+  const cadastraIngrediente = async () => {
     const ingrediente = {
       nome: nome.value,
       precoCusto: precoCusto.value,
     };
 
-    const url = 'http://localhost:42916/ingredientes';
+    const retorno = await cadastrarIngrediente(ingrediente);
 
-    const options = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify(ingrediente),
-    };
-
-    const { response } = await request(url, options);
-
-    if (response !== undefined && response.ok && error === null) {
-      console.log('Cadastrado com sucesso...');
-    } else {
-      console.log('ERRO:', error);
+    if (retorno){
+      //cadastrado com sucesso...
     }
   };
 
