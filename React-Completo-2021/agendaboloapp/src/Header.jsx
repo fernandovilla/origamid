@@ -8,7 +8,7 @@ const menuItens = [
   { display: 'Contato', to: 'contato' },
   { display: 'Produtos', to: 'produtos' },
   { display: 'Login', to: 'login' },
-  { display: 'ProdutosTable', to: 'produtosTable' },
+  { display: 'Ingredientes', to: 'ingredientes' },
 ];
 
 const Header = ({ text }) => {

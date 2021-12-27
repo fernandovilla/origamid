@@ -9,7 +9,8 @@ import Contato from './Contato';
 import Login from './Login';
 import Produto from './Form/Produtos0603/Produto';
 import Produtos from './Form/Produtos0603/Produtos';
-import ProdutosTable from './ProdutosTable';
+import Ingredientes from './Form/Ingredientes/Ingredientes';
+import { Ingrediente } from './Form/Ingredientes/Ingrediente';
 
 /****************************************************************************
   BrouseRouter: componente pai que envolve tudo que depende do react-router
@@ -30,7 +31,8 @@ const App = () => {
         <Route path="produtos" element={<Produtos />} />
         {/*<Route path="produtos/:id" element={<Produto />} />*/}
         <Route path="produtos/:id/*" element={<Produto />} />
-        <Route path="produtosTable" element={<ProdutosTable />} />
+        <Route path="ingredientes" element={<Ingredientes />} />   
+        <Route path="ingredientes/:id/*" element={<Ingrediente />} /> 
         <Route path="*" element={<NotFound />} />
       </Routes>
 
