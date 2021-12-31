@@ -1,0 +1,230 @@
+.side-menu {
+  background: #111;
+  position: fixed;
+  width: 300px;
+  height: 100%;  
+  box-sizing: border-box;
+  padding: 30px 20px;
+  transition: width .2s ease-in;
+}
+
+.side-menu.inactive {
+  width: 80px;
+}
+
+.side-menu .top-section {
+  position: relative;  
+}
+
+.side-menu .top-section .logo {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;    
+}
+
+.side-menu .top-section .logo img {  
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.side-menu .top-section .toggle-menu-btn {  
+  display: inline;
+  position: absolute;  
+  /*top: 50%;*/
+  transform: translateY(50%);
+  /*right: -50px;*/
+  right: 0;
+  width: 24px;
+  height: 24px;     
+}
+
+.side-menu .top-section .toggle-menu-btn button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.side-menu.inactive .top-section .toggle-menu-btn {
+  right: -50px;  
+}
+
+.side-menu .search-controller {
+  color: #fff;
+  position: relative;
+}
+
+.side-menu .search-controller .search-btn {  
+  position: absolute;
+  background: transparent;
+  border: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.side-menu .search-controller input[type="text"] {
+  /* border: 1px solid #666; */
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  height: 35px;
+  width: 100%;
+  background: #333;
+  display: block;
+  margin: 20px 0;    
+  box-sizing: border-box;
+  padding-left: 40px;
+  color: #bbb;
+}
+
+.side-menu .main-menu {
+  margin: 5px 0;
+}
+
+.side-menu .main-menu .menu-item {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: block; 
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.side-menu .main-menu .menu-item.active {
+  background: #333;
+  border-radius: 3px;
+}
+
+.side-menu .main-menu .menu-item span {
+  position: absolute;
+  display: inline-block;
+  line-height: 36px;
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.side-menu.inactive .main-menu .menu-item span {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.side-menu .main-menu .menu-item .menu-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;    
+  line-height: 32px;
+  text-align: center;    
+}
+
+.side-menu .main-menu .menu-item .menu-icon img {
+  margin: auto 0;
+  transform: translateY(6px);
+}
+
+/* .side-menu .main-menu .sub-menu.active {
+  display: block;
+} */
+
+.side-menu .main-menu .sub-menu {
+  /* display: none; */
+  font-size: 0.875rem;  
+  margin-left: 15px;  
+  border-left: 1px solid #666;
+  box-sizing: border-box;  
+  max-height: 0; /*esconde o submenu*/
+  overflow: hidden;
+  transition: max-height .2s ease-in;
+}
+
+.side-menu .main-menu .sub-menu.expanded {
+  /* display: block; */
+  max-height: 200px;
+}
+
+/* .side-menu .main-menu .menu-item.expanded + ul {
+  display: block;    
+} */
+
+.side-menu .main-menu .sub-menu li { 
+  padding: 5px 10px;
+  margin-left: 5px;
+ }
+
+.side-menu .main-menu .sub-menu a {
+  display: block;
+  text-decoration: none;
+  color: #666;  
+}
+
+.side-menu .main-menu .sub-menu li:hover {  
+  border-radius: 3px;
+  background: #444;
+  cursor: pointer;  
+}
+
+.side-menu-footer {
+  background: #666;
+  width: 100%;
+  height: 80px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.side-menu-footer .avatar {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.side-menu-footer .avatar img {
+  max-width: 100%;
+}
+
+.side-menu-footer .user-info {  
+  display: inline-block;
+  margin: 0 10px;
+  color: #fff;
+  position: absolute;
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+.side-menu.inactive .side-menu-footer .user-info {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.side-menu-footer .user-info h5 { 
+  font-size: 0.875rem;
+ }
+
+ .side-menu-footer .user-info p { 
+   font-size: 0.800rem;
+ }
+
+ .container {
+   margin-left: 300px;
+   padding: 50px;
+   transition: margin-left .2s ease-in;
+ }
+
+ .container.inactive{
+   margin-left: 80px;
+ }
+
+.divider {
+  width: 100%;
+  height: 1px;
+  border-radius: 1px;
+  background: #333;  
+}

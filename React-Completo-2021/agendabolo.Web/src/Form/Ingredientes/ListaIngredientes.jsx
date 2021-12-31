@@ -1,12 +1,9 @@
 import React from 'react';
 import { useIngredientes } from './useIngredientes';
+import { Link } from 'react-router-dom';
+import Table from '../Table';
 
-/*
-  React Table
-  https://react-table.tanstack.com/docs/quick-start 
-*/
-
-export const ListaIngredientes = () => {
+const ListaIngredientes = () => {
   const { listarIngredientes } = useIngredientes();
   const [ingredientes, setIngredientes] = React.useState(null);
   const [error, setError] = React.useState(null);
@@ -28,12 +25,27 @@ export const ListaIngredientes = () => {
     listar();
   }, []);
 
+  const cellLink = ({row})  => {
+    return <Link to={row.original.id} style={{color:'blue'}}>{row.original.nome}</Link>
+  }
+
+  const columns = React.useMemo(() => [
+    { Header: 'ID', accessor: 'id' },
+    { Header: 'Nome', accessor: 'nome', Cell: cellLink },
+    { Header: 'Preço Custo', accessor: 'precoCusto'},    
+  ]);
+
+  
   return (
     <div>
-      {ingredientes &&
-        ingredientes.map((item) => <li key={item.id}>{item.nome}</li>)}
+      {/* {ingredientes &&
+        ingredientes.map((item) => <li key={item.id}>{item.nome}</li>)} */}
 
       {error && <p>Ocorreu erro ao listar os itens</p>}
+
+      { ingredientes && <Table columns={columns} data={ingredientes} />}
     </div>
   );
 };
+
+export default ListaIngredientes;

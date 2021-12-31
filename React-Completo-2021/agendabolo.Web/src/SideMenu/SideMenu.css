@@ -1,0 +1,28 @@
+
+.menu {
+  width: 250px;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #343A40;
+}
+
+.menu-top {  
+  display: flex;
+  align-items: center;  
+  padding: 0 30px;
+  color: white;  
+  height: 56px;
+  border-bottom: 1px solid #49525A;
+}
+
+
+
+.menu-items {
+  /* background: cyan; */
+}
+
+.menu-footer {
+  border-top: 1px solid #49525A;    
+  height: 40px;
+}

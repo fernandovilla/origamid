@@ -60,7 +60,7 @@ namespace Sistema.Models.Ingredientes
 
     public IEnumerable<Ingrediente> SelectAll()
     {
-      var sql = "SELECT id, nome, status precocusto FROM ingredientes ORDER BY nome;";
+      var sql = "SELECT id, nome, precocusto, status FROM ingredientes ORDER BY nome;";
       using (var cmd = _databaseContext.CreateCommand(sql))
       using (var reader = cmd.ExecuteReader())
       {
