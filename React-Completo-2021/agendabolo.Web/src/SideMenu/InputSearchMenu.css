@@ -10,6 +10,12 @@
   height: 32px;
   padding: 0 5px;
   font-style: italic;
+  color: #fff;  
+}
+
+.inputSearch input:focus {
+  background: #3F474E;
+  
 }
 
 .inputSearch button {
