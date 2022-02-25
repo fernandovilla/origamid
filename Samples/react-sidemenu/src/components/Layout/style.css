@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sub-main {
+  overflow-y: hidden;
+}
