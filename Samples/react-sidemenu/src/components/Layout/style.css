@@ -10,5 +10,7 @@
 }
 
 .sub-main {
-  overflow-y: hidden;
+  padding: 10px;
+  max-height: calc(100vh - 70px);
+  overflow-y: auto;
 }

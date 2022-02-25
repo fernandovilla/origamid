@@ -10,16 +10,7 @@ const Layout = () => {
       <section className="main">
         <Navtop />
         <div className="sub-main">
-          {Array.from(Array(25).keys()).map((i) => (
-            <p
-              style={{
-                margin: '0',
-                padding: '0',
-              }}
-            >
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            </p>
-          ))}
+          <p>submain</p>
         </div>
       </section>
     </div>

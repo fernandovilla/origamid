@@ -1,21 +1,22 @@
 .sidemenu {
-  width: 240px;
+  min-width: 220px;
   height: 100vh;
-  background-color: #36393f;
+  background-color: var(--primary);
   display: grid;
   grid-template-rows: 46px auto 52px;
   grid-template-areas:
     'logo'
     'items'
     'footer';
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 0px 3px 1px;
 }
 
 .logo {
   grid-area: logo;
-  border: 1px solid pink;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: ;
 }
 
 .items {
@@ -23,6 +24,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  background: var(--primary);
 }
 
 .items::-webkit-scrollbar {
@@ -34,6 +36,7 @@
   padding: 0px;
   display: none;
   transition: 0.5s;
+  background: var(--primary);
 }
 
 .items ul.active {
@@ -47,8 +50,8 @@
 .menuitem {
   display: flex;
   flex-direction: column;
-  background: #2f3136;
-  padding: 5px;
+  padding: 0px;
+  margin-top: 3px;
 }
 
 .menuitem span {
@@ -60,19 +63,19 @@
 
 .menuitem span:hover {
   color: black;
-  background: #828386;
+  background: var(--senary);
 }
 
 .menuitem ul li {
   cursor: pointer;
-  margin: 3px 0;
+  margin: 3px;
   padding: 5px 40px;
   color: white;
 }
 
 .menuitem ul li:hover {
   font-weight: bold;
-  background: #828386;
+  background: var(--senary);
   border-radius: 4px;
 }
 
