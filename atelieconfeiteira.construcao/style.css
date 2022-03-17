@@ -1,0 +1,75 @@
+* {
+  font-family: 'Alegreya Sans', 'Montserrat', sans-serif;
+  padding: 0;
+}
+
+p {
+  font-family: 'Alegreya Sans', 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body {
+  background: #eee;
+  color: #606060;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 400px;
+  height: 400px;
+}
+
+.contato {
+  display: flex;
+  text-align: left;
+}
+
+.contato h4 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.contato-item {
+  margin: 0px 25px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.social-icons a {
+  text-decoration: none;
+}
+
+.social-icons a img {
+  width: 34px;
+  height: 34px;
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    width: 200px;
+    height: 200px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .contato {
+    flex-direction: column;
+    width: 55vh;
+  }
+
+  .social-icons {
+    width: 20vh;
+  }
+}
