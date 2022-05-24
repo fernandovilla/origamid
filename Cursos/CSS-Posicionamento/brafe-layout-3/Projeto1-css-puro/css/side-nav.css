@@ -1,0 +1,87 @@
+.side-nav {
+  width: 300px;
+  background: #252525;
+  float: left;
+  transition: 0.3s;
+}
+
+.side-nav li a {
+  display: block;
+  color: #fff;
+  border-bottom: 2px solid #484846;
+  font-size: 1.125em;
+  padding: 20px 20px 20px 10px;
+}
+
+.side-nav li a:hover {
+  background: #c17139;
+  transition: 0.3s;
+}
+
+.side-nav li a::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  top: 5px;
+  margin-right: 10px;
+  background-image: url('../img/icones.png') /* icones sprite*/
+}
+
+.nav-contabilidade::before {
+  background-position: 0 0;
+}
+.nav-produtos::before {
+  background-position: 0 calc(-24px * 1);
+}
+.nav-paginas::before {
+  background-position: 0 calc(-24px * 2);
+}
+.nav-plugins::before {
+  background-position: 0 calc(-24px * 3);
+}
+.nav-formularios::before {
+  background-position: 0 calc(-24px * 4);
+}
+.nav-hospedagem::before {
+  background-position: 0 calc(-24px * 5);
+}
+
+@media (min-width: 740px) and (max-width: 980px) {
+  .side-nav {
+    width: 200px;
+  }
+}
+
+@media (max-width: 739px) {
+  .side-nav {
+    margin: 20px 0 0 20px;
+    background: none;
+    width: auto;
+  }
+
+  .side-nav ul {
+    text-align: center;
+  }
+
+  .side-nav li {
+    display: inline-block;
+  }
+  .side-nav li a::before {
+    display: block;
+    margin: 0px;
+    top: 0;
+  }
+  .side-nav li a {
+    width: 44px;
+    height: 44px;
+    border: none;
+    overflow: hidden /* esconde o texto, pois o mesmo está saindo fora do elemento , width: 44px */
+    line-height: 2;
+    padding: 10px;
+    color: #252525;
+    background: #252525;
+    border-radius: 4px;
+  }
+}
