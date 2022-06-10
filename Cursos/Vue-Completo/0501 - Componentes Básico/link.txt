@@ -1,0 +1,1 @@
+https://vuejsbr-docs-next.netlify.app/guide/component-basics.html#exemplo-base

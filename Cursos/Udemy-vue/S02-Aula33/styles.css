@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Jost', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #4fc08d;
+  color: white;
+  text-align: center;
+}
+
+#styling {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.demo {
+  width: calc(100% - 32px);
+  height: 100px;
+  margin: 16px;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo p {
+  font-size: 2rem;
+  font-weight: 500;
+  color: gray;
+}
+
+.active {
+  
+  border-color: tomato;
+  background: salmon;  
+}
+
+.active p {
+  color: white
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Basics</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Vue Events</h1>
+    </header>
+    <section id="events">
+      <h2>Events in Action</h2>
+      <!-- 
+        <button v-on:click="addCounter(value)">Add {{value}}</button> 
+        @click = v-on:click
+      -->
+      <button @click="addCounter(value)">Add {{value}}</button>
+      <button @click.middle="addCounter(-5)" >Remove 5</button>
+      <p v-once>Starting Counter: {{counter.toFixed()}}</p>
+      <p>Counter: {{ counter.toFixed() }}</p>
+      <label for="name"></label>
+      <!-- 
+        <input type="text" id="name" v-bind:value="name" v-on:input="setName($event, ' Villa')" v-on:keyup.enter="confirmNameInput" >       
+        v-model é uma ligação bidirecional (I/O) e substitui v-bind:value e v-on:input
+        :value = v-bind:value
+      -->
+      <input type="text" v-model="name" v-on:keyup.enter="confirmarNameInput">
+      <input type="text" v-model="lastName" v-on:keyup.enter="confirmarNameInput">
+      <button v-on:click="resetName">Reset Name</button>
+      <p>Name: {{name}}</p>
+      <p></p>
+      <p>Conf Name: {{confirmedName}}</p>
+      <p>FullName: {{ fullname }}</p>
+
+      <form v-on:submit.prevent="submitForm">
+        <label for="username">UserName: </label>
+        <input type="text" id="username">
+        <button>Sign Up</button>
+      </form>
+    </section>
+  </body>
+</html>

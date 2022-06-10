@@ -1,0 +1,33 @@
+.shares section {
+  display: block;
+  width: 500px;
+  background: #eee;
+  margin: 10px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+}
+
+.shares {
+  display: flex;  
+  justify-content: center;
+}
+
+
+.verde {
+  color: green;
+}
+
+.vermelho {
+  color: red;
+}
+
+ul li {
+  list-style: none;
+  line-height: 25px;
+  text-transform: uppercase;  
+}
+
+ul li a {
+  text-decoration: none;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" v-model.lazy="nome">
+      <p>Nome informado:{{nome}}</p>
+
+      <label for="ano">Ano:</label>
+      <input type="text" id="ano" v-model.number="ano">     
+      <p>Ano informado: {{ano}}</p>     
+    </p>
+    <p>      
+      <input type="checkbox" name="email" id="email" v-model="receberEmail">
+      <label for="email">Receber e-mail</label> <span>({{receberEmail}})</span>      
+    </p>
+    <p>
+      <div>
+        <input type="radio" name="azul" id="azul" v-model="cor" value="Azul">
+        <label for="azul">Azul</label>
+
+        <input type="radio" name="vermelho" id="vermelho" v-model="cor" value="Vermelho">
+        <label for="vermelho">Vermelho</label>
+
+        <input type="radio" name="verde" id="verde" v-model="cor" value="Verde">
+        <label for="verde">Verde</label>
+      </div>
+      <p>{{cor}}</p>
+    </p>
+
+    <p>
+      <select v-model="frutaSelecionada">
+        <option disabled value="">Selecione uma fruta</option>
+        <option v-for="fruta in frutas" v-model="fruta">{{fruta}}</option>       
+      </select>
+      <p>{{frutaSelecionada}}</p>
+    </p>
+
+    <p>
+      <h2>Estilo Botão</h2>
+      <p>
+        <label for="background">Background: </label>
+        <input type="color" name="background" id="background" v-model="estiloBotao.background">
+      </p>
+
+      <p>
+        <label for="padding">Padding: </label>
+        <input type="text" name="padding" id="padding" v-model="estiloBotao.padding">
+      </p>
+
+      <p>
+        <label for="radius">Border Radius: </label>
+        <input type="text" name="radius" id="radius" v-model="estiloBotao.borderRadius">
+      </p>
+
+
+      <p>
+        <button :style="estiloBotao">Exemplo</button>
+      </p>
+    </p>
+
+  </div>  
+
+  <script src="./vue.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

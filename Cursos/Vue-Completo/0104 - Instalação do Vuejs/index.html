@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./vue.js"></script>
+  <title>Vue.js</title> 
+</head>
+<body>
+  <div id="app">
+    <h1>{{nome}}, {{idade}}</h1>
+    <h2>Endereço:</h2>
+    <p>{{endereco.rua}}</p>
+    <p>{{endereco.cidade}}/{{endereco.uf}}</p>
+    <input type="text" value={{nome}}>
+  </div>  
+<script>
+  const options = {
+    el: '#app',
+    data: {
+      nome: 'Fernando Villa',
+      idade: 39,
+      endereco: {
+        rua: 'Rua dos Crisantemos, 455',
+        cidade: 'Leme',
+        uf: 'SP'
+      }
+    }
+  };
+  
+  const vm = new Vue(options);
+</script>
+
+</body>
+</html>

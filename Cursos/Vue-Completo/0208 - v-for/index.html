@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Cursos:</h1>
+    <ul>
+      <li v-for="(curso, index) in cursos">{{index}} - {{curso}}</li>
+    </ul>
+    <button @click="removerItemCurso">Remover</button>
+    <button @click="changeItem">Mudar Item</button>
+
+    <h1>Estados:</h1>
+    <ul>
+      <li v-for="({nome, populacao}, key, index) in estados" :key="key">{{nome}} - População: {{populacao}}</li>
+    </ul>
+
+    <p v-for="n in 5">{{n}}</p>
+  </div>  
+
+  <script src="./vue.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

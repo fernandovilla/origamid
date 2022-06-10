@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>
+      <p :class="[cor, { ativo: estaAtivo}]">Texto Azul</p>
+      <button @click="trocaCor" :style="estiloBotao">Troca Cor</button>
+    </p>
+    <p>
+      <p :style="{background: bgColor, color: textColor, fontSize: tamanho + 'px'}">Texto Ativo</p>
+      <button @click="tamanho++" :style="estiloBotao">Aumentar</button>
+    </p>
+
+    <p>
+      <button @click="trocarLista" :style="estiloBotao">Colunas/Linhas</button>
+      <ul :class="{column: colunasAtiva}">
+        <li>Sobre</li>
+        <li>Produtos</li>
+        <li>Serviços</li>
+        <li>Contato</li>
+      </ul>
+    </p>
+
+    <p>
+      <div :style="{background: corAtual}">COR</div>
+      <button @click="trocarCorAtual" :style='estiloBotao'>Trocar Cor</button>
+    </p>
+  </div>  
+
+  <script src="./vue.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

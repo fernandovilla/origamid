@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <title>0106</title>
+</head>
+<body>
+  <div id="app">
+    
+
+    <div class="shares">
+      <section  >
+        <h2>Company: {{google.companyName}}</h2>
+        <p :class="google.marketCap > apple.marketCap ? 'verde' : 'vermelho'">Market Cap: {{google.marketCap}}</p>
+        <p>Price: {{google.latestPrice}}</p>
+        <p>Time: {{google.latestTime}}</p>
+      </section>
+
+      <section>
+        <h2>Company: {{apple.companyName}}</h2>
+        <p :class="apple.marketCap > google.marketCap ? 'verde' : 'vermelho'">Market Cap: {{apple.marketCap}}</p>
+        <p>Price: {{apple.latestPrice}}</p>
+        <p>Time: {{apple.latestTime}}</p>
+      </section>      
+    </div>
+    <button @click="obterPrecoAcoes()">Ver Preço</button>
+
+
+    
+    <h1>Ações:</h1>
+    <div style="display: flex; align-items: center; justify-content: space-around; border: 1px solid grey; border-radius: 10px; padding: 10px; ">      
+      <section>
+        <ul style="display: block; width: 150px;">
+          <li><a href="https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_e6dda2c62ad7448a919386a5972d6129" @click.prevent="handleClick">Apple</a></li>
+          <li><a href="https://cloud.iexapis.com/stable/stock/googl/quote?token=pk_e6dda2c62ad7448a919386a5972d6129" @click.prevent="handleClick">Google</a><li>
+          <li><a href="https://cloud.iexapis.com/stable/stock/amzn/quote?token=pk_e6dda2c62ad7448a919386a5972d6129" @click.prevent="handleClick">Amazon</a></li>
+          <li><a href="https://cloud.iexapis.com/stable/stock/ebay/quote?token=pk_e6dda2c62ad7448a919386a5972d6129" @click.prevent="handleClick">Ebay</a></li>
+          <li><a href="https://cloud.iexapis.com/stable/stock/pypl/quote?token=pk_e6dda2c62ad7448a919386a5972d6129" @click.prevent="handleClick">Paypal</a></li>
+        </ul>
+        <button @click="reset">Reset</button>
+      </section>
+
+      <section v-if="acao.companyName !== ''" style="display: block; border: 1px dashed grey; border-radius: 10px; width: 400px; height: 200px; margin: 0 auto; padding: 10px;">
+        <h2>Company: {{acao.companyName}}</h2>
+        <p>Price: {{acao.latestPrice}}</p>
+        <p>Marlet Cap: {{acao.marketCap}}</p>
+      </section>
+
+      <section v-else style="display: flex; align-items: center; justify-content: center; border: 1px dashed grey; border-radius: 10px; width: 400px; height: 200px; margin: 0 auto; padding: 10px;">
+        <h1>Clique em uma ação</h1>
+      </section>
+
+      
+    </div>
+      
+    
+    
+  </div> 
+
+  <script src="./vue.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
+
+
