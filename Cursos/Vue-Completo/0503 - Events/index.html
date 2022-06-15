@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>
+      <mybutton @onclickbutton="mostrarmensagemevento" @createdbutton="mostrarmensagemevento"></mybutton>      <br><br>
+
+      <!-- <botao-contador :contador="contadorPai" @update:contador="incrementarpai" /> -->
+      <botao-contador :contador.sync="contadorpai"  />      
+      <p>contadorPai: {{contadorpai}}</p>
+    </p>
+    <hr>
+    <p>
+      <componente-a></componente-a>
+      <componente-b></componente-b>
+    </p>
+    
+  </div>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>

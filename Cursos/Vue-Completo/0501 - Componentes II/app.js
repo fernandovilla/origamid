@@ -8,6 +8,4 @@ app.component('menu-principal', MenuPrincipal)
 app.mount("#app");
 
 
-
-
 export default app;
