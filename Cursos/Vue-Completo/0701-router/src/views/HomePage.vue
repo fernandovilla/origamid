@@ -1,12 +1,13 @@
 <template>
-  <div id="app">default</div>
+  <h1>Home</h1>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'home-page'
 }
 </script>
 
 <style>
+
 </style>
