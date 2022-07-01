@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Curso de JavaScript</h1>
+    <h2>Curso de JavaScript</h2>
     <aulas />
   </div>
 </template>

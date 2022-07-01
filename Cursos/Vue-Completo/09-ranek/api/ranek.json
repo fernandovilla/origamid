@@ -1,0 +1,1350 @@
+{
+  "usuario": [
+    {
+      "id": "fermvilla@gmail.com",
+      "email": "fermvilla@gmail.com",
+      "nome": "Fernando Villa",
+      "senha": "123456",
+      "rua": "Rua dos Crisântemos",
+      "cep": "13612030",
+      "numero": "455",
+      "estado": "SP",
+      "cidade": "Leme"
+    },
+    {
+      "id": "andre@origamid.com",
+      "email": "andre@origamid.com",
+      "nome": "André Rafael",
+      "senha": "123456",
+      "rua": "Rua Ali Perto",
+      "cep": "12345678",
+      "numero": "25",
+      "estado": "RJ",
+      "cidade": "Rio de Janeiro"
+    },
+    {
+      "id": "paulo@gmail.com",
+      "email": "paulo@gmail.com",
+      "nome": "Paulo Sebastião Dos Santos",
+      "senha": "123456",
+      "rua": "Rua Joã Silvério Porto",
+      "cep": "13618321",
+      "numero": "148",
+      "estado": "SP",
+      "cidade": "Araras"
+    },
+    {
+      "id": "maria@gmail.com",
+      "nome": "Maria Fernanda",
+      "email": "maria@gmail.com",
+      "senha": "333",
+      "cep": "13610210",
+      "rua": "Avenida 29 de Agosto",
+      "numero": "989",
+      "bairro": "Centro",
+      "cidade": "Leme",
+      "estado": "SP"
+    },
+    {
+      "id": "ddd@gmail.com",
+      "nome": "ddd",
+      "email": "ddd@gmail.com",
+      "senha": "444",
+      "cep": "",
+      "rua": "",
+      "numero": "",
+      "bairro": "",
+      "cidade": "",
+      "estado": ""
+    }
+  ],
+  "produto": [
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "notebook",
+      "nome": "Computador Notebook",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo notebook.",
+      "fotos": null
+    },
+    {
+      "id": "smartphone",
+      "nome": "Smartphone",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo smartphone.",
+      "fotos": null
+    },
+    {
+      "id": "tablet",
+      "nome": "Tablet",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um novo tablet.",
+      "fotos": null
+    },
+    {
+      "id": "desktop",
+      "nome": "Computador Desktop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop",
+      "fotos": null
+    },
+    {
+      "id": "gamer",
+      "nome": "Computador Desktop Gamer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um computador desktop voltado para gamers",
+      "fotos": null
+    },
+    {
+      "id": "laptop",
+      "nome": "Computador Laptop",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4999",
+      "vendido": "false",
+      "descricao": "Esse é um novo computador laptop.",
+      "fotos": null
+    },
+    {
+      "id": "celular",
+      "nome": "Celular",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1999",
+      "vendido": "false",
+      "descricao": "Esse é um novo celular.",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    },
+    {
+      "id": "palmer",
+      "nome": "Palmer",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "1399",
+      "vendido": "false",
+      "descricao": "Esse é um palmer, já obsoleto",
+      "fotos": null
+    },
+    {
+      "id": "televisao",
+      "nome": "Televisao LG 60\"",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "4000",
+      "vendido": "false",
+      "descricao": "Esse é um aparelho de televisao",
+      "fotos": null
+    },
+    {
+      "id": "playstation",
+      "nome": "Playstation 5",
+      "usuario_id": "fermvilla@gmail.com",
+      "preco": "7000",
+      "vendido": "false",
+      "descricao": "Esse é um console de videogame Sony PlayStation 5",
+      "fotos": null
+    }
+  ]
+}
