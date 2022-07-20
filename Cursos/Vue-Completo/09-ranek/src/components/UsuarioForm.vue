@@ -1,15 +1,17 @@
 <template>
   <section>
-    <h2>Crie a sua conta</h2>
+    
     <form>
-      <label for="nome">Nome</label>
-      <input type="text" id="nome" name="nome" v-model="nome">
+      <div v-if="modtrarDadosLogin" class="usuario">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" v-model="nome">
 
-      <label for="email">E-mail</label>
-      <input type="email" id="email" name="email" v-model="email">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" v-model="email">
 
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" v-model="senha">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" v-model="senha">
+      </div>
 
       <label for="cep">CEP</label>
       <input type="text" id="cep" name="cep" v-model="cep" @keyup="preencherCep">
@@ -62,6 +64,9 @@ export default {
       base: 'usuario',
       mutation: 'UPDATE_USUARIO'
     }),
+    modtrarDadosLogin(){
+      return !this.$store.state.login || this.$route.name === 'usuario-editar';
+    }
     // nome: {
     //   get() { return this.$store.state.usuario.nome },
     //   set(value) { this.$store.commit('UPDATE_USUARIO', { nome: value}) }
@@ -93,11 +98,15 @@ export default {
     margin-bottom: 10px;
   }
 
-  form {
+  form, .usuario {
     display: grid;
     grid-template-columns: 80px 1fr;
     align-items: center;
     text-align: right;
+  }
+
+  .usuario {
+    grid-column: 1 / 3;
   }
 
   label {

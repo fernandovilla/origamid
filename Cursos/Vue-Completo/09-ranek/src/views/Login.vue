@@ -9,39 +9,50 @@
       <input type="password" name="senha" id="senha" v-model="login.senha">
 
       <button class="btn" @click.prevent="logar">Logar</button>
+      <erro-notificacao :erros="erros" />
     </form>
     <p class="recuperar-senha"><a href="/" target="_blank">Esqueceu a senha?</a></p>
 
+    <!-- <h2>Crie a sua conta</h2> -->
     <criar-conta />
 
   </section>
 </template>
 
 <script>
-import { tsExpressionWithTypeArguments } from '@babel/types';
+// import { tsExpressionWithTypeArguments } from '@babel/types';
 import CriarConta from '../components/ContaCriar.vue'
-
 
 export default {
   name: 'login',
   data(){
     return {
+      erros: [],
       login: {
         email: '', 
         senha: ''
-      } 
+      }
     }
   },
   methods: {
     logar(){
-      //this.$store.commit("UPDATE_LOGIN", true); ==> commit() é usado com Mutations
-      this.$store.dispatch('getUsuario', this.login.email);
-      this.$router.push({name: 'usuario'}); //Redireciona para a rota 'usuario'
+      this.erros = [];
+      this.$store.dispatch("logarUsuario", this.login).then(response => {
+        //this.$store.commit("UPDATE_LOGIN", true); ==> commit() é usado com Mutations
+        //this.$store.dispatch('getUsuario', this.login.email);
+        this.$store.dispatch('getUsuario');
+        this.$router.push({name: 'usuario'}); //Redireciona para a rota 'usuario'
+      }).catch(erro => {
+        this.erros.push(erro.response.data.message);
+      });
     }
+  },
+  created(){
+    document.title = "Login"
   },
   components: {
     CriarConta
-  }
+}
 }
 </script>
 

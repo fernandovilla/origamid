@@ -11,7 +11,10 @@
           <h1>{{produto.nome}}</h1>
           <p class="produto-info-preco">{{produtoPreco}}</p>
           <p class="produto-info-descricao">{{produto.descricao}}</p>
-          <button v-if="produto.vendido === 'false'" class="btn">Comprar</button>
+          <transition v-if="produto.vendido === 'false'" mode="out-in">
+            <button v-if="!finalizar" class="btn" @click="finalizar = true">Comprar</button>
+            <finalizar-compra v-else :produto="produto" />
+          </transition>
           <button v-else class="btn" disabled>Produto Vendido</button>
         </div>
       </div>
@@ -21,6 +24,7 @@
 </template>
 
 <script>
+import FinalizarCompra from '@/components/FinalizarCompra.vue';
 import { api } from '@/services/servicesApi.js';
 import { preco } from '../helpers.js'
 
@@ -28,8 +32,12 @@ export default {
   name: 'produto',
   data() {
     return {
-      produto: null
+      produto: null,
+      finalizar:false
     }
+  },
+  components: {
+    FinalizarCompra
   },
   props: ["id"],
   computed: {
@@ -75,6 +83,22 @@ export default {
   .btn {
     margin-top: 60px;
     width: 200px;
+  }
+
+  @media screen and (max-width: 500px) {
+    .produto {
+      grid-template-columns: 1fr;
+    }
+
+    .fotos {
+      /* Muda as fotos para a segunda linha */
+      grid-row: 2;    
+    }    
+
+    .info {
+      /* anula o position: sticky */
+      position: initial;  
+    }
   }
 
 </style>

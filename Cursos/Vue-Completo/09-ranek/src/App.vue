@@ -13,11 +13,22 @@
 <script>
 import TheHeader from './components/TheHeader.vue'
 import TheFooter from './components/TheFooter.vue'
+import {api} from './services/servicesApi.js';
 
 export default {
   name: 'App',
   components: {
-    TheHeader, TheFooter
+    TheHeader,
+    TheFooter
+  },
+  created(){
+    if (window.localStorage.token){
+      api.validateToken().then(() => {
+        this.$store.dispatch('getUsuario');
+      }).catch(error => {
+        window.localStorage.removeItem('token');
+      })
+    }
   }
 }
 </script>
@@ -95,6 +106,7 @@ export default {
     font-size: 1rem;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     margin-bottom: 15px;
+    width: 100%;
   }
 
   input:hover,
