@@ -1,4 +1,4 @@
-﻿using Sistema.Models.Ingredientes;
+﻿using Agendabolo.Core.Ingredientes;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using Sistema.Models.Logs;
+using Agendabolo.Core.Logs;
 
-namespace Sistema.Controllers
+namespace Agendabolo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class IngredientesController : ControllerBase
     {
         [HttpGet]
