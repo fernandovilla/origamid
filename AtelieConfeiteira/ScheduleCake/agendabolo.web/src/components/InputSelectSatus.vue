@@ -2,35 +2,35 @@
   <span class="wrap">
     <label for="id">Situação</label>
     <select name="status" id="status" v-model="selectedValue">
-      <option v-for="(status, index) in statusItens" :key="index" :disabled="status.disabled">
-        {{status.text}}
-      </option>
+      <option value="0" disabled>Selecione</option>
+      <option value="1">Ativo</option>
+      <option value="2">Bloqueado</option>
+      <option value="3">Excluído</option>
     </select>
   </span>
 </template>
 
 <script>
-  const statusValues = [
-    { text: 'Selecione', value: null, disabled: true},
-    { text: 'Ativo', value: 1 },
-    { text: 'Bloqueado', value: 2 },
-    { text: 'Excluído', value: 3 },    
-  ];
 
 export default {
   name:'input-select-status',
   data(){
     return {
-      selectedValue: '',
-      statusItens: statusValues
+      selectedValue: ''
     }
   },
   watch: {
     selectedValue(){
-      //this.selected = this.selectedValue;
+      this.$emit('update:modelValue', this.selectedValue);
+    },
+    selected(){
+      this.selectedValue = this.selected;
     }
   },
-  props: ['selected']
+  props: ['selected'],
+  created(){
+    this.selectedValue = this.selected;
+  }
 }
 </script>
 

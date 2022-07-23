@@ -1,7 +1,7 @@
 <template>
   <span class="wrap">
     <label :for="id">{{display}}</label>
-    <input type="text" :name="id" :id="id" v-model="text" @input="$emit('update:modelValue', this.textValue )" >
+    <input type="text" :name="id" :id="id" v-model="text" :required='this.required !== undefined' >
   </span>
 </template>
 
@@ -13,13 +13,17 @@ export default {
     return {
       text: ''
   }},  
-  props: [ 'id', 'display', 'uppercase' ],
+  props: [ 'id', 'display', 'uppercase', 'required' ],
   computed: {
     textValue(){
       if (this.uppercase !== undefined )
         return this.text.toUpperCase();
       else
         return this.text;
+    }
+  },watch: {
+    text(){
+      this.$emit('update:modelValue', this.textValue);
     }
   }
 }

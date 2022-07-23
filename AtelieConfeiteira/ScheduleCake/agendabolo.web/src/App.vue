@@ -2,7 +2,8 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/fabricante">Fabricante</router-link>
+    <router-link to="/fabricantes">Fabricantes</router-link> |
+    <router-link to="/">Insumos</router-link>
   </nav>
   <router-view/>
 </template>
@@ -65,7 +66,9 @@
 
   @media screen and (max-width: 500px) {
     .content {
-      grid-template-columns: 1fr;
+      /* grid-template-columns: 1fr; */
+      display: flex;
+      flex-direction: column;
     }
   }
 

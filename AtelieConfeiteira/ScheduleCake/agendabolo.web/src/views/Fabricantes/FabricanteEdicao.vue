@@ -1,18 +1,14 @@
 <template>
   <div>
-    <h1>Novo Fabricante</h1>
-    
-    <form>
+    <h1>Novo Fabricante</h1>    
+    <form>      
       <div class="content">
-        <input-text id="name" display="Nome" class="span8" v-model="nome" uppercase />
-        
-        <input-text id="descricao" display="Descrição" class="row2 span8" v-model="descricao"  />
-        <input-select-status class="row3 span2" v-model="status" />
-        <button class="btn primary row5 span2" @click.prevent="incluirFabricante">Confirmar</button>
-      </div>
-
-      <p>Nome:{{nome}}</p>
-      
+        <p v-if="fabricanteModel.id > 0" class="row1"><label for="">Id: {{fabricanteModel.id}}</label></p>          
+        <input-text id="name" display="Nome" class="row2 span8" v-model="fabricanteModel.nome" uppercase required />             
+        <input-text id="descricao" display="Descrição" class="row3 span8" v-model="fabricanteModel.descricao"  />
+        <input-select-status class="row4 span3" v-model="fabricanteModel.status" :selected="fabricanteModel.status" required />
+        <button class="btn primary row6 span2" @click.prevent="incluirFabricante">Confirmar</button>
+      </div>         
     </form>    
   </div>
 </template>
@@ -20,21 +16,29 @@
 <script>
 import InputText from '../../components/InputText.vue'
 import InputSelectStatus from '@/components/InputSelectSatus.vue'
+import { fabricanteAPIService } from '../../services/FabricanteAPIService.js'
 
 export default {
   name: 'fabricante-edicao',  
   data() {
     return { 
-      id: 0,
-      nome: '',
-      descricao: '',
-      status:''
+      fabricanteModel: {
+        id: 0,
+        nome: '',
+        descricao: '',
+        status: 1
       }
+    }
   },
+  props:['fabricante'],
   components: { InputText, InputSelectStatus },
   methods: {
-    incluirFabricante(){
-      console.log("Incluindo fabricante...");
+    async incluirFabricante(){
+      const response = await fabricanteAPIService.incluirFabricante(this.fabricanteModel);
+
+      if (response !== null){
+        alert(`Fabricante incluído com sucesso. ID: ${response.id}`)
+      }
     }
   }
 
@@ -42,6 +46,21 @@ export default {
 </script>
 
 <style scoped>
+  h1{
+    margin: 20px 0;
+  }
+
+  @media screen and (max-width: 500px) {
+    h1{
+      text-align: center;
+    }
+
+    select, button {
+      background: tomato;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
   
 
 
