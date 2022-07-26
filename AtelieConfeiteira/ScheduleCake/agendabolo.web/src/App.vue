@@ -1,14 +1,55 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/fabricantes">Fabricantes</router-link> |
-    <router-link to="/">Insumos</router-link>
-  </nav>
-  <router-view/>
+  <header class="header">
+    <router-link to="/">Home</router-link> |    
+  </header>
+    
+  <div class="main">
+    <menu-lateral class="menu-lateral" />
+    <router-view class="body"/>
+  </div>
 </template>
 
+<script>
+import MenuLateral from './components/MenuLateral.vue'
+
+export default {
+  components: {
+    MenuLateral
+  }
+}
+</script>
+
 <style>
+  .header {
+    background: #1d2327;
+    height: 30px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header a {
+    color: #fff;
+  }
+
+  .main {
+    display: flex;   
+  }
+  
+  .menu-lateral {
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    flex-basis: 160px;
+  }
+
+  .body {
+    padding: 20px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: auto;
+    height: calc(100vh - 30px);
+  }
 
   * {
     box-sizing: border-box;
@@ -16,6 +57,7 @@
 
   #app {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 0.853rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -33,7 +75,8 @@
   }
 
   body {        
-    background: url('./assets/pattern.svg') repeat top;
+    /* background: url('./assets/pattern.svg') repeat top; */
+    background-color: #f0f0f1;
   }
 
   body, ul, li, h1, h2, p {
@@ -41,7 +84,37 @@
     margin: 0px;
   }
 
+  label, input {
+    width: 100%;
+    text-align: start;
+    font-size: 0.85rem;
+  }
+
+  input {
+    border: none;
+    border-bottom: 1px solid #8c8f94;    
+    line-height: 20px;    
+    padding: 5px 5px;
+    text-transform: uppercase;
+    /* transition: border-bottom 0.1s;     */
+    margin-bottom: 2px;
+    outline: none;    
+  }
+
+  input:active, input:focus {
+    /*border-bottom: 2px solid #2271b1;*/
+    /* box-shadow: 0px 0px 0px 1px red inset; */
+    /* outline: 2px solid red;
+    outline-offset: -10px; */
+    border-bottom: 2px solid #2271b1;
+    margin-bottom: 1px;
+    background: #f0f0f1;
+  }
   
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
 
   ul {
     list-style: none;
@@ -60,8 +133,7 @@
     display: grid;
     grid-template-columns: repeat(12,1fr);
     grid-gap: 10px;
-    padding: 10px;
-    width: 100%;
+    max-width: 1200px;
   }
 
   @media screen and (max-width: 500px) {
@@ -69,6 +141,10 @@
       /* grid-template-columns: 1fr; */
       display: flex;
       flex-direction: column;
+    }
+
+    .menu-lateral {
+      display: none;
     }
   }
 

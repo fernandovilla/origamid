@@ -21,7 +21,7 @@ export default {
   },
   watch: {
     selectedValue(){
-      this.$emit('update:modelValue', this.selectedValue);
+      this.$emit('update:modelValue', +this.selectedValue);
     },
     selected(){
       this.selectedValue = this.selected;

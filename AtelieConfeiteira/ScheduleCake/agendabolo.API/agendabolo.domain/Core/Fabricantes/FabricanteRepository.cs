@@ -26,9 +26,10 @@ namespace Agendabolo.Core.Fabricantes
         public ulong Insert(Fabricante fabricante)
         {
             var sql =
-                "INSERT INTO fabricantes (nome, status) VALUES (" +
+                "INSERT INTO fabricantes (nome, status, descricao) VALUES (" +
                 $"{fabricante.Nome.ToSql()}, " +
-                $"{fabricante.Status.ToSql()});";
+                $"{fabricante.Status.ToSql()}, " +
+                $"{fabricante.Descricao.ToSql()});";
             var id = _databaseContext.ExecuteReturningId(sql);
 
             if (id != null)
@@ -37,9 +38,19 @@ namespace Agendabolo.Core.Fabricantes
             return 0u;
         }
 
+        public void Update(Fabricante fabricante)
+        {
+            var sql = "UPDATE fabricantes SET " +
+                $"nome = {fabricante.Nome.ToSql()}, " +
+                $"status = {fabricante.Status.ToSql()}, " +
+                $"descricao = {fabricante.Descricao.ToSql()} " +
+                $"WHERE id = {fabricante.Id};";
+            _databaseContext.ExecuteScalar(sql);
+        }
+
         public Fabricante Select(ulong id)
         {
-            var sql = $"SELECT id, nome, status FROM fabricantes WHERE id = {id.ToSql()};";
+            var sql = $"SELECT id, nome, descricao, status FROM fabricantes WHERE id = {id.ToSql()};";
             using (var cmd = _databaseContext.CreateCommand(sql))
             using (var reader = cmd.ExecuteReader())
             {
@@ -49,6 +60,7 @@ namespace Agendabolo.Core.Fabricantes
                     {
                         Id = reader.GetUInt32("id"),
                         Nome = reader.GetString("nome"),
+                        Descricao = reader.GetString("descricao"),
                         Status = reader.GetEnum<StatusCadastro>("status")
                     };
                 }
@@ -59,7 +71,7 @@ namespace Agendabolo.Core.Fabricantes
 
         public IEnumerable<Fabricante> SelectAll()
         {
-            var sql = "SELECT id, nome, status FROM fabricantes ORDER BY nome;";
+            var sql = "SELECT id, nome, descricao, status FROM fabricantes ORDER BY nome;";
             using (var cmd = _databaseContext.CreateCommand(sql))
             using (var reader = cmd.ExecuteReader())
             {
@@ -69,15 +81,13 @@ namespace Agendabolo.Core.Fabricantes
                     {
                         Id = reader.GetUInt64("id"),
                         Nome = reader.GetString("nome"),
+                        Descricao = reader.GetString("descricao"),
                         Status = reader.GetEnum<StatusCadastro>("status")
                     };
                 }
             }
         }
 
-        public void Update(Fabricante entity)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

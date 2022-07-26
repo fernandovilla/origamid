@@ -7,15 +7,27 @@ const routes = [
     name: 'home',
     component: HomeView,
   },
-  {
-    path: '/fabricante',
-    name: 'fabricante',
-    component: () => import('../views/Fabricantes/FabricanteEdicao.vue'),
-  },
+
   {
     path: '/fabricantes',
     name: 'fabricantes',
     component: () => import('../views/Fabricantes/FabricanteLista.vue'),
+  },
+  {
+    path: '/fabricante',
+    name: 'fabricante-inclusao',
+    component: () => import('../views/Fabricantes/FabricanteEdicao.vue'),
+  },
+  {
+    path: '/fabricante/:id',
+    name: 'fabricante-edicao',
+    component: () => import('../views/Fabricantes/FabricanteEdicao.vue'),
+    props: true,
+  },
+  {
+    path: '/insumos',
+    name: 'insumos',
+    component: () => import('../views/Insumos/InsumosLista.vue'),
   },
   {
     path: '/about',

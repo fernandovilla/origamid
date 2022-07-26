@@ -1,10 +1,10 @@
 <template>
-  <h1>Insumos - Edição</h1>
+  <h1>Insumos</h1>
 </template>
 
 <script>
 export default {
-
+  name: 'insumos-lista'
 }
 </script>
 
