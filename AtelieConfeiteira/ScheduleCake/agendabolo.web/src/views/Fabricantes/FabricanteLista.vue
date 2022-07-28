@@ -1,8 +1,8 @@
 <template>
   <span class="wrap">
-    <div class="headerX">
+    <div class="header-page">
       <h1>Fabricantes</h1>
-      <router-link class="button-adicionar" to="/fabricante">Adicionar Novo</router-link>
+      <router-link class="btn-outline-primary" to="/fabricante">Adicionar Novo</router-link>
     </div>
     <div class="content">      
       <table v-if="this.fabricantes !== null" class="table-data">
@@ -94,40 +94,12 @@ export default {
 </script>
 
 <style scoped>
-
-  .wrap {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .headerX {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-bottom: 20px; 
-  }
+  @import '../../styles/table-data.css';
 
   .content {
     overflow: auto;
   }
 
-  .button-adicionar {
-    border: 1px solid #2271b1;
-    color: #2271b1;
-    border-radius: 4px;
-    background: #fff;
-    margin-left: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-
-  }
-
-  .button-adicionar:hover {
-    background-color: #f0f0f1;   
-  }
-
-
-  
   .btn-action {
     background-size: 24px;
     padding: 15px;
@@ -147,65 +119,8 @@ export default {
   }
 
   .btn-action:hover {
-    background-color: #f0f0f1;    
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
-  }
-
-  .table-data {    
-    grid-column: 1 / 13;
-    display: table;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 1px solid #c3c4c7;    
-    box-sizing: border-box;       
-    width: 100%;     
-    height: 100%;
-  }
-
-  .table-data thead {    
-    display: table-header-group;    
-    vertical-align: middle;            
-    font-weight: 100;
-    width: 100%;
-    height: 35px;
-  }
-
-  .table-data thead tr {    
-    background: #fff;     
-    display: table-row;
-    vertical-align: middle;
-    border-bottom: 1px solid #c3c4c7; 
-  }
-
-  .table-data tbody {
-    display: table-row-group;
-    border-spacing: 0;
-    background: #f6f7f7;    
-  }
-
-  .table-data tbody td {
-    padding: 0px    
-  }
-
-  .table-data tbody tr {
-    line-height: 40px;
-  }
-
-  .table-data tbody tr:nth-child(even) {
-    background: white;
-  }
-
-  .table-data tfoot {
-    border-top: 1px solid #c3c4c7;
-    display: table-footer-group;
-    height: 35px;    
-    width: 100%;   
-    background: #fff;
-  }
-
-  .table-data tfoot td {
-    width: 100%;
-    height: 100%;
+    background-color: var(--background-color-light);
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
   }
 
   .table-data .h-nome {
@@ -220,7 +135,7 @@ export default {
   }
 
   .table-data .b-nome a {
-    color: #2271b1;
+    color: var(--text-color-blue);
   }
 
   .table-data .b-actions {

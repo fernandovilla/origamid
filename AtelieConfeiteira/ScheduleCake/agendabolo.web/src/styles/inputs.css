@@ -1,0 +1,31 @@
+input {
+  border: none;
+  border-bottom: 1px solid var(--border-color-input);    
+  line-height: 20px;    
+  padding: 5px 0px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  outline: none;    
+}
+
+
+input:active, input:focus {
+  border-bottom: 2px solid var(--border-color-input-focus);
+  margin-bottom: 1px;
+  /* background: #f0f0f1; */
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label{
+  font-size: 0.753rem;
+
+}
+
+
+.input-group:focus-within label {
+  color: var(--border-color-input-focus);
+}

@@ -1,0 +1,17 @@
+:root {
+  --background-color-body: #f0f0f1;
+  --background-color-dark: #1d2327;
+  --background-color-light: #f0f0f1;
+  --background-color-light2: #e0e0e0;
+  --background-color-white: #fff;
+  --background-color-blue: #2271b1;
+
+  --text-color-white: #fff;
+  --text-color-blue: #2271b1;
+  --text-color-dark: #1d2327;
+
+  --border-color-blue: #2271b1;
+  --border-color-light: #c3c4c7;
+  --border-color-input: #8c8f94;
+  --border-color-input-focus: #2271b1;
+}

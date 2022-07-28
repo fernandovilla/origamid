@@ -1,5 +1,5 @@
 <template>
-  <span class="wrap">
+  <span class="wrap select-group">
     <label for="id">Situação</label>
     <select name="status" id="status" v-model="selectedValue">
       <option value="0" disabled>Selecione</option>
@@ -13,7 +13,7 @@
 <script>
 
 export default {
-  name:'input-select-status',
+  name:'select-status',
   data(){
     return {
       selectedValue: ''
@@ -40,7 +40,11 @@ export default {
     flex-direction: column;
   }
 
-  label, select {
+  label {
+    font-size: 0.753rem;
+  }
+  
+  select {
     width: 100%;
     text-align: start;
     font-size: 0.85rem;
@@ -48,16 +52,27 @@ export default {
 
   select {
     border: none;
-    border-bottom: 1px solid #8c8f94;
+    border-bottom: 1px solid var(--border-color-input);
     outline: none ;
     padding: 5px;
+    margin-bottom: 2px;
+    height: 31px;
   }
 
-  select:focus, select:active {
-    border-bottom: 1px solid #2271b1;
-    background: #f2f2f2;
+  select:focus, 
+  select:active {
+    border-bottom: 2px solid var(--border-color-input-focus);
+    margin-bottom: 1px;
+    /* background: var(--background-color-light); */
+  }
+
+  .select-group:focus-within label {
+    color: var(--border-color-input-focus);
   }
   
+  option {
+    line-height: 20px;
+  }
 
 
 
