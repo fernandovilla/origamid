@@ -10,12 +10,6 @@
         <input-base type="text" id="nome" required v-model="insumo.nome" />        
       </div>
 
-      <div class="input-group row2 span10">
-        <label for="fabricante">Fabricante</label>
-        <select name="" id="fabricante" v-model="insumo.fabricanteId" >
-        </select>
-      </div>
-
       <div class="input-group row3 span3">
         <label for="precoCusto">Preço Custo</label>
         <input-currency id="precoCusto" placeholder='R$ 0,00' v-model="insumo.preco" />
@@ -27,22 +21,10 @@
 </template>
 
 <script>
-// import InputCurrency from '@/components/InputCurrency.vue';
+
 import InputBase from '@/components/InputBase.vue';
 import InputCurrency from '@/components/InputCurrency.vue';
 import SelectStatus from '../../components/SelectSatus.vue';
-
-// const inputPrice = Array.from(document.querySelectorAll('input.price'));
-// console.log("inputPrice", inputPrice);
-// inputPrice.map(i => {    
-//   console.log("OK");
-//   i.addEventListener('keyup', setPriceNumber)
-// });
-
-// const setPriceNumber = ({target}) => {
-//   console.log(target);
-// }
-
 
 export default {
     name: "insumo-edicao",

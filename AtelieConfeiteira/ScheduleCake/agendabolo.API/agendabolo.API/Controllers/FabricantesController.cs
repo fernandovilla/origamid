@@ -9,7 +9,7 @@ namespace Agendabolo.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class FabricanteController : ControllerBase
+    public class FabricantesController : ControllerBase
     {
         [HttpGet]
         public IActionResult get()

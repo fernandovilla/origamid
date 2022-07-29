@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Agendabolo.Core.Ingredientes
+namespace Agendabolo.Core.Insumos
 {
-    public class IngredienteService
+    public class InsumoService
     {
-        public IEnumerable<Ingrediente> Select()
+        public IEnumerable<Insumo> Select()
         {
             using(var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
             {
@@ -18,7 +18,7 @@ namespace Agendabolo.Core.Ingredientes
             }
         }
         
-        public Ingrediente Select(ulong id) 
+        public Insumo Select(ulong id) 
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Agendabolo.Core.Ingredientes
             return null;        
         }
 
-        public Tuple<bool, Ingrediente> Save(Ingrediente ingrediente)
+        public Tuple<bool, Insumo> Save(Insumo ingrediente)
         {
             try
             {

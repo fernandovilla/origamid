@@ -4,7 +4,7 @@ import LogErro from '../helpers/LogErro.js';
 export const fabricanteAPIService = {
   async obterFabricante(id) {
     try {
-      const response = await api.get(`/fabricante/${id}`);
+      const response = await api.get(`/fabricantes/${id}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -17,7 +17,7 @@ export const fabricanteAPIService = {
   },
   async obterFabricantes() {
     try {
-      const response = await api.get('/fabricante');
+      const response = await api.get('/fabricantes');
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -30,7 +30,7 @@ export const fabricanteAPIService = {
   },
   async incluirFabricante(fabricante) {
     try {
-      const response = await api.post('/fabricante', fabricante);
+      const response = await api.post('/fabricantes', fabricante);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -43,7 +43,7 @@ export const fabricanteAPIService = {
   },
   async atualizarFabricante(fabricante) {
     try {
-      const response = await api.put('/fabricante', fabricante);
+      const response = await api.put('/fabricantes', fabricante);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -56,7 +56,7 @@ export const fabricanteAPIService = {
   },
   async deletarFabricante(id) {
     try {
-      const response = await api.delete(`/fabricante/${id}`);
+      const response = await api.delete(`/fabricantes/${id}`);
 
       if (response.statusText === 'OK') {
         return true;

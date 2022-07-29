@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Agendabolo.Core.Ingredientes
+namespace Agendabolo.Core.Insumos
 {
-    public class Ingrediente
+    public class Insumo
     {
         public ulong Id { get; set; }
         public string Nome { get; set; }
-        public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
         public decimal PrecoCusto { get; set; }
-        public Fabricante Fabricante { get; set; }
+        public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
     }
 }

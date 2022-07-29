@@ -1,5 +1,5 @@
 ﻿using Agendabolo.Core.Fabricantes;
-using Agendabolo.Core.Ingredientes;
+using Agendabolo.Core.Insumos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +9,13 @@ namespace Agendabolo.Data
 {
     public partial class UnitOfWork
     {
-        private IngredienteRepository _ingredienteRepository;
+        private InsumoRepository _ingredienteRepository;
         private FabricanteRepository _fabricanteRepository;
 
 
-        public IngredienteRepository GetIngredienteRepository()
+        public InsumoRepository GetIngredienteRepository()
         {
-            return _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_databaseContext));
+            return _ingredienteRepository ?? (_ingredienteRepository = new InsumoRepository(_databaseContext));
         }
 
         public FabricanteRepository GetFabricanteRepository()

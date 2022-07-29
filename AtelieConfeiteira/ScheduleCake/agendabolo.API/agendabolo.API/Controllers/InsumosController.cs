@@ -1,30 +1,27 @@
-﻿using Agendabolo.Core.Ingredientes;
-using Microsoft.AspNetCore.Cors;
+﻿using Agendabolo.Core.Insumos;
+using Agendabolo.Core.Logs;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using Agendabolo.Core.Logs;
 
 namespace Agendabolo.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class IngredienteController : ControllerBase
+    public class InsumosController : ControllerBase
     {
         [HttpGet]
         public IActionResult get()
         {
             try
             {
-                var service = new IngredienteService();
+                var service = new InsumoService();
 
-                var ingredientes = service.Select();
+                var insumos = service.Select();
 
-                if (ingredientes != null && ingredientes.Any())
-                    return Ok(ingredientes);
+                if (insumos != null && insumos.Any())
+                    return Ok(insumos);
 
                 return NoContent();
             }
@@ -40,7 +37,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var service = new IngredienteService();
+                var service = new InsumoService();
 
                 var ingrediente = service.Select(id);
 
@@ -58,14 +55,14 @@ namespace Agendabolo.Controllers
 
 
         [HttpPost]
-        public IActionResult post(IngredienteRequest ingrediente)
+        public IActionResult post(InsumoRequest insumo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var service = new IngredienteService();
-                    var result = service.Save(ingrediente);
+                    var service = new InsumoService();
+                    var result = service.Save(insumo);
 
                     if (result.Item1)
                         return Ok(result.Item2);
@@ -83,5 +80,21 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpPut]
+        public IActionResult put(InsumoRequest insumo)
+        {
+            return BadRequest();
+        }
+
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult delete(ulong id)
+        {
+            return BadRequest();
+        }
+
+
     }
 }

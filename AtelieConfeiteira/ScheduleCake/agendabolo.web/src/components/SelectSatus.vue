@@ -54,7 +54,8 @@ export default {
     border: none;
     border-bottom: 1px solid var(--border-color-input);
     outline: none ;
-    padding: 5px;
+    padding: 5px 0px;
+    margin-left: 0;
     margin-bottom: 2px;
     height: 31px;
   }
@@ -63,11 +64,11 @@ export default {
   select:active {
     border-bottom: 2px solid var(--border-color-input-focus);
     margin-bottom: 1px;
-    /* background: var(--background-color-light); */
   }
 
   .select-group:focus-within label {
     color: var(--border-color-input-focus);
+    padding: 0;
   }
   
   option {
