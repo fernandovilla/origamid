@@ -18,14 +18,18 @@
             <td class="b-nome"><router-link :to="{name: 'fabricante-edicao', params: {id: fabricante.id}}" >{{nomeLongo(fabricante.nome)}}</router-link></td>
             <td class="b-status">{{this.descricaoStatus(fabricante.status)}}</td>
             <td class="b-actions">
-              <button class="btn-action editar" @click="editarFabricante(fabricante)" />
-              <button class="btn-action delete" @click="deletarFabricante(fabricante)" />
+              <button class="btn-action editar" @click="editarFabricante(fabricante)">
+                <img src="@/assets/edit-white.svg" alt="editar">
+              </button>
+              <button class="btn-action delete" @click="deletarFabricante(fabricante)">
+                <img src="@/assets/delete-white.svg" alt="deletar">
+              </button>
             </td>          
           </tr>
         </tbody>
         <tfoot >
           <td colspan="3">
-            <p>páginas...</p>            
+            <p>páginas...</p>
           </td>          
         </tfoot>
       </table>
@@ -101,25 +105,33 @@ export default {
   }
 
   .btn-action {
-    background-size: 24px;
-    padding: 15px;
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
+    padding: 2px;
     cursor: pointer;
     border: none;
+    margin-right: 2px;
+  }
+
+  .btn-action img {    
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    text-align: center;    
   }
 
   .btn-action.editar {
-    background: url('../../assets/edit-blue.svg') no-repeat center;    
+    background: var(--background-color-blue);
   }
 
   .btn-action.delete {
-    background: url('../../assets/delete-red.svg') no-repeat center;
+    background: var(--background-color-red);
   }
 
   .btn-action:hover {
-    background-color: var(--background-color-light);
+    /* background-color: var(--background-color-light); */
+    opacity: 0.8;
     box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
   }
 
@@ -146,5 +158,13 @@ export default {
     padding: 5px;
   }
 
+  @media screen and (max-width: 500px) {
+      
+    .btn-action.editar, 
+    .h-status, 
+    .b-status {
+      display: none;
+    }
+  }
 
 </style>>

@@ -29,12 +29,26 @@ export const insumosAPIService = {
     }
   },
   async incluirInsumo(insumo) {
-    return null;
+    console.log('InsumosApiService.incluirInsumo()', insumo);
+
+    return { ...insumo, id: 1 };
+
+    // try {
+    //   const response = await api.post('/insumos', insumo);
+
+    //   if (response.statusText === 'OK') {
+    //     return response.data;
+    //   } else {
+    //     return null;
+    //   }
+    // } catch (error) {
+    //   LogErro(error, 'Ocorreu erro incluindo insumo');
+    // }
   },
   async atualizarInsumo(insumo) {
-    return null;
+    console.log('InsumosApiService.atualizarInsumo()', insumo);
   },
   async deleteInsumo(id) {
-    return null;
+    console.log('InsumosApiService.deletarInsumo()', id);
   },
 };

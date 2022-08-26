@@ -18,15 +18,16 @@
 
       <select-status class="row4 span3" v-model="fabricanteModel.status" :selected="fabricanteModel.status" required />
 
-
-      <div class="buttons row6 span12">
-        <button v-if="fabricanteModel.id === 0" class="btn btn-primary" @click.prevent="incluirFabricante">Incluir</button>
-        <button v-else class="btn btn-primary" @click.prevent="alterarFabricante">Alterar</button>
-        <router-link to="/fabricantes" class="btn btn-normal">Voltar</router-link>
-      </div>
-
-      <span v-if="menssagemSucesso" class="incluido row6 span3">{{mensagem}}</span>
+      
     </form>    
+
+    <div class="buttons row6 span12">
+      <button v-if="fabricanteModel.id === 0" class="btn btn-primary" @click.prevent="incluirFabricante">Incluir</button>
+      <button v-else class="btn btn-primary" @click.prevent="alterarFabricante">Alterar</button>
+      <router-link to="/fabricantes" class="btn btn-normal">Voltar</router-link>
+      <span v-if="menssagemSucesso" class="incluido row6 span3">{{mensagem}}</span>
+    </div>
+
   </div>
 </template>
 
@@ -62,10 +63,8 @@ export default {
   },
   methods: {
     async incluirFabricante(){
-
-        console.log("fabricante", this.fabricante);
-
-       const response = await fabricanteAPIService.incluirFabricante(this.fabricante);
+      
+      const response = await fabricanteAPIService.incluirFabricante(this.fabricante);
        
       if (response !== null){
         this.fabricanteModel = response;
@@ -121,11 +120,12 @@ export default {
   form {
     border: 1px solid var(--border-color-light);
     background: var(--background-color-white);
-    padding: 10px 20px;    
+    padding: 10px 20px;
   }
 
   .buttons {
     display: flex;
+    margin-top: 10px;
   }
 
   .incluido {
@@ -137,9 +137,13 @@ export default {
 
   @media screen and (max-width: 500px) {
     
+    .buttons {
+      align-items: center;
+      justify-content: center
+    }
 
     select, button {
-      width: 100%;
+      /* width: 100%; */
       max-width: 100%;
     }
   }

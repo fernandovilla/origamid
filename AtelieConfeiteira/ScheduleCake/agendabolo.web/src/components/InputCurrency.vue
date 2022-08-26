@@ -1,5 +1,5 @@
 <template>
-  <input-base type="text" :value="modelValue" @input="updateValue"  />  
+  <input-base type="text"  :value="internalValue" step="0.01" @keypress="handleKeyPress" @change="handleChange" @input="handleInput"  />  
 </template>
 
 <script>
@@ -7,34 +7,73 @@ import InputBase from '@/components/InputBase.vue';
 
 export default {
   name:'input-currency',
+  data() {
+    return {
+      internalValue: ""
+    }
+  },
   components: {
     InputBase
   }, 
   props: {
-    modelValue: [String, Number]
+    modelValue: { type: [String, Number], default: '0,00' },
+    decimalCases: { type: Number, default: 2 }
+  },
+  computed: {
+    numericValue: {
+      get() {
+        if (this.internalValue.length > 0){
+          return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
+        } else {
+          return "0,00";
+        }
+      },
+      set(newValue) {
+        console.log("Set", newValue);
+
+        newValue = newValue.replace(',','.');
+        newValue = parseFloat(newValue).toFixed(this.decimalCases).replace('.',',');
+
+        this.internalValue = newValue;
+      }
+    }
   },
   methods: {
-    updateValue(event){
-
-      // var formatter = new Intl.NumberFormat('pt-BR', {
-      //     style: 'currency',
-      //     currency: 'BRL'
-      // });
-
-      var regex = /^\s*(?:[1-9]\d{0,2}(?:\.\d{3})*|0),\d{2}$/;
-      console.log("regex:", regex.test(event.target.value));
-
-      if (regex.test(event.target.value))
-      {
-        console.log("OK", event.target.value);                
-      } else {
-        console.log("ERRO", event.target.value);
+    handleKeyPress(event){
+     if (event.key === '.') {
+        event.preventDefault();
+        return false;
       }
-        
 
-      this.$emit('update:modelValue', event.target.value);
+      var value = document.getElementById('valor2').value;
+
+      if (event.key ===',' && value.includes(',')) {
+          event.preventDefault();
+          return false;
+      }
+
+      if (value.includes(',')){
+        var index = value.indexOf(',');
+        
+        if ((value.length - index) > this.decimalCases){
+          event.preventDefault();
+          return false;
+        }
+      }
+    },    
+
+    handleChange(event){
+      event.target.value = this.numericValue;
+    },
+
+    handleInput(){
+      this.$emit('update:modelValue', this.numericValue);
     }
+  },
+  created() {
+    this.numericValue = this.modelValue;
   }
+  
 
 }
 </script>
