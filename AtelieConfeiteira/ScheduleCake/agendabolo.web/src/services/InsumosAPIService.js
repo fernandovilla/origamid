@@ -29,21 +29,20 @@ export const insumosAPIService = {
     }
   },
   async incluirInsumo(insumo) {
-    console.log('InsumosApiService.incluirInsumo()', insumo);
+    //console.log('InsumosApiService.incluirInsumo()', insumo);
+    // return { ...insumo, id: 1 };
 
-    return { ...insumo, id: 1 };
+    try {
+      const response = await api.post('/insumos', insumo);
 
-    // try {
-    //   const response = await api.post('/insumos', insumo);
-
-    //   if (response.statusText === 'OK') {
-    //     return response.data;
-    //   } else {
-    //     return null;
-    //   }
-    // } catch (error) {
-    //   LogErro(error, 'Ocorreu erro incluindo insumo');
-    // }
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro incluindo insumo');
+    }
   },
   async atualizarInsumo(insumo) {
     console.log('InsumosApiService.atualizarInsumo()', insumo);

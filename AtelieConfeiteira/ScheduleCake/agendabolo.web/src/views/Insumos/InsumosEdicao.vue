@@ -56,7 +56,6 @@ export default {
     },
     computed: {
       precoInsumo() {
-
         if (this.insumo.preco === undefined || this.insumo.preco === null)
           return 0.00;
 
@@ -68,9 +67,8 @@ export default {
 
         const insumoInclusao = {
           nome: this.insumo.nome, 
-          preco: this.precoInsumo,
-          status: this.insumo.status
-          
+          precoCusto: this.precoInsumo,
+          status: this.insumo.status          
         }
 
         const response = await insumosAPIService.incluirInsumo(insumoInclusao);

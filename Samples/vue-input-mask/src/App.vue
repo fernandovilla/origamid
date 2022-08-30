@@ -28,15 +28,16 @@ export default {
     handleChange(event){
       event.target.value = this.valorNumerico;
     },
+
     handleKeyPress(event){
       if (event.key === '.') {
         event.preventDefault();
         return false;
       }
 
-      var value = document.getElementById('valor2').value;
+      var value = event.target.value;
 
-      if (event.key ===',' && value.includes(',')) {
+      if (event.key === ',' && value.includes(',')) {
           event.preventDefault();
           return false;
       }
@@ -49,10 +50,9 @@ export default {
           return false;
         }
       }
-
-    }
-    
-  }, computed: {
+    }  
+  }, 
+  computed: {
       valorNumerico(){
         console.log("valorNumerico");
         if (this.valor.length > 0){

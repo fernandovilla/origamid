@@ -1,5 +1,7 @@
 <template>
-  <input-base type="text"  :value="internalValue" step="0.01" @keypress="handleKeyPress" @change="handleChange" @input="handleInput"  />  
+  <div>
+    <input-base type="text" id="inputCurrency"  :value="internalValue" step="0.01" @keypress="handleKeyPress" @change="handleChange" @focus="handleFocus" @focusout="handleFocusOut" />  
+  </div>
 </template>
 
 <script>
@@ -9,7 +11,7 @@ export default {
   name:'input-currency',
   data() {
     return {
-      internalValue: ""
+      internalValue: ''
     }
   },
   components: {
@@ -20,42 +22,36 @@ export default {
     decimalCases: { type: Number, default: 2 }
   },
   computed: {
-    numericValue: {
-      get() {
-        if (this.internalValue.length > 0){
-          return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
-        } else {
-          return "0,00";
-        }
-      },
-      set(newValue) {
-        console.log("Set", newValue);
+    numericValue() {
+      if (this.internalValue === null)
+        return '';
 
-        newValue = newValue.replace(',','.');
-        newValue = parseFloat(newValue).toFixed(this.decimalCases).replace('.',',');
-
-        this.internalValue = newValue;
+      if (this.internalValue.length > 0){
+        return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
+      } else {
+        return "0,00";
       }
     }
   },
   methods: {
     handleKeyPress(event){
+
      if (event.key === '.') {
         event.preventDefault();
         return false;
       }
 
-      var value = document.getElementById('valor2').value;
+      var input = event.target;
 
-      if (event.key ===',' && value.includes(',')) {
+      if (event.key ===',' && input.value.includes(',')) {
           event.preventDefault();
           return false;
       }
 
-      if (value.includes(',')){
-        var index = value.indexOf(',');
+      if (input.value.includes(',')){
+        var index = input.value.indexOf(',');
         
-        if ((value.length - index) > this.decimalCases){
+        if ((input.value.length - index) > this.decimalCases){
           event.preventDefault();
           return false;
         }
@@ -63,15 +59,20 @@ export default {
     },    
 
     handleChange(event){
-      event.target.value = this.numericValue;
+      this.internalValue = event.target.value;
+    },
+    
+    handleFocus(event){
+      event.target.select();
     },
 
-    handleInput(){
+    handleFocusOut(event){
+      event.target.value = this.numericValue;
       this.$emit('update:modelValue', this.numericValue);
     }
   },
   created() {
-    this.numericValue = this.modelValue;
+    this.internalValue = this.modelValue;
   }
   
 
