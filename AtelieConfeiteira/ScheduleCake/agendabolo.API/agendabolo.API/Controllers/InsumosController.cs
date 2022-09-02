@@ -1,9 +1,12 @@
 ﻿using Agendabolo.Core.Insumos;
 using Agendabolo.Core.Logs;
+using Agendabolo.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Agendabolo.Controllers
 {
@@ -11,17 +14,38 @@ namespace Agendabolo.Controllers
     [Route("api/v1/[controller]")]
     public class InsumosController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult get()
+        private readonly ApplicationDbContext _context;
+        private readonly InsumoService _service;
+
+        public InsumosController([FromServices] ApplicationDbContext context)
         {
+            _context = context;
+            _service = new InsumoService(context);
+        }
+
+
+        [HttpGet]
+        public IActionResult get([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        {
+            if (take > 500)
+                return BadRequest("Max take is 500");
+
             try
             {
-                var service = new InsumoService();
+                var total = _service.GetTotal();
 
-                var insumos = service.Select();
+                var insumos = _service.Get()
+                        .ToList()
+                        .Skip(skip)
+                        .Take(take);
+
 
                 if (insumos != null && insumos.Any())
-                    return Ok(insumos);
+                    return Ok(new
+                    {
+                        total,
+                        data = insumos
+                    });
 
                 return NoContent();
             }
@@ -37,14 +61,12 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var service = new InsumoService();
-
-                var ingrediente = service.Select(id);
+                var ingrediente = _service.GetById(id);
 
                 if (ingrediente != null)
                     return Ok(ingrediente);
 
-                return NoContent();
+                return NotFound("Insumo not found");
             }
             catch (Exception ex)
             {
@@ -61,11 +83,10 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var service = new InsumoService();
-                    var result = service.Save(insumo);
+                    (bool ok, Insumo result) = _service.Save(insumo);
 
-                    if (result.Item1)
-                        return Ok(result.Item2);
+                    if (ok)
+                        return Ok(result);
                     else
                         return BadRequest();
                 }
@@ -84,7 +105,27 @@ namespace Agendabolo.Controllers
         [HttpPut]
         public IActionResult put(InsumoRequest insumo)
         {
-            return BadRequest();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    (bool ok, Insumo result) = _service.Save(insumo);
+
+                    if (ok)
+                        return Ok(result);
+                    else
+                        return BadRequest();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
 
@@ -92,7 +133,23 @@ namespace Agendabolo.Controllers
         [Route("{id}")]
         public IActionResult delete(ulong id)
         {
-            return BadRequest();
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Invalid id");
+
+                var ok = _service.Delete(id);
+
+                if (ok)
+                    return Ok();
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
 

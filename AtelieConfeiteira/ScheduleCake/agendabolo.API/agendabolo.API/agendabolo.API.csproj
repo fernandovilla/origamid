@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\agendabolo.domain\agendabolo.domain.csproj" />
+    <ProjectReference Include="..\agendabolo.domain\Agendabolo.Domain.csproj" />
   </ItemGroup>
 
 </Project>

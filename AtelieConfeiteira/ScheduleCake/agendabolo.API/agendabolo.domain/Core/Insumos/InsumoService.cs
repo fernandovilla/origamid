@@ -1,33 +1,42 @@
-﻿using Agendabolo.Data;
-using Agendabolo.Core.Logs;
+﻿using Agendabolo.Core.Logs;
+using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Insumos
 {
     public class InsumoService
     {
-        public IEnumerable<Insumo> Select()
+        private readonly ApplicationDbContext _context;
+
+        public InsumoService(ApplicationDbContext context)
         {
-            using(var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+            _context = context;
+        }
+
+        public int GetTotal()
+        {
+            using (var unit = new UnitOfWork(_context))
             {
-                return unit.GetIngredienteRepository().SelectAll().ToList();
+                return unit.InsumosRepository.Count();
+            }
+        }
+
+        public IEnumerable<Insumo> Get()
+        {
+            using (var unit = new UnitOfWork(_context))
+            {
+                return unit.InsumosRepository.Get();
             }
         }
         
-        public Insumo Select(ulong id) 
+        public Insumo GetById(ulong id) 
         {
             try
             {
-                if (id == 0)
-                    throw new ArgumentException("Invalid Id");
-
-                using(var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+                using (var unit = new UnitOfWork(_context))
                 {
-                    return unit.GetIngredienteRepository().Select(id);
+                    return unit.InsumosRepository.GetByID(id);
                 }
             }
             catch (Exception ex)
@@ -38,50 +47,40 @@ namespace Agendabolo.Core.Insumos
             return null;        
         }
 
-        public Tuple<bool, Insumo> Save(Insumo ingrediente)
+        public (bool, Insumo) Save(Insumo insumo)
         {
             try
             {
-                if (ingrediente == null)
-                    throw new ArgumentNullException("Ingrediente inválido");
-
-
-                using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+                using (var unit = new UnitOfWork(_context))
                 {
-                    var repository = unit.GetIngredienteRepository();
+                    var repository = unit.InsumosRepository;
 
-                    if (ingrediente.Id == 0)
-                        ingrediente.Id = repository.Insert(ingrediente);
+                    if (insumo.Id == 0)
+                        repository.Insert(insumo);
                     else
-                        repository.Update(ingrediente);
+                        repository.Update(insumo);
 
-                    unit.SaveChanges();
+                    unit.Save();
                 }
 
-                return Tuple.Create(true, ingrediente);
+                return (true, insumo);
             }
             catch (Exception ex)
             {
                 LogDeErros.Default.Write(ex);
             }
 
-            return Tuple.Create(false, ingrediente);
+            return (false, insumo);
         }
 
         public bool Delete(ulong id)
         {
             try
             {
-
-                if (id == 0)
-                    throw new ArgumentException("Invalid Id");
-
-                using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+                using (var unit = new UnitOfWork(_context))
                 {
-                    var repository = unit.GetIngredienteRepository();
-                    repository.Delete(id);
-
-                    unit.SaveChanges();
+                    unit.InsumosRepository.Delete(id);
+                    unit.Save();
                 }
 
                 return true;

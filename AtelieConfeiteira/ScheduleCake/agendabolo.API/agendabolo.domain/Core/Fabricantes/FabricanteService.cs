@@ -12,10 +12,12 @@ namespace Agendabolo.Core.Fabricantes
     {
         public IEnumerable<Fabricante> Select()
         {
-            using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-            {
-                return unit.GetFabricanteRepository().SelectAll().ToList();
-            }
+            //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+            //{
+            //    return unit.GetFabricanteRepository().SelectAll().ToList();
+            //}
+
+            return null;
         }
 
         public Fabricante Select(ulong id)
@@ -23,10 +25,10 @@ namespace Agendabolo.Core.Fabricantes
             if (id == 0)
                 throw new ArgumentException("Invalid Id");
 
-            using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-            {
-                return unit.GetFabricanteRepository().Select(id);
-            }
+            //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+            //{
+            //    return unit.GetFabricanteRepository().Select(id);
+            //}
 
             return null;
         }
@@ -39,17 +41,17 @@ namespace Agendabolo.Core.Fabricantes
                     throw new ArgumentNullException("Fabricante inválido");
 
 
-                using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-                {
-                    var repository = unit.GetFabricanteRepository();
+                //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+                //{
+                //    var repository = unit.GetFabricanteRepository();
 
-                    if (fabricante.Id == 0)
-                        fabricante.Id = repository.Insert(fabricante);
-                    else
-                        repository.Update(fabricante);
+                //    if (fabricante.Id == 0)
+                //        fabricante.Id = repository.Insert(fabricante);
+                //    else
+                //        repository.Update(fabricante);
 
-                    unit.SaveChanges();
-                }
+                //    unit.SaveChanges();
+                //}
 
                 return Tuple.Create(true, fabricante);
             }
@@ -69,13 +71,13 @@ namespace Agendabolo.Core.Fabricantes
                 if (id == 0)
                     throw new ArgumentException("Invalid Id");
 
-                using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-                {
-                    var repository = unit.GetFabricanteRepository();
-                    repository.Delete(id);
+                //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
+                //{
+                //    var repository = unit.GetFabricanteRepository();
+                //    repository.Delete(id);
 
-                    unit.SaveChanges();
-                }
+                //    unit.SaveChanges();
+                //}
 
                 return true;
             }
