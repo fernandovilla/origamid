@@ -15,7 +15,10 @@
         <input-currency id="precoCusto" placeholder='0,00' v-model="insumo.preco" />
       </div>
       
-      <select-status class="row3 span3" v-model="insumo.status" :selected="insumo.status" required />      
+      <div class="input-group row3 span3">
+        <label for="status">Status</label>
+        <select-status id="status" v-model="insumo.status" :selected="insumo.status" required />      
+      </div>
 
       
     </form>

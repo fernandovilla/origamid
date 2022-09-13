@@ -8,76 +8,17 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public class FabricanteService
+    public class FabricanteService: IServiceBase<Fabricante, ulong>
     {
-        public IEnumerable<Fabricante> Select()
-        {
-            //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-            //{
-            //    return unit.GetFabricanteRepository().SelectAll().ToList();
-            //}
-
-            return null;
-        }
-
-        public Fabricante Select(ulong id)
-        {
-            if (id == 0)
-                throw new ArgumentException("Invalid Id");
-
-            //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-            //{
-            //    return unit.GetFabricanteRepository().Select(id);
-            //}
-
-            return null;
-        }
-
-        public Tuple<bool, Fabricante> Save(Fabricante fabricante)
-        {
-            try
-            {
-                if (fabricante == null)
-                    throw new ArgumentNullException("Fabricante inválido");
-
-
-                //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-                //{
-                //    var repository = unit.GetFabricanteRepository();
-
-                //    if (fabricante.Id == 0)
-                //        fabricante.Id = repository.Insert(fabricante);
-                //    else
-                //        repository.Update(fabricante);
-
-                //    unit.SaveChanges();
-                //}
-
-                return Tuple.Create(true, fabricante);
-            }
-            catch (Exception ex)
-            {
-                LogDeErros.Default.Write(ex);                
-            }
-
-            return Tuple.Create(false, fabricante);
-        }
-
         public bool Delete(ulong id)
         {
             try
             {
-
-                if (id == 0)
-                    throw new ArgumentException("Invalid Id");
-
-                //using (var unit = UnitOfWorkFactory.Default.GetUnitOfWork())
-                //{
-                //    var repository = unit.GetFabricanteRepository();
-                //    repository.Delete(id);
-
-                //    unit.SaveChanges();
-                //}
+                using (var unit = new UnitOfWork())
+                {
+                    unit.FabricantesRepository.Delete(id);
+                    unit.Save();
+                }
 
                 return true;
             }
@@ -87,6 +28,65 @@ namespace Agendabolo.Core.Fabricantes
             }
 
             return false;
+        }
+
+        public int GetTotal()
+        {
+            using (var unit = new UnitOfWork())
+            {
+                return unit.FabricantesRepository.Count();
+            }
+        }
+
+        public IEnumerable<Fabricante> Get()
+        {
+            using(var unit = new UnitOfWork())
+            {
+                return unit.FabricantesRepository.Get();
+            }
+        }
+
+        public Fabricante GetByID(ulong id)
+        {
+            try
+            {
+                using (var unit = new UnitOfWork())
+                {
+                    return unit.FabricantesRepository.GetByID(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+            }
+
+            return null;
+        }
+
+        public (bool, Fabricante) Save(Fabricante fabricante)
+        {
+            try
+            {
+                using (var unit = new UnitOfWork())
+                {
+                    var repository = unit.FabricantesRepository;
+
+                    if (fabricante.Id == 0)
+                        repository.Insert(fabricante);
+                    else
+                        repository.Update(fabricante);
+
+                    unit.Save();
+                }
+
+                return (true, fabricante);
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+            }
+
+            return (false, fabricante);
         }
     }
 }

@@ -14,14 +14,7 @@ namespace Agendabolo.Controllers
     [Route("api/v1/[controller]")]
     public class InsumosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        private readonly InsumoService _service;
-
-        public InsumosController([FromServices] ApplicationDbContext context)
-        {
-            _context = context;
-            _service = new InsumoService(context);
-        }
+        private readonly InsumoService _service = new InsumoService();
 
 
         [HttpGet]
@@ -38,7 +31,6 @@ namespace Agendabolo.Controllers
                         .ToList()
                         .Skip(skip)
                         .Take(take);
-
 
                 if (insumos != null && insumos.Any())
                     return Ok(new
@@ -61,7 +53,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var ingrediente = _service.GetById(id);
+                var ingrediente = _service.GetByID(id);
 
                 if (ingrediente != null)
                     return Ok(ingrediente);

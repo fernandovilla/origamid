@@ -1,6 +1,10 @@
-﻿using Agendabolo.Core.Insumos;
+﻿using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Insumos;
 using Agendabolo.Data;
+using Agendabolo.Utils;
 using System;
+using System.IO;
+using System.Text.Json;
 
 namespace Agendabolo.Data
 {
@@ -8,18 +12,33 @@ namespace Agendabolo.Data
     {
         private readonly ApplicationDbContext _context;
         private IInsumoRepository _insumoRepository;
+        private IFabricanteRepository _fabricanteRepository;
+
+
+        public UnitOfWork()
+            : this(UnitOfWork.GetConnectionString())
+        { }
+
+        public UnitOfWork(string connectionString)
+        {
+            _context = new ApplicationDbContext(connectionString);
+        }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
         }
 
+
         public IInsumoRepository InsumosRepository
         {
             get => _insumoRepository ?? (_insumoRepository = new InsumoRepository(_context));
         }
 
-
+        public IFabricanteRepository FabricantesRepository
+        {
+            get => _fabricanteRepository ?? (_fabricanteRepository = new FabricanteRepository(_context));
+        }
 
         public int Save()
         {
@@ -30,6 +49,16 @@ namespace Agendabolo.Data
     public partial class UnitOfWork : IDisposable
     {
         private bool _disposed = false;
+
+        private static string GetConnectionString()
+        {
+            var settings = AppSettings.Default;
+
+            return settings.ConnectionStrings.DefaultConnection;
+
+        }
+
+
         public void Dispose()
         {
             Dispose(true);

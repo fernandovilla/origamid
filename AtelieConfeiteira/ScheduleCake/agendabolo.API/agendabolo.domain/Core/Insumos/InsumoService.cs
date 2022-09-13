@@ -5,18 +5,11 @@ using System.Collections.Generic;
 
 namespace Agendabolo.Core.Insumos
 {
-    public class InsumoService
+    public class InsumoService: IServiceBase<Insumo, ulong>
     {
-        private readonly ApplicationDbContext _context;
-
-        public InsumoService(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public int GetTotal()
         {
-            using (var unit = new UnitOfWork(_context))
+            using (var unit = new UnitOfWork())
             {
                 return unit.InsumosRepository.Count();
             }
@@ -24,17 +17,17 @@ namespace Agendabolo.Core.Insumos
 
         public IEnumerable<Insumo> Get()
         {
-            using (var unit = new UnitOfWork(_context))
+            using (var unit = new UnitOfWork())
             {
                 return unit.InsumosRepository.Get();
             }
         }
         
-        public Insumo GetById(ulong id) 
+        public Insumo GetByID(ulong id)
         {
             try
             {
-                using (var unit = new UnitOfWork(_context))
+                using (var unit = new UnitOfWork())
                 {
                     return unit.InsumosRepository.GetByID(id);
                 }
@@ -44,14 +37,14 @@ namespace Agendabolo.Core.Insumos
                 LogDeErros.Default.Write(ex);
             }
 
-            return null;        
+            return null;
         }
 
         public (bool, Insumo) Save(Insumo insumo)
         {
             try
             {
-                using (var unit = new UnitOfWork(_context))
+                using (var unit = new UnitOfWork())
                 {
                     var repository = unit.InsumosRepository;
 
@@ -77,7 +70,7 @@ namespace Agendabolo.Core.Insumos
         {
             try
             {
-                using (var unit = new UnitOfWork(_context))
+                using (var unit = new UnitOfWork())
                 {
                     unit.InsumosRepository.Delete(id);
                     unit.Save();
@@ -91,8 +84,6 @@ namespace Agendabolo.Core.Insumos
             }
 
             return false;
-        }
-
-        
+        }        
     }
 }

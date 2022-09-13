@@ -1,7 +1,10 @@
 ﻿using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Insumos;
 using Agendabolo.Core.Logs;
+using Agendabolo.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
@@ -11,17 +14,30 @@ namespace Agendabolo.Controllers
     [Route("api/v1/[controller]")]
     public class FabricantesController : ControllerBase
     {
+        private readonly FabricanteService _service = new FabricanteService();
+
+        
+
         [HttpGet]
-        public IActionResult get()
+        public IActionResult get([FromQuery]int skip = 0, [FromQuery]int take = 20)
         {
+            if (take > 500)
+                return BadRequest("Max take is 500");
+
             try
             {
-                var service = new FabricanteService();
+                var total = _service.GetTotal();
 
-                var fabricantes = service.Select();
+                var fabricantes = _service.Get()
+                        .ToList()
+                        .Skip(skip)
+                        .Take(take);
 
                 if (fabricantes != null && fabricantes.Any())
-                    return Ok(fabricantes);
+                    return Ok(new { 
+                        total,
+                        data = fabricantes
+                    });
 
                 return NoContent();
             }
@@ -38,14 +54,20 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var service = new FabricanteService();
-
-                var fabricante = service.Select(id);
+                var fabricante = _service.GetByID(id);
 
                 if (fabricante != null)
                     return Ok(fabricante);
 
                 return NotFound("Fabricante não encontrado");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound("Id não encontrado");
+            }
+            catch(ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -61,11 +83,10 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var service = new FabricanteService();
-                    var result = service.Save(fabricante);
+                    (var ok, var result) = _service.Save(fabricante);
 
-                    if (result.Item1)
-                        return Ok(result.Item2);
+                    if (ok)
+                        return Ok(result);
                     else
                         return BadRequest();
                 }
@@ -88,11 +109,10 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var service = new FabricanteService();
-                    var result = service.Save(fabricante);
+                    (var ok, var result) = _service.Save(fabricante);
 
-                    if (result.Item1)
-                        return Ok(result.Item2);
+                    if (ok)
+                        return Ok(result);
                     else
                         return BadRequest();
                 }
@@ -116,8 +136,7 @@ namespace Agendabolo.Controllers
             {
                 if (id > 0)
                 {
-                    var service = new FabricanteService();
-                    var result = service.Delete(id);
+                    var result = _service.Delete(id);
 
                     if (result)
                         return Ok();

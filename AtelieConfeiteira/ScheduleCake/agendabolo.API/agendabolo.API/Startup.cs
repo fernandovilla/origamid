@@ -31,7 +31,7 @@ namespace Agendabolo
             //    });
             //});
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             //services.AddDbContext<Data.ApplicationDbContext>();
 
 

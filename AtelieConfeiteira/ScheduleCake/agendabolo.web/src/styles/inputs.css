@@ -1,4 +1,9 @@
-input {
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* input {
   border: none;
   border-bottom: 1px solid var(--border-color-input);    
   line-height: 20px;    
@@ -6,26 +11,52 @@ input {
   text-transform: uppercase;
   margin-bottom: 2px;
   outline: none;    
+} */
+
+.input-group input, .input-group select {
+  border: 1px solid rgba(0,0,0,0.2);
+  border-left: 2px solid var(--border-color-blue);
+  height: 32px;
+  padding: 0px 5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  outline: none;
+  color: var(--text-color-dark);
+  transition: all 0.1s;
 }
 
-
-input:active, input:focus {
-  border-bottom: 2px solid var(--border-color-input-focus);
-  margin-bottom: 1px;
-  /* background: #f0f0f1; */
+.input-group select {
+  text-transform: capitalize;
 }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
+.input-group input:active, 
+.input-group input:focus, 
+.input-group select:focus, 
+.input-group select:active {  
+  border-left: 2px solid var(--border-color-blue);
+  /* border-top: 1px solid var(--border-color-blue);  
+  border-right: 1px solid var(--border-color-blue);  
+  border-bottom: 1px solid var(--border-color-blue);    */
+  border-top: 1px solid var(--border-color-input-focus);  
+  border-right: 1px solid var(--border-color-input-focus);  
+  border-bottom: 1px solid var(--border-color-input-focus);
+  color: var(--text-color-dark);
 }
 
-.input-group label{
-  font-size: 0.753rem;
-
+.input-group label {
+  font-size: 0.880rem;  
+  font-weight: 400;
+  color: var(--text-color-light);
+  
+  margin-bottom: 2px;
+  transition: all 0.1s;
 }
-
 
 .input-group:focus-within label {
-  color: var(--border-color-input-focus);
+  /* font-weight: 500; */
+  color: var(--text-color-dark);
+}
+
+option {
+  line-height: 20px;
 }
