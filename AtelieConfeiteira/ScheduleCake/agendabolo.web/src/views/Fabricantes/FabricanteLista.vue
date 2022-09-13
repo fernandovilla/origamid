@@ -15,7 +15,9 @@
         </thead>
         <tbody>
           <tr v-for="(fabricante, index) in fabricantes" :key="index">
-            <td class="b-nome"><router-link :to="{name: 'fabricante-edicao', params: {id: fabricante.id}}" >{{nomeLongo(fabricante.nome)}}</router-link></td>
+            <td class="b-nome">
+                <router-link :to="{name: 'fabricante-edicao', params: {id: fabricante.id}}" >{{nomeLongo(fabricante.nome)}}</router-link>
+            </td>
             <td class="b-status">{{this.descricaoStatus(fabricante.status)}}</td>
             <td class="b-actions">
               <button class="btn-action editar" @click="editarFabricante(fabricante)">
@@ -29,7 +31,13 @@
         </tbody>
         <tfoot >
           <td colspan="3">
-            <p>páginas...</p>
+            <!-- 
+              Calcula o número de páginas
+              Inclui um link para pada número de páginas
+              Pode exibir apenas 10 números de páginas, primeira, última, proxima e anterior
+              Ao clicar em cada link, executa método que realiza nova busca
+             -->
+            <p>páginas: {{paginas}}</p>
           </td>          
         </tfoot>
       </table>
@@ -46,16 +54,30 @@ export default {
   name: 'fabricantes-lista',
   data(){
     return {
-      fabricantes: null
+      fabricantes: null,
+      paginas: 0
     }
   },  
   methods: {    
-    async obterListaFabricantes(){
+    async obterListaFabricantes(page){
       this.fabricantes = null;
-      const result = await fabricanteAPIService.obterFabricantes();
 
-      if (result != null)
-        this.fabricantes = result;      
+      var skip = 0;
+      const take = 2;
+      if (page === undefined || page === 0) {
+        skip = 0
+      } else {
+        skip = (page - 1) * take;
+      }
+
+      const result = await fabricanteAPIService.obterFabricantes(skip, take);
+
+      if (result != null){
+        this.paginas = result.total / take;
+        if (this.paginas < 1) this.paginas = 1;                
+
+        this.fabricantes = result.data;      
+      }
     },
 
     async editarFabricante(fabricante){
@@ -92,7 +114,7 @@ export default {
     }
   },
   created() {
-    this.obterListaFabricantes();
+    this.obterListaFabricantes(0);
   }
 }
 </script>
@@ -147,7 +169,8 @@ export default {
   }
 
   .table-data .b-nome a {
-    color: var(--text-color-blue);
+    color: var(--text-color-dark);
+    font-weight: normal;
   }
 
   .table-data .b-actions {

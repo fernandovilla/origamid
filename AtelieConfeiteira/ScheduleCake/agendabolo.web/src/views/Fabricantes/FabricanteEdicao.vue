@@ -16,9 +16,10 @@
         <input type="text" id="descricao" v-model="fabricanteModel.descricao" maxlength="100">
       </span>
 
-      <select-status class="row4 span3" v-model="fabricanteModel.status" :selected="fabricanteModel.status" required />
-
-      
+      <div class="input-group row4 span3">
+        <label for="status">Status</label>
+        <select-status id="status" v-model="fabricanteModel.status" :selected="fabricanteModel.status" required />      
+      </div>
     </form>    
 
     <div class="buttons row6 span12">

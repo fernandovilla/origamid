@@ -15,9 +15,9 @@ export const fabricanteAPIService = {
       LogErro(error, 'Ocorreu erro obtendo lista de fabricantes');
     }
   },
-  async obterFabricantes() {
+  async obterFabricantes(skip, take) {
     try {
-      const response = await api.get('/fabricantes');
+      const response = await api.get(`/fabricantes?skip=${skip}&take=${take}`);
 
       if (response.statusText === 'OK') {
         return response.data;

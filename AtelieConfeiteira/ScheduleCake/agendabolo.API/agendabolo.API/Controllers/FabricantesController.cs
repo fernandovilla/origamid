@@ -29,6 +29,7 @@ namespace Agendabolo.Controllers
                 var total = _service.GetTotal();
 
                 var fabricantes = _service.Get()
+                        .OrderBy(i => i.Nome)
                         .ToList()
                         .Skip(skip)
                         .Take(take);
