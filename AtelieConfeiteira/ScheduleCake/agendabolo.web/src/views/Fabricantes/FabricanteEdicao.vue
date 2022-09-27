@@ -100,6 +100,7 @@ export default {
         this.$router.push('/fabricantes');
       }
     },
+    
     mostrarMensagemSucesso(text){
       this.mensagem = text;
       this.menssagemSucesso = true;

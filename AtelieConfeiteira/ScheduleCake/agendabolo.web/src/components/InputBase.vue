@@ -3,11 +3,15 @@
 </template>
 
 <script>
+
 export default {
   name: 'input-base',
   props: {
     type: String,
-    modelValue: [String, Number]
+    modelValue: { 
+      type: [String, Number], 
+      default: '' 
+    }
   },
   methods: {
     updateValue(event){

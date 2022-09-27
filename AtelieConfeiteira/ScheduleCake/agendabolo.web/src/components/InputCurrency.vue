@@ -1,6 +1,13 @@
 <template>
   <div>
-    <input-base type="text" id="inputCurrency"  :value="internalValue" step="0.01" @keypress="handleKeyPress" @change="handleChange" @focus="handleFocus" @focusout="handleFocusOut" />  
+    <input-base 
+      id="inputCurrency"  
+      type="text"       
+      :value="numericValue"       
+      @keypress="handleKeyPress" 
+      @change="handleChange" 
+      @focus="handleFocus" 
+      @focusout="handleFocusOut" />  
   </div>
 </template>
 
@@ -23,10 +30,11 @@ export default {
   },
   computed: {
     numericValue() {
+      
       if (this.internalValue === null)
         return '';
 
-      if (this.internalValue.length > 0){
+      if (this.internalValue > 0 || this.internalValue.length > 0){
         return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
       } else {
         return "0,00";
@@ -63,19 +71,24 @@ export default {
     },
     
     handleFocus(event){
-      event.target.select();
+      event.target.select();     
     },
 
     handleFocusOut(event){
       event.target.value = this.numericValue;
-      this.$emit('update:modelValue', this.numericValue);
+      this.$emit('update:modelValue', this.numericValue);    
     }
   },
   created() {
-    this.internalValue = this.modelValue;
+    if (this.internalValue === '' && this.modelValue !== undefined ) {
+       this.internalValue = this.modelValue;
+    }
+  } ,
+  updated(){
+    if (this.internalValue === '0,00' && this.modelValue !== undefined && this.modelValue !== this.internalValue) {
+       this.internalValue = this.modelValue;       
+    }
   }
-  
-
 }
 </script>
 

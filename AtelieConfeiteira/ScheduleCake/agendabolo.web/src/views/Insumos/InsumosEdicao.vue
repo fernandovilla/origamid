@@ -12,15 +12,13 @@
 
       <div class="input-group row3 span3">
         <label for="precoCusto">Preço Custo</label>
-        <input-currency id="precoCusto" placeholder='0,00' v-model="insumo.preco" />
+        <input-currency id="precoCusto" placeholder='0,00' v-model="insumo.precoCusto" />
       </div>
       
       <div class="input-group row3 span3">
         <label for="status">Status</label>
         <select-status id="status" v-model="insumo.status" :selected="insumo.status" required />      
       </div>
-
-      
     </form>
 
     <div class="buttons row6 span12">
@@ -33,7 +31,6 @@
 </template>
 
 <script>
-
 import InputBase from '@/components/InputBase.vue';
 import InputCurrency from '@/components/InputCurrency.vue';
 import SelectStatus from '../../components/SelectSatus.vue';
@@ -46,7 +43,7 @@ export default {
         insumo: {
           id: 0,
           nome: '',
-          preco: null,
+          precoCusto: null,
           fabricanteId: 0,
           status: 1
         },
@@ -54,27 +51,29 @@ export default {
         menssagemSucesso: false
       } 
     }, 
-    components: {
-      SelectStatus, InputBase, InputCurrency
-    },
+    props: ['id'],
+    components: { SelectStatus, InputBase, InputCurrency },
     computed: {
       precoInsumo() {
-        if (this.insumo.preco === undefined || this.insumo.preco === null)
+        if (this.insumo.precoCusto === undefined || this.insumo.precoCusto === null)
           return 0.00;
 
-        return Number(this.insumo.preco.replace(',','.'));        
+        if (isNaN(this.insumo.precoCusto))  
+          return Number(this.insumo.precoCusto.replace(',','.'));        
+        else 
+          return this.insumo.precoCusto;
       }
     },
     methods: {
       async incluirInsumo() {
 
-        const insumoInclusao = {
+        const insumoRequest = {
           nome: this.insumo.nome, 
           precoCusto: this.precoInsumo,
           status: this.insumo.status          
         }
 
-        const response = await insumosAPIService.incluirInsumo(insumoInclusao);
+        const response = await insumosAPIService.incluirInsumo(insumoRequest);
        
         if (response !== null){
           this.insumo = response;
@@ -83,9 +82,40 @@ export default {
           //erro na inclusão do fabricante...
         }
       },
+
       async alterarInsumo() {
-        alert("Alterando...")
+
+        var insumoRequest = {
+          id: this.insumo.id,
+          nome: this.insumo.nome,
+          precoCusto: this.precoInsumo,
+          status: this.insumo.status
+        };
+
+        const response = await insumosAPIService.atualizarInsumo(insumoRequest);
+
+        if (response !== null){      
+          this.mostrarMensagemSucesso("Insumo atualizado com sucesso")
+        } else {
+          //erro na atualização do Insumo...
+        }
       },
+
+      async obterInsumo(idInsumo){
+        if (idInsumo === undefined || idInsumo === 0)
+          return;
+
+        this.insumo = { id: idInsumo };
+
+        const response = await insumosAPIService.obterInsumo(idInsumo);
+
+        if (response !== undefined){
+          this.insumo = response;
+        } else {
+          this.$router.push('/insumos');
+        }
+      },
+
       mostrarMensagemSucesso(text){
         this.mensagem = text;
         this.menssagemSucesso = true;
@@ -95,6 +125,9 @@ export default {
           this.mensagem = '';
         }, 3000);
       }
+    },
+    created() {
+      this.obterInsumo(this.id);
     }
 }
 </script>

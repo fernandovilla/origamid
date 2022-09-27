@@ -29,6 +29,7 @@ namespace Agendabolo.Controllers
 
                 var insumos = _service.Get()
                         .ToList()
+                        .OrderBy(i => i.Nome)
                         .Skip(skip)
                         .Take(take);
 
