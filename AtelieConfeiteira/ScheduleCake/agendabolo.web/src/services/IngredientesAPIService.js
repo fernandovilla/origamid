@@ -1,10 +1,10 @@
 import { api } from './serviceAPI.js';
 import LogErro from '../helpers/LogErro.js';
 
-export const insumosAPIService = {
-  async obterInsumos(skip, take) {
+export const ingredientesAPIService = {
+  async obterIngredientes(skip, take) {
     try {
-      const response = await api.get(`/insumos?skip=${skip}&take=${take}`);
+      const response = await api.get(`/ingredientes?skip=${skip}&take=${take}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -12,13 +12,13 @@ export const insumosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando insumos');
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
     }
   },
 
-  async obterInsumo(id) {
+  async obterIngrediente(id) {
     try {
-      const response = await api.get(`/insumos/${id}`);
+      const response = await api.get(`/ingredientes/${id}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -26,13 +26,13 @@ export const insumosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando insumo');
+      LogErro(error, 'Ocorreu erro selecionando ingrediente');
     }
   },
 
-  async incluirInsumo(insumo) {
+  async incluirIngrediente(ingrediente) {
     try {
-      const response = await api.post('/insumos', insumo);
+      const response = await api.post('/ingredientes', ingrediente);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -40,13 +40,13 @@ export const insumosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro incluindo insumo');
+      LogErro(error, 'Ocorreu erro incluindo ingrediente');
     }
   },
 
-  async atualizarInsumo(insumo) {
+  async atualizarIngrediente(insumo) {
     try {
-      const response = await api.put('/insumos', insumo);
+      const response = await api.put('/ingredientes', insumo);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -54,13 +54,13 @@ export const insumosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro atualizando insumo');
+      LogErro(error, 'Ocorreu erro atualizando ingrediente');
     }
   },
 
-  async deletarInsumo(id) {
+  async deletarIngrediente(id) {
     try {
-      const response = await api.delete(`/insumos/${id}`);
+      const response = await api.delete(`/ingredientes/${id}`);
 
       if (response.statusText === 'OK') {
         return true;
@@ -68,7 +68,7 @@ export const insumosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro deletando insumo');
+      LogErro(error, 'Ocorreu erro deletando ingrediente');
     }
   },
 };

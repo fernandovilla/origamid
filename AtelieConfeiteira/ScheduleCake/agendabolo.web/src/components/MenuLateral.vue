@@ -4,7 +4,8 @@
     <ul>
       <menu-lateral-item display="Home" router="/" :src="require('../assets/home.svg')" src_alt="home" />
       <menu-lateral-item display="Fabricantes" router="/fabricantes" :src="require('../assets/factory.svg')" src_alt="fabricante" />
-      <menu-lateral-item display="Insumos" router="/insumos" :src="require('../assets/food.svg')" src_alt="insumos" />
+      <menu-lateral-item display="Ingredientes" router="/ingredientes" :src="require('../assets/food.svg')" src_alt="insumos" />
+      <menu-lateral-item display="Receitas" router="/receitas" :src="require('@/assets/receita-white.svg')" />
     </ul>
 
   </nav>

@@ -3,33 +3,33 @@ using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
 
-namespace Agendabolo.Core.Insumos
+namespace Agendabolo.Core.Ingredientes
 {
-    public class InsumoService: IServiceBase<Insumo, ulong>
+    public class IngredienteService: IServiceBase<Ingrediente, ulong>
     {
         public int GetTotal()
         {
             using (var unit = new UnitOfWork())
             {
-                return unit.InsumosRepository.Count();
+                return unit.IngredienteRepository.Count();
             }
         }
 
-        public IEnumerable<Insumo> Get()
+        public IEnumerable<Ingrediente> Get()
         {
             using (var unit = new UnitOfWork())
             {
-                return unit.InsumosRepository.Get();
+                return unit.IngredienteRepository.Get();
             }
         }
         
-        public Insumo GetByID(ulong id)
+        public Ingrediente GetByID(ulong id)
         {
             try
             {
                 using (var unit = new UnitOfWork())
                 {
-                    return unit.InsumosRepository.GetByID(id);
+                    return unit.IngredienteRepository.GetByID(id);
                 }
             }
             catch (Exception ex)
@@ -40,30 +40,30 @@ namespace Agendabolo.Core.Insumos
             return null;
         }
 
-        public (bool, Insumo) Save(Insumo insumo)
+        public (bool, Ingrediente) Save(Ingrediente ingrediente)
         {
             try
             {
                 using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.InsumosRepository;
+                    var repository = unit.IngredienteRepository;
 
-                    if (insumo.Id == 0)
-                        repository.Insert(insumo);
+                    if (ingrediente.Id == 0)
+                        repository.Insert(ingrediente);
                     else
-                        repository.Update(insumo);
+                        repository.Update(ingrediente);
 
                     unit.Save();
                 }
 
-                return (true, insumo);
+                return (true, ingrediente);
             }
             catch (Exception ex)
             {
                 LogDeErros.Default.Write(ex);
             }
 
-            return (false, insumo);
+            return (false, ingrediente);
         }
 
         public bool Delete(ulong id)
@@ -72,7 +72,7 @@ namespace Agendabolo.Core.Insumos
             {
                 using (var unit = new UnitOfWork())
                 {
-                    unit.InsumosRepository.Delete(id);
+                    unit.IngredienteRepository.Delete(id);
                     unit.Save();
                 }
 

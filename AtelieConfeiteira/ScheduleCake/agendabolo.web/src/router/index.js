@@ -33,26 +33,39 @@ const fabricantesRoutes = [
   },
 ];
 
-const insumosRoutes = [
+const ingredientesRoutes = [
   {
-    path: '/insumos',
-    name: 'insumos',
-    component: () => import('../views/Insumos/InsumosLista.vue'),
+    path: '/ingredientes',
+    name: 'ingredientes',
+    component: () => import('@/views/Ingredientes/IngredientesLista.vue'),
   },
   {
-    path: '/insumo',
-    name: 'insumo',
-    component: () => import('../views/Insumos/InsumosEdicao.vue'),
+    path: '/ingrediente',
+    name: 'ingrediente',
+    component: () => import('@/views/Ingredientes/IngredientesEdicao.vue'),
   },
   {
-    path: '/insumo/:id',
-    name: 'insumo-edicao',
-    component: () => import('../views/Insumos/InsumosEdicao.vue'),
+    path: '/ingrediente/:id',
+    name: 'ingrediente-edicao',
+    component: () => import('@/views/Ingredientes/IngredientesEdicao.vue'),
     props: true,
   },
 ];
 
-const routes = [...defaultRoutes, ...fabricantesRoutes, ...insumosRoutes];
+const receitasRoutes = [
+  {
+    path: '/receitas',
+    name: 'receitas',
+    component: () => import('@/views/Receitas/ReceitasLista.vue'),
+  },
+];
+
+const routes = [
+  ...defaultRoutes,
+  ...fabricantesRoutes,
+  ...ingredientesRoutes,
+  ...receitasRoutes,
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

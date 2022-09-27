@@ -1,5 +1,5 @@
 ﻿using Agendabolo.Core.Fabricantes;
-using Agendabolo.Core.Insumos;
+using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Logs;
 using Agendabolo.Data;
 using Microsoft.AspNetCore.Mvc;

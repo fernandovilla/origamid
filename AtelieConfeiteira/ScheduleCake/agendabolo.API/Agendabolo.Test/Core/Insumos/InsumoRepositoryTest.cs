@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Insumos;
+﻿using Agendabolo.Core.Ingredientes;
 using Agendabolo.Data;
 using Agendabolo.Test.Core.Data;
 using System;
@@ -22,7 +22,7 @@ namespace Agendabolo.Test.Core.Insumos
         {
             using(var unit = new UnitOfWork(ctxFixture.Context))
             {
-                var repository = unit.InsumosRepository;
+                var repository = unit.IngredienteRepository;
 
                 var insumo = repository.GetByID(3);
 
@@ -33,7 +33,7 @@ namespace Agendabolo.Test.Core.Insumos
         [Fact]
         public void InsertInsumo()
         {
-            var insumo = new Insumo
+            var insumo = new Ingrediente
             {
                 Nome = "NOVO INSUMO",
                 PrecoCusto = 10.05m,
@@ -43,7 +43,7 @@ namespace Agendabolo.Test.Core.Insumos
             int affected = 0;
             using (var unit = new UnitOfWork(ctxFixture.Context))
             {
-                unit.InsumosRepository.Insert(insumo);
+                unit.IngredienteRepository.Insert(insumo);
                 affected = unit.Save();
             }
 

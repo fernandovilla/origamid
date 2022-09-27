@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Agendabolo.Core.Insumos
+namespace Agendabolo.Core.Ingredientes
 {
-    [Table("insumos")]
-    public class Insumo
+    [Table("ingredientes")]
+    public class Ingrediente
     {
         [Key]
         [Column("id")]

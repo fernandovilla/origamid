@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Insumos;
+﻿using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Logs;
 using Agendabolo.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +12,9 @@ namespace Agendabolo.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class InsumosController : ControllerBase
+    public class IngredientesController : ControllerBase
     {
-        private readonly InsumoService _service = new InsumoService();
+        private readonly IngredienteService _service = new IngredienteService();
 
 
         [HttpGet]
@@ -70,13 +70,13 @@ namespace Agendabolo.Controllers
 
 
         [HttpPost]
-        public IActionResult post(InsumoRequest insumo)
+        public IActionResult post(IngredienteRequest insumo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Insumo result) = _service.Save(insumo);
+                    (bool ok, Ingrediente result) = _service.Save(insumo);
 
                     if (ok)
                         return Ok(result);
@@ -96,13 +96,13 @@ namespace Agendabolo.Controllers
         }
 
         [HttpPut]
-        public IActionResult put(InsumoRequest insumo)
+        public IActionResult put(IngredienteRequest insumo)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Insumo result) = _service.Save(insumo);
+                    (bool ok, Ingrediente result) = _service.Save(insumo);
 
                     if (ok)
                         return Ok(result);

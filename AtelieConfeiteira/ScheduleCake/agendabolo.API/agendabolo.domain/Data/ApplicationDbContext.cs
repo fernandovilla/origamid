@@ -9,7 +9,7 @@ namespace Agendabolo.Data
         private readonly string _connectionString;
 
         //Classe de configuração
-        public DbSet<Core.Insumos.Insumo> Insumos { get; set; }
+        public DbSet<Core.Ingredientes.Ingrediente> Ingredientes { get; set; }
         public DbSet<Core.Fabricantes.Fabricante> Fabricantes { get; set; }
 
         public ApplicationDbContext(string connectionString)
