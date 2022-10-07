@@ -1,0 +1,18 @@
+.content {
+  display: grid;
+  grid-template-columns: repeat(12,1fr);
+  grid-gap: 2px 10px;
+  max-width: 1200px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 500px) {
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+}

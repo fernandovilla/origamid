@@ -23,6 +23,7 @@ export default {
   @import './styles/inputs.css';
   @import './styles/grid.css';
   @import './styles/buttons.css';
+  @import './styles/content.css';
 
 
   .main {
@@ -33,7 +34,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     overflow: hidden;
-    flex-basis: 160px;
+    flex-basis: 200px;
   }
 
   .body {
@@ -49,7 +50,7 @@ export default {
   }
 
   #app {
-    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', Helvetica, sans-serif;
     font-size: 0.853rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -64,8 +65,8 @@ export default {
   }
 
   h2 {
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-size: 1rem;
+    font-weight: 600;
     text-align: start;
   }
 
@@ -111,24 +112,8 @@ export default {
     padding: 5px 10px;
   }
 
-  .content {
-    display: grid;
-    grid-template-columns: repeat(12,1fr);
-    grid-gap: 10px;
-    max-width: 1200px;
-  }
-
-  .wrap {
-    display: flex;
-    flex-direction: column;
-  }
-
+  
   @media screen and (max-width: 500px) {
-    .content {
-      display: flex;
-      flex-direction: column;
-    }
-
     .menu-lateral {
       display: none;
     }

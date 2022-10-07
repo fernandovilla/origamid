@@ -29,8 +29,8 @@
                 <img src="@/assets/delete-white.svg" alt="deletar">
               </button> -->
 
-              <action-edit-button @click="editarIngredientes(ingrediente)" />
-              <action-delete-button @click="deletarIngredientes(ingrediente)" />
+              <action-edit-button @click="editarIngrediente(ingrediente)" />
+              <action-delete-button @click="deletarIngrediente(ingrediente)" />
             </td>          
           </tr>
         </tbody>

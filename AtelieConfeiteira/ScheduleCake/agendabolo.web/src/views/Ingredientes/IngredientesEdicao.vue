@@ -1,32 +1,44 @@
 <template>
-  <div class="wrap">
+  <div class="wrap">    
     <span class="header-page">
       <h1>Ingrediente</h1>    
       <span v-if="ingrediente.id > 0" class="header-page-id">Id: {{ingrediente.id}}</span>  
-    </span>        
+    </span>   
+         
     <form class="content">
-      <div class="input-group row1 span10">
-        <label for="nome">Nome</label>
-        <input-base type="text" id="nome" required v-model="ingrediente.nome" />        
+
+      <div class="group span6">          
+        <h2 class="title">Dados do Ingrediente</h2>    
+
+        <div class="content">
+          <div class="input-group row1 span12">
+            <label for="nome">Nome</label>
+            <input-base type="text" id="nome" required v-model="ingrediente.nome" />        
+          </div>
+
+          <div class="input-group row3 span6">
+            <label for="precoCusto">Preço Custo</label>
+            <input-currency id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" />
+          </div>
+          
+          <div class="input-group row3 span6">
+            <label for="status">Status</label>
+            <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
+          </div>
+        </div>    
       </div>
 
-      <div class="input-group row3 span3">
-        <label for="precoCusto">Preço Custo</label>
-        <input-currency id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" />
-      </div>
-      
-      <div class="input-group row3 span3">
-        <label for="status">Status</label>
-        <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
+      <div class="group span6">
+        <h2 class="title">Tabela Nutricional</h2>        
       </div>
     </form>
-
-    <div class="buttons row6 span12">
-        <button v-if="ingrediente.id === 0" class="btn btn-primary" @click.prevent="incluirIngrediente">Incluir</button>
-        <button v-else class="btn btn-primary" @click.prevent="alterarIngrediente">Alterar</button>
-        <router-link to="/ingredientes" class="btn btn-normal">Voltar</router-link>
-        <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
-      </div>
+    
+    <div class="buttons">
+      <button v-if="ingrediente.id === 0" class="btn btn-primary" @click.prevent="incluirIngrediente">Incluir</button>
+      <button v-else class="btn btn-primary" @click.prevent="alterarIngrediente">Alterar</button>
+      <router-link to="/ingredientes" class="btn btn-normal">Voltar</router-link>
+      <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
+    </div>
   </div>
 </template>
 
@@ -133,12 +145,8 @@ export default {
 </script>
 
 <style scoped>
-
-  form {
-    border: 1px solid var(--border-color-light);
-    background: var(--background-color-white);
-    padding: 10px 20px;    
-  }
+  @import '@/styles/group.css';
+  
 
   .buttons {
     display: flex;

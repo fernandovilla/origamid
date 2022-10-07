@@ -1,0 +1,137 @@
+:root {
+  --text-color: rgba(0,0,0,0.78);
+  --border-color: rgba(0,0,0,0.36)
+}
+
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 10pt;
+  color: var(--text-color);
+  box-sizing: border-box;
+}
+
+
+table {  
+  width: 50%;
+  padding: 0px;
+  margin: 0px;  
+  border: 0;
+  border-spacing: 0px 2px;    /*SEPARAÇÃO ENTRE OS GRUPOS*/
+  border-collapse: collapse;  /*INDICA QUE HAVERÁ ESPAÇAMENTO ENTRE OS GRUPOS*/   
+}
+
+@media screen and (max-width: 900px) {
+  table {
+    width: 100%
+  }  
+}
+
+table caption {  
+  /* background: lightgray; */
+  padding: 10px 0px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;  
+  
+}
+
+/*** THEAD *********************************************************/
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  text-align: left;
+  height: 40px;  
+  background: #5c7cff;    
+}
+
+thead tr th {
+  /* border-bottom: 1px solid var(--border-color);   */
+  font-weight: normal;
+  color: white;
+}
+
+thead tr th:first-of-type {
+  padding-left: 5px;
+}
+
+/*** TBODY *********************************************************/
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+}
+
+tbody tr {
+  height: 32px;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 1px dotted var(--border-color);
+}
+
+tbody tr td:first-of-type {
+  padding-left: 5px;
+}
+
+tbody tr:last-of-type td {
+  border: 0px;
+}
+
+/*** TFOOT *********************************************************/
+tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  text-align: center;
+}
+
+tfoot tr {
+  height: 30px;
+}
+
+tfoot tr td {
+  border-top: 1px solid var(--border-color);
+}
+
+/*** COLS **********************************************************/
+colgroup {
+  display: table-column-group;
+}
+
+col {
+  display: table-column;
+}
+
+col.id, 
+col.preco, 
+col.status, 
+col.acoes {
+  width: 80px;
+}
+
+ /*** OTHERS ******************************************************/
+
+button {  
+  padding: 2px;
+  height: 30px;
+  width: 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+}
+
+button:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+img {  
+  height: 20px;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.colCenter {
+  text-align: center;
+}

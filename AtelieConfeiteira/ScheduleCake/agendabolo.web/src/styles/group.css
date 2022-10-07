@@ -1,0 +1,15 @@
+.group {
+  border: 1px solid var(--border-color-light);
+  background: var(--background-color-white);
+  border-radius: 5px;
+  padding: 20px 20px;    
+}
+
+.group .title {
+  margin-bottom: 20px;
+  padding: 10px 0px;
+  padding-top: 0px;
+  color: var(--text-color-blue);    
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-weight: 500;
+}

@@ -6,33 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./table.css">
   <title>HTML - CSS</title>
 </head>
 
 <body>
-  <!-- <header>
-    <div class="header">
-      <div class="cabecalho">
-        <a href="#" class="logo-link">
-          <p class="logo-icone"></p>
-          <h3>Do Zero ao Senior</h3>
-        </a>
-        <ul class="menu-principal">
-          <li class="menu-item"><a href="#" class="menu-link">Sobre nós</a></li>
-          <li class="menu-item"><a href="#" class="menu-link">Blog</a></li>
-          <li class="menu-item"><a href="#" class="menu-link">Vídeos</a></li>
-          <li class="menu-item"><a href="#" class="menu-link">Produtos</a></li>
-          <li class="menu-item"><a href="#" class="menu-link">Contato</a></li>
-        </ul>
-
-        <ul class="redes-sociais"></ul>
-        <button class="btn-mobile"></button>
-      </div>
-
-      <div class="buscar-no-site">
-      </div>
-    </div>
-  </header> -->
 
   <div class="caixa">
     <div class="objeto"></div>
@@ -41,6 +19,92 @@
     <p class="objeto">OK OK</p>
     <p class="objeto">Já Já</p>
   </div>
+
+  <hr>
+
+  <table>
+    <caption>Exemplo de Tabela</caption>
+
+    <colgroup>
+      <col class="id">
+      <col class="nome">
+      <col class="preco">
+      <col class="status">
+      <col class="acoes">
+    </colgroup>
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th class="colCenter">Preço R$</th>
+        <th class="colCenter">Status</th>
+        <th class="colCenter">Ação</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>19</td>
+        <td>PROCTO GLYVENOL CR 30MG NOVA</td>
+        <td class="colCenter">25,85</td>
+        <td class="colCenter">Ativo</td>
+        <td>
+          <div class="actions">
+            <button><img src="./assets/edit.svg" alt="editar"></button>
+            <button><img src="./assets/remove.svg" alt="editar"></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>27</td>
+        <td>AMPLICTIL 100MG 20CPR SANO</td>
+        <td class="colCenter">25,85</td>
+        <td class="colCenter">Ativo</td>
+        <td>
+          <div class="actions">
+            <button><img src="./assets/edit.svg" alt="editar"></button>
+            <button><img src="./assets/remove.svg" alt="editar"></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>35</td>
+        <td>DIALUDON 20CPR SIGM</td>
+        <td class="colCenter">25,85</td>
+        <td class="colCenter">Ativo</td>
+        <td>
+          <div class="actions">
+            <button><img src="./assets/edit.svg" alt="editar"></button>
+            <button><img src="./assets/remove.svg" alt="editar"></button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>43</td>
+        <td>DEXALGEN INJ.1 AMP. C/ SERINGA</td>
+        <td class="colCenter">25,85</td>
+        <td class="colCenter">Ativo</td>
+        <td>
+          <div class="actions">
+            <button><img src="./assets/edit.svg" alt="editar"></button>
+            <button><img src="./assets/remove.svg" alt="editar"></button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="5">
+          <p>Footer</p>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <hr>
+
 </body>
 
 </html>

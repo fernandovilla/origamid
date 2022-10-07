@@ -58,6 +58,11 @@ const receitasRoutes = [
     name: 'receitas',
     component: () => import('@/views/Receitas/ReceitasLista.vue'),
   },
+  {
+    path: '/receita',
+    name: 'receita',
+    component: () => import('@/views/Receitas/ReceitasEdicao.vue'),
+  },
 ];
 
 const routes = [
