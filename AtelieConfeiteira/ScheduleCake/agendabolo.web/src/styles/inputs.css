@@ -45,16 +45,16 @@
 }
 
 .input-group label {
-  font-size: 0.880rem;  
+  /* font-size: 0.880rem;   */
+  font-size: 0.80rem;
   font-weight: 400;
-  color: var(--text-color-light);
-  
+  color: var(--text-color-light);  
   margin-bottom: 2px;
-  transition: all 0.1s;
+  transition: all 0.2s ease;
 }
 
 .input-group:focus-within label {
-  /* font-weight: 500; */
+  font-weight: 500;
   color: var(--text-color-dark);
 }
 

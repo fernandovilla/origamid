@@ -2,8 +2,7 @@
   <li :class="[subitem ? 'subitem': '']">
     <span >
       <img v-if="src !== undefined" :src="src" :alt="src_alt">
-      <router-link :to="router">{{display}}</router-link>
-      {{hasChildren ? 'C' : 'N'}}
+      <router-link :to="router">{{display}}</router-link>      
     </span>        
     <slot></slot>    
   </li>
@@ -30,7 +29,8 @@ export default {
     text-align: left;    
     width: 100%;
     margin-bottom: 5px;
-    font-size: 0.985rem;    
+    font-size: 0.875rem;    
+    font-weight: 400;
   }
 
   li span:hover{      

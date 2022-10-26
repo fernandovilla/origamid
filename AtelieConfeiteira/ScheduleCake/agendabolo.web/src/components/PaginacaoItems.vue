@@ -1,10 +1,22 @@
 <template>
   <div v-if="paginas > 1" class="paginacao">
-    <a href="#"><img src="../assets/first.svg" alt="primeira página" @click.prevent="paginar(1)"></a>
-    <a href="#"><img src="../assets/preview.svg" alt="página anterior" @click.prevent="paginar(paginaAtual - 1)"></a>
+    <a href="#">
+        <font-awesome-icon icon="fa-solid fa-backward-step" alt="primeira página" @click.prevent="paginar(1)"/>
+    </a>
+
+    <a href="#">
+      <font-awesome-icon icon="fa-solid fa-caret-left" class="caret-left" />
+    </a>
+
     <a v-for="(number) in paginas" :id="'page'+number" ref="page" :key="number" href="#" @click.prevent="paginar(number)">{{number}}</a>
-    <a href="#"><img src="../assets/next.svg" alt="próxima página" @click.prevent="paginar(paginaAtual + 1)"></a>
-    <a href="#"><img src="../assets/last.svg" alt="última página" @click.prevent="paginar(paginas)"></a>
+
+    <a href="#">
+        <font-awesome-icon icon="fa-solid fa-caret-right" class="caret-right" />
+    </a>
+
+    <a href="#">
+      <font-awesome-icon icon="fa-solid fa-forward-step" @click.prevent="paginar(paginas)" alt="última página"  />
+    </a>
   </div>
 </template>
 
@@ -106,37 +118,28 @@ export default {
     align-items: center;
   }
 
-  .paginacao img {
-    height: 10px;
-    width: 10px;
-  }
-
-  .paginacao .page-button {
+  .paginacao a {
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    height: 20px;
-    width: 20px;
-    padding: 1px;
-    margin: 2px;
-    border-radius: 4px;    
+    font-size: 0.805rem;
+    font-weight: 500;    
+    margin: 0px 1px;     
+    border-radius: 15px;
   }
 
   .paginacao a:hover, .active-page {
     background: rgba(0,0,0,0.190);
   }
 
-  .paginacao a {
-    height: 30px;
-    width: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.850rem;
-    font-weight: 500;    
-    margin: 0px 4px;     
-    border-radius: 4px;
-  }
-
   .activePage {
     background: rgba(0,0,0,0.190);
+  }
+
+  .caret-right, .caret-left {
+    font-size: 1.05rem;
   }
 </style>

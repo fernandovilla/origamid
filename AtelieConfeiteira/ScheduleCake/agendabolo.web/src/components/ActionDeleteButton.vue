@@ -1,6 +1,6 @@
 <template>
-  <button class="btn-action delete">
-    <img src="@/assets/delete-white.svg" alt="deletar">
+  <button class="btn btn-action delete">    
+    <font-awesome-icon icon="fa-solid fa-trash" />
   </button>
 </template>
 

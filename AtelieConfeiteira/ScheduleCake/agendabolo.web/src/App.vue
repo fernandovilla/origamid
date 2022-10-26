@@ -25,6 +25,11 @@ export default {
   @import './styles/buttons.css';
   @import './styles/content.css';
 
+  * {
+    box-sizing: border-box;    
+    margin: 0;
+    padding: 0;
+  }
 
   .main {
     display: flex;   
@@ -34,7 +39,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     overflow: hidden;
-    flex-basis: 200px;
+    flex-basis: 220px;
   }
 
   .body {
@@ -43,10 +48,6 @@ export default {
     flex-shrink: 1;
     overflow: auto;
     height: calc(100vh - 30px);
-  }
-
-  * {
-    box-sizing: border-box;
   }
 
   #app {

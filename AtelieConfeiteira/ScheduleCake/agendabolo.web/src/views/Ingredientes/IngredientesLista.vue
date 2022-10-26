@@ -1,9 +1,10 @@
 <template>
   <span class="wrap">
     <div class="header-page">
-      <h1>Ingredientes</h1>
-      <router-link class="btn-outline-primary" to="/ingrediente">Adicionar Novo</router-link>
+      <h1>Home > Ingredientes</h1>
+      <add-button to="ingrediente">Novo Ingrediente</add-button>      
     </div>
+
     <div class="content">      
       <table v-if="this.ingredientes !== null" class="table-data">
         <thead>
@@ -48,8 +49,9 @@
 <script>
 import { ingredientesAPIService } from '../../services/IngredientesAPIService.js'
 import PaginacaoItems from '../../components/PaginacaoItems.vue';
-import ActionEditButton from '@/components/ActionEditButton.vue'
-import ActionDeleteButton from '@/components/ActionDeleteButton.vue'
+import ActionEditButton from '@/components/ActionEditButton.vue';
+import ActionDeleteButton from '@/components/ActionDeleteButton.vue';
+import AddButton from '@/components/AddButton.vue';
 
 export default {
   name: 'ingredientes-lista',
@@ -61,6 +63,7 @@ export default {
   },
   components: {
     PaginacaoItems,
+    AddButton,
     ActionEditButton,
     ActionDeleteButton
 },
@@ -120,6 +123,21 @@ export default {
 
 <style scoped>
   @import '../../styles/table-data.css';
+
+  .header-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+  }
+
+  .header-page h1 {
+    margin-bottom: 10px;
+  }
+
+  .header-page button {
+    margin-left: 0px;
+  }
 
   .content {
     overflow: auto;

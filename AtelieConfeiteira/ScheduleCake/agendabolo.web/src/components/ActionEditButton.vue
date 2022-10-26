@@ -1,6 +1,6 @@
 <template>
-  <button class="btn-action editar">
-    <img src="@/assets/edit-white.svg" alt="editar">
+  <button class="btn btn-action edit">
+    <font-awesome-icon icon="fa-solid fa-pen" />
   </button>
 </template>
 
@@ -10,6 +10,3 @@ export default {
 }
 </script>
 
-<style>
-
-</style>

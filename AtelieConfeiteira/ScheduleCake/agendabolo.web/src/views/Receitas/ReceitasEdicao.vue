@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">    
     <span class="header-page">
-      <h1>Receita</h1>    
+      <h1>{{PageTitle}}</h1>    
       <span v-if="receita.id > 0" class="header-page-id">Id: {{receita.id}}</span>  
     </span>        
 
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       receita: {
-        id: 1,
+        id: 0,
         nome: '',
         descricao: '',
         status: 1
@@ -77,6 +77,14 @@ export default {
       InputArea,
       SelectStatus
   },
+  computed: {
+    PageTitle(){
+        if (this.receita.id === 0)
+          return 'Nova Receita';
+        
+          return 'Edição Receita';
+      }
+  },  
   methods: {
     async incluirReceita() {
       console.log("Incluindo...");

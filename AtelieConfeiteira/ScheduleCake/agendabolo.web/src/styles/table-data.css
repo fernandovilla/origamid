@@ -59,9 +59,7 @@
 }
 
 
-@media screen and (max-width: 500px) {
-    
-  .btn-action.editar, 
+@media screen and (max-width: 500px) {    
   .head-status, 
   .body-status {
     display: none;
@@ -69,35 +67,7 @@
 }
 
 
-.btn-action {
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  padding: 2px;
-  cursor: pointer;
-  border: none;
-  margin-right: 2px;
-}
 
-.btn-action img {    
-  width: 20px;
-  height: 20px;
-  margin: 0 auto;
-  text-align: center;    
-}
-
-.btn-action.editar {
-  background: var(--background-color-blue);
-}
-
-.btn-action.delete {
-  background: var(--background-color-red);
-}
-
-.btn-action:hover {    
-  opacity: 0.8;
-  box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
-}
 
 /* FOOT *************************************************************/
 

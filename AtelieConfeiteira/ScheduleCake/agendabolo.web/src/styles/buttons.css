@@ -1,29 +1,34 @@
+button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;      
+}
+
 .btn {
-  display: block;  
-  padding: 10px 30px;
-  margin: 5px;
-  max-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  padding: 7px 30px;  
   border: none;
-  border-radius: 4px;
-  font-size: 0.8rem;    
-  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  border-radius: 5px;  
+  font-weight: 400;
+  color: var(--text-color-dark);
   text-align: center;
-  text-transform: uppercase;  
   box-shadow: 0 4px 8px rgba(30,60,90,0.2);
-  cursor: pointer;
-  transition: all .2s;  
+  cursor: pointer;  
+  transition: all .2s ease;  
   outline: none;
 }
 
-.btn:hover {
-  opacity: .95;
-  transform: scale(1.04);
+.btn-action {
+  border-radius: 15px;
+  color: var(--text-color-white);
+  background: tomato;
 }
 
-.btn-primary {    
-  background: var(--background-color-blue);
-  color: var(--text-color-white);
+.btn:hover {
+  opacity: .855;
+  transform: scale(1.03);
 }
 
 .btn-normal:hover {
@@ -31,21 +36,56 @@
   color: var(--text-color-dark);
 }
 
-.btn-secondary {
-  background: var(--background-color-error);
+.btn-primary {      
+  font-weight: 400;  
   color: var(--text-color-white);
+  background: var(--background-color-blue);   
+  padding: 5px 30px;
 }
 
 .btn-outline-primary {
   color: var(--text-color-blue);
   background: var(--background-color-white);  
-  border: 1px solid var(--border-color-blue);  
-  border-radius: 4px;  
-  margin-left: 10px;
-  padding: 5px 10px;
-  cursor: pointer;
+  border: 1px solid var(--background-color-blue);  
+  padding: 5px 5px;
 }
 
-.btn-outline-primary:hover {
-  background-color: var(--background-color-light);   
+.btn-secondary {
+  background: var(--background-color-error);
+  color: var(--text-color-white);
 }
+
+
+.btn-action {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  padding: 2px;  
+  margin-right: 5px;
+  background: none;
+}
+
+.btn-action.edit {
+  color: var(--text-color-white);
+  background: var(--background-color-blue);
+}
+
+.btn-action.delete {
+  background: var(--background-color-red);
+}
+
+.btn-action:hover {    
+  opacity: 0.8;
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.6);
+}
+
+@media screen and (max-width: 500px) {
+    
+  .btn-action.editar, 
+  .head-status, 
+  .body-status {
+    display: none;
+  }
+}
+
+

@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">    
     <span class="header-page">
-      <h1>Ingrediente</h1>    
+      <h1>{{PageTitle}}</h1>    
       <span v-if="ingrediente.id > 0" class="header-page-id">Id: {{ingrediente.id}}</span>  
     </span>   
          
@@ -74,6 +74,12 @@ export default {
           return Number(this.ingrediente.precoCusto.replace(',','.'));        
         else 
           return this.ingrediente.precoCusto;
+      },
+      PageTitle(){
+        if (this.ingrediente.id === 0)
+          return 'Novo Ingrediente';
+        
+          return 'Edição Ingrediente';
       }
     },
     methods: {
