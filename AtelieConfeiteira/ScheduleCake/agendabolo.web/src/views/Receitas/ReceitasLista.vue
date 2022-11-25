@@ -4,7 +4,9 @@
       <h1>Home > Receitas</h1>     
       <add-button to="receita">Nova Receita</add-button>      
     </div>
-    <div class="content">      </div>
+    <div class="content">
+      
+    </div>
   </span>
 </template>
 

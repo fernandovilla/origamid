@@ -30,6 +30,30 @@
 
       <div class="group span6">
         <h2 class="title">Ingredientes</h2>
+
+        <table class="table-data">
+          <thead>
+            <tr>
+              <th class="head-id">Id</th>
+              <th class="head-nome">Ingrediente</th>
+              <th class="head-percent">%</th>
+              <th class="head-quilo">Kg</th>
+              <th class="head-custo">Custo</th>
+              <th class="head-actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Farinha de Trigo</td>
+              <td>60</td>
+              <td>600g</td>
+              <td>10.00</td>
+              <td>OK</td>
+            </tr>
+          </tbody>
+          <tfoot></tfoot>
+        </table>
       </div>
 
       <div class="group span12">
@@ -66,7 +90,8 @@ export default {
         id: 0,
         nome: '',
         descricao: '',
-        status: 1
+        status: 1,
+        ingredientes: []
       },
       menssagemSucesso: '',
       mensagem: ''
@@ -92,14 +117,39 @@ export default {
 
     async alterarReceita(){
       console.log("Alterando...");
-    }
-  }
+    },
 
+    async createReceitaMock(){
+      this.receita = {
+        id: 1,
+        nome: 'Bolo e Cenoura',
+        descricao: 'Bole de cenoura com cobertura de brigadeiro gourmet',
+        status: 1,
+        ingredientes: [{
+          id: 0,
+          nome: '',
+          quantEmbalagem: null,
+          precoCusto: null,
+          fabricanteId: 0,
+          status: 1
+        }]
+      }
+    }
+  },
+  created() {
+    
+  }  
 }
 </script>
 
 <style scoped>
     @import '@/styles/group.css';
+    @import '@/styles/table-data.css';
+
+
+    .table-data {
+      border: none;
+    }
 
     .buttons {
       display: flex;

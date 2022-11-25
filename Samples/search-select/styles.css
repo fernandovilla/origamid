@@ -1,0 +1,125 @@
+* {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  color: #333;
+}
+
+body {
+  background: #4285F4;
+  text-align: center;
+  display: flex;
+  justify-content: center;  
+}
+
+h1 {
+  color: white;
+}
+
+.field {
+  margin: 2px auto;  
+}
+
+.select {
+  display: flex;
+  flex-direction: column;  
+  position: relative;
+  border: 1px dotted tomato;
+}
+
+.select-btn {
+  background: white;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 7px;
+  font-size: 16px;
+  cursor: pointer;  
+}
+
+
+.select-btn i {
+  cursor: pointer;
+  font-size: 20px;
+  transition: transform 0.3s linear;
+}
+
+.content {
+  display: none;
+  background: white;
+  margin-top: 5px;
+  padding: 20px;
+  text-align: Left;
+  border-radius: 7px;    
+  width: 100%;  
+}
+
+.select.active .content {
+  display: block;
+  z-index: 1;
+  position: absolute;
+  top: 50px
+}
+
+.select.active .select-btn i {
+  transform: rotate(-180deg);
+}
+
+.content .search {
+  position: relative;
+}
+
+.search input {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 15px 0 40px;
+  height: 40px;
+  border: none;  
+  outline: none;
+  transition: border 2s ease-out;
+}
+
+.search input:focus {
+  border-bottom: 1px solid #888;  
+}
+
+.search i {
+  position: absolute;
+  left: 15px;
+  line-height: 40px;  
+}
+
+.content .options {
+  margin-top: 10px;
+  max-height: 300px;
+  padding-right: 7px;
+  overflow: auto;
+}
+
+.options::-webkit-scrollbar {
+  width: 7px;
+}
+.options::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 15px;
+}
+.options::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 15px;
+}
+
+
+.options li {
+  border-radius: 5px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.options li:hover, .options li.selected {
+  background: #ddd;
+  cursor: pointer;
+}

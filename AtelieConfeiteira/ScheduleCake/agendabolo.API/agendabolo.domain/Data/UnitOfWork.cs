@@ -1,5 +1,6 @@
 ﻿using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Ingredientes;
+using Agendabolo.Core.Receitas;
 using Agendabolo.Data;
 using Agendabolo.Utils;
 using System;
@@ -13,7 +14,7 @@ namespace Agendabolo.Data
         private readonly ApplicationDbContext _context;
         private IIngredienteRepository _ingredienteRepository;
         private IFabricanteRepository _fabricanteRepository;
-
+        private IReceitaRepository _receitaRepository;
 
         public UnitOfWork()
             : this(UnitOfWork.GetConnectionString())
@@ -30,6 +31,7 @@ namespace Agendabolo.Data
         }
 
 
+
         public IIngredienteRepository IngredienteRepository
         {
             get => _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_context));
@@ -39,6 +41,13 @@ namespace Agendabolo.Data
         {
             get => _fabricanteRepository ?? (_fabricanteRepository = new FabricanteRepository(_context));
         }
+
+        public IReceitaRepository ReceitasRepository
+        {
+            get => _receitaRepository ?? (_receitaRepository = new Core.Receitas.ReceitaReposiory(_context));
+        }
+
+
 
         public int Save()
         {

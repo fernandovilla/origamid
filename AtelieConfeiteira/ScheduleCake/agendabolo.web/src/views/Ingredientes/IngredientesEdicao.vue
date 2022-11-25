@@ -17,11 +17,16 @@
           </div>
 
           <div class="input-group row3 span6">
-            <label for="precoCusto">Preço Custo</label>
+            <label for="quantidadeEmbalagem">Quant. Embalagem (gramas)</label>
+            <input-currency id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantEmbalagem" decimalCases="0"/>
+          </div>
+
+          <div class="input-group row3 span6">
+            <label for="precoCusto">Preço Custo (quilo)</label>
             <input-currency id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" />
           </div>
           
-          <div class="input-group row3 span6">
+          <div class="input-group row4 span4">
             <label for="status">Status</label>
             <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
           </div>
@@ -55,6 +60,7 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
+          quantEmbalagem: null,
           precoCusto: null,
           fabricanteId: 0,
           status: 1
