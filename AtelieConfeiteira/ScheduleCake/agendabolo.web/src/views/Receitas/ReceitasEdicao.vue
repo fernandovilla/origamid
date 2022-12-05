@@ -81,7 +81,6 @@ import InputBase from '@/components/InputBase.vue';
 import SelectStatus from '../../components/SelectSatus.vue';
 import InputArea from '@/components/InputArea.vue';
 
-
 export default {
   name: "receita-edicao",
   data() {

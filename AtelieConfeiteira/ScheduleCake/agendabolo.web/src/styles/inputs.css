@@ -5,6 +5,7 @@
   flex-direction: column;
 }
 
+.input-gruop.input,
 .input-group input, 
 .input-group select, 
 .input-group textarea {

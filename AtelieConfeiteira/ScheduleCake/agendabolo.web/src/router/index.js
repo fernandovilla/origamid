@@ -50,6 +50,11 @@ const ingredientesRoutes = [
     component: () => import('@/views/Ingredientes/IngredientesEdicao.vue'),
     props: true,
   },
+  {
+    path: '/adicionaIngrediente',
+    name: 'ingrediente-adiciona',
+    component: () => import('@/views/Ingredientes/AdicionarIngrediente.vue'),
+  },
 ];
 
 const receitasRoutes = [

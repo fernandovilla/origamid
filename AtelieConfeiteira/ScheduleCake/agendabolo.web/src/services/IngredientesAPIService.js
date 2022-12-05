@@ -16,6 +16,20 @@ export const ingredientesAPIService = {
     }
   },
 
+  async obterIngredientesPorNome(nome) {
+    try {
+      const response = await api.get(`/ingredientes/query/${nome}`);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+
   async obterIngrediente(id) {
     try {
       const response = await api.get(`/ingredientes/${id}`);

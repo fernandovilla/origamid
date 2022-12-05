@@ -25,19 +25,46 @@ namespace Agendabolo.Controllers
 
             try
             {
-                var total = _service.GetTotal();
-
-                var insumos = _service.Get()
+                var ingredientes = _service.Get()
                         .ToList()
                         .OrderBy(i => i.Nome)
                         .Skip(skip)
                         .Take(take);
 
-                if (insumos != null && insumos.Any())
+                if (ingredientes != null && ingredientes.Any())
                     return Ok(new
                     {
-                        total,
-                        data = insumos
+                        total = _service.GetTotal(),
+                        data = ingredientes
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("query/{nome}")]
+        public IActionResult get(string nome)
+        {
+            if (string.IsNullOrEmpty(nome))
+                return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
+
+            try
+            {
+                var ingredientes = _service.Get()
+                    .Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase))
+                    .OrderBy(i => i.Nome)
+                    .ToList();
+
+                if (ingredientes != null && ingredientes.Any())
+                    return Ok(new
+                    {
+                        total = ingredientes.Count(),
+                        data = ingredientes
                     });
 
                 return NoContent();
@@ -70,13 +97,13 @@ namespace Agendabolo.Controllers
 
 
         [HttpPost]
-        public IActionResult post(IngredienteRequest insumo)
+        public IActionResult post(IngredienteRequest ingrediente)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Ingrediente result) = _service.Save(insumo);
+                    (bool ok, Ingrediente result) = _service.Save(ingrediente);
 
                     if (ok)
                         return Ok(result);
@@ -96,13 +123,13 @@ namespace Agendabolo.Controllers
         }
 
         [HttpPut]
-        public IActionResult put(IngredienteRequest insumo)
+        public IActionResult put(IngredienteRequest ingrediente)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Ingrediente result) = _service.Save(insumo);
+                    (bool ok, Ingrediente result) = _service.Save(ingrediente);
 
                     if (ok)
                         return Ok(result);

@@ -1,7 +1,7 @@
 const select = document.querySelector('.select');
 const selectBtn = select.querySelector('.select-btn');
 const options = select.querySelector('.options');
-const textSearch = select.querySelector('#textSearch');
+const 'textSearch' = select.querySelector('#textSearch');
 
 const countries = [
   'Australia',

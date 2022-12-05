@@ -2,20 +2,27 @@
   <span >   
     <select name="status" v-model="selectedValue">
       <option value="0" disabled>Selecione</option>
-      <option value="1">Ativo</option>
-      <option value="2">Bloqueado</option>
-      <option value="3">Excluído</option>
+      <option value="1">{{getStatusDescription(1)}}</option>
+      <option value="2">{{getStatusDescription(2)}}</option>
+      <option value="3">{{getStatusDescription(3)}}</option>
     </select>
   </span>
 </template>
 
 <script>
 
+import StatusCadastro from '@/helpers/StatusCadastro.js';
+
 export default {
   name:'select-status',
   data(){
     return {
       selectedValue: ''
+    }
+  },
+  methods: {
+    getStatusDescription(value) {
+      return StatusCadastro(value);
     }
   },
   watch: {
