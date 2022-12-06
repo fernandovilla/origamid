@@ -47,14 +47,14 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("query/{nome}")]
+        [HttpGet("BuscaPorNome/{nome}")]
         public IActionResult get(string nome)
         {
             if (string.IsNullOrEmpty(nome))
                 return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
 
             try
-            {
+            {                
                 var ingredientes = _service.Get()
                     .Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase))
                     .OrderBy(i => i.Nome)
@@ -84,7 +84,11 @@ namespace Agendabolo.Controllers
                 var ingrediente = _service.GetByID(id);
 
                 if (ingrediente != null)
-                    return Ok(ingrediente);
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = ingrediente
+                    });
 
                 return NotFound("Insumo not found");
             }

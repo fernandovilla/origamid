@@ -1,28 +1,26 @@
 <template>
   <div class="select">
-    <div class="select-button" @click="onclick">
-      <span>Adicionar novo ingrediente</span>      
+    <div class="select-button" @click="handleClickSelectButton">
+      <span>{{ingredienteSelecionado ? ingredienteSelecionado.nome : 'Selecione o ingrediente' }}</span>      
       <font-awesome-icon icon="fa-sharp fa-solid fa-angle-down" class="icon" />      
     </div>
     <div class="select-content">
       <div class="search">
         <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />      
-        <input-base type="text" id="search" placeholder="Digite o nome do ingrediente..." @keyup="onkeyup"  />        
+        <input-base type="text" id="search" placeholder="Digite o nome do ingrediente..." @keyup="handleKeyup" class="search-input"  />        
       </div>
-      <ul v-if="ingredientes" class="options">
-        <li v-for="(item, index) in ingredientes" :key="index" class="item">
+      <ul v-if="(ingredientes !== null)" class="options">
+        <li v-for="(item, index) in ingredientes" :key="index" class="item" @click="handleClickLI(item)">
           <p class="title">{{item.nome}}</p>
           <span class="data">
             <span>Id: {{item.id}}</span>
-            <span>Preço: R$ {{item.precoCusto}}</span>
-            <span>Status: {{getStatusDescription(item.status)}}</span>
+            <span>Preço: R$ {{toCurrencyValue(item.precoCusto)}}</span>
+            <span>Status: {{toStatusDescription(item.status)}}</span>
           </span>
         </li>
       </ul>      
       <div v-else>
-        <p v-if="buscando">Buscando ingredientes. Aguarde...</p>
-        <p v-else-if="(nomeBuscando === '')"></p>
-        <p v-else>Ingrediente não encontrado</p>
+        <p v-if="(buscando)">Buscando ingredientes</p>        
       </div>
     </div>
   </div>
@@ -32,6 +30,7 @@
 import InputBase from './InputBase.vue';
 import StatusCadastro from '@/helpers/StatusCadastro.js';
 import { ingredientesAPIService } from '@/services/IngredientesAPIService.js';
+import { resolveComponent } from '@vue/runtime-core';
 
 export default {
 
@@ -39,20 +38,62 @@ export default {
   data(){ return {
     buscando: false,
     nomeBuscando: '',
-    nomeBuscado: '',
-    ingredientes: null,
+    nomeBuscado: '',    
+    ingredientes: null,    
+    ingredienteSelecionado: null,
   }},
+  props: {
+    selectedItem: {
+      type: Object,
+      default: null
+    },
+    selectedNomeItem: {
+      type: String,
+      default: ''
+    }
+  },  
   components: {
     InputBase
   },
+  compouted: {
+    searchInput() { 
+      return document.querySelector(".search-input");
+    }
+  },
   methods: {
-    onclick(){
+    handleClickSelectButton(){
       var select  = document.querySelector(".select");
-      select.classList.toggle('active');
+
+      if (!select.classList.contains('active')) {
+        select.classList.add('active');
+
+        var inputSearch = document.querySelector(".search-input");
+        if (this.ingredienteSelecionado !== null) {
+          inputSearch.value = this.ingredienteSelecionado.nome;
+          this.ingredientes = null;
+          this.getIngredientesPorNome( this.ingredienteSelecionado.nome);
+        }
+
+        inputSearch.focus();
+        inputSearch.select();
+        
+      } else {
+        select.classList.remove('active');
+      }
     },
 
-    onkeyup(events) {
-      var value = events.target.value;
+    handleKeyup(events) {
+      var value = events.target.value.trim();
+
+      if (events.key === 'ArrowDown') {
+        if (this.ingredientes !== null) {
+          var li = document.querySelector('.options li');
+          li.focus();
+
+          console.log(li);
+        }
+      }
+
 
       if (value === this.nomeBuscado)
         return;
@@ -76,16 +117,26 @@ export default {
 
 
       this.buscando = true;
-      this.nomeBuscando = value.trim();
+      this.nomeBuscando = value;
       
-      this.getValues(this.nomeBuscando);
+      this.getIngredientesPorNome(this.nomeBuscando);
 
       this.nomeBuscado = this.nomeBuscando;
       this.nomeBuscando = '';
-      this.buscando = false;
+
+      setTimeout(() => {
+        this.buscando = false;  
+      }, 300);      
     },
 
-    async getValues(nomeIngrediente){      
+    handleClickLI(item){
+      this.ingredienteSelecionado = item;
+      this.handleClickSelectButton();
+    },
+
+    
+
+    async getIngredientesPorNome(nomeIngrediente){      
       const response = await ingredientesAPIService.obterIngredientesPorNome(nomeIngrediente);
 
       if (response !== undefined && response !== null) {
@@ -95,17 +146,51 @@ export default {
       }
     },
 
-    getStatusDescription(value){
+    async getIngredientePorId(id){
+      const response = await ingredientesAPIService.obterIngrediente(id);
+
+      if (response !== undefined && response !== null) {        
+        return response.data;
+      } else {
+        return null;
+      }
+    },
+
+    toStatusDescription(value){
       return StatusCadastro(value);
     },
 
-    async fillIngredientes(){
-      this.ingredientes = await JSON.parse(`[{"id":4,"nome":"CREME DE LEITE CAIXA 200G","precoCusto":0,"status":1},{"id":2,"nome":"LEITE CONDENSADO MOÇA LATA 395G","precoCusto":8.99,"status":1},{"id":324,"nome":"LEITE DE COCO","precoCusto":4.59,"status":1},{"id":3,"nome":"LEITE INTEGRAL 1L","precoCusto":0,"status":1}]`);
-    }
+    toCurrencyValue(value){
+      if (value === undefined || value === '') {
+        return '0,00';
+      }
 
-  },
-  created(){
-    this.fillIngredientes();
+      return parseFloat(value.toString().replace(',','.')).toFixed(2).replace('.',',');
+    },
+
+    async fillIngredientesTeste(){
+      this.ingredientes = await JSON.parse(`[{"id":4,"nome":"CREME DE LEITE CAIXA 200G","precoCusto":0,"status":1},{"id":2,"nome":"LEITE CONDENSADO MOÇA LATA 395G","precoCusto":8.99,"status":1},{"id":324,"nome":"LEITE DE COCO","precoCusto":4.59,"status":1},{"id":3,"nome":"LEITE INTEGRAL 1L","precoCusto":0,"status":1}]`);
+    },
+
+    async loadIngredienteInicial(ingrediente){
+      this.ingredienteSelecionado = ingrediente;
+
+      if (ingrediente.id){
+        this.ingredienteSelecionado = await this.getIngredientePorId(ingrediente.id);        
+        this.ingredientes = [...[], this.ingredienteSelecionado];
+      } else {
+        await this.getIngredientesPorNome(ingrediente.nome);
+        this.ingredienteSelecionado = this.ingredientes[0];
+      }
+    }
+  },    
+
+  async mounted(){
+    if (this.selectedItem !== null) {            
+      await this.loadIngredienteInicial(this.selectedItem);
+    } else if (this.selectedNomeItem !== '') {
+      await this.loadIngredienteInicial({nome: this.selectedNomeItem});
+    }
   }
 }
 </script>
@@ -167,9 +252,17 @@ export default {
     display: flex;
     align-content: center;
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
-    padding: 20px 10px 10px 20px;
+    /* border-bottom: 1px solid rgba(0,0,0,0.2); */
+    /* padding: 20px 10px 10px 20px; */
     margin-bottom: 10px;
+    margin: 10px;
+    padding: 10px;
+    background: var(--background-color-light);
+    border-radius: 15px;
+  }
+
+  .select-content .search input {
+    background: var(--background-color-light);
   }
 
   .select-content .search .icon {    
@@ -183,7 +276,6 @@ export default {
     outline: none;
     text-transform: uppercase;    
   }
-
   .select-content .options {
     max-height: 300px;
     overflow: auto;
@@ -191,7 +283,8 @@ export default {
   }
 
   .select-content .options .item {
-    padding: 10px;
+    padding: 5px 10px;
+    margin: 0px 5px;
     border-bottom: 1px solid rgba(0,0,0,0.2);
   }
 
@@ -203,11 +296,29 @@ export default {
   .select-content .options .item .data {
     display: flex;
     justify-content: space-between;
-    
-    margin-bottom: 5px;
-    
+    margin-bottom: 5px; 
   }
 
+  .select-content .options::-webkit-scrollbar {
+    width: 7px; 
+  }
+  .select-content .options::-webkit-scrollbar-track {
+    background: var(--background-color-light);
+    border-radius: 7px;
+  }
+  .select-content .options::-webkit-scrollbar-thumb {
+    background: var(--background-color-dark2);
+    border-radius: 7px;
+  }
 
+  .select-content .options .item:nth-child(odd) {
+    background: var(--background-color-light);
+  }
+
+  .select-content .options .item:hover {
+    background: var(--background-color-blue);
+    color: var(--text-color-white);
+    cursor: pointer;
+  }
 
 </style>

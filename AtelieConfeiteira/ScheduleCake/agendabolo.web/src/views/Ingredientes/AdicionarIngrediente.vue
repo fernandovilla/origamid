@@ -1,7 +1,7 @@
 <template>
   <span>
   <div class="content">    
-      <busca-ingrediente class="row1 span6" />    
+      <busca-ingrediente class="row1 span6" :selectedItem="{id: 103}" />    
   </div>
 </span>
 </template>

@@ -1,7 +1,7 @@
 const select = document.querySelector('.select');
 const selectBtn = select.querySelector('.select-btn');
 const options = select.querySelector('.options');
-const 'textSearch' = select.querySelector('#textSearch');
+const textSearch = select.querySelector('#textSearch');
 
 const countries = [
   'Australia',
@@ -69,7 +69,7 @@ selectBtn.addEventListener('click', () => {
 
     var selectedLI = options.querySelector('li.selected');
     if (selectedLI !== undefined) {
-        options.scroll({
+      options.scroll({
         top: selectedLI.offsetTop - options.offsetTop,
         left: 0,
         behavior: 'smooth',
