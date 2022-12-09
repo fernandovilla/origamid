@@ -30,7 +30,6 @@
 import InputBase from './InputBase.vue';
 import StatusCadastro from '@/helpers/StatusCadastro.js';
 import { ingredientesAPIService } from '@/services/IngredientesAPIService.js';
-import { resolveComponent } from '@vue/runtime-core';
 
 export default {
 
@@ -82,14 +81,14 @@ export default {
       }
     },
 
+    
+
     handleKeyup(events) {
       var value = events.target.value.trim();
 
       if (events.key === 'ArrowDown') {
         if (this.ingredientes !== null) {
-          var li = document.querySelector('.options li');
-          li.focus();
-
+          var li = document.querySelector('.options:first');          
           console.log(li);
         }
       }
@@ -281,6 +280,7 @@ export default {
     overflow: auto;
     margin: 10px;
   }
+
 
   .select-content .options .item {
     padding: 5px 10px;
