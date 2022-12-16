@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  padding: 0;  
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, p {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+/****** HEADER ************************************************************/
+
+header {
+  background: #07172f;
+  color: #fff;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+header .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: all 2s ease;
+}
+
+header ul {
+  list-style: none;
+}
+
+header nav {
+  display: none;
+}
+
+@media screen and (min-width: 576px) {
+  header nav {
+    display: block;
+  }
+
+  header .container {
+    justify-content: space-between;
+  }
+}
+
+header ul li {
+  display: inline;
+  margin-left: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+header img.logo {
+  max-width: 120px;
+}
+
+/****** HERO ************************************************************/
+
+section.hero {
+  background-image: url('./assets/background.png');
+  background-size: cover;
+  height: calc(100vh - 60px);
+  color: white;
+  margin-top: 60px;
+}
+
+section.hero .container {
+  display: flex;
+  align-items: center;  
+  height: 100%;
+}
+
+section.hero .hero-content p {
+  margin: 8px 0px;
+  max-width: 520px;
+  font-size: 18px;
+}
+
+/****** PRODUCTS ************************************************************/
+
+section.products {
+  padding: 40px 0;
+}
+
+section.products .product {
+  background: lightgray;
+  height: 200px;
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section.products .container {
+  display: flex;
+  justify-content: space-between;  
+  text-align: center;
+}
+
+@media screen and (max-width: 576px) {
+  section.products .container {
+    flex-direction: column;    
+  }
+
+  section.products .product {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+
+  section.products .product:last-child {
+    margin-bottom: 0px;
+  }
+}

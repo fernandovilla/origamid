@@ -1,11 +1,12 @@
 const select = document.querySelector('.select');
+const content = document.querySelector('.content');
 const selectBtn = select.querySelector('.select-btn');
 const options = select.querySelector('.options');
 const textSearch = select.querySelector('#textSearch');
+var listItens = options.getElementsByTagName('li');
 
 var index = -1;
 var liSelected;
-var listItens = options.getElementsByTagName('li');
 
 const countries = [
   'Australia',
@@ -43,6 +44,8 @@ const countries = [
   'Zimbabue',
 ];
 
+const listaAtivada = () => select.classList.contains('active');
+
 const fillOptions = (arrayValues, selectedItem) => {
   var classItem = '';
   const newArray = arrayValues
@@ -60,6 +63,7 @@ const fillOptions = (arrayValues, selectedItem) => {
     .join('');
   options.innerHTML = newArray ? newArray : '<p>Oops! Country not found</p>';
 };
+fillOptions(countries);
 
 const updateName = (selectedLi) => {
   select.classList.remove('active');
@@ -67,8 +71,6 @@ const updateName = (selectedLi) => {
   fillOptions(countries, selectedLi.innerText);
   selectBtn.firstElementChild.innerText = selectedLi.innerText;
 };
-
-fillOptions(countries);
 
 const scrollToSelected = (direction, forced) => {
   if (liSelected !== undefined) {
@@ -110,13 +112,13 @@ const scrollToSelected = (direction, forced) => {
   }
 };
 
-const removeClass = (element) => {
+const removeSelected = (element) => {
   if (element !== undefined) {
     element.classList.remove('selected');
   }
 };
 
-const addClass = (element) => {
+const addSelected = (element) => {
   if (element !== undefined) {
     element.classList.add('selected');
   }
@@ -125,7 +127,7 @@ const addClass = (element) => {
 const moveItem = (direction) => {
   var len = listItens.length - 1;
 
-  removeClass(liSelected);
+  removeSelected(liSelected);
 
   if (direction === 'down' || direction === 'down+') {
     if (liSelected) {
@@ -160,17 +162,33 @@ const moveItem = (direction) => {
   liSelected = listItens[index];
 
   setTimeout(() => {
-    addClass(liSelected);
+    addSelected(liSelected);
     scrollToSelected(direction);
   }, 30);
 };
 
-const selecionaItem = () => {
+const selectItem = () => {
   var li = options.getElementsByTagName('li')[index];
   updateName(li);
 };
 
-const handleKeyDown = (event) => {
+const activeListItems = () => {
+  if (!listaAtivada()) {
+    select.classList.add('active');
+    textSearch.focus();
+
+    if (selectBtn.firstElementChild.innerText !== undefined) {
+      const text = selectBtn.firstElementChild.innerText;
+      textSearch.value = text;
+      scrollToSelected('down');
+    }
+  } else {
+    scrollToSelected('home', true);
+    select.classList.remove('active');
+  }
+};
+
+const textSearchHandleKeyDown = (event) => {
   switch (event.keyCode) {
     case 34:
     case 40:
@@ -187,12 +205,15 @@ const handleKeyDown = (event) => {
       moveItem('end');
       break;
     case 13:
-      selecionaItem();
+      selectItem();
+      break;
+    case 27:
+      activeListItems();
       break;
   }
 };
 
-const handleKeyUp = (event) => {
+const textSearchHandleKeyUp = (event) => {
   var navigateKeys = [33, 34, 38, 40];
   if (navigateKeys.includes(event.keyCode)) return;
 
@@ -209,42 +230,62 @@ const handleKeyUp = (event) => {
   }
 };
 
-textSearch.addEventListener('keydown', handleKeyDown, false);
+const docHandleClick = (event) => {
+  var posSelect = select.getBoundingClientRect();
+  var x = event.clientX + 1;
+  var y = event.clientY + 1;
+  var ativado = select.classList.contains('active');
 
-textSearch.addEventListener('keyup', handleKeyUp, false);
+  var clicouDentroSelect = false;
+  if (
+    x >= posSelect.left &&
+    x <= posSelect.right &&
+    y >= posSelect.top &&
+    y <= posSelect.bottom
+  ) {
+    clicouDentroSelect = true;
 
-select.addEventListener('focusout', () => {
-  setTimeout(() => {
-    scrollToSelected('home', true);
-    select.classList.remove('active');
-  }, 100);
-});
-
-select.addEventListener('focus', () => {
-  ativaLista();
-});
-
-const ativaLista = () => {
-  if (!select.classList.contains('active')) {
-    select.classList.add('active');
-    textSearch.focus();
-
-    if (selectBtn.firstElementChild.innerText !== undefined) {
-      const text = selectBtn.firstElementChild.innerText;
-      scrollToSelected('down');
+    if (!ativado) {
+      activeListItems();
+      return;
+    } else {
+      activeListItems();
     }
-  } else {
-    scrollToSelected('home', true);
-    select.classList.remove('active');
+  }
+
+  var clicouDentroContent = false;
+  var posContent = content.getBoundingClientRect();
+
+  if (
+    x >= posContent.left &&
+    x <= posContent.right &&
+    y >= posContent.top &&
+    y <= posContent.bottom
+  ) {
+    clicouDentroContent = true;
+  }
+
+  if (!clicouDentroSelect && !clicouDentroContent) {
+    setTimeout(() => {
+      scrollToSelected('home', true);
+      select.classList.remove('active');
+    }, 50);
   }
 };
 
-selectBtn.addEventListener('keyup', (event) => {
-  if (event.keyCode === 40) {
-    ativaLista();
+const selectHandleKeyUp = (event) => {
+  if (
+    (event.keyCode === 40 || event.keyCode === 13 || event.keyCode === 27) &&
+    !listaAtivada()
+  ) {
+    activeListItems();
   }
-});
+};
 
-selectBtn.addEventListener('click', () => {
-  ativaLista();
-});
+textSearch.addEventListener('keydown', textSearchHandleKeyDown, false);
+
+textSearch.addEventListener('keyup', textSearchHandleKeyUp, false);
+
+select.addEventListener('keyup', selectHandleKeyUp, false);
+
+document.addEventListener('click', docHandleClick, false);

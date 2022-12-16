@@ -6,10 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="stylesModal.css">
+  <link rel="stylesheet" href="grid.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
   <title>Document</title>
 </head>
 
@@ -41,12 +44,30 @@
     </div>
 
     <div class="field">
-      <p>TESTE</p>
+      <button class="modal-button">Modal</button>
+      <div class="modal">
+        <div class="modal-content">
+          <span class="head">
+            <p>Display Modal</p>
+            <i class="uil uil-times"></i>
+          </span>
+          <div class="body">
+            <div class="bolinhas">
+              <span class="bolinha1"></span>
+              <span class="bolinha2"></span>
+              <span class="bolinha3"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-
   </div>
+
+
+
   <script src="./scripts.js"></script>
+  <script src="./scriptsModal.js"></script>
 </body>
 
 </html>

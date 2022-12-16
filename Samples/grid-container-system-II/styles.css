@@ -1,0 +1,90 @@
+body, p, h2 {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/********** SECTION HEADER **********************************/
+
+header.menu {
+  background: #02132b;
+  height: 60px;  
+  color: white;
+}
+
+header.menu .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;    
+}
+
+header.menu img {
+  max-width: 140px;
+}
+
+header.menu .options {
+  flex-grow: 1;
+  padding: 0 15px;
+  text-align: center;
+  display: none;
+}
+
+header.menu nav ul {
+  display: flex;
+  justify-content: space-between; 
+}
+
+header.menu nav ul li {
+  display: inline;
+  cursor: pointer;
+  padding-left: 20px;
+  margin-left: 5px;
+  
+}
+
+/******** SECTION HERO *****************************************/
+
+section.hero  {
+  background-image: url(./assets/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: calc(100vh - 60px);
+  color: white;  
+}
+
+section.hero .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+section.hero h2 {
+  border-bottom: 1px solid white;
+  width: 500px;
+  text-align: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  font-size: 24px; 
+}
+
+section.hero p {
+  width: 500px;
+  text-align: center;
+  font-size: 16px;
+  padding: 0px 20px;
+  box-sizing: border-box;  
+}
+
+/************ PRODUCTS SECTION *****************************************/
+.products .container {
+  height: 200px;
+}
+
+.products .product {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}

@@ -1,0 +1,41 @@
+::root {
+  --gap: 20px
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0px;
+}
+
+/* .container::before, .container::after {
+  content: '';
+  display: table;
+  clear: both;
+} */
+
+.col1, .col2, .col3, .col4, .col5, .col6, .col7, .col8, .col9, .col10, .col11, .col12  {
+  margin-left: 5px;
+  margin-right: 5px;
+  float: left;
+  display: block;
+  min-height: 1px;
+  box-sizing: border-box;
+}
+
+
+
+.col1 { width: calc(8.333% - 10px); }
+.col2 { width: calc(16.666% - 10px); }
+.col3 { width: calc(25% - 10px); }
+.col4 { width: calc(33.333% - 10px); }
+.col5 { width: calc(41.666 - 10px); }
+.col6 { width: calc(50% - 10px); }
+.col7 { width: calc(58.333% - 10px); }
+.col8 { width: calc(66.666% - 10px); }
+.col9 { width: calc(75% - 10px); }
+.col10 { width: calc(83.333% - 10px); }
+.col11 { width: calc(91.666% - 10px); }
+.col12 { 
+  width: calc(100% - 10px); 
+}

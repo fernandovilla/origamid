@@ -1,0 +1,98 @@
+:root {
+  --tempo: 0.75s;
+
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  background: rgba(0,0,0,0.8);
+  top: 500;
+  right: 0;
+  width: 100vw;
+  height: 100vh;      
+}
+
+.modal.active {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  z-index: 2;  
+}
+
+.modal-content {
+  width: 800px;
+  height: 300px;
+  border-radius: 7px;  
+  background: white;  
+  animation: go-top 0.3s forwards;
+}
+
+@keyframes go-top {
+  from {
+    transform: translateY(-100px);   
+  } to {
+    transform: translateY(0px);
+  }
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0px 15px;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.head i {
+  font-size: 24px;
+  color: red;  
+  cursor: pointer;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 53px);
+  width: calc(100% - 2px);
+}
+
+.bolinhas {
+  height: 40px;
+  width: 70px;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /* border-bottom: 2px solid #4285f4; */
+  /* border-radius: 3px; */
+  padding: 0px 7px;  
+}
+
+.bolinhas span {
+  width: 12px;
+  height: 12px;
+  background: #4285f4;
+  border-radius: 50%;    
+}
+
+.bolinhas .bolinha1 {
+  animation: ping var(--tempo) linear infinite;
+}
+
+.bolinhas .bolinha2 {
+  animation: ping var(--tempo) linear .20s infinite;
+}
+
+.bolinhas .bolinha3 {
+  animation: ping var(--tempo) linear .40s infinite;
+}
+
+@keyframes ping {
+  0% { transform: translateY(0px); }   
+  50% { transform: translateY(-25px);  }    
+  100% { transform: translateY(0px);  }  
+}
