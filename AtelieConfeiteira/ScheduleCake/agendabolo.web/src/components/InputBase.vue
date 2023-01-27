@@ -7,7 +7,10 @@
 export default {
   name: 'input-base',
   props: {
-    type: String,
+    type: { 
+      type: String,
+      default: 'text'
+    },
     modelValue: { 
       type: [String, Number], 
       default: '' 

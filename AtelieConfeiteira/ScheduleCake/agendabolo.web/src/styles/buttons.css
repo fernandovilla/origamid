@@ -74,6 +74,12 @@ button {
   background: var(--background-color-red);
 }
 
+.btn-action.up,.btn-action.down {
+  background: var(--background-color-blue);
+}
+
+  
+
 .btn-action:hover {    
   opacity: 0.8;
   box-shadow: 0px 0px 4px rgba(0,0,0,0.6);

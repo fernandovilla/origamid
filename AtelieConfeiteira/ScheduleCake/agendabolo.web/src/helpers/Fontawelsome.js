@@ -11,6 +11,8 @@ import {
   faCaretRight,
   faCaretLeft,
   faCircleXmark,
+  faCaretUp,
+  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -33,6 +35,8 @@ const FontawelsomeLibrary = (app) => {
     faAngleDown,
     faSearch,
     faCircleXmark,
+    faCaretUp,
+    faCaretDown,
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

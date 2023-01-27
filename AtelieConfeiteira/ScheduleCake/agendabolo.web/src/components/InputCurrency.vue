@@ -1,5 +1,4 @@
 <template>
-  <div>
     <input-base 
       id="inputCurrency"  
       type="text"       
@@ -8,7 +7,6 @@
       @change="handleChange" 
       @focus="handleFocus" 
       @focusout="handleFocusOut" />  
-  </div>
 </template>
 
 <script>
@@ -18,7 +16,8 @@ export default {
   name:'input-currency',
   data() {
     return {
-      internalValue: ''
+      internalValue: '',
+      focusNow: false
     }
   },
   components: {
@@ -26,13 +25,16 @@ export default {
   }, 
   props: {
     modelValue: { type: [String, Number], default: '0,00' },
-    decimalCases: { type: Number, default: 2 }
+    decimalCases: { type: Number, default: 2 },
+    allowNegative: { type: Boolean, default: false}
   },
   computed: {
-    numericValue() {
-      
+    numericValue() {      
       if (this.internalValue === null)
         return '';
+
+      if (isNaN(this.internalValue.toString().replace(',','.')))
+        return '';    
 
       if (this.internalValue > 0 || this.internalValue.length > 0){
         return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
@@ -51,19 +53,37 @@ export default {
 
       var input = event.target;
 
-      if (event.key ===',' && input.value.includes(',')) {
-          event.preventDefault();
-          return false;
-      }
-
-      if (input.value.includes(',')){
-        var index = input.value.indexOf(',');
-        
-        if ((input.value.length - index) > this.decimalCases){
+      // Usuário está digitando ',' porém o input já possui uma
+      if (event.key === ',') {
+        if (input.value.includes(',')) {
           event.preventDefault();
           return false;
         }
       }
+      else if (event.key === '-' && this.allowNegative){
+        if (input.value !== '' && !this.focusNow){
+          event.preventDefault();
+          return false;
+        }
+      } else {
+        if (isNaN(event.key)) {
+          event.preventDefault();
+          return false;
+        }
+      }
+
+      if (input.value.includes(',')) {
+        var index = input.value.indexOf(',');
+        
+        if ((input.value.length - index - 1) > this.decimalCases){
+          event.preventDefault();
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      this.focusNow = false;
     },    
 
     handleChange(event){
@@ -72,11 +92,13 @@ export default {
     
     handleFocus(event){
       event.target.select();     
+      this.focusNow = true;
     },
 
     handleFocusOut(event){
       event.target.value = this.numericValue;
       this.$emit('update:modelValue', this.numericValue);    
+      this.focusNow = false;
     }
   },
   created() {

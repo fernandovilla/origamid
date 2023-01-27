@@ -1,0 +1,15 @@
+
+p {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group input {
+  text-align: right;
+}

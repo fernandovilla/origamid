@@ -2,8 +2,7 @@
   <span class="modal" :class="{active: active}">
     <span class="modal-content">
       <slot></slot>
-    </span>
-    
+    </span>    
   </span>
 </template>
 

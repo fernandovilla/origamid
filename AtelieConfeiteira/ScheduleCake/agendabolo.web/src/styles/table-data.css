@@ -1,41 +1,53 @@
-.table-data {    
-  grid-column: 1 / 13;
+:root {
+  --header-height: 25px;
+  --row-height: 35px;
+  
+}
+
+.table-data {      
   display: table;
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #c3c4c7;    
+  border: 1px solid #c3c4c7;
   box-sizing: border-box;       
   width: 100%;     
-  height: 100%;
+  height: auto;
 }
 
 /* HEAD *************************************************************/
 
 .table-data thead {    
-  display: table-header-group;    
-  vertical-align: middle;            
+  display: table;
+  table-layout: fixed;
+  vertical-align: middle;              
   font-weight: 100;
   width: 100%;
-  height: 35px;
+  height: var(--header-height);
+  border-bottom: 1px solid #c3c4c7; 
 }
 
 .table-data thead tr {    
   background: #fff;     
   display: table-row;
   vertical-align: middle;
-  border-bottom: 1px solid #c3c4c7; 
 }
+
+
 
 /* BODY *************************************************************/
 
-.table-data tbody {
-  /* display: table-row-group; */
+.table-data tbody { 
   border-spacing: 0;
-  background: #f6f7f7;    
+  /* background: #f6f7f7;     */
+  background: var(--background-color-body);
+  overflow: auto;
+  display: block;
 }
 
 .table-data tbody tr {
-  /* line-height: 40px;  */
+  display: table;
+  table-layout: fixed;
+  width: 100%;
   padding: 0px;
   margin: 0px;
 }
@@ -58,6 +70,25 @@
   padding: 5px;
 }
 
+.table-data .body-actions button {
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+}
+
+.table-data td.editable input {    
+  background: none;
+  outline: none;
+  line-height: 24px;     
+  text-align: center;
+  border: 1px solid var(--border-color-input);
+  border-radius: 4px;
+}
+
+.table-data td.editable input:focus {          
+  background: white;
+}
+
 
 @media screen and (max-width: 500px) {    
   .head-status, 
@@ -72,11 +103,18 @@
 /* FOOT *************************************************************/
 
 .table-data tfoot {
-  border-top: 1px solid #c3c4c7;
-  display: table-footer-group;
-  height: 35px;    
+  border-top: 1px solid var(--border-color-light);
+  display: table;
+  table-layout: fixed;
+  height: var(--header-height);    
   width: 100%;   
-  background: #fff;
+  background: var(--background-color-white);
+}
+
+.table-data tfoot tr {
+  height: var(--header-height);
+  display: table;
+  width: 100%;
 }
 
 .table-data tfoot td {
@@ -84,3 +122,27 @@
   height: 100%;
 }
 
+
+
+/* SCROLL ***********************************************************/
+
+/* Width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--border-color-light);
+  border-radius: 4px;
+}
+
+/* Handle:Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-input);
+}
