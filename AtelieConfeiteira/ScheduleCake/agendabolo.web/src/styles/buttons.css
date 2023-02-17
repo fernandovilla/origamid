@@ -75,10 +75,10 @@ button {
 }
 
 .btn-action.up,.btn-action.down {
-  background: var(--background-color-blue);
-}
-
+  /* background: var(--background-color-blue); */
+  background: var(--border-color-input);
   
+} 
 
 .btn-action:hover {    
   opacity: 0.8;

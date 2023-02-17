@@ -283,9 +283,6 @@ const selectHandleKeyUp = (event) => {
 };
 
 textSearch.addEventListener('keydown', textSearchHandleKeyDown, false);
-
 textSearch.addEventListener('keyup', textSearchHandleKeyUp, false);
-
 select.addEventListener('keyup', selectHandleKeyUp, false);
-
 document.addEventListener('click', docHandleClick, false);

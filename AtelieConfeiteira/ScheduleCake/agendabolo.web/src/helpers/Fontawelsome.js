@@ -13,6 +13,7 @@ import {
   faCircleXmark,
   faCaretUp,
   faCaretDown,
+  faPrint,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -37,6 +38,7 @@ const FontawelsomeLibrary = (app) => {
     faCircleXmark,
     faCaretUp,
     faCaretDown,
+    faPrint,
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

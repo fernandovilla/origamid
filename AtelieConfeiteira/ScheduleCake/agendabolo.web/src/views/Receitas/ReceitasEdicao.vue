@@ -25,8 +25,8 @@
                 </div>
                 
                 <div class="input-group col-6">
-                  <label for="pesoBase">Peso Base (gramas)</label>
-                  <input-currency id="pesoBase" placeholder='0,00' v-model="receita.pesoBase" :decimalCases=0 />
+                  <label for="rendimento">Rendimento (gramas)</label>
+                  <input-currency id="rendimento" placeholder='0,00' v-model="receita.rendimento" :decimalCases=0 />
                 </div>
 
                 <div class="input-group col-6">
@@ -42,50 +42,56 @@
           <div class="group ingredientes m-left-10 ">
             <h2 class="title">
               Ingredientes
-              <add-button-small @click.prevent="adicionaIngrediente" :label="'Adicionar Ingrediente'" />
+              <div class="buttons">
+                <button-add-small @click.prevent="adicionaIngrediente" label="" />
+                <span style="margin-left: 5px">|</span>
+                <button-print-small @click.prevent="imprimirIngredientes" label="" />
+              </div>
             </h2>      
 
             <div class="content">
-              <table class="ingredientes table-data">
-                
-                <thead>
-                  <th class="col-id">ID</th>
-                  <th class="col-ingrediente">Ingrediente</th>
-                  <th class="col-percent">%</th>
-                  <th class="col-peso">Kg</th>
-                  <th class="col-custo">Custo</th>
-                  <th class="col-acoes">Ações</th>
-                </thead>
+              <div class="row">
+                <table class="ingredientes table-data">              
+                  <thead>
+                    <th class="col-item">Item</th>
+                    <th class="col-ingrediente">Ingrediente</th>
+                    <th class="col-percent">%</th>
+                    <th class="col-peso">Kg</th>
+                    <th class="col-custo">Custo</th>
+                    <th class="col-acoes">Ações</th>
+                  </thead>
 
-                <tbody>                  
-                  <tr v-for="(item, index) in this.receita.ingredientes" :key="index">
-                    <td class="col-id">{{item.id}}</td>
-                    <td class="col-ingrediente">{{item.nome}}</td>
-                    <td class="col-percent editable">
-                      <input-currency type="text" v-model="item.percent" :decimalCases="2" @keydown="handleKeyDownRow" :tabindex="index+1" />
-                    </td>
-                    <td class="col-peso">{{pesoCalculado(item)}}g</td>
-                    <td class="col-custo">{{custoItemCalculado(item)}}</td>
-                    <td class="body-actions col-acoes">
-                      <action-up-button @click.prevent="moveIngredienteUp(item, index)" />           
-                      <action-down-button @click.prevent="moveIngredienteDown(item, index)" />           
-                      <action-delete-button @click.prevent="removeIngrediente(item, index)" />                      
-                    </td>
-                  </tr>                    
-                </tbody>
+                  <tbody>                  
+                    <tr v-for="(item, index) in this.receita.ingredientes" :key="index">
+                      <td class="col-item">{{item.id}}</td>
+                      <td class="col-ingrediente">{{item.nome}}</td>
+                      <td class="col-percent editable">
+                        <input-currency type="text" v-model="item.percent" :decimalCases="2" @keydown="handleKeyDownRow" :tabindex="index+1" />
+                      </td>
+                      <td class="col-peso">{{pesoCalculado(item)}}g</td>
+                      <td class="col-custo">{{custoItemCalculado(item)}}</td>
+                      <td class="body-actions col-acoes">
+                        <action-up-button @click.prevent="moveIngredienteUp(item, index)" />           
+                        <action-down-button @click.prevent="moveIngredienteDown(item, index)" />           
+                        <action-delete-button @click.prevent="removeIngrediente(item, index)" />                      
+                      </td>
+                    </tr>                    
+                  </tbody>
 
-                <tfoot>
-                  <tr>
-                    <td class="col-id"></td>
-                    <td class="col-ingrediente"></td>
-                    <td class="col-percent">{{this.totalPercent}}%</td>
-                    <td class="col-peso">{{this.totalPeso}}g</td>
-                    <td class="col-custo">{{this.totalCusto}}</td>
-                    <td class="col-acoes"></td>
-                  </tr>
-                </tfoot>
-              </table>  
+                  <tfoot>
+                    <tr>
+                      <td class="col-item"></td>
+                      <td class="col-ingrediente"></td>
+                      <td class="col-percent">{{this.totalPercent}}%</td>
+                      <td class="col-peso">{{this.totalPeso}}g</td>
+                      <td class="col-custo">{{this.totalCusto}}</td>
+                      <td class="col-acoes"></td>
+                    </tr>
+                  </tfoot>
+                </table>  
+              </div>
             </div>
+
           </div>
         </div> 
       </div>
@@ -96,14 +102,19 @@
           <div class="group preparo">
             <h2 class="title">Preparo</h2>
             <div class="content">
-              
+              <div class="col-12">
+                  <div class="input-group">
+                    <label for="preparo">Etapas do Preparo</label>
+                    <input-area id="preparo" :rows="15" v-model="receita.preparo" :upperCase=false />                   
+                  </div>
+                </div>
             </div>
           </div>        
         </div>
         
         <div class="col-6 col-md-12">
-          <div class="group m-left-10 custo">
-            <h2 class="title">Custo</h2>
+          <div class="group m-left-10 preco">
+            <h2 class="title">Preço</h2>
           </div>        
         </div>        
       </div>      
@@ -115,10 +126,21 @@
       <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>
       <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
     </div>
+
+
+
+
+    <div>
+      <receita-seleciona-ingrediente :formShow="selecaoIngredienteShow" :onClosingForm="closingSelecaoIngrediente" />
+    </div>
+
+
   </div>
 </template>
 
 <script>
+import Receita from '@/core/Receitas/Receita.js';
+import IngredienteReceita from '@/core/Receitas/IngredienteReceita.js';
 import InputBase from '@/components/InputBase.vue';
 import InputArea from '@/components/InputArea.vue';
 import InputCurrency from '@/components/InputCurrency.vue';
@@ -126,23 +148,24 @@ import ActionDeleteButton from '@/components/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/ActionUpButton.vue';
 import ActionDownButton from '@/components/ActionDownButton.vue';
 import SelectStatus from '@/components/SelectSatus.vue';
-import AddButtonSmall from '@/components/AddButtonSmall.vue';
+import ButtonAddSmall from '@/components/ButtonAddSmall.vue';
+import ButtonPrintSmall from '@/components/ButtonPrintSmall.vue'
+import ReceitaSelecionaIngrediente from '@/views/Receitas/ReceitaSelecionaIngrediente.vue'
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
+import { ingredientesAPIService } from '@/services/IngredientesAPIService';
+
 
 export default {
   name: "receita-edicao",
   data() {
-    return {
-      receita: {
-        id: 0,
-        nome: '',
-        descricao: '',
-        status: 1,
-        pesoBase: 1000,
-        ingredientes: [],        
+    return {      
+      receita: { 
+        type: Receita, 
+        default: null 
       },
-      menssagemSucesso: '',
-      mensagem: ''
+      mensagem: '',
+      menssagemSucesso: '',      
+      selecaoIngredienteShow: false,     
     }
   }, 
   components: { 
@@ -153,13 +176,17 @@ export default {
       ActionDeleteButton,
       ActionUpButton,
       ActionDownButton,
-      AddButtonSmall
+      ButtonAddSmall,
+      ButtonPrintSmall,
+      ReceitaSelecionaIngrediente
+    
   },
   computed: {
     totalPercent(){
       if (this.receita.ingredientes !== null && this.receita.ingredientes.length > 0){
 
-        const ingredientesArray = JSON.parse(JSON.stringify(this.receita.ingredientes));
+        //const ingredientesArray = JSON.parse(JSON.stringify(this.receita.ingredientes));
+        const ingredientesArray = this.receita.ingredientes;
         var total = ingredientesArray.reduce((acumulado, item) => {
           return TextToNumber(item.percent) + acumulado;
         }, 0);
@@ -172,7 +199,7 @@ export default {
     totalPeso(){
       if (this.receita !== null && this.receita.ingredientes != null && this.receita.ingredientes.length > 0){
         var total = this.receita.ingredientes.reduce((acumulado, item) => {
-          return (TextToNumber(item.percent) * TextToNumber(this.receita.pesoBase) / 100)  + acumulado;
+          return (TextToNumber(item.percent) * TextToNumber(this.receita.rendimento) / 100)  + acumulado;
         }, 0);
 
         return NumberToText(total.toFixed(0));
@@ -248,7 +275,7 @@ export default {
     pesoCalculado(item){      
       var perc = TextToNumber(item.percent);
       if (perc > 0){        
-          var result = (TextToNumber(this.receita.pesoBase) * TextToNumber(perc)) / 100;
+          var result = (TextToNumber(this.receita.rendimento) * TextToNumber(perc)) / 100;
           return result.toFixed(0);        
       }
     },
@@ -259,13 +286,21 @@ export default {
       console.log("Movendo ingrediente: Down", item, index);
     },
     adicionaIngrediente() {
-      console.log("Adicionando ingrediente...");
+      this.selecaoIngredienteShow = true;
+    },
+    closingSelecaoIngrediente() {
+      this.selecaoIngredienteShow = false;
+    },
+
+    imprimirIngredientes(){
+      console.log("Imprimindo ingredientes...");
     },
     removeIngrediente(item, index){
       if (item !== null){
         console.log("Removendo ingrediente...", item, index);
       }
     },
+    
     async incluirReceita() {
       console.log("Incluindo...");
     },
@@ -275,33 +310,29 @@ export default {
     },
 
     async createReceitaMock(){
-      this.receita = {
-        id: 1,
-        nome: 'Bolo e Cenoura',
-        descricao: 'Bole de cenoura com cobertura de brigadeiro gourmet',
-        status: 1,
-        ingredientes: [{
-          id: 0,
-          nome: '',
-          quantEmbalagem: null,
-          precoCusto: null,
-          fabricanteId: 0,
-          status: 1
-        }]
-      }
+      
+      this.receita = new Receita();
+      this.receita.id = 15;
+      this.receita.nome = 'Bolo de Cenoura';
+      this.receita.descricao = 'Bole de cenoura com cobertura de brigadeiro gourmet';
+      this.receita.status = 1;
+      this.receita.rendimento = 1000;
+      this.receita.preparo = '1. Verificar quantidade suficiente de itens;\n2. Pesar todos\n3. Bater as cenouras no liquidificador junto com os ovos, acuçar e óleo;\n4. Adicionar o trigo e fermento manualmente;';
+      this.receita.cozimento = '';     
+      this.receita.ingredientes = [
+        new IngredienteReceita(1, 'Água', 37, 0.20 ),
+        new IngredienteReceita(2, 'Óleo', 5.5, 9.8),
+        new IngredienteReceita(3,'Margarina', 10, 20.30),
+        new IngredienteReceita(4,'Sal', 0.5, 4.00),
+        new IngredienteReceita(5,'Áçucar', 3, 3.99),
+        new IngredienteReceita(6, 'Trigo', 40, 6.00),
+        new IngredienteReceita(7, 'Fermento', 4, 20),        
+      ]
+      
     }
   },
-  created() {
-
-    this.receita.ingredientes = [
-      { id: 1, nome: 'AGUA', percent: '30', peso: 0, custo: 0.20 },
-      { id: 2, nome: 'OLEO', percent: '5', peso: 0, custo: 9.80 },
-      { id: 3, nome: 'MARGARINA', percent: '10', peso: 0, custo: 20.30 },
-      { id: 3, nome: 'SAL', percent: '0.1', peso: 0, custo: 4.00 },
-      { id: 4, nome: 'ACUCAR', percent: '3', peso: 0, custo: 3.99 },
-      { id: 5, nome: 'TRIGO', percent: '40', peso: 0, custo: 6.00 },
-      { id: 6, nome: 'FERMENTO', percent: '4', peso: 0, custo: 20.00 },  
-    ];
+  async created() {
+    await this.createReceitaMock();
   }  
 }
 </script>
@@ -324,7 +355,7 @@ export default {
     }
 
     .group.ingredientes .content {
-      height: 213px;
+      /* height: 213px; */
     }
 
     
@@ -335,14 +366,20 @@ export default {
     }
 
     .ingredientes tbody {
-      max-height: 170px;
+      max-height: 150px;
     }
 
     .ingredientes tfoot {
       width: calc(100% - 7px);      
     }
 
-    
+    .ingredientes .title .buttons {
+      display: flex;
+    }
+
+    .ingredientes .title .buttons button {
+      margin-left: 10px;
+    }
 
 
     .ingredientes {
@@ -353,12 +390,13 @@ export default {
       height: 30px;
     }
 
-    .ingredientes .col-id {
-      width: 15%;
-      text-align: center;
+    .ingredientes .col-item {
+      width: 7%;
+      text-align: left;
+      padding-left: 5px;
     }
-    .ingredientes .col-ingrediente{
-      width: 35%;
+    .ingredientes .col-ingrediente {
+      width: 45%;
       text-align: left;
     }
     .ingredientes .col-percent {    
@@ -376,12 +414,26 @@ export default {
     }
     
   
+    /* #preparo {
+      text-transform: none;
+    } */
 
     @media screen and (max-width: 960px) {
       .group.ingredientes, 
       .group.custo {
         margin-left: 0px;
         margin-top: 10px;
+      }
+
+
+      .ingredientes .col-ingrediente {
+        width: 25%;
+      }
+      .ingredientes .col-item {
+        display: none;
+      }
+      .ingredientes .col-acoes {
+        display: none;
       }
     }
 

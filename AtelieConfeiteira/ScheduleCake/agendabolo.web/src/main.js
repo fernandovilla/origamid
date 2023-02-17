@@ -8,6 +8,12 @@ const appGlobal = createApp(App);
 appGlobal.use(router);
 appGlobal.use(store);
 
+// appGlobal.directive('focus', {
+//   mounted: function (el) {
+//     el.focus();
+//   },
+// });
+
 FontawelsomeLibrary(appGlobal);
 
 appGlobal.mount('#app');

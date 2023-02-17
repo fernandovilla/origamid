@@ -43,7 +43,7 @@
           <div class="group tabela-nutricional m-left-10">
             <h2 class="title">
               Tabela Nutricional
-              <add-button-small />
+              <button-add-small />
             </h2>      
             <table class="nutrientes table-data">
               <thead>
@@ -117,7 +117,7 @@
 import InputBase from '@/components/InputBase.vue';
 import InputCurrency from '@/components/InputCurrency.vue';
 import SelectStatus from '../../components/SelectSatus.vue';
-import AddButtonSmall from '@/components/AddButtonSmall.vue';
+import ButtonAddSmall from '@/components/ButtonAddSmall.vue';
 import { ingredientesAPIService } from '@/services/IngredientesAPIService.js';
 
 
@@ -138,7 +138,7 @@ export default {
       } 
     }, 
     props: ['id'],
-    components: { SelectStatus, InputBase, InputCurrency, AddButtonSmall },
+    components: { SelectStatus, InputBase, InputCurrency, ButtonAddSmall },
     computed: {
       quantidadeEmbalagem(){
         if (this.ingrediente === null || this.ingrediente === undefined)

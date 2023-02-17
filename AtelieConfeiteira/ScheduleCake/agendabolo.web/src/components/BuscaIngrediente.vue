@@ -7,16 +7,16 @@
     <div class="select-content">
       <div class="search">
         <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />      
-        <input-base type="text" id="search" placeholder="Digite o nome do ingrediente..." @keyup="handleKeyup" class="search-input"  />        
+        <input-base :type="text" id="search" placeholder="Digite o nome do ingrediente..." @keyup="handleKeyup" class="search-input"  />        
       </div>
       <ul v-if="(ingredientes !== null)" class="options">
         <li v-for="(item, index) in ingredientes" :key="index" class="item" @click="handleClickLI(item)">
-          <p class="title">{{item.nome}}</p>
+          <!-- <p class="title">{{item.nome}}</p>
           <span class="data">
             <span>Id: {{item.id}}</span>
             <span>Preço: R$ {{toCurrencyValue(item.precoCusto)}}</span>
             <span>Status: {{toStatusDescription(item.status)}}</span>
-          </span>
+          </span> -->
         </li>
       </ul>      
       <div v-else>

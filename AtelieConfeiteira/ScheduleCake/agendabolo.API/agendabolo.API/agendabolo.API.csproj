@@ -14,4 +14,8 @@
     <ProjectReference Include="..\agendabolo.domain\Agendabolo.Domain.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="SC start MySQL80" />
+  </Target>
+
 </Project>

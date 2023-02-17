@@ -1,5 +1,5 @@
 <template>
-  <input :type="type" :value="modelValue" @input="updateValue" />
+  <input ref="inputText" :type="type" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }" />
 </template>
 
 <script>
@@ -14,13 +14,28 @@ export default {
     modelValue: { 
       type: [String, Number], 
       default: '' 
+    },
+    upperCase: {
+      type: Boolean,
+      default: true
+    },
+    focused: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     updateValue(event){
       this.$emit('update:modelValue', event.target.value.toUpperCase());
     }
-  }
+  },
+  watch: {
+    focused(){
+      if (this.focused){         
+        this.$el.focus();
+      }
+    }
+  } 
 }
 </script>
 
