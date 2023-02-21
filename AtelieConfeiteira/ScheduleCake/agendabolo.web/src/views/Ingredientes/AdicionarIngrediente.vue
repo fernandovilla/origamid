@@ -9,7 +9,10 @@
       <div class="col5 col-sm-12">
         <div class="input-group">
           <label for="buscaIngrediente">Selecione o ingrediente</label>
-          <select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'" :options="ingredientesToSearch()" @clickItem="clickItem" />
+          <select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'" :options="ingredientesToSearch()" 
+            :selectedOption="{ display: 'POST-IT' }"
+            @clickOption="clickOption" 
+            @selectedOptionChanged="selectedOptionChanged" />
         </div>
       </div>
     </div>
@@ -98,8 +101,11 @@ export default {
     closingForm(){
       this.formShow = false;
     },
-    clickItem(item){
-      console.log("OK:", item);
+    clickOption(item){
+      
+    },
+    selectedOptionChanged(item){
+      
     },
     ingredientesToSearch(){
       return this.ingredientes.map(item => {

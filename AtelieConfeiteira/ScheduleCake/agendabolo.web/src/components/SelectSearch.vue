@@ -3,7 +3,7 @@
 
     <div ref="select-btn" class="select-btn" @click="selectHandleClick">
       <div class="input-select">
-        <span>{{selectedItemDisplay}}</span>
+        <span>{{selectedOptionDisplayComputed}}</span>
         <font-awesome-icon icon="fa-solid fa-caret-down" class="icon" />
       </div>
     </div>
@@ -11,13 +11,13 @@
     <div ref="content" class="content" >
       <div class="search">
         <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />
-        <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"
+        <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"          
             @keyup="handleKeyUpSearch"
             @keydown="handleKeyDownSearch" />
       </div>
 
       <ul v-if="optionsSearch !== null" class="options" ref="options" >
-        <li v-for="(option, index) in optionsSearch" class="options-item" :key="index" @click="handleClickLI(option.value)">
+        <li v-for="(option, index) in optionsSearch" class="options-item" :key="index" @click="handleClickLI(index, option)">
           <div v-if="option.html">
             <span v-html="option.html"></span>
           </div>
@@ -43,6 +43,7 @@ export default {
       optionsSearch: null,
       liSelected: undefined,
       liIndex: -1,
+      selectedOptionDisplay: ''
     }
   },
   components: { InputBase },
@@ -51,7 +52,7 @@ export default {
       type: Array,
       default: null
     },
-    selectedItem: {
+    selectedOption: {
       type: Object,
       default: null
     },
@@ -61,10 +62,14 @@ export default {
     }
   },
   computed:{
-    selectedItemDisplay(){
-      if (this.selectedItem !== null) {
-        return this.selectedItem.display;
-      } else {
+    selectedOptionDisplayComputed(){
+      if (this.selectedOptionDisplay !== ''){
+        return this.selectedOptionDisplay;
+      }
+      else if (this.selectedOption !== null) {
+        return this.selectedOption.display;
+      } 
+      else {
         return "Selecione..."
       }
     }
@@ -76,9 +81,16 @@ export default {
       this.searchFocus = this.isActive;
 
       if (this.isActive){
+
+        this.moveToSelectedOtion();
+
         setTimeout(() => {
           document.getElementById('textSearch').focus();
         }, 5);        
+      } else {
+        this.liIndex = 0;
+        this.liSelected = undefined;
+        //this.removeSelected(document.querySelector('.selected'));
       }
     },
     selectHandleClick(){
@@ -127,8 +139,10 @@ export default {
       }
 
     },
-    handleClickLI(item){
-      this.$emit('clickItem', item);
+    handleClickLI(index, option){
+      this.liIndex = index;
+      this.selectItem();
+      this.$emit('clickOption', option.value);
     },
 
 
@@ -159,12 +173,10 @@ export default {
           this.moveItem('end');         
           break;
         case 13:
-          //selectItem();
-          console.log("Seleciona item");
+          this.selectItem();
           break;
         case 27:
-          //activeListItems();
-          console.log("Fecha a lista");
+          this.activeListItems();
           break;
       }
     },
@@ -264,29 +276,31 @@ export default {
       }, 5);
     },
     selectItem(){
-      var li = this.$refs.options.children[this.liIndexindex];
-      this.updateName(li);
+      this.updateName(this.optionsSearch[this.liIndex]);
     },
-    updateName(selectedLi){
-      this.activeListItems();
-      this.$refs.textSearch.value = '';
-      //fillOptions(countries, selectedLi.innerText);
-      //selectBtn.firstElementChild.innerText = selectedLi.innerText;
-    }
-
-
-
-
+    updateName(option){      
+      if (option !== null && option !== undefined){        
+        this.activeListItems();
+        this.selectedOptionDisplay = option.display;   
+        this.$emit('selectedOptionChanged', option);
+      }   
+    },
+    moveToSelectedOtion(){
+      this.optionsSearch.map((option, i) => {
+        if (option.display === this.selectedOption.display){
+          this.liIndex = i;
+          this.liSelected = this.$refs.options.children[i];
+          this.scrollToSelected('down');
+        }
+      });
+    }    
   },
-
-
-
-
-
-
   created(){
     document.addEventListener("click", this.documentHandleClick);
     this.optionsSearch = this.options;
+  },
+  mounted(){
+    //this.startOptions();
   }
 
 }
