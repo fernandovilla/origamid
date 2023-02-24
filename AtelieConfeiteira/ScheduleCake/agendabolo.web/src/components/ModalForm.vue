@@ -1,5 +1,5 @@
 <template>
-  <modal-view :active="isActive">
+  <modal-view :active="isActive" @closing="onClosingModal">
     <div class="form">
       <div class="head">
         <h2 class="head-title">{{title}}</h2>        
@@ -28,9 +28,6 @@ export default {
     title: {
       type: String,
       default: '[title]'
-    },
-    onClosing: {
-      type: Object
     }
   },
   components: {
@@ -39,19 +36,23 @@ export default {
   watch: {
     formActive(){
       this.isActive = this.formActive;
-      console.log("formActive");
+
+      if (this.isActive){
+        this.$emit('showing');
+      }
     }
   },
   methods: {
     handleClickIcon() {
       this.closeForm();
     },
-
     closeForm(){
-      this.onClosing();
       this.isActive = false;
+      this.$emit('closing');
+    },
+    onClosingModal(){
+      this.closeForm();
     }
-
   }  
 }
 </script>

@@ -43,6 +43,11 @@ export default {
       }
     }
   },
+  watch: {
+    modelValue(){
+      this.internalValue = this.modelValue;
+    }
+  },
   methods: {
     handleKeyPress(event){
 

@@ -128,11 +128,13 @@
     </div>
 
 
-
-
     <div>
-      <receita-seleciona-ingrediente :formShow="selecaoIngredienteShow" :onClosingForm="closingSelecaoIngrediente" />
+      <seleciona-ingrediente :show="selecaoIngredienteShow" 
+        @closing="onClosingSelecaoIngrediente"   
+        @ingredienteConfirmado="onIngredienteConfirmado" />
     </div>
+
+    <p>{{ this.ingredientes }}</p>
 
 
   </div>
@@ -140,7 +142,6 @@
 
 <script>
 import Receita from '@/core/Receitas/Receita.js';
-import IngredienteReceita from '@/core/Receitas/IngredienteReceita.js';
 import InputBase from '@/components/InputBase.vue';
 import InputArea from '@/components/InputArea.vue';
 import InputCurrency from '@/components/InputCurrency.vue';
@@ -150,9 +151,8 @@ import ActionDownButton from '@/components/ActionDownButton.vue';
 import SelectStatus from '@/components/SelectSatus.vue';
 import ButtonAddSmall from '@/components/ButtonAddSmall.vue';
 import ButtonPrintSmall from '@/components/ButtonPrintSmall.vue'
-import ReceitaSelecionaIngrediente from '@/views/Receitas/ReceitaSelecionaIngrediente.vue'
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
-import { ingredientesAPIService } from '@/services/IngredientesAPIService';
+import SelecionaIngrediente from '../Ingredientes/SelecionaIngrediente.vue';
 
 
 export default {
@@ -166,6 +166,7 @@ export default {
       mensagem: '',
       menssagemSucesso: '',      
       selecaoIngredienteShow: false,     
+      ingredientes: []
     }
   }, 
   components: { 
@@ -177,8 +178,8 @@ export default {
       ActionUpButton,
       ActionDownButton,
       ButtonAddSmall,
-      ButtonPrintSmall,
-      ReceitaSelecionaIngrediente
+      ButtonPrintSmall,      
+      SelecionaIngrediente
     
   },
   computed: {
@@ -265,11 +266,13 @@ export default {
     custoItemCalculado(item){
 
       var p = TextToNumber(item.percent);
-      var c = TextToNumber(item.custo);      
+      var c = TextToNumber(item.precoCusto);      
 
       if (p > 0 && c > 0){
         var custoItem = (c/100) * this.pesoCalculado(item);
         return custoItem.toFixed(2);
+      } else {
+        return 0.00;
       }
     },
     pesoCalculado(item){      
@@ -288,8 +291,11 @@ export default {
     adicionaIngrediente() {
       this.selecaoIngredienteShow = true;
     },
-    closingSelecaoIngrediente() {
+    onClosingSelecaoIngrediente() {
       this.selecaoIngredienteShow = false;
+    },
+    onIngredienteConfirmado(arg){
+      this.receita.ingredientes.push(arg);
     },
 
     imprimirIngredientes(){
@@ -319,15 +325,17 @@ export default {
       this.receita.rendimento = 1000;
       this.receita.preparo = '1. Verificar quantidade suficiente de itens;\n2. Pesar todos\n3. Bater as cenouras no liquidificador junto com os ovos, acuçar e óleo;\n4. Adicionar o trigo e fermento manualmente;';
       this.receita.cozimento = '';     
-      this.receita.ingredientes = [
-        new IngredienteReceita(1, 'Água', 37, 0.20 ),
-        new IngredienteReceita(2, 'Óleo', 5.5, 9.8),
-        new IngredienteReceita(3,'Margarina', 10, 20.30),
-        new IngredienteReceita(4,'Sal', 0.5, 4.00),
-        new IngredienteReceita(5,'Áçucar', 3, 3.99),
-        new IngredienteReceita(6, 'Trigo', 40, 6.00),
-        new IngredienteReceita(7, 'Fermento', 4, 20),        
-      ]
+      this.receita.ingredientes = [];
+      
+      // this.receita.ingredientes = [
+      //   new IngredienteReceita(1, 'Água', 37, 0.20 ),
+      //   new IngredienteReceita(2, 'Óleo', 5.5, 9.8),
+      //   new IngredienteReceita(3,'Margarina', 10, 20.30),
+      //   new IngredienteReceita(4,'Sal', 0.5, 4.00),
+      //   new IngredienteReceita(5,'Áçucar', 3, 3.99),
+      //   new IngredienteReceita(6, 'Trigo', 40, 6.00),
+      //   new IngredienteReceita(7, 'Fermento', 4, 20),        
+      // ]
       
     }
   },
@@ -366,6 +374,7 @@ export default {
     }
 
     .ingredientes tbody {
+      height: 150px;
       max-height: 150px;
     }
 

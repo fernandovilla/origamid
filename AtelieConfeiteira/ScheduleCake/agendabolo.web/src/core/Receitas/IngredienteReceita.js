@@ -1,13 +1,15 @@
 export default class IngredienteReceita {
-  constructor(id, nome, percent, custo) {
-    this.id = id;
-    this.nome = nome;
-    this.percent = percent;
-    this.custo = custo;
+  constructor(ingrediente) {
+    this.id = ingrediente.id;
+    this.nome = ingrediente.nome;
+    this.percent = ingrediente.percent;
+    this.precoCusto = ingrediente.precoCusto;
+    this.ingrediente = ingrediente;
   }
 
   id = 0;
   nome = '';
   percent = 0;
-  custo = 0;
+  precoCusto = 0;
+  ingrediente = null;
 }

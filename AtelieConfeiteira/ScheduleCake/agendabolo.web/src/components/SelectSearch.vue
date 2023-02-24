@@ -1,5 +1,5 @@
 <template>
-  <div ref="select" class="select" :class="{ active: isActive }">
+  <div ref="select" class="select" :class="{ active: isActive }" tabindex="-1" @focus="selectHandleFocus">
 
     <div ref="select-btn" class="select-btn" @click="selectHandleClick">
       <div class="input-select">
@@ -12,20 +12,24 @@
       <div class="search">
         <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />
         <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"          
+            v-model="textSearchValue"
             @keyup="handleKeyUpSearch"
             @keydown="handleKeyDownSearch" />
       </div>
 
-      <ul v-if="optionsSearch !== null" class="options" ref="options" >
-        <li v-for="(option, index) in optionsSearch" class="options-item" :key="index" @click="handleClickLI(index, option)">
-          <div v-if="option.html">
-            <span v-html="option.html"></span>
-          </div>
-          <div v-else>
-            <span>{{option.display}}</span>
-          </div>
-        </li>
-      </ul>
+      <span>
+        <ul v-if="haItensListados" class="options" ref="options" :style="{ maxHeight: `${this.showOptions * 30}px` }" >
+          <li v-for="(option, index) in optionsSearch" class="options-item" :class="{selected: selectedClassName(index)}" :key="index" @click="handleClickLI(index, option)">
+            <div v-if="option.html">
+              <span v-html="option.html"></span>
+            </div>
+            <div v-else>
+              <span>{{option.display}}</span>
+            </div>
+          </li>
+        </ul>
+        <p v-else class="no-itens">{{this.messageNoItems}}</p>
+      </span>
     </div>
 
   </div>
@@ -43,7 +47,9 @@ export default {
       optionsSearch: null,
       liSelected: undefined,
       liIndex: -1,
-      selectedOptionDisplay: ''
+      selectedOptionDisplay: '',
+      messageNoItems: '',
+      textSearchValue: ''
     }
   },
   components: { InputBase },
@@ -52,6 +58,10 @@ export default {
       type: Array,
       default: null
     },
+    totalOptions: {
+      type: Number,
+      default: 0
+    },
     selectedOption: {
       type: Object,
       default: null
@@ -59,6 +69,18 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    showOptions: {
+      type: Number,
+      default: 10
+    },
+    dropDownList: {
+      type: Boolean,
+      default: false
+    },
+    charToSearch: {
+      type: Number,
+      default: 3
     }
   },
   computed:{
@@ -72,9 +94,42 @@ export default {
       else {
         return "Selecione..."
       }
+    },
+    haItensListados(){
+      if (this.optionsSearch !== null){
+        if (this.optionsSearch.length > 0){
+          return true;
+        }
+      }
+
+      return false;
     }
   },
+  watch: {
+    options(){
+      this.optionsSearch = this.options;
+    },  
+    liIndex(){
+      if (this.totalOptions > 0){
+        if (this.options.length > 0 && this.totalOptions > this.liIndex){
+          if ((this.liIndex >= this.options.length * 0.7)){            
+            //this.onSearchingOptionsEvent();
+          }
+        }
+      }
+    },
+    textSearchValue(){
+      if (this.dropDownList) return;
 
+      if (this.totalOptions === 0 && this.textSearchValue.trim().length >= this.charToSearch){
+        this.messageNoItems = "Nenhum item localizado";
+      } else if ((this.totalOptions === 0 && this.textSearchValue.trim().length === 0) || (this.totalOptions >= 0 && this.textSearchValue.trim() === '')) {
+        this.messageNoItems = `Informe ${this.charToSearch} caracteres para buscar`;
+      } else {
+        this.messageNoItems = '';
+      }
+    }
+  },
   methods: {
     activeListItems(){
       this.isActive = !this.isActive;
@@ -82,44 +137,40 @@ export default {
 
       if (this.isActive){
 
-        this.moveToSelectedOtion();
+        //this.onSearchingOptionsEvent();
+
+        document.addEventListener("click", this.documentHandleClick);
 
         setTimeout(() => {
-          document.getElementById('textSearch').focus();
+          this.$refs.content.querySelector('#textSearch').focus();               
+          this.moveToSelectedOtion();
         }, 5);        
+
       } else {
-        this.liIndex = 0;
-        this.liSelected = undefined;
-        //this.removeSelected(document.querySelector('.selected'));
+
+        document.removeEventListener("click", this.documentHandleClick);
+
+        this.$emit('hiddingOptions')
+        this.liIndex = -1;
+        this.liSelected = undefined;        
       }
     },
-    selectHandleClick(){
-      this.activeListItems();
-    },
-    clickInside(elementRect, clickPos){
 
-      if (elementRect === null || elementRect === undefined || clickPos === null || clickPos === undefined) {
-        return false;
+    onSearchingOptionsEvent(textToSearch){
+      var arg = { 
+        message: '', 
+        textToSearch: textToSearch,
+        totalOptions: (this.options === null ? 0 : this.options.length)
+      };
+
+      this.$emit('searchingOptions', arg)
+
+      if (arg.message !== '') {
+        this.messageNoItems = arg.message;
       }
-
-      try{
-        if (
-          clickPos.clientX >= elementRect.left &&
-          clickPos.clientX <= elementRect.right &&
-          clickPos.clientY >= elementRect.top &&
-          clickPos.clientY <= elementRect.bottom
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }catch{
-        console.log(elementRect, clickPos);
-        return false;
-      } 
     },
+
     documentHandleClick(event){
-
       if (!this.isActive)
         return;
 
@@ -137,21 +188,45 @@ export default {
           }, 25);
         }
       }
-
     },
     handleClickLI(index, option){
       this.liIndex = index;
       this.selectItem();
-      this.$emit('clickOption', option.value);
+      this.$emit('clickOption', option);
     },
 
+    selectHandleFocus(){
+      this.$refs.select.addEventListener('keydown', this.selectHandleKeyDown);
+    },
+    selectHandleClick(){      
+      this.activeListItems();      
+      this.$refs.select.removeEventListener('keydown', this.selectHandleKeyDown)
+    },
+    selectHandleKeyDown(e){
+      if (!this.isActive){
+        if (e.keyCode === 13){
+          setTimeout(() => {
+            this.activeListItems();  
+            this.$refs.select.removeEventListener('keydown', this.selectHandleKeyDown)
+          }, 5);
+          
+        }
+      }
+    },
+    handleKeyUpSearch(){
+      const valueSearch = this.textSearchValue.toUpperCase().trim();
 
-
-    handleKeyUpSearch(e){
-      const valueSearch = e.target.value.toUpperCase().trim();
-
-      if (valueSearch.length >= 1) {
+      if (valueSearch.length >= 1 && this.dropDownList) {
+        //Se dropDownList, filtro funciona na lista estática
         this.optionsSearch = this.options.filter((item) => item.display.toUpperCase().startsWith(valueSearch));
+
+      } else if (valueSearch.length >= this.charToSearch && !this.dropDownList) {
+
+        //Se não dropDownList, busca é realizada após usuário informar mais que 3 caracteres        
+        setTimeout(() => {
+          this.onSearchingOptionsEvent(valueSearch);
+        }, 100);
+        
       } else {
         this.optionsSearch = this.options;
       }
@@ -181,6 +256,32 @@ export default {
       }
     },
 
+
+    clickInside(elementRect, clickPos){
+
+      if (elementRect === null || elementRect === undefined || clickPos === null || clickPos === undefined) {
+        return false;
+      }
+
+      try{
+        if (
+          clickPos.clientX >= elementRect.left &&
+          clickPos.clientX <= elementRect.right &&
+          clickPos.clientY >= elementRect.top &&
+          clickPos.clientY <= elementRect.bottom
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }catch{
+        console.log(elementRect, clickPos);
+        return false;
+      } 
+    },
+    selectedClassName(index){
+      return this.liIndex === index;
+    },
     removeSelected(element){
       if (element !== undefined) {
         element.classList.remove('selected');
@@ -192,6 +293,7 @@ export default {
       }
     },
     scrollToSelected(direction, forced) {
+
       if (this.liSelected !== undefined) {
         var newPos = 0;
 
@@ -199,9 +301,10 @@ export default {
           newPos = 0;
         } else {
           
-          var li = this.$refs.options.children[this.liIndex];
+          var options = this.$refs.options;
+          var li = options.children[this.liIndex];
           var liPos = li.getBoundingClientRect();
-          var ulPos = this.$refs.options.getBoundingClientRect();
+          var ulPos = options.getBoundingClientRect();
 
           var goDown =
             direction === 'down' || direction === 'down+' || direction === 'end';
@@ -236,8 +339,6 @@ export default {
       var liOptions = this.$refs.options.children;
       var len = liOptions.length - 1;
 
-      this.removeSelected(this.liSelected);
-
       if (direction === 'down' || direction === 'down+') {
         if (this.liSelected) {
           this.liIndex++;
@@ -271,21 +372,26 @@ export default {
       this.liSelected = liOptions[this.liIndex];
 
       setTimeout(() => {
-        this.addSelected(this.liSelected);
         this.scrollToSelected(direction);
       }, 5);
     },
     selectItem(){
-      this.updateName(this.optionsSearch[this.liIndex]);
-    },
-    updateName(option){      
+      var option = this.optionsSearch[this.liIndex];
+
       if (option !== null && option !== undefined){        
         this.activeListItems();
-        this.selectedOptionDisplay = option.display;   
+        this.updateName(option);
         this.$emit('selectedOptionChanged', option);
-      }   
+      }
+    },
+    updateName(option){            
+        this.selectedOptionDisplay = option.display;        
     },
     moveToSelectedOtion(){
+
+      if (this.optionsSearch === null || this.selectedOption === null)
+        return;
+
       this.optionsSearch.map((option, i) => {
         if (option.display === this.selectedOption.display){
           this.liIndex = i;
@@ -296,13 +402,12 @@ export default {
     }    
   },
   created(){
-    document.addEventListener("click", this.documentHandleClick);
+    //document.addEventListener("click", this.documentHandleClick);
     this.optionsSearch = this.options;
   },
   mounted(){
-    //this.startOptions();
+    
   }
-
 }
 </script>
 
@@ -316,6 +421,14 @@ export default {
     position: relative;
     width: 100%;
     margin: 0;
+    outline: none;
+  }
+  .select:focus .input-select {
+    border-left: 2px solid var(--border-color-blue);  
+    border-top: 1px solid var(--border-color-input-focus);  
+    border-right: 1px solid var(--border-color-input-focus);  
+    border-bottom: 1px solid var(--border-color-input-focus);
+    color: var(--text-color-dark);
   }
 
   .select-btn {
@@ -343,7 +456,7 @@ export default {
     background: var(--background-color-white);
     width: 100%;
     border: 1px solid var(--border-color-light);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 5px 10px;
   }
 
@@ -351,6 +464,7 @@ export default {
     display: block;
     z-index: 1;
     position: absolute;
+    /* float: right; */
     top: 34px;
   }
 
@@ -381,11 +495,8 @@ export default {
   }
 
 
-
-
   .content .options {
     margin-top: 10px;
-    max-height: 300px;
     padding-right: 2px;
     overflow: auto;
   }
@@ -416,7 +527,13 @@ export default {
   }
 
   li.selected {
-    background: lime;
+    background: #ddd;
+  }
+
+  .no-itens {
+    text-align: center;
+    padding: 10px;
+
   }
 
 </style>
