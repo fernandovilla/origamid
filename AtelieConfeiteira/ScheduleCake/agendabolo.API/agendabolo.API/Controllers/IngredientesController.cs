@@ -90,7 +90,7 @@ namespace Agendabolo.Controllers
                         data = ingrediente
                     });
 
-                return NotFound("Insumo not found");
+                return NotFound("Ingrediente not found");
             }
             catch (Exception ex)
             {

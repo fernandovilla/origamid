@@ -54,6 +54,6 @@ namespace Agendabolo.Core.Receitas
 
         public ICollection<IngredienteReceita> Ingredientes { get; set; }
 
-        public decimal CustoIngredientes => Ingredientes.Sum(i => i.Ingrediente.PrecoCusto * ((decimal)i.Quantidade / 1000m));
+        //public decimal CustoIngredientes => Ingredientes.Sum(i => i.Ingrediente.PrecoCusto * ((decimal)i.Quantidade / 1000m));
     }
 }

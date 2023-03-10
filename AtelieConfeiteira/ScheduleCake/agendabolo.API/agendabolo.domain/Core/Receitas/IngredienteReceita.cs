@@ -38,6 +38,9 @@ namespace Agendabolo.Core.Receitas
         [Column("percentual")]
         public double Percentual { get; set; } = 0f;
 
+        [Column("ordem")]
+        public int Ordem { get; set; }
+
         public double Quantidade => Receita.Rendimento * (Percentual / 100);
         public decimal PrecoCusto => Ingrediente.PrecoCusto;        
         public decimal PrecoCustoReceita => PrecoCusto * ((decimal)Quantidade / 1000m);

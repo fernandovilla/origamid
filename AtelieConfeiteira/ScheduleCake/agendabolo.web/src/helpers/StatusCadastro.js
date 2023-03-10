@@ -1,4 +1,4 @@
-const StatusCadastro = (value) => {
+export const status_cadastro = (value) => {
   switch (value) {
     case 1:
       return 'Ativo';
@@ -8,5 +8,3 @@ const StatusCadastro = (value) => {
       return 'Excluído';
   }
 };
-
-export default StatusCadastro;

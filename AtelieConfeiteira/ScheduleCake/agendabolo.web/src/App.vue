@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import MenuLateral from './components/MenuLateral.vue'
-import HeaderTop from './components/HeaderTop.vue';
+import MenuLateral from '@/components/Menu/MenuLateral.vue'
+import HeaderTop from '@/components/HeaderTop.vue';
 
 export default {
   components: {
@@ -19,11 +19,11 @@ export default {
 </script>
 
 <style>
-  @import './styles/root.css';
-  @import './styles/inputs.css';
-  @import './styles/grid.css';
-  @import './styles/buttons.css';
-  @import './styles/content.css';
+  @import '@/styles/root.css';
+  @import '@/styles/inputs.css';
+  @import '@/styles/grid.css';
+  @import '@/styles/buttons.css';
+  @import '@/styles/content.css';
 
   * {
     box-sizing: border-box;    
@@ -97,7 +97,7 @@ export default {
 
   .header-page {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     margin-bottom: 20px; 
   }

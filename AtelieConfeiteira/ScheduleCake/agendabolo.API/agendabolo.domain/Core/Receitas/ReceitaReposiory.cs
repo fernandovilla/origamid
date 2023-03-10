@@ -27,5 +27,16 @@ namespace Agendabolo.Core.Receitas
                 .ThenInclude(i => i.Ingrediente)
                 .AsEnumerable();
         }
+
+        public override Receita GetByID(ulong id)
+        {
+            IQueryable<Receita> receitas = _dbset;
+
+            return receitas
+                .Where(r => r.Id == id)
+                .Include(rec => rec.Ingredientes)
+                .ThenInclude(i => i.Ingrediente)                
+                .FirstOrDefault();
+        }
     }
 }

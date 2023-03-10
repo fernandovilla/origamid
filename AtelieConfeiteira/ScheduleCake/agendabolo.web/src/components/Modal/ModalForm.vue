@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ModalView from '@/components/ModalView.vue';
+import ModalView from '@/components/Modal/ModalView.vue';
 
 export default {
   name:'modal-form',

@@ -9,7 +9,7 @@ export default class IngredienteReceita {
 
   id = 0;
   nome = '';
-  percent = 0;
+  percentual = 0;
   precoCusto = 0;
   ingrediente = null;
 }

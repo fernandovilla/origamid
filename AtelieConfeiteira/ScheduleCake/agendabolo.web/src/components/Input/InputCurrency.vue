@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import InputBase from '@/components/InputBase.vue';
+import InputBase from '@/components/Input/InputBase.vue';
 
 export default {
   name:'input-currency',
@@ -120,6 +120,6 @@ export default {
 </script>
 
 <style scoped>
-  @import '../styles/inputs.css';
+  @import '@/styles/inputs.css';
 
 </style>

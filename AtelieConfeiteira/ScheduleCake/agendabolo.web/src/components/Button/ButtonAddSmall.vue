@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ButtonSmall from '@/components/ButtonSmall.vue'
+import ButtonSmall from '@/components/Button/ButtonSmall.vue'
 
 export default {
   name:'button-add-small',  

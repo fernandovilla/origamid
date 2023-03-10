@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import SelectStatus from '@/components/SelectSatus.vue'
-import { fabricanteAPIService } from '../../services/FabricanteAPIService.js'
+import SelectStatus from '@/components/Select/SelectStatus.vue'
+import { fabricanteAPIService } from '@/core/Fabricantes/Services/FabricanteAPIService.js';
 
 export default {
   name: 'fabricante-edicao',  

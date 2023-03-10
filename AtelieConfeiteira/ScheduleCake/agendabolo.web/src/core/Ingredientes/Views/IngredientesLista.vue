@@ -47,11 +47,11 @@
 </template>
 
 <script>
-import { ingredientesAPIService } from '../../services/IngredientesAPIService.js'
-import PaginacaoItems from '../../components/PaginacaoItems.vue';
-import ActionEditButton from '@/components/ActionEditButton.vue';
-import ActionDeleteButton from '@/components/ActionDeleteButton.vue';
-import AddButton from '@/components/AddButton.vue';
+import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+import PaginacaoItems from '@/components/Pagination/PaginacaoItems.vue';
+import ActionEditButton from '@/components/Button/ActionEditButton.vue';
+import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
+import AddButton from '@/components/Button/AddButton.vue';
 
 export default {
   name: 'ingredientes-lista',
@@ -122,12 +122,12 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../styles/table-data.css';
+  @import '@/styles/table-data.css';
 
   .header-page {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: flex-start;
   }
 

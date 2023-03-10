@@ -10,8 +10,7 @@
 </template>
 
 <script>
-
-import StatusCadastro from '@/helpers/StatusCadastro.js';
+import { status_cadastro } from '@/helpers/StatusCadastro.js';
 
 export default {
   name:'select-status',
@@ -22,7 +21,7 @@ export default {
   },
   methods: {
     getStatusDescription(value) {
-      return StatusCadastro(value);
+      return status_cadastro(value);
     }
   },
   watch: {

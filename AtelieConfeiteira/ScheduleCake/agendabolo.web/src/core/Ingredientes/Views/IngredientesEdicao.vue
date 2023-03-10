@@ -114,11 +114,11 @@
 </template>
 
 <script>
-import InputBase from '@/components/InputBase.vue';
-import InputCurrency from '@/components/InputCurrency.vue';
-import SelectStatus from '../../components/SelectSatus.vue';
-import ButtonAddSmall from '@/components/ButtonAddSmall.vue';
-import { ingredientesAPIService } from '@/services/IngredientesAPIService.js';
+import InputBase from '@/components/Input/InputBase.vue'
+import InputCurrency from '@/components/Input/InputCurrency.vue'
+import SelectStatus from '@/components/Select/SelectStatus.vue'
+import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue'
+import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
 
 
 export default {

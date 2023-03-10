@@ -48,5 +48,36 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+
+        [HttpGet("{id}")]
+        public IActionResult get(ulong id)
+        {
+            try
+            {
+                var receita = _service.GetByID(id);
+
+                if (receita != null)
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = receita
+                    });
+
+                return NotFound("Receita not found");
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+
+        [HttpGet("BuscaPorNome/{nome}")]
+        public IActionResult get(string nome)
+        {
+            return null;
+        }
     }
 }

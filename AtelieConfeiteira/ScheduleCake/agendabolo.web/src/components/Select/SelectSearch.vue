@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import InputBase from './InputBase.vue';
+import InputBase from '@/components/Input/InputBase.vue';
 
 export default {
   name: 'select-search-base',

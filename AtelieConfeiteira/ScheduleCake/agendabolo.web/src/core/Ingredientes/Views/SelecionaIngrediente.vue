@@ -21,19 +21,21 @@
               </div>
             </div>
           </div>
-        </div>
-        
-        <span class="content" ref="contentData">
-          <div class="row">
-              <div class="input-group col6">
-                <label for="porcao">Porção (%)</label>
-                <input-currency id="porcao" placeholder='0,00' decimalCases="2" v-model="porcaoIngrediente" />
-              </div>
 
-            <div class="input-group col6">
-              <label for="custo">Custo Kg</label>
-              <input-currency id="custo" placeholder='0,00' decimalCases="2" v-model="custoIngrediente" disabled/>
-            </div>            
+          <div class="row">
+            <span class="content" ref="contentData">
+              <div>
+                <div class="input-group col6">
+                  <label for="porcao">Porção (%)</label>
+                  <input-currency id="porcao" placeholder='0,00' decimalCases="2" v-model="porcaoIngrediente" />
+                </div>
+
+                <div class="input-group col6">
+                  <label for="custo">Custo Kg</label>
+                  <input-currency id="custo" placeholder='0,00' decimalCases="2" v-model="custoIngrediente" disabled/>
+                </div>            
+              </div> 
+            </span>       
           </div>
 
           <div class="row">
@@ -41,20 +43,23 @@
               <button v-if="ingredienteSelecionado !== null" class="btn btn-primary" @click.prevent="confirmarIngrediente" >Confirma</button>            
             </div>     
           </div>
-        </span>          
+          
+        </div>
+        
+           
       </div>    
     </modal-form>
   </div>
 </template>
 
 <script>
-  import ModalForm from '@/components/ModalForm.vue';
-  import InputCurrency from '@/components/InputCurrency.vue';
-  import SelectSearch from '@/components/SelectSearch.vue';
-  import { ingredientesAPIService } from '@/services/IngredientesAPIService.js';
+  import ModalForm from '@/components/Modal/ModalForm.vue'
+  import InputCurrency from '@/components/Input/InputCurrency.vue'
+  import SelectSearch from '@/components/Select/SelectSearch.vue'
+  import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
   import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
-  import IngredienteReceita from '@/core/Receitas/IngredienteReceita.js';
-  import Ingrediente from '@/core/Ingredientes/Ingrediente.js';
+  import IngredienteReceita from '@/core/Receitas/Domain/IngredienteReceita.js'
+  import Ingrediente from '@/core/Ingredientes/Domain/Ingrediente.js'
   
 export default {
   name:'seleciona-ingrediente',
@@ -187,8 +192,13 @@ export default {
     width: 500px;
     height: 250px;
     background: var(--background-color-light);
-    border-radius: 7px;
-    
+    border-radius: 7px;    
+  }
+
+  @media screen and (max-width: 960px) {
+    .card {
+      width: 100%;
+    }
   }
 
   .content-option {

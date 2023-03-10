@@ -64,16 +64,16 @@
                   <tbody>                  
                     <tr v-for="(item, index) in this.receita.ingredientes" :key="index">
                       <td class="col-item">{{item.id}}</td>
-                      <td class="col-ingrediente">{{item.nome}}</td>
+                      <td class="col-ingrediente">{{item.nome}} </td>
                       <td class="col-percent editable">
-                        <input-currency type="text" v-model="item.percent" :decimalCases="2" @keydown="handleKeyDownRow" :tabindex="index+1" />
+                        <input-currency type="text" v-model="item.percentual" :decimalCases="2" @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <td class="col-custo">{{custoItemCalculado(item)}}</td>
                       <td class="body-actions col-acoes">
-                        <action-up-button @click.prevent="moveIngredienteUp(item, index)" />           
-                        <action-down-button @click.prevent="moveIngredienteDown(item, index)" />           
-                        <action-delete-button @click.prevent="removeIngrediente(item, index)" />                      
+                        <action-up-button @click.prevent="moveIngredienteUp(index)" />           
+                        <action-down-button @click.prevent="moveIngredienteDown(index)" />           
+                        <action-delete-button @click.prevent="removeIngrediente(index)" />                      
                       </td>
                     </tr>                    
                   </tbody>
@@ -121,8 +121,8 @@
     </form>
 
     <div class="buttons">
-      <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="incluirReceita">Incluir</button>
-      <button v-else class="btn btn-primary" @click.prevent="alterarReceita">Alterar</button>
+      <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="cadastrarReceita">Cadastrar</button>
+      <button v-else class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
       <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>
       <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
     </div>
@@ -134,26 +134,24 @@
         @ingredienteConfirmado="onIngredienteConfirmado" />
     </div>
 
-    <p>{{ this.ingredientes }}</p>
-
-
   </div>
 </template>
 
 <script>
-import Receita from '@/core/Receitas/Receita.js';
-import InputBase from '@/components/InputBase.vue';
-import InputArea from '@/components/InputArea.vue';
-import InputCurrency from '@/components/InputCurrency.vue';
-import ActionDeleteButton from '@/components/ActionDeleteButton.vue';
-import ActionUpButton from '@/components/ActionUpButton.vue';
-import ActionDownButton from '@/components/ActionDownButton.vue';
-import SelectStatus from '@/components/SelectSatus.vue';
-import ButtonAddSmall from '@/components/ButtonAddSmall.vue';
-import ButtonPrintSmall from '@/components/ButtonPrintSmall.vue'
+import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue';
+import Receita from '@/core/Receitas/Domain/Receita.js';
+import InputBase from '@/components/Input/InputBase.vue';
+import InputArea from '@/components/Input/InputArea.vue';
+import InputCurrency from '@/components/Input/InputCurrency.vue';
+import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
+import ActionUpButton from '@/components/Button/ActionUpButton.vue';
+import ActionDownButton from '@/components/Button/ActionDownButton.vue';
+import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue';
+import ButtonPrintSmall from '@/components/Button/ButtonPrintSmall.vue'
+import SelectStatus from '@/components/Select/SelectStatus.vue'
+import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
-import SelecionaIngrediente from '../Ingredientes/SelecionaIngrediente.vue';
-
+import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
 
 export default {
   name: "receita-edicao",
@@ -165,10 +163,10 @@ export default {
       },
       mensagem: '',
       menssagemSucesso: '',      
-      selecaoIngredienteShow: false,     
-      ingredientes: []
+      selecaoIngredienteShow: false,           
     }
   }, 
+  props: ['id'],
   components: { 
       InputBase, 
       InputArea,
@@ -179,46 +177,53 @@ export default {
       ActionDownButton,
       ButtonAddSmall,
       ButtonPrintSmall,      
-      SelecionaIngrediente
-    
+      SelecionaIngrediente    
   },
   computed: {
-    totalPercent(){
-      if (this.receita.ingredientes !== null && this.receita.ingredientes.length > 0){
+    ingredientesOk(){
+      if (this.receita === null || this.receita === undefined) return false;
+      if (this.receita.ingredientes === null || this.receita.ingredientes === undefined) return false;
+      if (this.receita.ingredientes.length === 0) return false;
 
-        //const ingredientesArray = JSON.parse(JSON.stringify(this.receita.ingredientes));
+      return true;
+    },
+
+    totalPercent(){
+      if (this.ingredientesOk)
+      {
         const ingredientesArray = this.receita.ingredientes;
         var total = ingredientesArray.reduce((acumulado, item) => {
-          return TextToNumber(item.percent) + acumulado;
+          return TextToNumber(item.percentual) + acumulado;
         }, 0);
 
-        return NumberToText(total.toFixed(2));
+        return NumberToText(total.toFixed(2));      
+      } else {
+        return 0;
       }
-
-      return 0;
     },
     totalPeso(){
-      if (this.receita !== null && this.receita.ingredientes != null && this.receita.ingredientes.length > 0){
+      if (this.ingredientesOk)
+      {
         var total = this.receita.ingredientes.reduce((acumulado, item) => {
-          return (TextToNumber(item.percent) * TextToNumber(this.receita.rendimento) / 100)  + acumulado;
+          return (TextToNumber(item.percentual) * TextToNumber(this.receita.rendimento) / 100)  + acumulado;
         }, 0);
 
         return NumberToText(total.toFixed(0));
+      } else {
+        return "0g";
       }
-
-      return "0g";
     },
     totalCusto(){
-      if (this.receita !== null && this.receita.ingredientes != null && this.receita.ingredientes.length > 0){
+      if (this.ingredientesOk) {
         var total = this.receita.ingredientes.reduce((acumulado, item) => {
           var custoItem = Number(this.custoItemCalculado(item));
           return custoItem + acumulado;
         }, 0);
 
         return NumberToText(total.toFixed(2));
+      } else {
+        return "0,00";      
       }
-
-      return "0,00";      
     },    
     PageTitle(){
         if (this.receita.id === 0)
@@ -265,7 +270,7 @@ export default {
     },
     custoItemCalculado(item){
 
-      var p = TextToNumber(item.percent);
+      var p = TextToNumber(item.percentual);
       var c = TextToNumber(item.precoCusto);      
 
       if (p > 0 && c > 0){
@@ -276,18 +281,39 @@ export default {
       }
     },
     pesoCalculado(item){      
-      var perc = TextToNumber(item.percent);
+      var perc = TextToNumber(item.percentual);
       if (perc > 0){        
           var result = (TextToNumber(this.receita.rendimento) * TextToNumber(perc)) / 100;
           return result.toFixed(0);        
       }
     },
-    moveIngredienteUp(item, index){
-      console.log("Movendo ingrediente: Up", item, index);
+    moveIngredienteUp(index){
+      if (index > 0){
+
+        var ordem = this.receita.ingredientes[index].ordem;
+        var newOrdem = this.receita.ingredientes[index-1].ordem;
+        this.receita.ingredientes[index].ordem = newOrdem;        
+        this.receita.ingredientes[index-1].ordem = ordem;
+
+        move_item(this.receita.ingredientes, index, index-1);
+      }
     },
-    moveIngredienteDown(item, index) {
-      console.log("Movendo ingrediente: Down", item, index);
+    moveIngredienteDown(index) {      
+      if (index < this.receita.ingredientes.length){
+
+        var ordem = this.receita.ingredientes[index].ordem;
+        var newOrdem = this.receita.ingredientes[index+1].ordem;
+        this.receita.ingredientes[index].ordem = newOrdem;        
+        this.receita.ingredientes[index+1].ordem = ordem;
+
+        move_item(this.receita.ingredientes, index, index+1);
+      }  
     },
+    removeIngrediente(index){
+      if (index >= 0 || index < this.receita.ingredientes.length){
+        this.receita.ingredientes.splice(index,1);
+      }
+    },    
     adicionaIngrediente() {
       this.selecaoIngredienteShow = true;
     },
@@ -301,46 +327,46 @@ export default {
     imprimirIngredientes(){
       console.log("Imprimindo ingredientes...");
     },
-    removeIngrediente(item, index){
-      if (item !== null){
-        console.log("Removendo ingrediente...", item, index);
-      }
-    },
     
-    async incluirReceita() {
+    
+    async cadastrarReceita() {
       console.log("Incluindo...");
+
     },
 
-    async alterarReceita(){
+    async salvarrReceita(){
       console.log("Alterando...");
     },
 
-    async createReceitaMock(){
-      
+    async obterReceita(idReceita){
+      if (idReceita === undefined || idReceita === 0)
+          return;
+
+        this.receita = { id: idReceita };
+
+        const response = await receitasAPIService.getById(idReceita);
+
+        if (response !== undefined){
+          this.receita = response.data;        
+          this.receita.ingredientes = sort_object(this.receita.ingredientes, 'ordem');
+
+        } else {
+          this.$router.push('/receitas');
+        }
+    },
+    createNewReceita(){
       this.receita = new Receita();
-      this.receita.id = 15;
-      this.receita.nome = 'Bolo de Cenoura';
-      this.receita.descricao = 'Bole de cenoura com cobertura de brigadeiro gourmet';
-      this.receita.status = 1;
-      this.receita.rendimento = 1000;
-      this.receita.preparo = '1. Verificar quantidade suficiente de itens;\n2. Pesar todos\n3. Bater as cenouras no liquidificador junto com os ovos, acuçar e óleo;\n4. Adicionar o trigo e fermento manualmente;';
-      this.receita.cozimento = '';     
       this.receita.ingredientes = [];
-      
-      // this.receita.ingredientes = [
-      //   new IngredienteReceita(1, 'Água', 37, 0.20 ),
-      //   new IngredienteReceita(2, 'Óleo', 5.5, 9.8),
-      //   new IngredienteReceita(3,'Margarina', 10, 20.30),
-      //   new IngredienteReceita(4,'Sal', 0.5, 4.00),
-      //   new IngredienteReceita(5,'Áçucar', 3, 3.99),
-      //   new IngredienteReceita(6, 'Trigo', 40, 6.00),
-      //   new IngredienteReceita(7, 'Fermento', 4, 20),        
-      // ]
-      
     }
+
   },
   async created() {
-    await this.createReceitaMock();
+
+    if (this.id !== 0 && this.id !== undefined){
+      this.obterReceita(this.id);
+    } else {
+      this.createNewReceita();
+    }
   }  
 }
 </script>
@@ -421,11 +447,6 @@ export default {
     .ingredientes .col-acoes {
       
     }
-    
-  
-    /* #preparo {
-      text-transform: none;
-    } */
 
     @media screen and (max-width: 960px) {
       .group.ingredientes, 

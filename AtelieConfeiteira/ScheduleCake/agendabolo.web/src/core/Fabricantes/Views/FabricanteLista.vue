@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { fabricanteAPIService } from '../../services/FabricanteAPIService.js'
-import PaginacaoItems from '@/components/PaginacaoItems.vue';
+import { fabricanteAPIService } from '@/core/Fabricantes/Services/FabricanteAPIService.js';
+import PaginacaoItems from '@/components/Pagination/PaginacaoItems.vue';
 
 
 export default {
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-  @import '../../styles/table-data.css';
+  @import '@/styles/table-data.css';
 
   .content {
     overflow: auto;

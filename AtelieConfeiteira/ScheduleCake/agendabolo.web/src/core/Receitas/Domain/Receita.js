@@ -14,5 +14,5 @@ export default class Receita {
   precoVendaAtacado = 0;
   margemVendaVarejo = 0;
   precoVendaVarejo = 0;
-  ingredientes = null;
+  ingredientes = null; //array
 }

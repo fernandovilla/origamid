@@ -18,17 +18,17 @@ const fabricantesRoutes = [
   {
     path: '/fabricantes',
     name: 'fabricantes',
-    component: () => import('../views/Fabricantes/FabricanteLista.vue'),
+    component: () => import('@/core/Fabricantes/Views/FabricanteLista.vue'),
   },
   {
     path: '/fabricante',
     name: 'fabricante-inclusao',
-    component: () => import('../views/Fabricantes/FabricanteEdicao.vue'),
+    component: () => import('@/core/Fabricantes/Views/FabricanteEdicao.vue'),
   },
   {
     path: '/fabricante/:id',
     name: 'fabricante-edicao',
-    component: () => import('../views/Fabricantes/FabricanteEdicao.vue'),
+    component: () => import('@/core/Fabricantes/Views/FabricanteEdicao.vue'),
     props: true,
   },
 ];
@@ -37,23 +37,24 @@ const ingredientesRoutes = [
   {
     path: '/ingredientes',
     name: 'ingredientes',
-    component: () => import('@/views/Ingredientes/IngredientesLista.vue'),
+    component: () => import('@/core/Ingredientes/Views/IngredientesLista.vue'),
   },
   {
     path: '/ingrediente',
     name: 'ingrediente',
-    component: () => import('@/views/Ingredientes/IngredientesEdicao.vue'),
+    component: () => import('@/core/Ingredientes/Views/IngredientesEdicao.vue'),
   },
   {
     path: '/ingrediente/:id',
     name: 'ingrediente-edicao',
-    component: () => import('@/views/Ingredientes/IngredientesEdicao.vue'),
+    component: () => import('@/core/Ingredientes/Views/IngredientesEdicao.vue'),
     props: true,
   },
   {
     path: '/selecionaIngrediente',
     name: 'seleciona-ingrediente',
-    component: () => import('@/views/Ingredientes/SelecionaIngrediente.vue'),
+    component: () =>
+      import('@/core/Ingredientes/Views/SelecionaIngrediente.vue'),
   },
 ];
 
@@ -61,12 +62,18 @@ const receitasRoutes = [
   {
     path: '/receitas',
     name: 'receitas',
-    component: () => import('@/views/Receitas/ReceitasLista.vue'),
+    component: () => import('@/core/Receitas/Views/ReceitasLista.vue'),
   },
   {
     path: '/receita',
     name: 'receita',
-    component: () => import('@/views/Receitas/ReceitasEdicao.vue'),
+    component: () => import('@/core/Receitas/Views/ReceitasEdicao.vue'),
+  },
+  {
+    path: '/receita/:id',
+    name: 'receita-edicao',
+    component: () => import('@/core/Receitas/Views/ReceitasEdicao.vue'),
+    props: true,
   },
 ];
 
