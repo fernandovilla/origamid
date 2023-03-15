@@ -1,9 +1,10 @@
-export default class IngredienteReceita {
+export default class ReceitaIngrediente {
   constructor(ingrediente) {
     this.id = ingrediente.id;
     this.nome = ingrediente.nome;
-    this.percent = ingrediente.percent;
+    this.percentual = ingrediente.percentual;
     this.precoCusto = ingrediente.precoCusto;
+    this.ordem = ingrediente.ordem;
     this.ingrediente = ingrediente;
   }
 
@@ -12,4 +13,5 @@ export default class IngredienteReceita {
   percentual = 0;
   precoCusto = 0;
   ingrediente = null;
+  ordem = 0;
 }

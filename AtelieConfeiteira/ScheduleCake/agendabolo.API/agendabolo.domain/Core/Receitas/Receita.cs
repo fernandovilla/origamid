@@ -52,7 +52,7 @@ namespace Agendabolo.Core.Receitas
         [Column("precoVendaVarejo")]
         public decimal PrecoVendaVarejo { get; set; }
 
-        public ICollection<IngredienteReceita> Ingredientes { get; set; }
+        public ICollection<ReceitaIngrediente> Ingredientes { get; set; }
 
         //public decimal CustoIngredientes => Ingredientes.Sum(i => i.Ingrediente.PrecoCusto * ((decimal)i.Quantidade / 1000m));
     }

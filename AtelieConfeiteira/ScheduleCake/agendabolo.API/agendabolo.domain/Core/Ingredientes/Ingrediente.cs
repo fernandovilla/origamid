@@ -29,6 +29,6 @@ namespace Agendabolo.Core.Ingredientes
         public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
 
         [JsonIgnore]
-        public ICollection<Receitas.IngredienteReceita> Receitas { get; set; }
+        public ICollection<Receitas.ReceitaIngrediente> Receitas { get; set; }
     }
 }

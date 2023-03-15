@@ -39,7 +39,8 @@ export default {
       if (this.internalValue > 0 || this.internalValue.length > 0){
         return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
       } else {
-        return "0,00";
+        var zero = 0;
+        return zero.toFixed(this.decimalCases).replace('.,',',');
       }
     }
   },

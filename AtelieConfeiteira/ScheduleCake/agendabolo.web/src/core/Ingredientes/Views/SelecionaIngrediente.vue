@@ -58,7 +58,7 @@
   import SelectSearch from '@/components/Select/SelectSearch.vue'
   import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
   import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
-  import IngredienteReceita from '@/core/Receitas/Domain/IngredienteReceita.js'
+  import ReceitaIngrediente from '@/core/Receitas/Domain/ReceitaIngrediente.js'
   import Ingrediente from '@/core/Ingredientes/Domain/Ingrediente.js'
   
 export default {
@@ -176,8 +176,8 @@ export default {
         this.ingredienteSelecionado.status
       );
 
-      var arg = new IngredienteReceita(newIngrediente);
-      arg.percent = this.porcaoIngrediente;
+      var arg = new ReceitaIngrediente(newIngrediente);
+      arg.percentual = this.porcaoIngrediente;
       
       this.closingForm();
       this.$emit('ingredienteConfirmado', arg);  

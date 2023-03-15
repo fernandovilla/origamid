@@ -16,7 +16,6 @@ namespace Agendabolo.Controllers
     {
         private readonly FabricanteService _service = new FabricanteService();
 
-        
 
         [HttpGet]
         public IActionResult get([FromQuery]int skip = 0, [FromQuery]int take = 20)

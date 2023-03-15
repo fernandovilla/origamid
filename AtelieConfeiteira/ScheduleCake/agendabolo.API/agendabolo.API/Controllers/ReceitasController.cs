@@ -15,8 +15,8 @@ namespace Agendabolo.Controllers
     {
         private readonly ReceitaService _service = new ReceitaService();
 
-        [HttpGet]
-        public IActionResult get([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        [HttpGet("Listar")]
+        public IActionResult Listar([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
             if (take > 500)
                 return BadRequest("Max take is 500");
@@ -49,9 +49,8 @@ namespace Agendabolo.Controllers
             }
         }
 
-
-        [HttpGet("{id}")]
-        public IActionResult get(ulong id)
+        [HttpGet("BuscarPorId/{id}")]
+        public IActionResult SelecionarPorId(ulong id)
         {
             try
             {
@@ -73,11 +72,38 @@ namespace Agendabolo.Controllers
             }
         }
 
-
         [HttpGet("BuscaPorNome/{nome}")]
-        public IActionResult get(string nome)
+        public IActionResult SelecionarPorNome(string nome)
         {
             return null;
+        }
+
+        [HttpPost]
+        public IActionResult post(ReceitaRequest receita)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //(bool ok, Ingrediente result) = _service.Save(ingrediente);
+
+                    //if (ok)
+                    //    return Ok(result);
+                    //else
+                    //    return BadRequest();
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

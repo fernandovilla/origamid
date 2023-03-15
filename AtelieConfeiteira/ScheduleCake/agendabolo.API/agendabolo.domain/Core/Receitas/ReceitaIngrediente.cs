@@ -9,9 +9,9 @@ using System.Text.Json.Serialization;
 namespace Agendabolo.Core.Receitas
 {
     [Table("receitasingredientes")]
-    public class IngredienteReceita
+    public class ReceitaIngrediente
     {        
-        public IngredienteReceita()
+        public ReceitaIngrediente()
         {
 
         }

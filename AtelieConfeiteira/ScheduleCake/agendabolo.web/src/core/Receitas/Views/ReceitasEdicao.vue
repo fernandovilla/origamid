@@ -26,7 +26,7 @@
                 
                 <div class="input-group col-6">
                   <label for="rendimento">Rendimento (gramas)</label>
-                  <input-currency id="rendimento" placeholder='0,00' v-model="receita.rendimento" :decimalCases=0 />
+                  <input-currency id="rendimento" placeholder='0' v-model="receita.rendimento" :decimalCases=0 />
                 </div>
 
                 <div class="input-group col-6">
@@ -121,7 +121,7 @@
     </form>
 
     <div class="buttons">
-      <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="cadastrarReceita">Cadastrar</button>
+      <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="incluirReceita">Cadastrar</button>
       <button v-else class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
       <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>
       <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
@@ -138,20 +138,20 @@
 </template>
 
 <script>
-import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue';
-import Receita from '@/core/Receitas/Domain/Receita.js';
-import InputBase from '@/components/Input/InputBase.vue';
-import InputArea from '@/components/Input/InputArea.vue';
-import InputCurrency from '@/components/Input/InputCurrency.vue';
-import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
-import ActionUpButton from '@/components/Button/ActionUpButton.vue';
-import ActionDownButton from '@/components/Button/ActionDownButton.vue';
-import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue';
+import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue'
+import Receita from '@/core/Receitas/Domain/Receita.js'
+import InputBase from '@/components/Input/InputBase.vue'
+import InputArea from '@/components/Input/InputArea.vue'
+import InputCurrency from '@/components/Input/InputCurrency.vue'
+import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue'
+import ActionUpButton from '@/components/Button/ActionUpButton.vue'
+import ActionDownButton from '@/components/Button/ActionDownButton.vue'
+import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue'
 import ButtonPrintSmall from '@/components/Button/ButtonPrintSmall.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
-import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
-import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
-import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
+import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js'
+import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js'
+import { move_item, sort_object } from '@/helpers/ArrayHelp.js'
 
 export default {
   name: "receita-edicao",
@@ -321,6 +321,7 @@ export default {
       this.selecaoIngredienteShow = false;
     },
     onIngredienteConfirmado(arg){
+      arg.ordem = this.receita.ingredientes.length + 1;
       this.receita.ingredientes.push(arg);
     },
 
@@ -329,8 +330,29 @@ export default {
     },
     
     
-    async cadastrarReceita() {
-      console.log("Incluindo...");
+    async incluirReceita() {
+      const receitaRequest = {
+        id: 0,
+        nome: this.receita.nome,
+        descricao: this.receita.descricao,
+        status: TextToNumber(this.receita.status),
+        rendimento: TextToNumber(this.receita.rendimento),
+        preparo: this.receita.preparo,
+        cozimento: this.receita.cozimento,
+        ingredientes: this.receita.ingredientes.map((item, index) => ({
+          id: item.id,
+          porcao: TextToNumber(item.percentual),
+          ordem: index+1
+        }))
+      }
+
+      const response = await receitasAPIService.incluirReceita(receitaRequest);
+      
+      if (response !== null){
+        console.log(response);
+      } else {
+        //erro na inclusão da receita...
+      }
 
     },
 
