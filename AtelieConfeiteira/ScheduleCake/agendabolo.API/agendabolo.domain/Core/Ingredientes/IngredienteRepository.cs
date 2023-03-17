@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class IngredienteRepository : GenericRepository.GenericRepository<Ingrediente, ulong>, IIngredienteRepository
+    public class IngredienteRepository : GenericRepository.GenericRepository<IngredienteDTA, ulong>, IIngredienteRepository
     {
         public IngredienteRepository(ApplicationDbContext context) 
             : base(context)

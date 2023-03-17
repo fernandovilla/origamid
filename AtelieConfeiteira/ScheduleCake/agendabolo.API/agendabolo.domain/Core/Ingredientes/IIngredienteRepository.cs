@@ -5,7 +5,7 @@ using Agendabolo.GenericRepository;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public interface IIngredienteRepository : IGenericRepository<Ingrediente, ulong>
+    public interface IIngredienteRepository : IGenericRepository<IngredienteDTA, ulong>
     {
     }
 }

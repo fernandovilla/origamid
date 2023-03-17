@@ -20,7 +20,7 @@
                 <div class="col-12">
                   <div class="input-group">
                     <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows="4" v-model="receita.descricao" />                   
+                    <input-area id="descricao" :rows=4 v-model="receita.descricao" />                   
                   </div>
                 </div>
                 
@@ -66,7 +66,7 @@
                       <td class="col-item">{{item.id}}</td>
                       <td class="col-ingrediente">{{item.nome}} </td>
                       <td class="col-percent editable">
-                        <input-currency type="text" v-model="item.percentual" :decimalCases="2" @keydown="handleKeyDownRow" :tabindex="index+1" />
+                        <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <td class="col-custo">{{custoItemCalculado(item)}}</td>
@@ -329,10 +329,10 @@ export default {
       console.log("Imprimindo ingredientes...");
     },
     
-    
-    async incluirReceita() {
-      const receitaRequest = {
-        id: 0,
+
+    obterReceitaRequest(){
+      return {
+        id: this.receita.id,
         nome: this.receita.nome,
         descricao: this.receita.descricao,
         status: TextToNumber(this.receita.status),
@@ -341,12 +341,15 @@ export default {
         cozimento: this.receita.cozimento,
         ingredientes: this.receita.ingredientes.map((item, index) => ({
           id: item.id,
-          porcao: TextToNumber(item.percentual),
+          percentual: TextToNumber(item.percentual),
           ordem: index+1
         }))
       }
-
-      const response = await receitasAPIService.incluirReceita(receitaRequest);
+    },
+    
+    async incluirReceita() {      
+      const payload = this.obterReceitaRequest();
+      const response = await receitasAPIService.incluirReceita(payload);
       
       if (response !== null){
         console.log(response);
@@ -356,8 +359,17 @@ export default {
 
     },
 
-    async salvarrReceita(){
-      console.log("Alterando...");
+    async salvarReceita(){
+      console.log("Salvando...");
+
+      const payload = this.obterReceitaRequest();
+      const response = await receitasAPIService.alterarReceita(payload);
+      
+      if (response !== null){
+        console.log(response);
+      } else {
+        //erro na alteração da receita...
+      }
     },
 
     async obterReceita(idReceita){
@@ -410,9 +422,9 @@ export default {
       margin-top: 8px;
     }
 
-    .group.ingredientes .content {
-      /* height: 213px; */
-    }
+    /*.group.ingredientes .content {
+      height: 213px;
+    }*/
 
     
     .ingredientes thead {
@@ -466,9 +478,8 @@ export default {
     .ingredientes .col-custo {
       width: 10%;
     }
-    .ingredientes .col-acoes {
-      
-    }
+    /* .ingredientes .col-acoes {      
+    } */
 
     @media screen and (max-width: 960px) {
       .group.ingredientes, 

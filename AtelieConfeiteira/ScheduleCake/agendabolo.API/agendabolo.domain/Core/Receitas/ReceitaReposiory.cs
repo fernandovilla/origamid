@@ -8,29 +8,31 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaReposiory: GenericRepository.GenericRepository<Receita, ulong>, IReceitaRepository
+    public class ReceitaReposiory: GenericRepository.GenericRepository<ReceitaDTA, ulong>, IReceitaRepository
     {
         public ReceitaReposiory(ApplicationDbContext context)
             : base(context)
         { }
 
 
-        public override IEnumerable<Receita> Get(Expression<Func<Receita, bool>> filter = null)
+        public override IEnumerable<ReceitaDTA> Get(Expression<Func<ReceitaDTA, bool>> filter = null)
         {
-            IQueryable<Receita> query = _dbset;
+            IQueryable<ReceitaDTA> query = _dbset;
 
             if (filter != null)
-                query = query.Where(filter);                    
-        
-            return query
-                .Include(i => i.Ingredientes)
-                .ThenInclude(i => i.Ingrediente)
-                .AsEnumerable();
+                query = query.Where(filter);
+
+            return query.AsEnumerable();
+
+            //return query
+            //    .Include(i => i.Ingredientes)
+            //    .ThenInclude(i => i.Ingrediente)
+            //    .AsEnumerable();
         }
 
-        public override Receita GetByID(ulong id)
+        public override ReceitaDTA GetByID(ulong id)
         {
-            IQueryable<Receita> receitas = _dbset;
+            IQueryable<ReceitaDTA> receitas = _dbset;
 
             return receitas
                 .Where(r => r.Id == id)

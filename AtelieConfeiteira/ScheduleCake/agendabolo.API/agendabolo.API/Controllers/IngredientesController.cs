@@ -107,7 +107,7 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Ingrediente result) = _service.Save(ingrediente);
+                    (bool ok, IngredienteDTA result) = _service.Save(ingrediente);
 
                     if (ok)
                         return Ok(result);
@@ -133,7 +133,7 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    (bool ok, Ingrediente result) = _service.Save(ingrediente);
+                    (bool ok, IngredienteDTA result) = _service.Save(ingrediente);
 
                     if (ok)
                         return Ok(result);

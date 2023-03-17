@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaService : IServiceBase<Receita, ulong>
+    public class ReceitaService : IServiceBase<ReceitaDTA, ulong>
     {
         public bool Delete(ulong id)
         {
@@ -28,7 +28,7 @@ namespace Agendabolo.Core.Receitas
             return false;
         }
 
-        public IEnumerable<Receita> Get()
+        public IEnumerable<ReceitaDTA> Get()
         {
             using (var unit = new UnitOfWork())
             {
@@ -36,7 +36,7 @@ namespace Agendabolo.Core.Receitas
             }
         }
 
-        public Receita GetByID(ulong id)
+        public ReceitaDTA GetByID(ulong id)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Agendabolo.Core.Receitas
             }
         }
 
-        public (bool, Receita) Save(Receita receita)
+        public (bool, ReceitaDTA) Save(ReceitaDTA receita)
         {
             try
             {

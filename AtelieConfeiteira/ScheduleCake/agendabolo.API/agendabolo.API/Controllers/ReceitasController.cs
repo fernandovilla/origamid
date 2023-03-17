@@ -2,10 +2,8 @@
 using Agendabolo.Core.Receitas;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Controllers
 {
@@ -78,21 +76,22 @@ namespace Agendabolo.Controllers
             return null;
         }
 
+        [HttpPut]
         [HttpPost]
-        public IActionResult post(ReceitaRequest receita)
+        public IActionResult Salvar(ReceitaRequest receita)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    //(bool ok, Ingrediente result) = _service.Save(ingrediente);
+                    var receitaDta = ReceitaDTA.Parse(receita);
 
-                    //if (ok)
-                    //    return Ok(result);
-                    //else
-                    //    return BadRequest();
+                    (bool ok, ReceitaDTA result) = _service.Save(receitaDta);
 
-                    return Ok();
+                    if (ok)
+                        return Ok(result);
+                    else
+                        return BadRequest();
                 }
                 else
                 {
@@ -105,5 +104,33 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        
+        //public IActionResult Alterar(ReceitaRequest receita)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            var receitaDta = Receita.Parse(receita);
+
+        //            (bool ok, Receita result) = _service.Save(receitaDta);
+
+        //            if (ok)
+        //                return Ok(result);
+        //            else
+        //                return BadRequest();
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(ModelState);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogDeErros.Default.Write(ex);
+        //        return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    }
+        //}
     }
 }

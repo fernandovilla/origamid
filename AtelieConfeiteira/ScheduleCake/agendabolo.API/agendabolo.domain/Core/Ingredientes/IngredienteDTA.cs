@@ -1,16 +1,12 @@
-﻿using Agendabolo.Core.Fabricantes;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Ingredientes
 {
     [Table("ingredientes")]
-    public class Ingrediente
+    public class IngredienteDTA
     {
         [Key]
         [Column("id")]
@@ -29,6 +25,6 @@ namespace Agendabolo.Core.Ingredientes
         public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
 
         [JsonIgnore]
-        public ICollection<Receitas.ReceitaIngrediente> Receitas { get; set; }
+        public ICollection<Receitas.ReceitaIngredienteDTA> Receitas { get; set; }
     }
 }

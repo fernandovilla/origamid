@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public class FabricanteRequest : Fabricante, IValidatableObject
+    public class FabricanteRequest : FabricanteDTA, IValidatableObject
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
 
             if (string.IsNullOrEmpty(this.Nome))
-                results.Add(new ValidationResult("Invalid name", new string[] { nameof(Fabricante.Nome) }));
+                results.Add(new ValidationResult("Invalid name", new string[] { nameof(FabricanteDTA.Nome) }));
 
             return results;
         }

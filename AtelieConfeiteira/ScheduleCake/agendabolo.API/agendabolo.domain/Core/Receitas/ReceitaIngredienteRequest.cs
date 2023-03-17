@@ -7,7 +7,8 @@ namespace Agendabolo.Core.Receitas
     public class ReceitaIngredienteRequest
     {
         public int Id { get; set; }
-        public decimal Porcao { get; set; }
+        public double Percentual { get; set; }
         public int Ordem { get; set; }
+        public int Status { get; set; }
     }
 }

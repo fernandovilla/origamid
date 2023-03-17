@@ -9,7 +9,7 @@ using System.Text;
 namespace Agendabolo.Core.Receitas
 {
     [Table("receitas")]
-    public class Receita
+    public class ReceitaDTA
     {
         [Key]
         [Column("id")]
@@ -52,7 +52,41 @@ namespace Agendabolo.Core.Receitas
         [Column("precoVendaVarejo")]
         public decimal PrecoVendaVarejo { get; set; }
 
-        public ICollection<ReceitaIngrediente> Ingredientes { get; set; }
+        public ICollection<ReceitaIngredienteDTA> Ingredientes { get; set; }
+
+        public static ReceitaDTA Parse(ReceitaRequest receita)
+        {
+            if (receita == null)
+                throw new ArgumentNullException("Argument receira is invalid");
+
+
+            IEnumerable<ReceitaIngredienteDTA> getIngredientesReceita(IEnumerable<ReceitaIngredienteRequest> ingredientes)
+            {
+                foreach(var item in ingredientes)
+                {
+                    yield return new ReceitaIngredienteDTA
+                    {
+                        IdIngrediente = (ulong)item.Id,
+                        Percentual = item.Percentual,
+                        Ordem = item.Ordem,
+                        Status = (StatusCadastro)item.Status
+                    };
+                }
+            };
+
+            var novaReceita = new ReceitaDTA();
+            novaReceita.Id = (ulong)receita.Id;
+            novaReceita.Nome = receita.Nome;
+            novaReceita.Descricao = receita.Descricao;
+            novaReceita.Rendimento = receita.Rendimento;
+            novaReceita.Status = (StatusCadastro)receita.Status;
+            novaReceita.Preparo = receita.Preparo;
+            novaReceita.Cozimento = receita.Cozimento;
+            novaReceita.Ingredientes = getIngredientesReceita(receita.Ingredientes).ToArray();
+
+            return novaReceita;
+
+        }
 
         //public decimal CustoIngredientes => Ingredientes.Sum(i => i.Ingrediente.PrecoCusto * ((decimal)i.Quantidade / 1000m));
     }

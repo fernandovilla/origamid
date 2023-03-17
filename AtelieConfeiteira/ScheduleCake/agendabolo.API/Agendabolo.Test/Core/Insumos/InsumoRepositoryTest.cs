@@ -33,7 +33,7 @@ namespace Agendabolo.Test.Core.Insumos
         [Fact]
         public void InsertInsumo()
         {
-            var insumo = new Ingrediente
+            var insumo = new IngredienteDTA
             {
                 Nome = "NOVO INSUMO",
                 PrecoCusto = 10.05m,

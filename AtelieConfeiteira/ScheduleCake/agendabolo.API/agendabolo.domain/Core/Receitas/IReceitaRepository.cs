@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public interface IReceitaRepository: IGenericRepository<Receita, ulong>
+    public interface IReceitaRepository: IGenericRepository<ReceitaDTA, ulong>
     {
     }
 }

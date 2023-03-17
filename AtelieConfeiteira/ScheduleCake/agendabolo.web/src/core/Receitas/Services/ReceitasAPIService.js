@@ -59,4 +59,18 @@ export const receitasAPIService = {
       LogErro(error, 'Ocorreu erro incluindo receita');
     }
   },
+
+  async alterarReceita(receitaRequest) {
+    try {
+      const response = await api.put('/receitas', receitaRequest);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro alterando receita');
+    }
+  },
 };

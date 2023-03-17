@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Agendabolo.Core.Fabricantes
 {
     [Table("fabricantes")]
-    public class Fabricante
+    public class FabricanteDTA
     {
         [Key]
         [Column("id")]

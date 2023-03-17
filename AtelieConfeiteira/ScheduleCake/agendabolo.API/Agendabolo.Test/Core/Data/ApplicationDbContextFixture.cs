@@ -36,7 +36,7 @@ namespace Agendabolo.Test.Core.Data
         {
             for (ulong i = 1; i < 300; i++)
             {
-                Context.Ingredientes.Add(new Agendabolo.Core.Ingredientes.Ingrediente
+                Context.Ingredientes.Add(new Agendabolo.Core.Ingredientes.IngredienteDTA
                 {
                     Id = i,
                     Nome = $"INSUMO #{i}",

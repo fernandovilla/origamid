@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public class FabricanteService: IServiceBase<Fabricante, ulong>
+    public class FabricanteService: IServiceBase<FabricanteDTA, ulong>
     {
         public bool Delete(ulong id)
         {
@@ -38,7 +38,7 @@ namespace Agendabolo.Core.Fabricantes
             }
         }
 
-        public IEnumerable<Fabricante> Get()
+        public IEnumerable<FabricanteDTA> Get()
         {
             using(var unit = new UnitOfWork())
             {
@@ -46,7 +46,7 @@ namespace Agendabolo.Core.Fabricantes
             }
         }
 
-        public Fabricante GetByID(ulong id)
+        public FabricanteDTA GetByID(ulong id)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace Agendabolo.Core.Fabricantes
             return null;
         }
 
-        public (bool, Fabricante) Save(Fabricante fabricante)
+        public (bool, FabricanteDTA) Save(FabricanteDTA fabricante)
         {
             try
             {

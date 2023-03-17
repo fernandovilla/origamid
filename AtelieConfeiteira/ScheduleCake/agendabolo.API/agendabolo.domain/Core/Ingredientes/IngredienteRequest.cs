@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class IngredienteRequest : Ingrediente, IValidatableObject
+    public class IngredienteRequest : IngredienteDTA, IValidatableObject
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();
 
             if (string.IsNullOrEmpty(this.Nome))
-                results.Add(new ValidationResult("Invalid name", new string[] { nameof(Ingrediente.Nome) }));
+                results.Add(new ValidationResult("Invalid name", new string[] { nameof(IngredienteDTA.Nome) }));
 
             return results;
         }
