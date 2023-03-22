@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Agendabolo.Core.Receitas
 {
+    [DebuggerDisplay("{Id} {Status}")]
     [Table("receitasingredientes")]
     public class ReceitaIngredienteDTA
     {        
@@ -22,11 +24,8 @@ namespace Agendabolo.Core.Receitas
         }
 
 
-        [JsonIgnore]
-        public ReceitaDTA Receita { get; set; }
-                
-        [JsonIgnore]
-        public IngredienteDTA Ingrediente { get; set; }
+        
+
 
         public string Nome => Ingrediente?.Nome;
 
@@ -38,9 +37,14 @@ namespace Agendabolo.Core.Receitas
 
         [Column("idreceita")]
         public ulong IdReceita { get; set; }
+        [JsonIgnore]
+        public ReceitaDTA Receita { get; set; }
 
         [Column("idingrediente")]
         public ulong IdIngrediente { get; set; }
+
+        [JsonIgnore]
+        public IngredienteDTA Ingrediente { get; set; }
 
         [Column("percentual")]
         public double Percentual { get; set; } = 0f;

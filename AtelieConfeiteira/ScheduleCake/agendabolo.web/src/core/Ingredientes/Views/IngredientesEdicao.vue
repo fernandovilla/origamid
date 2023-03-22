@@ -108,7 +108,7 @@
       <button v-if="ingrediente.id === 0" class="btn btn-primary" @click.prevent="incluirIngrediente">Incluir</button>
       <button v-else class="btn btn-primary" @click.prevent="alterarIngrediente">Alterar</button>
       <router-link to="/ingredientes" class="btn btn-normal">Voltar</router-link>
-      <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
+      <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
     </div>
   </div>
 </template>
@@ -227,7 +227,7 @@ export default {
         const response = await ingredientesAPIService.obterIngrediente(idIngrediente);
 
         if (response !== undefined){
-          this.ingrediente = response;
+          this.ingrediente = response.data;
         } else {
           this.$router.push('/ingredientes');
         }

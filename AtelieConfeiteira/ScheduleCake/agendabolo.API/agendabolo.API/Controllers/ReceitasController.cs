@@ -16,8 +16,8 @@ namespace Agendabolo.Controllers
         [HttpGet("Listar")]
         public IActionResult Listar([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
-            if (take > 500)
-                return BadRequest("Max take is 500");
+            if (take > 1000)
+                return BadRequest("Max take is 1000");
 
             try
             {
@@ -28,8 +28,6 @@ namespace Agendabolo.Controllers
                     .ToList()
                     .Skip(skip)
                     .Take(take);
-
-
 
                 if (receitas != null && receitas.Any())
                     return Ok(new

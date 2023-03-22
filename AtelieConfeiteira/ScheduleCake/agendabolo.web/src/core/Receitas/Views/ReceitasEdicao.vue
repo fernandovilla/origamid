@@ -62,8 +62,8 @@
                   </thead>
 
                   <tbody>                  
-                    <tr v-for="(item, index) in this.receita.ingredientes" :key="index">
-                      <td class="col-item">{{item.id}}</td>
+                    <tr v-for="(item, index) in this.ingredientes" :key="index">
+                      <td class="col-item">{{item.ordem}}</td>
                       <td class="col-ingrediente">{{item.nome}} </td>
                       <td class="col-percent editable">
                         <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
@@ -120,12 +120,15 @@
       </div>      
     </form>
 
-    <div class="buttons">
-      <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="incluirReceita">Cadastrar</button>
-      <button v-else class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
-      <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>
-      <span v-if="menssagemSucesso" class="incluido row4 span3">{{mensagem}}</span>      
+    <div class="container-fluid">
+      <div class="row buttons">
+          <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="incluirReceita">Cadastrar</button>
+          <button v-else class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
+          <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>        
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+      </div>  
     </div>
+    
 
 
     <div>
@@ -138,20 +141,20 @@
 </template>
 
 <script>
-import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue'
-import Receita from '@/core/Receitas/Domain/Receita.js'
-import InputBase from '@/components/Input/InputBase.vue'
-import InputArea from '@/components/Input/InputArea.vue'
-import InputCurrency from '@/components/Input/InputCurrency.vue'
-import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue'
-import ActionUpButton from '@/components/Button/ActionUpButton.vue'
-import ActionDownButton from '@/components/Button/ActionDownButton.vue'
-import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue'
-import ButtonPrintSmall from '@/components/Button/ButtonPrintSmall.vue'
-import SelectStatus from '@/components/Select/SelectStatus.vue'
-import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js'
-import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js'
-import { move_item, sort_object } from '@/helpers/ArrayHelp.js'
+import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue';
+import Receita from '@/core/Receitas/Domain/Receita.js';
+import InputBase from '@/components/Input/InputBase.vue';
+import InputArea from '@/components/Input/InputArea.vue';
+import InputCurrency from '@/components/Input/InputCurrency.vue';
+import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
+import ActionUpButton from '@/components/Button/ActionUpButton.vue';
+import ActionDownButton from '@/components/Button/ActionDownButton.vue';
+import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue';
+import ButtonPrintSmall from '@/components/Button/ButtonPrintSmall.vue';
+import SelectStatus from '@/components/Select/SelectStatus.vue';
+import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
+import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
+import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
 
 export default {
   name: "receita-edicao",
@@ -161,6 +164,8 @@ export default {
         type: Receita, 
         default: null 
       },
+      ingredientes: [],
+      ingredientesExcluidos: [],
       mensagem: '',
       menssagemSucesso: '',      
       selecaoIngredienteShow: false,           
@@ -182,8 +187,8 @@ export default {
   computed: {
     ingredientesOk(){
       if (this.receita === null || this.receita === undefined) return false;
-      if (this.receita.ingredientes === null || this.receita.ingredientes === undefined) return false;
-      if (this.receita.ingredientes.length === 0) return false;
+      if (this.ingredientes === null || this.ingredientes === undefined) return false;
+      if (this.ingredientes.length === 0) return false;
 
       return true;
     },
@@ -191,7 +196,7 @@ export default {
     totalPercent(){
       if (this.ingredientesOk)
       {
-        const ingredientesArray = this.receita.ingredientes;
+        const ingredientesArray = this.ingredientes;
         var total = ingredientesArray.reduce((acumulado, item) => {
           return TextToNumber(item.percentual) + acumulado;
         }, 0);
@@ -204,7 +209,7 @@ export default {
     totalPeso(){
       if (this.ingredientesOk)
       {
-        var total = this.receita.ingredientes.reduce((acumulado, item) => {
+        var total = this.ingredientes.reduce((acumulado, item) => {
           return (TextToNumber(item.percentual) * TextToNumber(this.receita.rendimento) / 100)  + acumulado;
         }, 0);
 
@@ -215,7 +220,7 @@ export default {
     },
     totalCusto(){
       if (this.ingredientesOk) {
-        var total = this.receita.ingredientes.reduce((acumulado, item) => {
+        var total = this.ingredientes.reduce((acumulado, item) => {
           var custoItem = Number(this.custoItemCalculado(item));
           return custoItem + acumulado;
         }, 0);
@@ -290,28 +295,31 @@ export default {
     moveIngredienteUp(index){
       if (index > 0){
 
-        var ordem = this.receita.ingredientes[index].ordem;
-        var newOrdem = this.receita.ingredientes[index-1].ordem;
-        this.receita.ingredientes[index].ordem = newOrdem;        
-        this.receita.ingredientes[index-1].ordem = ordem;
+        var ordem = this.ingredientes[index].ordem;
+        var newOrdem = this.ingredientes[index-1].ordem;
+        this.ingredientes[index].ordem = newOrdem;        
+        this.ingredientes[index-1].ordem = ordem;
 
-        move_item(this.receita.ingredientes, index, index-1);
+        move_item(this.ingredientes, index, index-1);
       }
     },
     moveIngredienteDown(index) {      
-      if (index < this.receita.ingredientes.length){
+      if (index < this.ingredientes.length){
 
-        var ordem = this.receita.ingredientes[index].ordem;
-        var newOrdem = this.receita.ingredientes[index+1].ordem;
-        this.receita.ingredientes[index].ordem = newOrdem;        
-        this.receita.ingredientes[index+1].ordem = ordem;
+        var ordem = this.ingredientes[index].ordem;
+        var newOrdem = this.ingredientes[index+1].ordem;
+        this.ingredientes[index].ordem = newOrdem;        
+        this.ingredientes[index+1].ordem = ordem;
 
-        move_item(this.receita.ingredientes, index, index+1);
+        move_item(this.ingredientes, index, index+1);
       }  
     },
     removeIngrediente(index){
-      if (index >= 0 || index < this.receita.ingredientes.length){
-        this.receita.ingredientes.splice(index,1);
+      if (index >= 0 || index < this.ingredientes.length){
+        if (this.ingredientes[index].id > 0) {
+          this.ingredientesExcluidos.push(this.ingredientes[index]);
+        }
+        this.ingredientes.splice(index,1);
       }
     },    
     adicionaIngrediente() {
@@ -321,8 +329,9 @@ export default {
       this.selecaoIngredienteShow = false;
     },
     onIngredienteConfirmado(arg){
-      arg.ordem = this.receita.ingredientes.length + 1;
-      this.receita.ingredientes.push(arg);
+      arg.idReceita = this.receita.id;
+      arg.ordem = this.ingredientes.length + 1;
+      this.ingredientes.push(arg);
     },
 
     imprimirIngredientes(){
@@ -331,7 +340,7 @@ export default {
     
 
     obterReceitaRequest(){
-      return {
+      var receitaRequest = {
         id: this.receita.id,
         nome: this.receita.nome,
         descricao: this.receita.descricao,
@@ -339,12 +348,49 @@ export default {
         rendimento: TextToNumber(this.receita.rendimento),
         preparo: this.receita.preparo,
         cozimento: this.receita.cozimento,
-        ingredientes: this.receita.ingredientes.map((item, index) => ({
+        ingredientes: this.ingredientes.map((item, index) => ({
           id: item.id,
+          idIngrediente: item.idIngrediente,
           percentual: TextToNumber(item.percentual),
           ordem: index+1
         }))
       }
+
+      if (this.ingredientesExcluidos.length > 0) {
+        this.ingredientesExcluidos.map(item => receitaRequest.ingredientes.push({
+          id: item.id,
+          idIngrediente: item.idIngrediente,
+          percentual: 0,
+          ordem: 0,
+          status: 3
+        }));
+        //receitaRequest.ingredientes.push(this.ingredientesExcluidos.map());
+      }
+      
+      return receitaRequest;
+    },
+
+    createNewReceita(){
+      this.receita = new Receita();
+      this.receita.ingredientes = [];
+      this.ingredientes = [];
+    },
+
+    async obterReceita(idReceita){
+      if (idReceita === undefined || idReceita === 0)
+          return;
+
+        this.receita = { id: idReceita };
+
+        const response = await receitasAPIService.getById(idReceita);
+
+        if (response !== undefined){
+          this.receita = response.data;        
+          this.ingredientes = sort_object(this.receita.ingredientes, 'ordem');
+
+        } else {
+          this.$router.push('/receitas');
+        }
     },
     
     async incluirReceita() {      
@@ -352,7 +398,7 @@ export default {
       const response = await receitasAPIService.incluirReceita(payload);
       
       if (response !== null){
-        console.log(response);
+        this.mostrarMensagemSucesso("Receita cadastrada com sucesso")
       } else {
         //erro na inclusão da receita...
       }
@@ -366,33 +412,21 @@ export default {
       const response = await receitasAPIService.alterarReceita(payload);
       
       if (response !== null){
-        console.log(response);
+        this.mostrarMensagemSucesso("Receita atualizada com sucesso")
       } else {
         //erro na alteração da receita...
       }
     },
 
-    async obterReceita(idReceita){
-      if (idReceita === undefined || idReceita === 0)
-          return;
+    mostrarMensagemSucesso(text){
+        this.mensagem = text;
+        this.menssagemSucesso = true;
 
-        this.receita = { id: idReceita };
-
-        const response = await receitasAPIService.getById(idReceita);
-
-        if (response !== undefined){
-          this.receita = response.data;        
-          this.receita.ingredientes = sort_object(this.receita.ingredientes, 'ordem');
-
-        } else {
-          this.$router.push('/receitas');
-        }
-    },
-    createNewReceita(){
-      this.receita = new Receita();
-      this.receita.ingredientes = [];
-    }
-
+        setTimeout(() => {
+          this.menssagemSucesso = false;
+          this.mensagem = '';
+        }, 3000);
+      },
   },
   async created() {
 
@@ -478,8 +512,17 @@ export default {
     .ingredientes .col-custo {
       width: 10%;
     }
+
     /* .ingredientes .col-acoes {      
     } */
+
+    .incluido {
+      align-self: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: tomato;
+      margin-left: 50px;      
+    }
 
     @media screen and (max-width: 960px) {
       .group.ingredientes, 
@@ -487,7 +530,6 @@ export default {
         margin-left: 0px;
         margin-top: 10px;
       }
-
 
       .ingredientes .col-ingrediente {
         width: 25%;
@@ -497,6 +539,16 @@ export default {
       }
       .ingredientes .col-acoes {
         display: none;
+      }
+
+      .buttons {
+        justify-content: center;
+      }
+
+      .incluido {
+        text-align: center;
+        width: 100%;
+        margin: 0;
       }
     }
 

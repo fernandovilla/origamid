@@ -9,7 +9,7 @@ namespace Agendabolo.GenericRepository
 {
     public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        private ApplicationDbContext _context;
+        protected ApplicationDbContext _context;
         protected DbSet<TEntity> _dbset => _context.Set<TEntity>();
 
         public GenericRepository(ApplicationDbContext context)

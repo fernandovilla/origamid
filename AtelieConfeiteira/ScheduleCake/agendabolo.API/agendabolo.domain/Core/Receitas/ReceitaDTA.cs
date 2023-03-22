@@ -52,7 +52,7 @@ namespace Agendabolo.Core.Receitas
         [Column("precoVendaVarejo")]
         public decimal PrecoVendaVarejo { get; set; }
 
-        public ICollection<ReceitaIngredienteDTA> Ingredientes { get; set; }
+        public IEnumerable<ReceitaIngredienteDTA> Ingredientes { get; set; }
 
         public static ReceitaDTA Parse(ReceitaRequest receita)
         {
@@ -60,13 +60,15 @@ namespace Agendabolo.Core.Receitas
                 throw new ArgumentNullException("Argument receira is invalid");
 
 
-            IEnumerable<ReceitaIngredienteDTA> getIngredientesReceita(IEnumerable<ReceitaIngredienteRequest> ingredientes)
+            IEnumerable<ReceitaIngredienteDTA> getIngredientesReceita(int idReceita, IEnumerable<ReceitaIngredienteRequest> ingredientes)
             {
                 foreach(var item in ingredientes)
                 {
                     yield return new ReceitaIngredienteDTA
                     {
-                        IdIngrediente = (ulong)item.Id,
+                        Id = (ulong)item.Id,
+                        IdIngrediente = (ulong)item.IdIngrediente,
+                        IdReceita = (ulong)idReceita,
                         Percentual = item.Percentual,
                         Ordem = item.Ordem,
                         Status = (StatusCadastro)item.Status
@@ -82,7 +84,7 @@ namespace Agendabolo.Core.Receitas
             novaReceita.Status = (StatusCadastro)receita.Status;
             novaReceita.Preparo = receita.Preparo;
             novaReceita.Cozimento = receita.Cozimento;
-            novaReceita.Ingredientes = getIngredientesReceita(receita.Ingredientes).ToArray();
+            novaReceita.Ingredientes = getIngredientesReceita(receita.Id, receita.Ingredientes).ToArray();
 
             return novaReceita;
 

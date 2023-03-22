@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import InputBase from '@/components/Input/InputBase.vue';
+import InputBase from '@/components/Input/InputBase.vue'
 
 export default {
   name:'input-currency',

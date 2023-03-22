@@ -20,8 +20,8 @@ namespace Agendabolo.Controllers
         [HttpGet]
         public IActionResult get([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
-            if (take > 500)
-                return BadRequest("Max take is 500");
+            if (take > 1000)
+                return BadRequest("Max take is 1000");
 
             try
             {

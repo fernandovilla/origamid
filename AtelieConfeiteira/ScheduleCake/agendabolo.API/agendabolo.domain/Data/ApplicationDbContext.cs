@@ -46,6 +46,7 @@ namespace Agendabolo.Data
                 .WithMany(i => i.Ingredientes)
                 .HasForeignKey(i => i.IdReceita);
 
+
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasOne<Core.Ingredientes.IngredienteDTA>(i => i.Ingrediente)
                 .WithMany(i => i.Receitas)

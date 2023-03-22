@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaReposiory: GenericRepository.GenericRepository<ReceitaDTA, ulong>, IReceitaRepository
+    public class ReceitaReposiory : GenericRepository.GenericRepository<ReceitaDTA, ulong>, IReceitaRepository
     {
         public ReceitaReposiory(ApplicationDbContext context)
             : base(context)
@@ -37,8 +37,36 @@ namespace Agendabolo.Core.Receitas
             return receitas
                 .Where(r => r.Id == id)
                 .Include(rec => rec.Ingredientes)
-                .ThenInclude(i => i.Ingrediente)                
+                .ThenInclude(i => i.Ingrediente)
                 .FirstOrDefault();
+        }
+
+        public override void Update(ReceitaDTA receita)
+        {
+            if (receita == null)
+                throw new ArgumentNullException("Invalid entity");
+
+            _context.Entry(receita).State = EntityState.Modified;
+
+            this.UpdateIngredientes(receita.Ingredientes);            
+        }
+
+        private void UpdateIngredientes(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)
+        {
+            foreach (var item in ingredientesReceita)
+            {
+                if (item.Id > 0)
+                {
+                    if (item.Status == StatusCadastro.Excluido)
+                        _context.IngredientesReceitas.Remove(item);
+                    else
+                        _context.Entry(item).State = EntityState.Modified;
+                }
+                else
+                {
+                    _context.IngredientesReceitas.Add(item);
+                }
+            }
         }
     }
 }
