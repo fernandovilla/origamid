@@ -2,6 +2,7 @@
 using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Agendabolo.Core.Receitas
@@ -76,6 +77,7 @@ namespace Agendabolo.Core.Receitas
 
                     unit.Save();
                 }
+
 
                 return (true, receita);
             }

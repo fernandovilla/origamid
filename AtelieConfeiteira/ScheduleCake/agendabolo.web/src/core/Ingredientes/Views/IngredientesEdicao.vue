@@ -206,6 +206,7 @@ export default {
           id: this.ingrediente.id,
           nome: this.ingrediente.nome,
           precoCusto: this.precoIngrediente,
+          quantidadeEmbalagem: this.quantidadeEmbalagem,
           status: this.ingrediente.status
         };
 

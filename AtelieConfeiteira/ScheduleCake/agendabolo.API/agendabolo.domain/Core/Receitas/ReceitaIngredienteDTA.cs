@@ -24,9 +24,9 @@ namespace Agendabolo.Core.Receitas
         }
 
 
-        
-
-
+        public ReceitaDTA Receita { get; set; }
+        //public IEnumerable<ReceitaDTA> Receitas { get; set; }
+        public IngredienteDTA Ingrediente { get; set; }
         public string Nome => Ingrediente?.Nome;
 
 
@@ -34,18 +34,10 @@ namespace Agendabolo.Core.Receitas
         [Key]
         [Column("id")]
         public ulong Id { get; set; }
-
         [Column("idreceita")]
-        public ulong IdReceita { get; set; }
-        [JsonIgnore]
-        public ReceitaDTA Receita { get; set; }
-
+        public ulong IdReceita { get; set; }        
         [Column("idingrediente")]
-        public ulong IdIngrediente { get; set; }
-
-        [JsonIgnore]
-        public IngredienteDTA Ingrediente { get; set; }
-
+        public ulong IdIngrediente { get; set; }        
         [Column("percentual")]
         public double Percentual { get; set; } = 0f;
 

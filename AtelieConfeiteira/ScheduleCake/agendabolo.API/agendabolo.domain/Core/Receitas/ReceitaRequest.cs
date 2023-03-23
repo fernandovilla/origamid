@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace Agendabolo.Core.Receitas
@@ -28,6 +29,44 @@ namespace Agendabolo.Core.Receitas
                 results.Add(new ValidationResult("Invalid Status", new string[] { nameof(this.Status) }));
 
             return results;
+        }
+
+        public static ReceitaRequest Parse(ReceitaDTA receita)
+        {
+            IEnumerable<ReceitaIngredienteRequest> getItens(IEnumerable<ReceitaIngredienteDTA> ingredientes)
+            {
+                if (ingredientes != null && ingredientes.Any())
+                {
+                    foreach (var item in ingredientes)
+                    {
+                        yield return new ReceitaIngredienteRequest
+                        {
+                            Id = (int)item.Id,
+                            IdIngrediente = (int)item.IdIngrediente,
+                            Nome = item.Nome,
+                            Percentual = item.Percentual,
+                            PrecoCusto = item.PrecoCusto,
+                            Ordem = item.Ordem,
+                            Status = (int)item.Status
+                        };
+                    }
+                }
+            };
+
+            var receitaRequest = new ReceitaRequest
+            {
+                Id = (int)receita.Id,
+                Nome = receita.Nome,
+                Descricao = receita.Descricao,
+                Rendimento = receita.Rendimento,
+                Preparo = receita.Preparo,
+                Cozimento = receita.Cozimento,
+                Status = (int)receita.Status,
+                Ingredientes = getItens(receita.Ingredientes)
+            };
+
+            return receitaRequest;
+
         }
     }
 }

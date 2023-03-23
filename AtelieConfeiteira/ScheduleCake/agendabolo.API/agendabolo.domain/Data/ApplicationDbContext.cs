@@ -29,7 +29,9 @@ namespace Agendabolo.Data
             base.OnConfiguring(optionsBuilder);
 
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseMySql(_connectionString);            
+                optionsBuilder.UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString));
+
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

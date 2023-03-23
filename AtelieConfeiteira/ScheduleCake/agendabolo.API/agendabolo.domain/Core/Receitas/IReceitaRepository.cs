@@ -7,5 +7,6 @@ namespace Agendabolo.Core.Receitas
 {
     public interface IReceitaRepository: IGenericRepository<ReceitaDTA, ulong>
     {
+        void RemoveItems(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita);
     }
 }

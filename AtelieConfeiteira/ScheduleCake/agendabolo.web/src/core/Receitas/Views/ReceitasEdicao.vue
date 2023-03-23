@@ -63,7 +63,7 @@
 
                   <tbody>                  
                     <tr v-for="(item, index) in this.ingredientes" :key="index">
-                      <td class="col-item">{{item.ordem}}</td>
+                      <td class="col-item">{{index+1}}</td>
                       <td class="col-ingrediente">{{item.nome}} </td>
                       <td class="col-percent editable">
                         <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />

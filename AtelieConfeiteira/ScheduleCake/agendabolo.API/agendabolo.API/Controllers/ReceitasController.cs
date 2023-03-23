@@ -27,7 +27,8 @@ namespace Agendabolo.Controllers
                     .OrderBy(i => i.Nome)
                     .ToList()
                     .Skip(skip)
-                    .Take(take);
+                    .Take(take)
+                    .Select(i => ReceitaRequest.Parse(i));
 
                 if (receitas != null && receitas.Any())
                     return Ok(new
@@ -56,7 +57,7 @@ namespace Agendabolo.Controllers
                     return Ok(new
                     {
                         total = 1,
-                        data = receita
+                        data = ReceitaRequest.Parse(receita)
                     });
 
                 return NotFound("Receita not found");
@@ -87,7 +88,7 @@ namespace Agendabolo.Controllers
                     (bool ok, ReceitaDTA result) = _service.Save(receitaDta);
 
                     if (ok)
-                        return Ok(result);
+                        return Ok(ReceitaRequest.Parse(result));
                     else
                         return BadRequest();
                 }

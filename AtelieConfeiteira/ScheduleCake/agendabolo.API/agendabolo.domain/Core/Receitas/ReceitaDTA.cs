@@ -52,7 +52,7 @@ namespace Agendabolo.Core.Receitas
         [Column("precoVendaVarejo")]
         public decimal PrecoVendaVarejo { get; set; }
 
-        public IEnumerable<ReceitaIngredienteDTA> Ingredientes { get; set; }
+        public List<ReceitaIngredienteDTA> Ingredientes { get; set; }
 
         public static ReceitaDTA Parse(ReceitaRequest receita)
         {
@@ -84,7 +84,7 @@ namespace Agendabolo.Core.Receitas
             novaReceita.Status = (StatusCadastro)receita.Status;
             novaReceita.Preparo = receita.Preparo;
             novaReceita.Cozimento = receita.Cozimento;
-            novaReceita.Ingredientes = getIngredientesReceita(receita.Id, receita.Ingredientes).ToArray();
+            novaReceita.Ingredientes = getIngredientesReceita(receita.Id, receita.Ingredientes).ToList();
 
             return novaReceita;
 

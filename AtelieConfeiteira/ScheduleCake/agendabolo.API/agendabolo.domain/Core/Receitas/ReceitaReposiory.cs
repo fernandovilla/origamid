@@ -56,17 +56,22 @@ namespace Agendabolo.Core.Receitas
             foreach (var item in ingredientesReceita)
             {
                 if (item.Id > 0)
-                {
                     if (item.Status == StatusCadastro.Excluido)
-                        _context.IngredientesReceitas.Remove(item);
+                        _context.Entry(item).State = EntityState.Deleted;
                     else
                         _context.Entry(item).State = EntityState.Modified;
-                }
                 else
-                {
-                    _context.IngredientesReceitas.Add(item);
-                }
+                    _context.Entry(item).State = EntityState.Added;
+                    
+
+                    //_context.IngredientesReceitas.Add(item);
             }
+        }
+
+        public void RemoveItems(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)
+        {
+            foreach (var item in ingredientesReceita)
+                _context.IngredientesReceitas.Remove(item);
         }
     }
 }
