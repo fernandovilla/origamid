@@ -23,7 +23,7 @@
 
                 <div class="input-group col-6 col-sm-12">
                   <label for="quantidadeEmbalagem">Qtd. Embalagem (gramas)</label>
-                  <input-currency id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantEmbalagem" :decimalCases=0 />
+                  <input-currency id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantidadeEmbalagem" :decimalCases=0 />
                 </div>
                 
                 <div class="input-group col-6 col-sm-12">
@@ -128,8 +128,8 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
-          quantEmbalagem: null,
-          precoCusto: null,
+          quantidadeEmbalagem: 0,
+          precoCusto: 0,
           fabricanteId: 0,
           status: 1
         },
@@ -140,17 +140,17 @@ export default {
     props: ['id'],
     components: { SelectStatus, InputBase, InputCurrency, ButtonAddSmall },
     computed: {
-      quantidadeEmbalagem(){
+      quantidadeEmbalagemCalc(){
         if (this.ingrediente === null || this.ingrediente === undefined)
           return 0.00;
 
-        if (this.ingrediente.quantEmbalagem === undefined || this.ingrediente.quantEmbalagem === null)
+        if (this.ingrediente.quantidadeEmbalagem === undefined || this.ingrediente.quantidadeEmbalagem === null)
           return 0.00;
 
-        if (isNaN(this.ingrediente.quantEmbalagem))  
-          return Number(this.ingrediente.quantEmbalagem.replace(',','.'));        
+        if (isNaN(this.ingrediente.quantidadeEmbalagem))  
+          return Number(this.ingrediente.quantidadeEmbalagem.replace(',','.'));        
         else 
-          return this.ingrediente.quantEmbalagem;
+          return this.ingrediente.quantidadeEmbalagem;
       },
       precoIngrediente() {
         if (this.ingrediente === null || this.ingrediente === undefined)
@@ -165,13 +165,13 @@ export default {
           return this.ingrediente.precoCusto;
       },
       custoQuiloCalculado(){        
-        if (isNaN(this.quantidadeEmbalagem) || isNaN(this.precoIngrediente))
+        if (isNaN(this.quantidadeEmbalagemCalc) || isNaN(this.precoIngrediente))
           return "0,00";
 
-        if (Number(this.quantidadeEmbalagem) === 0 || Number(this.precoIngrediente) === 0)
+        if (Number(this.quantidadeEmbalagemCalc) === 0 || Number(this.precoIngrediente) === 0)
           return "0,00";
 
-        return ((this.precoIngrediente / this.quantidadeEmbalagem) * 1000).toFixed(2).replace('.',',');        
+        return ((this.precoIngrediente / this.quantidadeEmbalagemCalc) * 1000).toFixed(2).replace('.',',');        
       },
       PageTitle(){
         if (this.ingrediente.id === 0)
@@ -206,7 +206,7 @@ export default {
           id: this.ingrediente.id,
           nome: this.ingrediente.nome,
           precoCusto: this.precoIngrediente,
-          quantidadeEmbalagem: this.quantidadeEmbalagem,
+          quantidadeEmbalagem: this.ingrediente.quantidadeEmbalagem,
           status: this.ingrediente.status
         };
 
@@ -229,6 +229,8 @@ export default {
 
         if (response !== undefined){
           this.ingrediente = response.data;
+
+          console.log(this.ingrediente);
         } else {
           this.$router.push('/ingredientes');
         }
