@@ -8,36 +8,20 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 namespace Agendabolo.Core.Receitas
-{
-    [DebuggerDisplay("{Id} {Status}")]
+{    
     [Table("receitasingredientes")]
-    public class ReceitaIngredienteDTA
-    {        
-        public ReceitaIngredienteDTA()
-        {  }
-
-        public ReceitaIngredienteDTA(ReceitaDTA receita, IngredienteDTA ingrediente)
-            : this()
-        {
-            this.Receita = receita;
-            this.Ingrediente = ingrediente;
-        }
-
-
-        public ReceitaDTA Receita { get; set; }
-        //public IEnumerable<ReceitaDTA> Receitas { get; set; }
-        public IngredienteDTA Ingrediente { get; set; }
-        public string Nome => Ingrediente?.Nome;
-
-
-
+    public partial class ReceitaIngredienteDTA
+    {                
         [Key]
         [Column("id")]
         public ulong Id { get; set; }
+
         [Column("idreceita")]
         public ulong IdReceita { get; set; }        
+
         [Column("idingrediente")]
         public ulong IdIngrediente { get; set; }        
+
         [Column("percentual")]
         public double Percentual { get; set; } = 0f;
 
@@ -46,9 +30,24 @@ namespace Agendabolo.Core.Receitas
 
         [Column("status")]
         public StatusCadastro Status { get; set; } =  StatusCadastro.Normal;
+    }
 
-        public double Quantidade => Receita == null ? 0 : Receita.Rendimento * (Percentual / 100);
-        public decimal PrecoCusto => (Ingrediente != null ? Ingrediente.PrecoCusto : 0m);
-        public decimal PrecoCustoReceita => PrecoCusto * ((decimal)Quantidade / 1000m);
+
+    [DebuggerDisplay("{Id} | {Nome} | {Status}")]
+    partial class ReceitaIngredienteDTA
+    {
+        public ReceitaIngredienteDTA()
+        { }
+
+        public ReceitaIngredienteDTA(ReceitaDTA receita, IngredienteDTA ingrediente)
+            : this()
+        {
+            this.Receita = receita;
+            this.Ingrediente = ingrediente;
+        }
+
+        public ReceitaDTA Receita { get; set; }
+        public IngredienteDTA Ingrediente { get; set; }
+        public string Nome => Ingrediente?.Nome;
     }
 }

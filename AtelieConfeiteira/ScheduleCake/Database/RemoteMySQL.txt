@@ -1,0 +1,7 @@
+https://www.freemysqlhosting.net/
+
+Server: sql10.freemysqlhosting.net
+Port: 3306
+Database: sql10608310
+Username: sql10608310
+Password: Fr5ep9fz9z

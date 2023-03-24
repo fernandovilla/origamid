@@ -18,7 +18,10 @@ namespace Agendabolo.Core.Ingredientes
         [Column("precocusto")]
         public decimal PrecoCusto { get; set; }
 
-        [Column("quantidadeEmbalagem")]
+        [Column("precocustomedio")]
+        public decimal PrecoCustoMedio { get; set; }
+
+        [Column("quantidadeembalagem")]
         public decimal QuantidadeEmbalagem { get; set; }
 
         [Column("status")]

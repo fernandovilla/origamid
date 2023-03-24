@@ -20,14 +20,14 @@
                 <div class="col-12">
                   <div class="input-group">
                     <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows=4 v-model="receita.descricao" />                   
+                    <input-area id="descricao" :rows=3 v-model="receita.descricao" />                   
                   </div>
                 </div>
                 
-                <div class="input-group col-6">
+                <!-- <div class="input-group col-6">
                   <label for="rendimento">Rendimento (gramas)</label>
                   <input-currency id="rendimento" placeholder='0' v-model="receita.rendimento" :decimalCases=0 />
-                </div>
+                </div> -->
 
                 <div class="input-group col-6">
                   <label for="status">Status</label>
@@ -56,9 +56,9 @@
                     <th class="col-item">Item</th>
                     <th class="col-ingrediente">Ingrediente</th>
                     <th class="col-percent">%</th>
-                    <th class="col-peso">Kg</th>
-                    <th class="col-custo">Custo</th>
-                    <th class="col-acoes">Ações</th>
+                    <!-- <th class="col-peso">Kg</th>
+                    <th class="col-custo">Custo</th> -->
+                    <th class="col-acoes"></th>
                   </thead>
 
                   <tbody>                  
@@ -68,8 +68,8 @@
                       <td class="col-percent editable">
                         <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
-                      <td class="col-peso">{{pesoCalculado(item)}}g</td>
-                      <td class="col-custo">{{custoItemCalculado(item)}}</td>
+                      <!-- <td class="col-peso">{{pesoCalculado(item)}}g</td>
+                      <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
                       <td class="body-actions col-acoes">
                         <action-up-button @click.prevent="moveIngredienteUp(index)" />           
                         <action-down-button @click.prevent="moveIngredienteDown(index)" />           
@@ -83,8 +83,8 @@
                       <td class="col-item"></td>
                       <td class="col-ingrediente"></td>
                       <td class="col-percent">{{this.totalPercent}}%</td>
-                      <td class="col-peso">{{this.totalPeso}}g</td>
-                      <td class="col-custo">{{this.totalCusto}}</td>
+                      <!-- <td class="col-peso">{{this.totalPeso}}g</td>
+                      <td class="col-custo">{{this.totalCusto}}</td> -->
                       <td class="col-acoes"></td>
                     </tr>
                   </tfoot>
@@ -95,7 +95,6 @@
           </div>
         </div> 
       </div>
-
       
       <div class="row m-top-10">
         <div class="col-6 col-md-12">
@@ -110,13 +109,7 @@
                 </div>
             </div>
           </div>        
-        </div>
-        
-        <div class="col-6 col-md-12">
-          <div class="group m-left-10 preco">
-            <h2 class="title">Preço</h2>
-          </div>        
-        </div>        
+        </div>              
       </div>      
     </form>
 
@@ -128,8 +121,6 @@
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
       </div>  
     </div>
-    
-
 
     <div>
       <seleciona-ingrediente :show="selecaoIngredienteShow" 
@@ -345,9 +336,9 @@ export default {
         nome: this.receita.nome,
         descricao: this.receita.descricao,
         status: TextToNumber(this.receita.status),
-        rendimento: TextToNumber(this.receita.rendimento),
+        // rendimento: TextToNumber(this.receita.rendimento),
         preparo: this.receita.preparo,
-        cozimento: this.receita.cozimento,
+        // cozimento: this.receita.cozimento,
         ingredientes: this.ingredientes.map((item, index) => ({
           id: item.id,
           idIngrediente: item.idIngrediente,
@@ -455,12 +446,7 @@ export default {
       display: flex;
       margin-top: 8px;
     }
-
-    /*.group.ingredientes .content {
-      height: 213px;
-    }*/
-
-    
+        
     .ingredientes thead {
       width: calc(100% - 7px);
       display: table;     
@@ -468,8 +454,8 @@ export default {
     }
 
     .ingredientes tbody {
-      height: 150px;
-      max-height: 150px;
+      height: 132px;
+      /* max-height: 150px; */
     }
 
     .ingredientes tfoot {
@@ -483,7 +469,6 @@ export default {
     .ingredientes .title .buttons button {
       margin-left: 10px;
     }
-
 
     .ingredientes {
       font-size: 13px;
@@ -499,11 +484,11 @@ export default {
       padding-left: 5px;
     }
     .ingredientes .col-ingrediente {
-      width: 45%;
+      width: 60%;
       text-align: left;
     }
     .ingredientes .col-percent {    
-      width: 10%;
+      width: 15%;
     }
 
     .ingredientes .col-peso {
@@ -512,9 +497,6 @@ export default {
     .ingredientes .col-custo {
       width: 10%;
     }
-
-    /* .ingredientes .col-acoes {      
-    } */
 
     .incluido {
       align-self: center;
@@ -532,13 +514,19 @@ export default {
       }
 
       .ingredientes .col-ingrediente {
-        width: 25%;
+        width: 55%;
       }
+
       .ingredientes .col-item {
         display: none;
       }
-      .ingredientes .col-acoes {
-        display: none;
+
+      .ingredientes tbody {
+        height: 100%;
+      }
+
+      .table-data tbody {      
+        overflow: auto;
       }
 
       .buttons {

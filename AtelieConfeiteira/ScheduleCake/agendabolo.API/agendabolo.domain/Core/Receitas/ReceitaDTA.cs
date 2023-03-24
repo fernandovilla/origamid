@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
     [Table("receitas")]
-    public class ReceitaDTA
+    public partial class ReceitaDTA
     {
         [Key]
         [Column("id")]
@@ -24,36 +25,18 @@ namespace Agendabolo.Core.Receitas
         [Column("status")]
         public StatusCadastro Status { get; set; }
 
-        [Column("rendimento")]
-        public int Rendimento { get; set; } = 1000;
-
         [Column("preparo")]
         public string Preparo { get; set; }
 
-        [Column("cozimento")]
-        public string Cozimento { get; set; }
-
-        
-        [Column("margemCustoPreparo")]
-        public decimal MargemCustoPreparo { get; set; }
-
-        [Column("precoCustoPreparo")]
-        public decimal PrecoCustoPreparo { get; set; }
-
-        [Column("margemVendaAtacado")]
-        public decimal MargemVendaAtacado { get; set; }
-
-        [Column("precoVendaAtacado")]
-        public decimal PrecoVendaAtacado { get; set; }
-        
-        [Column("margemVendaVarejo")]
-        public decimal MargemVendaVarejo { get; set; }
-
-        [Column("precoVendaVarejo")]
-        public decimal PrecoVendaVarejo { get; set; }
+        [Column("tempopreparo")]
+        public int TempoPreparo { get; set; }
 
         public List<ReceitaIngredienteDTA> Ingredientes { get; set; }
+    }
 
+    [DebuggerDisplay("{Id} | {Nome} | {Status}")]
+    partial class ReceitaDTA
+    {
         public static ReceitaDTA Parse(ReceitaRequest receita)
         {
             if (receita == null)
@@ -62,7 +45,7 @@ namespace Agendabolo.Core.Receitas
 
             IEnumerable<ReceitaIngredienteDTA> getIngredientesReceita(int idReceita, IEnumerable<ReceitaIngredienteRequest> ingredientes)
             {
-                foreach(var item in ingredientes)
+                foreach (var item in ingredientes)
                 {
                     yield return new ReceitaIngredienteDTA
                     {
@@ -80,16 +63,11 @@ namespace Agendabolo.Core.Receitas
             novaReceita.Id = (ulong)receita.Id;
             novaReceita.Nome = receita.Nome;
             novaReceita.Descricao = receita.Descricao;
-            novaReceita.Rendimento = receita.Rendimento;
             novaReceita.Status = (StatusCadastro)receita.Status;
             novaReceita.Preparo = receita.Preparo;
-            novaReceita.Cozimento = receita.Cozimento;
             novaReceita.Ingredientes = getIngredientesReceita(receita.Id, receita.Ingredientes).ToList();
 
             return novaReceita;
-
         }
-
-        //public decimal CustoIngredientes => Ingredientes.Sum(i => i.Ingrediente.PrecoCusto * ((decimal)i.Quantidade / 1000m));
     }
 }

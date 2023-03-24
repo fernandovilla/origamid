@@ -45,7 +45,6 @@ namespace Agendabolo.Core.Receitas
                             IdIngrediente = (int)item.IdIngrediente,
                             Nome = item.Nome,
                             Percentual = item.Percentual,
-                            PrecoCusto = item.PrecoCusto,
                             Ordem = item.Ordem,
                             Status = (int)item.Status
                         };
@@ -58,9 +57,7 @@ namespace Agendabolo.Core.Receitas
                 Id = (int)receita.Id,
                 Nome = receita.Nome,
                 Descricao = receita.Descricao,
-                Rendimento = receita.Rendimento,
                 Preparo = receita.Preparo,
-                Cozimento = receita.Cozimento,
                 Status = (int)receita.Status,
                 Ingredientes = getItens(receita.Ingredientes)
             };
