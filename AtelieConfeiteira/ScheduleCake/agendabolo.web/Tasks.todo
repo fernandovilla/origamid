@@ -3,6 +3,7 @@ Alterações no cadastro de Receitas:
   ✔ Web - Remover rendimento @done(23-03-27 08:31)
   ✔ Web - Remover quantidade e custo do ingrediente @done(23-03-27 08:31)
   ✔ Web - Incluir campo "Observações" @done(23-04-06 16:13)
+  ☐ @critical Web - Concluir inclusão do campo "Observações". Não está atualizando...
   ☐ Web - Incluir novos campos na Receita:
     > "Máquinas, equipamento e utensílios utilizados"
     > "Controle de processo:"
