@@ -97,7 +97,7 @@
       </div>
       
       <div class="row m-top-10">
-        <div class="col-6 col-md-12">
+        <div class="col-6 col-md-12" >
           <div class="group preparo">
             <h2 class="title">Preparo</h2>
             <div class="content">
@@ -110,7 +110,22 @@
             </div>
           </div>        
         </div>              
+
+        <div class="col-6 col-md-12">
+          <div class="group observacao m-left-10">
+            <h2 class="title">Observações</h2>
+            <div class="content">
+              <div class="col-12">
+                <div class="input-group">
+                    <label for="obs">Observações sobre a receita</label>
+                    <input-area id="obs" :rows="15" v-model="receita.observacao" :upperCase=false />                   
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>      
+
     </form>
 
     <div class="container-fluid">
@@ -336,9 +351,9 @@ export default {
         nome: this.receita.nome,
         descricao: this.receita.descricao,
         status: TextToNumber(this.receita.status),
-        // rendimento: TextToNumber(this.receita.rendimento),
         preparo: this.receita.preparo,
-        // cozimento: this.receita.cozimento,
+        tempopreparo: this.receita.tempopreparo,
+        observacao: this.receita.observacao,
         ingredientes: this.ingredientes.map((item, index) => ({
           id: item.id,
           idIngrediente: item.idIngrediente,
@@ -448,7 +463,7 @@ export default {
     }
         
     .ingredientes thead {
-      width: calc(100% - 7px);
+      /* width: calc(100% - 7px); */
       display: table;     
       font-weight: bold;      
     }
@@ -508,7 +523,7 @@ export default {
 
     @media screen and (max-width: 960px) {
       .group.ingredientes, 
-      .group.custo {
+      .group.observacao {
         margin-left: 0px;
         margin-top: 10px;
       }

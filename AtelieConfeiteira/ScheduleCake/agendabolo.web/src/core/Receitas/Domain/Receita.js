@@ -5,14 +5,8 @@ export default class Receita {
   nome = '';
   descricao = '';
   status = 0;
-  rendimento = 0;
+  observcao = '';
   preparo = '';
-  cozimento = '';
-  margemCustoPreparo = 0;
-  precoCustoPrepado = 0;
-  margemVendaAtacado = 0;
-  precoVendaAtacado = 0;
-  margemVendaVarejo = 0;
-  precoVendaVarejo = 0;
+  tempopreparo = 0;
   ingredientes = null; //array
 }

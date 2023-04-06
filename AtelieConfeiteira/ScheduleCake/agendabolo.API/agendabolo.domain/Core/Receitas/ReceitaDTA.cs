@@ -29,7 +29,11 @@ namespace Agendabolo.Core.Receitas
         public string Preparo { get; set; }
 
         [Column("tempopreparo")]
-        public int TempoPreparo { get; set; }
+        public double TempoPreparo { get; set; }
+
+        [Column("observacao")]
+        public string Observacao { get; set; }
+
 
         public List<ReceitaIngredienteDTA> Ingredientes { get; set; }
     }

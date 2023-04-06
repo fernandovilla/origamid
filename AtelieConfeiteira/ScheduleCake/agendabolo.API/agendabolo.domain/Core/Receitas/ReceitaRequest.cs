@@ -12,9 +12,9 @@ namespace Agendabolo.Core.Receitas
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public int Status { get; set; }
-        public int Rendimento { get; set; }
+        public double TempoPreparo { get; set; }
         public string Preparo { get; set; }
-        public string Cozimento { get; set; }
+        public string Observacao { get; set; }
         public IEnumerable<ReceitaIngredienteRequest> Ingredientes { get; set; }
 
 
@@ -59,6 +59,8 @@ namespace Agendabolo.Core.Receitas
                 Descricao = receita.Descricao,
                 Preparo = receita.Preparo,
                 Status = (int)receita.Status,
+                Observacao = receita.Observacao,
+                TempoPreparo = receita.TempoPreparo,
                 Ingredientes = getItens(receita.Ingredientes)
             };
 
