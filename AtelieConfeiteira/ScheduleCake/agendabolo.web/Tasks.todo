@@ -3,8 +3,8 @@ Alterações no cadastro de Receitas:
   ✔ Web - Remover rendimento @done(23-03-27 08:31)
   ✔ Web - Remover quantidade e custo do ingrediente @done(23-03-27 08:31)
   ✔ Web - Incluir campo "Observações" @done(23-04-06 16:13)
-  ☐ @critical Web - Concluir inclusão do campo "Observações". Não está atualizando...
-  ☐ Web - Incluir novos campos na Receita:
+  ✔ Web - Concluir inclusão do campo "Observações". Não está atualizando... @done(23-04-13 10:21)
+  ☐ @low Web - Incluir novos campos na Receita:
     > "Máquinas, equipamento e utensílios utilizados"
     > "Controle de processo:"
       > Tempo de mistura ou batimento;
@@ -18,6 +18,10 @@ Alterações no cadastro de Receitas:
       > Quantidade assadeiras
     > Avaliação do produto;
 
+Cadastro de Receitas:
+  ☐ @high Desenvolver impressão de receita;
+  ☐ @high Desenvolver impressão de ingredientes;
+  
 Cadastro de Produtos:  
   ☐ API - Desenvolver tabelas do cadastro de produtos;
   ☐ API - Desenvolver API.Listar para listar produtos;
@@ -52,6 +56,9 @@ Cadastro de Produtos:
       Compras
       Pedidos
       
+Cadastro de Ingredientes:
+  ☐ Incluir campo: Minimo em Estoque;
+
 
 Cadastro de Clientes:
 Cadastro de Pedidos:

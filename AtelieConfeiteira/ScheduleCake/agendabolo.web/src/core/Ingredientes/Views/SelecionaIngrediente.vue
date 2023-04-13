@@ -179,8 +179,8 @@ export default {
       var arg = {
         idIngrediente: this.ingredienteSelecionado.id,
         nome: this.ingredienteSelecionado.nome,        
-        percentual: this.porcaoIngrediente,
-        precoCusto: this.ingredienteSelecionado.precoCusto,
+        percentual: TextToNumber(this.porcaoIngrediente),
+        precoCusto: TextToNumber(this.ingredienteSelecionado.precoCusto),
         ordem: 0,
         Ingrediente: newIngrediente,
       };

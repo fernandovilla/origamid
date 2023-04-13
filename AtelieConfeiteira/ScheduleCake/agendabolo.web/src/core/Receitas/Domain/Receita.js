@@ -8,5 +8,6 @@ export default class Receita {
   observcao = '';
   preparo = '';
   tempopreparo = 0;
+  pesoReferencia = 0;
   ingredientes = null; //array
 }

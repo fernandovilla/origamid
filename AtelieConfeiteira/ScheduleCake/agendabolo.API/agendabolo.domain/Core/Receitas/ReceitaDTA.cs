@@ -22,6 +22,9 @@ namespace Agendabolo.Core.Receitas
         [Column("descricao")]
         public string Descricao { get; set; }
 
+        [Column("pesoreferencia")]
+        public int PesoReferencia { get; set; }
+
         [Column("status")]
         public StatusCadastro Status { get; set; }
 
@@ -68,7 +71,9 @@ namespace Agendabolo.Core.Receitas
             novaReceita.Nome = receita.Nome;
             novaReceita.Descricao = receita.Descricao;
             novaReceita.Status = (StatusCadastro)receita.Status;
+            novaReceita.PesoReferencia = receita.PesoReferencia;
             novaReceita.Preparo = receita.Preparo;
+            novaReceita.Observacao = receita.Observacao;
             novaReceita.Ingredientes = getIngredientesReceita(receita.Id, receita.Ingredientes).ToList();
 
             return novaReceita;

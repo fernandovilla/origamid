@@ -24,10 +24,10 @@
                   </div>
                 </div>
                 
-                <!-- <div class="input-group col-6">
-                  <label for="rendimento">Rendimento (gramas)</label>
-                  <input-currency id="rendimento" placeholder='0' v-model="receita.rendimento" :decimalCases=0 />
-                </div> -->
+                <div class="input-group col-6">
+                  <label for="pesoreferencia">Peso Referência (gramas)</label>
+                  <input-currency id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
+                </div>
 
                 <div class="input-group col-6">
                   <label for="status">Status</label>
@@ -56,8 +56,8 @@
                     <th class="col-item">Item</th>
                     <th class="col-ingrediente">Ingrediente</th>
                     <th class="col-percent">%</th>
-                    <!-- <th class="col-peso">Kg</th>
-                    <th class="col-custo">Custo</th> -->
+                    <th class="col-peso">Peso Ref</th>
+                    <!-- <th class="col-custo">Custo</th> -->
                     <th class="col-acoes"></th>
                   </thead>
 
@@ -68,8 +68,8 @@
                       <td class="col-percent editable">
                         <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
-                      <!-- <td class="col-peso">{{pesoCalculado(item)}}g</td>
-                      <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
+                      <td class="col-peso">{{pesoCalculado(item)}}g</td>
+                      <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
                       <td class="body-actions col-acoes">
                         <action-up-button @click.prevent="moveIngredienteUp(index)" />           
                         <action-down-button @click.prevent="moveIngredienteDown(index)" />           
@@ -83,8 +83,8 @@
                       <td class="col-item"></td>
                       <td class="col-ingrediente"></td>
                       <td class="col-percent">{{this.totalPercent}}%</td>
-                      <!-- <td class="col-peso">{{this.totalPeso}}g</td>
-                      <td class="col-custo">{{this.totalCusto}}</td> -->
+                      <td class="col-peso">{{this.totalPeso}}g</td>
+                      <!-- <td class="col-custo">{{this.totalCusto}}</td> -->
                       <td class="col-acoes"></td>
                     </tr>
                   </tfoot>
@@ -161,6 +161,9 @@ import SelectStatus from '@/components/Select/SelectStatus.vue';
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
 import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
   name: "receita-edicao",
@@ -212,11 +215,12 @@ export default {
         return 0;
       }
     },
+
     totalPeso(){
       if (this.ingredientesOk)
       {
         var total = this.ingredientes.reduce((acumulado, item) => {
-          return (TextToNumber(item.percentual) * TextToNumber(this.receita.rendimento) / 100)  + acumulado;
+          return (TextToNumber(item.percentual) * TextToNumber(this.receita.pesoReferencia) / 100)  + acumulado;
         }, 0);
 
         return NumberToText(total.toFixed(0));
@@ -224,6 +228,7 @@ export default {
         return "0g";
       }
     },
+
     totalCusto(){
       if (this.ingredientesOk) {
         var total = this.ingredientes.reduce((acumulado, item) => {
@@ -236,6 +241,7 @@ export default {
         return "0,00";      
       }
     },    
+
     PageTitle(){
         if (this.receita.id === 0)
           return 'Nova Receita';
@@ -294,7 +300,7 @@ export default {
     pesoCalculado(item){      
       var perc = TextToNumber(item.percentual);
       if (perc > 0){        
-          var result = (TextToNumber(this.receita.rendimento) * TextToNumber(perc)) / 100;
+          var result = (TextToNumber(this.receita.pesoReferencia) * TextToNumber(perc)) / 100;
           return result.toFixed(0);        
       }
     },
@@ -340,10 +346,89 @@ export default {
       this.ingredientes.push(arg);
     },
 
+    obterIngredientesImpressao(){
+
+      var peso1 = this.receita.pesoReferencia;
+
+      var ingredientesPrint = [[
+        'Ingredientes', 
+        { text: '%', style: { alignment: 'center'} }, 
+        { text: 'REF', style: { alignment: 'center'}}, 
+        { text: 'PESO #2', style: { alignment: 'center'}},
+        { text: 'PESO #3', style: { alignment: 'center'}},
+        { text: 'PESO #4', style: { alignment: 'center'}}
+      ]];
+
+      //ITENS
+      this.ingredientes.map((item) => {
+        var percent = TextToNumber(item.percentual).toFixed(2);
+
+        ingredientesPrint.push([ 
+          item.nome, 
+          { text: NumberToText(percent), style: { alignment: 'right'} }, 
+          { text: (percent / 100 * peso1).toFixed(0), style: { alignment: 'right'} }, 
+          { text: '', style: { alignment: 'right'}},
+          { text: '', style: { alignment: 'right'}},
+          { text: '', style: { alignment: 'right'}}
+        ]);
+      });
+
+      var totalPercent = this.ingredientes.reduce((prev,item) => TextToNumber(item.percentual) + prev,0);
+      var total1 = this.ingredientes.reduce((prev,item) => ((TextToNumber(item.percentual) / 100) * peso1) + prev,0);
+
+      //FOOTER
+      ingredientesPrint.push([ 
+        { text: 'TOTAL', style: { bold: true, fontSize: 12 } }, 
+        { text: totalPercent.toFixed(2), style: { bold: true, fontSize: 12, alignment: 'right'}},
+        { text: total1.toFixed(0), style: { bold: true, fontSize: 12, alignment: 'right'}},
+        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
+        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
+        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
+      ]);
+
+      return ingredientesPrint;
+    },
+
     imprimirIngredientes(){
-      console.log("Imprimindo ingredientes...");
+
+      let ingredientesPrint = this.obterIngredientesImpressao();
+
+      let docDefinition = {
+        content:[
+          { text: this.receita.nome, style: 'header', margin: [0,0,0,20] },
+          {
+            // layout: 'lightHorizontalLines',
+            table: {
+              headerRows: 1,
+              widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
+              body: ingredientesPrint 
+            }
+          },
+          { text: 'Preparo:', style: 'header2', margin: [0,20,0,5] },
+          { text: this.receita.preparo },
+          { text: 'Observações', style: 'header2', margin: [0,20,0,0] },          
+          { text: this.receita.observacao }
+        ],
+        styles: {
+          header: {
+            fontSize: 16,
+            bold: true,
+            alignment: 'center'
+          },
+          header2: {
+            fontSize: 12,
+            bold: true,
+            alignment: 'left'
+          }
+        }
+      };
+      
+      pdfMake.createPdf(docDefinition).open();
     },
     
+    imprimirReceita(){
+      
+    },
 
     obterReceitaRequest(){
       var receitaRequest = {
@@ -351,6 +436,7 @@ export default {
         nome: this.receita.nome,
         descricao: this.receita.descricao,
         status: TextToNumber(this.receita.status),
+        pesoreferencia: TextToNumber(this.receita.pesoReferencia),
         preparo: this.receita.preparo,
         tempopreparo: this.receita.tempopreparo,
         observacao: this.receita.observacao,
@@ -499,7 +585,7 @@ export default {
       padding-left: 5px;
     }
     .ingredientes .col-ingrediente {
-      width: 60%;
+      width: 55%;
       text-align: left;
     }
     .ingredientes .col-percent {    
@@ -529,7 +615,7 @@ export default {
       }
 
       .ingredientes .col-ingrediente {
-        width: 55%;
+        width: 45%;
       }
 
       .ingredientes .col-item {

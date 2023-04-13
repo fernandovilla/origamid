@@ -60,14 +60,14 @@ export default {
   }
 
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 400;  
     text-align: start;
   }
 
   h2 {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 400;    
     text-align: start;
   }
 
@@ -115,6 +115,15 @@ export default {
 
   
   @media screen and (max-width: 960px) {
+
+    h1 { 
+      font-size: 1.1rem;
+    }
+
+    h2 {
+      font-size: 0.850rem;
+    }
+
     .menu-lateral {
       display: none;
     }
