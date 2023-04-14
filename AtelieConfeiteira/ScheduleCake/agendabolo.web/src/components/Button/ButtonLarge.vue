@@ -3,14 +3,16 @@
     <span class="icon">
       <slot></slot>
     </span>    
-    <p>{{label}}</p>    
+    <p>{{label}}</p>
   </button>
 </template>
 
 <script>
+
 export default {
-  name:'button-small',  
-  props: { label: {type: String, default: 'buton-small'} }
+  name: 'button-large',
+  props: { label: {type: String, default: ''} }
+
 }
 </script>
 
@@ -18,19 +20,20 @@ export default {
 
   button {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    color: var(--text-color-blue);
+    color: var(--text-color-white);
     font-size: 14px;
-    background: none;
+    /* background: none; */
     border: none;
     cursor: pointer;
-    line-height: 30px;
+    /* line-height: 30px; */
+    width: 74px;
+    height: 68px;
   }
  
   .icon {    
-    width: 20px;
-    height: 20px;   
-    font-size: 20px;
+    font-size: 32px;
     margin: 0;
     margin-right: 3px;     
     vertical-align: 0px;

@@ -29,15 +29,24 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+
+
+    <div class="buttons">
+      <button-large-save />
+      <button-large-print />
+    </div>
+
   </div>
 </template>
 
 <script>
+import ButtonLargeSave from '@/components/Button/ButtonLargeSave.vue'
+import ButtonLargePrint from './Button/ButtonLargePrint.vue'
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  props: { msg: String },
+  components: { ButtonLargeSave, ButtonLargePrint }
 }
 </script>
 
@@ -56,5 +65,9 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.buttons {
+  display: flex;
 }
 </style>

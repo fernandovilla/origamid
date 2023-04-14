@@ -1,6 +1,6 @@
 <template>
   <button-small>
-    <font-awesome-icon icon="fa-sharp fa-solid fa-circle-plus" class="icon" />
+    <font-awesome-icon icon="fa-solid fa-print" />
   </button-small>
 </template>
 
@@ -8,9 +8,13 @@
 import ButtonSmall from '@/components/Button/ButtonSmall.vue'
 
 export default {
-  name:'button-add-small',  
+  name:'button-small-print',  
   components: {
     ButtonSmall
   }
 }
 </script>
+
+<style scoped>
+
+</style>

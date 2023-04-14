@@ -43,9 +43,9 @@
             <h2 class="title">
               Ingredientes
               <div class="buttons">
-                <button-add-small @click.prevent="adicionaIngrediente" label="" />
+                <button-small-add @click.prevent="adicionaIngrediente" label="" />
                 <span style="margin-left: 5px">|</span>
-                <button-print-small @click.prevent="imprimirIngredientes" label="" />
+                <button-small-print @click.prevent="imprimirIngredientes" label="" />
               </div>
             </h2>      
 
@@ -129,10 +129,9 @@
     </form>
 
     <div class="container-fluid">
-      <div class="row buttons">
-          <button v-if="receita.id === 0" class="btn btn-primary" @click.prevent="incluirReceita">Cadastrar</button>
-          <button v-else class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
-          <router-link to="/receitas" class="btn btn-normal">Voltar</router-link>        
+      <div class="row buttons">          
+          <button class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
+          <router-link to="/receitas" class="btn">Voltar</router-link>        
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
       </div>  
     </div>
@@ -155,8 +154,8 @@ import InputCurrency from '@/components/Input/InputCurrency.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
-import ButtonAddSmall from '@/components/Button/ButtonAddSmall.vue';
-import ButtonPrintSmall from '@/components/Button/ButtonPrintSmall.vue';
+import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
+import ButtonSmallPrint from '@/components/Button/ButtonSmallPrint.vue';
 import SelectStatus from '@/components/Select/SelectStatus.vue';
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
@@ -189,8 +188,8 @@ export default {
       ActionDeleteButton,
       ActionUpButton,
       ActionDownButton,
-      ButtonAddSmall,
-      ButtonPrintSmall,      
+      ButtonSmallAdd,
+      ButtonSmallPrint,      
       SelecionaIngrediente    
   },
   computed: {
@@ -485,26 +484,17 @@ export default {
         }
     },
     
-    async incluirReceita() {      
-      const payload = this.obterReceitaRequest();
-      const response = await receitasAPIService.incluirReceita(payload);
-      
-      if (response !== null){
-        this.mostrarMensagemSucesso("Receita cadastrada com sucesso")
-      } else {
-        //erro na inclusão da receita...
-      }
-
-    },
-
     async salvarReceita(){
-      console.log("Salvando...");
+      var inclusao =  this.receita.id == 0;
 
       const payload = this.obterReceitaRequest();
       const response = await receitasAPIService.alterarReceita(payload);
       
       if (response !== null){
-        this.mostrarMensagemSucesso("Receita atualizada com sucesso")
+        if (inclusao)
+          this.mostrarMensagemSucesso("Receita cadastrada com sucesso")
+        else
+          this.mostrarMensagemSucesso("Receita atualizada com sucesso")
       } else {
         //erro na alteração da receita...
       }

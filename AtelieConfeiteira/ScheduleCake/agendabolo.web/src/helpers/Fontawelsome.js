@@ -14,6 +14,7 @@ import {
   faCaretUp,
   faCaretDown,
   faPrint,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -39,6 +40,7 @@ const FontawelsomeLibrary = (app) => {
     faCaretUp,
     faCaretDown,
     faPrint,
+    faSave,
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

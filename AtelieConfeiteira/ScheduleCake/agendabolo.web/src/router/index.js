@@ -77,11 +77,20 @@ const receitasRoutes = [
   },
 ];
 
+const helloWorld = [
+  {
+    path: '/helloworld',
+    name: 'helloworld',
+    component: () => import('@/components/HelloWorld.vue'),
+  },
+];
+
 const routes = [
   ...defaultRoutes,
   ...fabricantesRoutes,
   ...ingredientesRoutes,
   ...receitasRoutes,
+  ...helloWorld,
 ];
 
 const router = createRouter({

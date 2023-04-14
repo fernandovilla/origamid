@@ -37,10 +37,10 @@ button {
 }
 
 .btn-primary {      
-  font-weight: 400;  
+  font-weight: 400; 
   color: var(--text-color-white);
   background: var(--background-color-blue);   
-  padding: 5px 30px;
+  /* padding: 5px 30px; */
 }
 
 .btn-outline-primary {
@@ -52,7 +52,7 @@ button {
 
 .btn-secondary {
   background: var(--background-color-error);
-  color: var(--text-color-white);
+  color: var(--text-color-white);  
 }
 
 
