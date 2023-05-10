@@ -30,6 +30,22 @@ export const ingredientesAPIService = {
     }
   },
 
+  async obterIngredientesPorNomeSkip(nome, skip, take) {
+    try {
+      const response = await api.get(
+        `/ingredientes/BuscaPorNomeSkip?nome=${nome}&skip=${skip}&take=${take}`,
+      );
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+
   async obterIngrediente(id) {
     try {
       const response = await api.get(`/ingredientes/${id}`);

@@ -1,8 +1,8 @@
 <template>
-  <span>
-    <input-base type="text" id="search" />
-    <button @click.prevent="handleClick"><img src="../assets/search.svg" alt="buscar"></button>    
-  </span>  
+  <div>
+    <img src="@/assets/search.svg" alt="buscar">
+    <input-base type="text" id="search" :placeHolder="placeHolder" @input="onChangeText" />
+  </div>  
 </template>
 
 <script>
@@ -10,12 +10,21 @@ import InputBase from './InputBase.vue'
 
 export default {
   name: 'input-search',  
+  props: {
+    placeHolder: { 
+      type: String, 
+      default: 'Buscar...'
+    }
+  },
   components: {
     InputBase
   },
   methods: {
     handleClick(){
       alert("Buscando...")
+    },
+    onChangeText(event){
+      this.$emit('onChengeSearchText', event.target.value);
     }
   }
 }
@@ -23,34 +32,31 @@ export default {
 
 <style scoped>
 
-  span {
+  div {
     display: flex;
-    position: relative;
-    
+    position: relative;    
   }
 
-  button {
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    border: none;
-    padding: 0;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: none;
+  input {
+    border: 1px solid var(--border-color-light);
+    border-radius: 25px;    
+    padding: 0px 10px;
+    padding-left: 35px;
     outline: none;
+    text-transform: uppercase;
+    font-family: 'Poppins', Helvetica, sans-serif;
+    font-size: 0.853rem;
   }
 
-  button img {
-    width: 27px;
-    height: 27px;
-    margin: 0;
+  img{
+    width: 24px;    
+    height: 24px;
+    position: absolute;
+    top: 5px;
+    left: 7px;    
   }
+
+  
 
 
 </style>

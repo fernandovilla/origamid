@@ -37,7 +37,7 @@ export default {
   props: {
     formShow: {
       type: Boolean,
-      defalt: false
+      default: false
     },
     onClosingForm: { 
       type: Object,

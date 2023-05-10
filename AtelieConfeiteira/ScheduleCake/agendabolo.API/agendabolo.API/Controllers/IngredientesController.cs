@@ -76,6 +76,52 @@ namespace Agendabolo.Controllers
             }
         }
 
+        //[HttpGet("BuscaPorNome/{nome}/{skip}/{take}")]
+        [HttpGet("BuscaPorNomeSkip")]
+        public IActionResult getByNameSkip([FromQuery] string nome, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+        {
+            if (string.IsNullOrEmpty(nome))
+                return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
+
+            try
+            {
+                var ingredientes = _service.Get().Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase));
+                int total = ingredientes.Count();
+
+
+                IEnumerable<IngredienteDTA> ingredientesResult;
+                if (ingredientes.Count() < skip || ingredientes.Count() < take)
+                {
+                    ingredientesResult = ingredientes
+                        .OrderBy(i => i.Nome)
+                        .ToList();
+                    
+                } else
+                {
+                    ingredientesResult = ingredientes
+                        .Skip(skip)
+                        .Take(take)
+                        .OrderBy(i => i.Nome)
+                        .ToList();
+                }
+                
+
+                if (ingredientesResult != null && ingredientesResult.Any())
+                    return Ok(new
+                    {
+                        total = total,
+                        data = ingredientesResult
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
         [HttpGet("{id}")]
         public IActionResult get(ulong id)
         {

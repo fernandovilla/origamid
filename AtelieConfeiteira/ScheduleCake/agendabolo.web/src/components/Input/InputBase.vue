@@ -1,5 +1,5 @@
 <template>
-  <input ref="inputText" :type="type" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }" />
+  <input ref="inputText" :type="type" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }" :placeholder="this.placeHolder" />
 </template>
 
 <script>
@@ -11,6 +11,10 @@ export default {
       type: String,
       default: 'text'
     },
+    placeHolder: {
+      type: String,
+      default: ''
+    },  
     modelValue: { 
       type: [String, Number], 
       default: '' 
