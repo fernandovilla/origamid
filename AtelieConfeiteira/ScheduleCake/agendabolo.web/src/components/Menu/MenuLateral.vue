@@ -5,7 +5,7 @@
       <menu-lateral-item display="Home" router="/" :src="require('@/assets/home.svg')" src_alt="home" />            
       <menu-lateral-item display="Ingredientes" router="/ingredientes" :src="require('@/assets/egg-white.svg')" src_alt="insumos" />
       <menu-lateral-item display="Receitas" router="/receitas" :src="require('@/assets/receita-white.svg')" />      
-      <menu-lateral-item display="Pedidos" router="/helloworld" :src="require('@/assets/order-list-white.svg')" src_alt="pedidos" />
+      <menu-lateral-item display="Produtos" router="/produtos" :src="require('@/assets/order-list-white.svg')" src_alt="pedidos" />
       <menu-lateral-item display="Clientes" router="/" :src="require('@/assets/person-white.svg')" src_alt="clientes" />
       <menu-lateral-item display="Estoque" router="/" :src="require('@/assets/inventory-white.svg')" src_alt="estoque" />
       <menu-lateral-item display="Compras" router="/" :src="require('@/assets/cart-shop-white.svg')" src_alt="compras" />      

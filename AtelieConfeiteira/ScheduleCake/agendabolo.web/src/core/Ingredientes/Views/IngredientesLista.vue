@@ -6,8 +6,7 @@
         <add-button to="ingrediente">Novo Ingrediente</add-button>      
         <div class="header-search">
           <input-search class="input-search" placeHolder="Busca de ingredientes" @onChengeSearchText="onChengeSearchText" />
-        </div>        
-        
+        </div>                
       </div>
       
     </div>

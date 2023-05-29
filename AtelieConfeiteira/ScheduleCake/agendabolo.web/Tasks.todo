@@ -23,12 +23,12 @@ Cadastro de Receitas:
   ☐ @high Desenvolver impressão de ingredientes;
   
 Cadastro de Produtos:  
-  ☐ API - Desenvolver tabelas do cadastro de produtos;
-  ☐ API - Desenvolver API.Listar para listar produtos;
-  ☐ API - Desenvolver API.BuscarPorId para selecionar um produto específico;
+  ✔ API - Desenvolver tabelas do cadastro de produtos; @done(23-05-29 16:12)
+  ✔ API - Desenvolver API.Listar para listar produtos; @done(23-05-29 16:12)
+  ✔ API - Desenvolver API.BuscarPorId para selecionar um produto específico; @done(23-05-29 16:12)
   ☐ API - Desenvolver API.Salvar para incluir e alterar produtos;
-  ☐ Web - Incluir opção `Produtos` no menu lateral do site;
-  ☐ Web - Desenvolver página para listagem de produtos, tela prinpal chamada pelo menu lateral
+  ✔ Web - Incluir opção `Produtos` no menu lateral do site; @done(23-05-29 16:12)
+  ✔ Web - Desenvolver página para listagem de produtos, tela prinpal chamada pelo menu lateral @done(23-05-29 16:12)
   ☐ Web - Edição do Produto:
     > Nome, Status, Observações, Tempo médio preparo, finalização;
     > Receitas: Receita | Quantidade (g) | Custo R$

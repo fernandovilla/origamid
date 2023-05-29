@@ -77,6 +77,25 @@ const receitasRoutes = [
   },
 ];
 
+const produtosRoutes = [
+  {
+    path: '/produtos',
+    name: 'produtos',
+    component: () => import('@/core/Produtos/Views/ProdutosLista.vue'),
+  },
+  {
+    path: '/produto',
+    name: 'produto',
+    component: () => import('@/core/Produtos/Views/ProdutoEdicao.vue'),
+  },
+  {
+    path: '/produto/:id',
+    name: 'produto-edicao',
+    component: () => import('@/core/Produtos/Views/ProdutoEdicao.vue'),
+    props: true,
+  },
+];
+
 const helloWorld = [
   {
     path: '/helloworld',
@@ -90,6 +109,7 @@ const routes = [
   ...fabricantesRoutes,
   ...ingredientesRoutes,
   ...receitasRoutes,
+  ...produtosRoutes,
   ...helloWorld,
 ];
 

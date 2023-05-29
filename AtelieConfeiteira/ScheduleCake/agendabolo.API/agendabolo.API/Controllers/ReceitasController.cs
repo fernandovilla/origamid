@@ -13,6 +13,35 @@ namespace Agendabolo.Controllers
     {
         private readonly ReceitaService _service = new ReceitaService();
 
+
+        [HttpGet("ListaBusca")]
+        public IActionResult ListaBusca()
+        {
+            try
+            {
+                var total = _service.GetTotal();
+
+                var receitas = _service.Get()
+                    .OrderBy(i => i.Nome)
+                    .Select(i => new ReceitaBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status });                   
+
+                if (receitas != null && receitas.Any())
+                    return Ok(new
+                    {
+                        total,
+                        data = receitas
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+
         [HttpGet("Listar")]
         public IActionResult Listar([FromQuery] int skip = 0, [FromQuery] int take = 20)
         {
@@ -46,8 +75,9 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("BuscarPorId/{id}")]
-        public IActionResult SelecionarPorId(ulong id)
+
+        [HttpGet("{id}")]
+        public IActionResult SelectByrId(ulong id)
         {
             try
             {

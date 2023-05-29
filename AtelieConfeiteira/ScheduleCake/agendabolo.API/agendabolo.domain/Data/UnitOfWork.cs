@@ -1,11 +1,9 @@
 ﻿using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Ingredientes;
+using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
-using Agendabolo.Data;
 using Agendabolo.Utils;
 using System;
-using System.IO;
-using System.Text.Json;
 
 namespace Agendabolo.Data
 {
@@ -15,6 +13,7 @@ namespace Agendabolo.Data
         private IIngredienteRepository _ingredienteRepository;
         private IFabricanteRepository _fabricanteRepository;
         private IReceitaRepository _receitaRepository;
+        private IProdutoRepository _produtoRepository;
 
         public UnitOfWork()
             : this(UnitOfWork.GetConnectionString())
@@ -44,7 +43,12 @@ namespace Agendabolo.Data
 
         public IReceitaRepository ReceitasRepository
         {
-            get => _receitaRepository ?? (_receitaRepository = new Core.Receitas.ReceitaReposiory(_context));
+            get => _receitaRepository ?? (_receitaRepository = new ReceitaReposiory(_context));
+        }
+
+        public IProdutoRepository ProdutoRepository
+        {
+            get => _produtoRepository ?? (_produtoRepository = new ProdutoRepository(_context));
         }
 
 

@@ -13,6 +13,7 @@ namespace Agendabolo.Data
         public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }        
         public DbSet<Core.Receitas.ReceitaDTA> Receitas { get; set; }
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
+        public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
 
         public ApplicationDbContext(string connectionString)
         {
