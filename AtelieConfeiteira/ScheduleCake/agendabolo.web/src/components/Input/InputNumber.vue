@@ -1,6 +1,6 @@
 <template>
     <input-base 
-      id="inputCurrency"  
+      id="inputNumber"  
       type="text"       
       :value="numericValue"       
       @keypress="handleKeyPress" 
@@ -13,7 +13,7 @@
 import InputBase from '@/components/Input/InputBase.vue'
 
 export default {
-  name:'input-currency',
+  name:'input-number',
   data() {
     return {
       internalValue: '',

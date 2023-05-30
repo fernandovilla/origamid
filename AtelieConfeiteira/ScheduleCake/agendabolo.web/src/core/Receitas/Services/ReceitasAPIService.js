@@ -20,7 +20,7 @@ export const receitasAPIService = {
 
   async getById(id) {
     try {
-      const response = await api.get(`/receitas/buscarporid/${id}`);
+      const response = await api.get(`/receitas/${id}`);
 
       if (response.statusText === 'OK') {
         return response.data;

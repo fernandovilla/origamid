@@ -27,12 +27,12 @@
               <div>
                 <div class="input-group col6">
                   <label for="porcao">Porção (%)</label>
-                  <input-currency id="porcao" placeholder='0,00' decimalCases=2 v-model="porcaoIngrediente" />
+                  <input-number id="porcao" placeholder='0,00' decimalCases=2 v-model="porcaoIngrediente" />
                 </div>
 
                 <div class="input-group col6">
                   <label for="custo">Custo Kg</label>
-                  <input-currency id="custo" placeholder='0,00' decimalCases=2 v-model="custoIngrediente" disabled/>
+                  <input-number id="custo" placeholder='0,00' decimalCases=2 v-model="custoIngrediente" disabled />
                 </div>            
               </div> 
             </span>       
@@ -54,7 +54,7 @@
 
 <script>
   import ModalForm from '@/components/Modal/ModalForm.vue'
-  import InputCurrency from '@/components/Input/InputCurrency.vue'
+  import InputNumber from '@/components/Input/InputNumber.vue'
   import SelectSearch from '@/components/Select/SelectSearch.vue'
   import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
   import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
@@ -82,7 +82,7 @@ export default {
   },
   components: {
     ModalForm,
-    InputCurrency,
+    InputNumber,
     SelectSearch
   },
   computed: {

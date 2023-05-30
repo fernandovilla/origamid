@@ -26,7 +26,7 @@
                 
                 <div class="input-group col-6">
                   <label for="pesoreferencia">Peso Referência (gramas)</label>
-                  <input-currency id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
+                  <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
                 </div>
 
                 <div class="input-group col-6">
@@ -66,7 +66,7 @@
                       <td class="col-item">{{index+1}}</td>
                       <td class="col-ingrediente">{{item.nome}} </td>
                       <td class="col-percent editable">
-                        <input-currency type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                        <input-number type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
@@ -150,7 +150,7 @@ import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente
 import Receita from '@/core/Receitas/Domain/Receita.js';
 import InputBase from '@/components/Input/InputBase.vue';
 import InputArea from '@/components/Input/InputArea.vue';
-import InputCurrency from '@/components/Input/InputCurrency.vue';
+import InputNumber from '@/components/Input/InputNumber.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
@@ -183,7 +183,7 @@ export default {
   components: { 
       InputBase, 
       InputArea,
-      InputCurrency,      
+      InputNumber,      
       SelectStatus,
       ActionDeleteButton,
       ActionUpButton,

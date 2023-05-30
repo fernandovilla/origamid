@@ -18,12 +18,12 @@
 
                 <div class="input-group col-6 col-sm-12">
                   <label for="precoCusto">Preço Custo Embalagem</label>
-                  <input-currency id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
+                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
                 </div>
 
                 <div class="input-group col-6 col-sm-12">
                   <label for="quantidadeEmbalagem">Qtd. Embalagem (gramas)</label>
-                  <input-currency id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantidadeEmbalagem" :decimalCases=0 />
+                  <input-number id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantidadeEmbalagem" :decimalCases=0 />
                 </div>
                 
                 <div class="input-group col-6 col-sm-12">
@@ -115,7 +115,7 @@
 
 <script>
 import InputBase from '@/components/Input/InputBase.vue'
-import InputCurrency from '@/components/Input/InputCurrency.vue'
+import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
@@ -138,7 +138,7 @@ export default {
       } 
     }, 
     props: ['id'],
-    components: { SelectStatus, InputBase, InputCurrency, ButtonSmallAdd },
+    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd },
     computed: {
       quantidadeEmbalagemCalc(){
         if (this.ingrediente === null || this.ingrediente === undefined)
