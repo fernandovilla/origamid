@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Agendabolo.Core.Produtos
 {
     [Table("produtos")]
-    public class ProdutoDTA
+    public partial class ProdutoDTA
     {
 
         [Key]
@@ -32,11 +33,14 @@ namespace Agendabolo.Core.Produtos
         [Column("finalizacao")]
         public string Finalizacao { get; set; }
 
-        [Column("margempreparo")]
-        public double MargemPreparo { get; set; }
+        [Column("pesoreferencia")]
+        public int PesoReferencia { get; set; }
 
         [Column("tempopreparo")]
         public int TempoPreparo { get; set; }
+
+        [Column("margempreparo")]
+        public double MargemPreparo { get; set; }
 
         [Column("customaodeobra")]
         public decimal CustoMaoDeObra { get; set; }
@@ -53,12 +57,16 @@ namespace Agendabolo.Core.Produtos
         [Column("margemvendaatacado")]
         public double MargemVendaAtacado { get; set; }
 
-
         [Column("precovendaatacado")]
         public decimal PrecoVendaAtacado { get; set; }
 
-
-
-        //public IEnumerable<ReceitaDTA> Receitas { get; set; }
+        public List<ProdutoReceitaDTA> Receitas { get; set; }
+    }
+    
+    [DebuggerDisplay("{Id} | {Nome} | {Status}")]
+    partial class ProdutoDTA
+    {
+        
+        
     }
 }

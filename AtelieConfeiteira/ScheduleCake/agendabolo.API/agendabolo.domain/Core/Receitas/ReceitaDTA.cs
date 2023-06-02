@@ -37,7 +37,6 @@ namespace Agendabolo.Core.Receitas
         [Column("observacao")]
         public string Observacao { get; set; }
 
-
         public List<ReceitaIngredienteDTA> Ingredientes { get; set; }
     }
 
@@ -78,5 +77,8 @@ namespace Agendabolo.Core.Receitas
 
             return novaReceita;
         }
+
+        public IEnumerable<Produtos.ProdutoReceitaDTA> ProdutosReceita { get; set; }
+
     }
 }

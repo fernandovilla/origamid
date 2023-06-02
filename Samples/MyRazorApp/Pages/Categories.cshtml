@@ -1,0 +1,29 @@
+﻿@page "~/categorias/{skip?}/{take?}"
+@model CategoriesModel
+@{
+    ViewData["title"] = "Categorias";
+}
+
+
+<h2>Categories</h2>
+<div class="items">
+    <table>
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Nome</td>
+                <td>Preço</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.id</td>
+                    <td>@category.name</td>
+                    <td>@category.price.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>    

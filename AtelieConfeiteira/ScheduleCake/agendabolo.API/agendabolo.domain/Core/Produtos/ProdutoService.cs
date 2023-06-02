@@ -29,7 +29,15 @@ namespace Agendabolo.Core.Produtos
             {
                 using (var unit = new UnitOfWork())
                 {
-                    return unit.ProdutoRepository.GetByID(id);
+                    var produto = unit.ProdutoRepository.GetByID(id);
+
+                    if (produto.Receitas.Any())
+                    {
+                        var rec = unit.ReceitasRepository;
+                        produto.Receitas.ForEach(r => r.Receita = rec.Get(i => i.Id == r.IdReceita).FirstOrDefault());                            
+                    }
+
+                    return produto;
                 }
             }
             catch (Exception ex)

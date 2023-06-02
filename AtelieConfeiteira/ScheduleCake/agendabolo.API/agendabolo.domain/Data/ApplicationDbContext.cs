@@ -14,6 +14,7 @@ namespace Agendabolo.Data
         public DbSet<Core.Receitas.ReceitaDTA> Receitas { get; set; }
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
         public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
+        public DbSet<Core.Produtos.ProdutoReceitaDTA> ProdutosReceitas { get; set; }
 
         public ApplicationDbContext(string connectionString)
         {
@@ -54,6 +55,49 @@ namespace Agendabolo.Data
                 .HasOne<Core.Ingredientes.IngredienteDTA>(i => i.Ingrediente)
                 .WithMany(i => i.Receitas)
                 .HasForeignKey(i => i.IdIngrediente);
+
+            modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+                .HasKey(i => new { i.IdProduto, i.IdReceita });
+
+            modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+                .HasOne(i => i.Produto)
+                .WithMany(i => i.Receitas)
+                .HasForeignKey(i => i.IdProduto);
+
+            modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+                .HasOne(i => i.Receita)
+                .WithMany(i => i.ProdutosReceita)
+                .HasForeignKey(i => i.IdReceita);
+
+            modelBuilder.Entity<Core.Produtos.ProdutoDTA>()
+                .HasMany(i => i.Receitas)
+                .WithOne(i => i.Produto)
+                .HasForeignKey(i => i.IdProduto)
+                .IsRequired();
+
+            
+
+            
+                
+                
+
+
+
+            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+            //    .HasOne(i => i.Produto)
+            //    .WithMany(i => i.Receitas)
+            //    .HasForeignKey(i => i.IdProduto)
+            //    .IsRequired();
+
+            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+            //    .HasOne(i => i.Receita)
+
+
+
+            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
+            //    .HasOne<Core.Produtos.ProdutoDTA>(r => r.Produto)
+            //    .WithMany(i => i.Receitas)
+            //    .HasForeignKey(i => i.IdReceita);
 
 
             //modelBuilder.Entity<Core.Receitas.IngredienteReceita>()

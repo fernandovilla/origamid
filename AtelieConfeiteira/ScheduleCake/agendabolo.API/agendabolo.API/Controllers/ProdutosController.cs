@@ -54,7 +54,7 @@ namespace Agendabolo.Controllers
                     return Ok(new
                     {
                         total = 1,
-                        data = produto
+                        data = ProdutoRequest.Parse(produto)
                     }); ;
 
                 return NoContent();
