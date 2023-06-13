@@ -23,11 +23,6 @@ namespace Agendabolo.Core.Receitas
                 query = query.Where(filter);
 
             return query.AsEnumerable();
-
-            //return query
-            //    .Include(i => i.Ingredientes)
-            //    .ThenInclude(i => i.Ingrediente)
-            //    .AsEnumerable();
         }
 
         public override ReceitaDTA GetByID(ulong id)
@@ -36,7 +31,7 @@ namespace Agendabolo.Core.Receitas
 
             return receitas
                 .Where(r => r.Id == id)
-                .Include(rec => rec.Ingredientes)
+                .Include(rec => rec.Ingredientes.OrderBy(i => i.Ordem))
                 .ThenInclude(i => i.Ingrediente)
                 .FirstOrDefault();
         }

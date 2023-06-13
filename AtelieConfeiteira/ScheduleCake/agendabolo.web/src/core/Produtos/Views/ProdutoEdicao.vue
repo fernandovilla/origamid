@@ -15,7 +15,7 @@
               <div class="row">
                 <div class="input-group col">
                   <label for="nome">Nome</label>
-                  <input-base type="text" id="nome" required v-model="produto.nome" />
+                  <input-base id="nome" required v-model="produto.nome" />
                 </div>
 
                 <div class="input-group col-6 col-md-12">
@@ -30,7 +30,7 @@
 
                 <div class="input-group col-6">
                   <label for="status">Status</label>
-                  <select-status id="status" v-model="produto.status" :selected="produto.status" required />      
+                  <select-status id="status" v-model="produto.status" :selected="produto.status" required />
                 </div>   
               </div>              
             </div>
@@ -44,13 +44,13 @@
                 <div class="row">
 
                   <div class="input-group col-6">
-                    <label for="pesoReferencia">Peso Referência</label>
-                    <input-number id="pesoReferencia" :decimal-cases=0 />
+                    <label for="pesoReferencia">Peso Referência (gramas)</label>
+                    <input-number id="pesoReferencia" :decimal-cases=0 v-model="produto.pesoReferencia" />
                   </div>
 
                   <div class="input-group col-6">
                     <label for="tempopreparo">Tempo Preparo (minutos)</label>
-                    <input-number id="tempopreparo" :decimal-cases=0 />
+                    <input-number id="tempopreparo" :decimal-cases=0 v-model="produto.tempoPreparo" />
                   </div>
 
                   <div class="input-group col">
@@ -79,10 +79,10 @@
             <div class="content">
               <table class="table-data receitas">
                 <thead >
-                  <th class="col-item">Item</th>
+                  <th class="col-item">#</th>
                   <th class="col-receita">Receita</th>
                   <th class="col-percent">%</th>
-                  <th class="col-peso">%</th>
+                  <th class="col-peso">Peso</th>
                   <th class="col-custo">Custo</th>
                   <th class="col-acoes"></th>
                 </thead>
@@ -90,9 +90,9 @@
                   <tr v-for="(receita, index) in produto.receitas" :key="index">
                     <td class="col-item">{{index+1}}</td>
                     <td class="col-receita">{{receita.nome}}</td>
-                    <td class="col-percent">{{receita.percentual}}%</td>
-                    <td class="col-peso">{{ pesoCalculado(receita.percentual) }}</td>
-                    <td class="col-custo">R$ {{receita.custo}}</td>
+                    <td class="col-percent">{{receita.percentual.toFixed(2)}}%</td>
+                    <td class="col-peso">{{ PesoCalculado(receita.percentual) }}g</td>
+                    <td class="col-custo">R$ {{CustoReceitaText(receita)}}</td>
                     <td class="body-actions col-acoes">
                       <action-up-button @click.prevent="moveReceitaUp(index)" />           
                       <action-down-button @click.prevent="moveReceitaDown(index)" />           
@@ -100,7 +100,16 @@
                     </td>
                   </tr>
                 </tbody>
-                <tfoot></tfoot>
+                <tfoot>
+                  <tr>
+                    <td class="col-item"></td>
+                    <td class="col-receita"></td>
+                    <td class="col-percent">{{ TotalPercentualReceitasText }}%</td>
+                    <td class="col-peso"> {{ TotalPesoReceitasText }}</td>
+                    <td class="col-custo">R$ {{ TotalCustoReceitasText }}</td>
+                    <td class="col-acoes"></td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -177,22 +186,16 @@ import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
+import Produto from '@/core/Produtos/Domain/Produto.js'
+import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
 
 
 export default {
   name: 'produto-edicao',
   data() {
     return {
-      produto: {
-        id: 0,
-        nome: '',
-        descricao: '',
-        observacoes: '',
-        finalizacao: '',
-        status: 1,
-        pesoReferencia: 1000,
-        receitas: []
-      }
+      produto: Produto,
+      custoItemReceira:[]
     }
   },
   props:['id'],
@@ -210,12 +213,58 @@ export default {
     PageTitle(){
         if (this.id === 0 || this.id === undefined)
           return 'Novo Produto';
-        
+        else
           return 'Edição Produto';
       },
+    TotalPercentualReceitasText(){
+      if (this.produto.receitas === undefined)
+        return "0,00"
+
+      var total = this.produto.receitas.reduce((acumulado, receita) => {        
+        return acumulado + receita.percentual;
+      }, 0)
+      return NumberToText(total.toFixed(2));
+    },
+    TotalPesoReceitasText(){
+      if (this.produto.receitas === undefined)
+        return "0,00"
+
+      var total = this.produto.receitas.reduce((acumulado, receita) => {
+        return acumulado + this.CalcularPesoReferenciaReceita(receita);
+      },0);
+      return NumberToText(total.toFixed(2));
+    },
+    TotalCustoReceitasText(){
+      if (this.produto.receitas === undefined)
+        return "0,00"
+
+      var total = this.produto.receitas.reduce((acumulado, receita) => {        
+        return acumulado + this.CalcularCustoReceita(receita);
+      }, 0);
+      return NumberToText(total.toFixed(2));
+    },    
   },
   methods: {
-    async obterProdutoEdicao(){
+    CustoReceitaText(receita){
+      return NumberToText(this.CalcularCustoReceita(receita).toFixed(2));
+    },
+    CalcularCustoReceita(receita){
+      if (receita === undefined || receita === null)
+        return 0;
+
+      var custoIngredientesQuilo = receita.ingredientes.reduce((acumulado, item) => {
+          return TextToNumber(item.precoCustoQuilo) + acumulado;
+      }, 0);
+
+      var pesoReceitaNoProduto = this.CalcularPesoReferenciaReceita(receita);
+      var custoReceita = (custoIngredientesQuilo / 1000) * pesoReceitaNoProduto;
+
+      return custoReceita;
+    },
+    CalcularPesoReferenciaReceita(receita){
+      return this.produto.pesoReferencia * (receita.percentual / 100);
+    },
+    async ObterProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
 
@@ -225,19 +274,21 @@ export default {
       if (response !== undefined){
         this.produto = response.data;
 
-        this.produto.pesoReferencia = 1000;
+        /*this.produto.pesoReferencia = 1000;
         this.produto.receitas = [
           { nome: 'MASSA DE BOLO', percentual: 55.3, custo: 10.50 },
           { nome: 'BRIGADEIRO GOURMET', percentual: 35, custo: 15.99 },
           { nome: 'COBERTURA CHANTININGO', percentual: 10, custo: 4.99 }
-        ]
+        ]*/
+
+        console.log(this.produto);
 
       } else {
         this.$router.push('/produtos');
       }
 
     },
-    pesoCalculado(percentual){
+    PesoCalculado(percentual){
       if (percentual === 0 || this.produto.pesoReferencia === 0)
         return 0;
 
@@ -245,7 +296,7 @@ export default {
     }
   },
   created(){
-    this.obterProdutoEdicao();
+    this.ObterProdutoEdicao();
   }
 }
 </script>
@@ -267,20 +318,24 @@ export default {
   }
 
   .col-item {
-    width: 7%;
+    width: 5%;
   }
 
   .col-receita {
-    width: 40%;
+    width: 45%;
     text-align: left;
   }
 
   .col-percent {
-    width: 15%;
+    width: 10%;
+  }
+
+  .col-peso {
+    width: 10%;
   }
 
   .col-custo {
-    width: 15%;
+    width: 15%;    
   }
 
   @media screen and (max-width: 960px) {

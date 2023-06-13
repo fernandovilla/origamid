@@ -67,5 +67,29 @@ namespace Agendabolo.Controllers
         }
 
 
+        [HttpGet("Min/{id}")]
+        public IActionResult SelectById_Minino(ulong id)
+        {
+            try
+            {
+                var produto = _service.GetByID_Min(id);
+
+                if (produto != null)
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = ProdutoRequest.Parse(produto)
+                    }); ;
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+
     }
 }

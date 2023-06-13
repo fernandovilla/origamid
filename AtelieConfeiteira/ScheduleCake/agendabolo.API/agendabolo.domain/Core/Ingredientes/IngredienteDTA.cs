@@ -29,5 +29,9 @@ namespace Agendabolo.Core.Ingredientes
 
         [JsonIgnore]
         public ICollection<Receitas.ReceitaIngredienteDTA> Receitas { get; set; }
+
+        public decimal PrecoCustoQuilo => (PrecoCusto / QuantidadeEmbalagem) * 1000;
+
+        public decimal PrecoCustoMedioQuilo => (PrecoCustoMedio / QuantidadeEmbalagem) * 1000;
     }
 }

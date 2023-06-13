@@ -9,5 +9,7 @@ namespace Agendabolo.Core.Produtos
 {
     public interface IProdutoRepository : IGenericRepository<ProdutoDTA, ulong>
     {
+        ProdutoDTA GetByID_Min(ulong id);
+
     }
 }
