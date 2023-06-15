@@ -62,7 +62,7 @@
   import Ingrediente from '@/core/Ingredientes/Domain/Ingrediente.js'
   
 export default {
-  name:'seleciona-ingrediente',
+  name:'seleciona-ingrediente-receita',
   data() {
     return {
       formShow: false,
@@ -132,10 +132,6 @@ export default {
       this.$refs.contentData.querySelector('#porcao').focus();
     },
     async onSearchingOptions(arg){      
-
-      // if (arg.textSearch !== '') {
-      //    arg.message = 'Buscando ingrediantes. Aguarde...'
-      // } 
 
       const result = await ingredientesAPIService.obterIngredientesPorNome(arg.textToSearch);
 

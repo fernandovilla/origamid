@@ -137,7 +137,7 @@
     </div>
 
     <div>
-      <seleciona-ingrediente :show="selecaoIngredienteShow" 
+      <seleciona-ingrediente-receita :show="selecaoIngredienteShow" 
         @closing="onClosingSelecaoIngrediente"   
         @ingredienteConfirmado="onIngredienteConfirmado" />
     </div>
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import SelecionaIngrediente from '@/core/Ingredientes/Views/SelecionaIngrediente.vue';
+import SelecionaIngredienteReceita from '@/core/Receitas/Views/SelecionaIngredienteReceita.vue';
 import Receita from '@/core/Receitas/Domain/Receita.js';
 import InputBase from '@/components/Input/InputBase.vue';
 import InputArea from '@/components/Input/InputArea.vue';
@@ -190,7 +190,7 @@ export default {
       ActionDownButton,
       ButtonSmallAdd,
       ButtonSmallPrint,      
-      SelecionaIngrediente    
+      SelecionaIngredienteReceita    
   },
   computed: {
     ingredientesOk(){

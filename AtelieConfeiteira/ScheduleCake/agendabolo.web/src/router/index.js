@@ -54,7 +54,7 @@ const ingredientesRoutes = [
     path: '/selecionaIngrediente',
     name: 'seleciona-ingrediente',
     component: () =>
-      import('@/core/Ingredientes/Views/SelecionaIngrediente.vue'),
+      import('@/core/Receitas/Views/SelecionaIngredienteReceita.vue'),
   },
 ];
 

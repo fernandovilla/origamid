@@ -91,8 +91,8 @@
                     <td class="col-item">{{index+1}}</td>
                     <td class="col-receita">{{receita.nome}}</td>
                     <td class="col-percent">{{receita.percentual.toFixed(2)}}%</td>
-                    <td class="col-peso">{{ PesoCalculado(receita.percentual) }}g</td>
-                    <td class="col-custo">R$ {{CustoReceitaText(receita)}}</td>
+                    <td class="col-peso">{{ pesoCalculado(receita.percentual) }}g</td>
+                    <td class="col-custo">R$ {{ custoReceitaText(receita)}}</td>
                     <td class="body-actions col-acoes">
                       <action-up-button @click.prevent="moveReceitaUp(index)" />           
                       <action-down-button @click.prevent="moveReceitaDown(index)" />           
@@ -104,9 +104,9 @@
                   <tr>
                     <td class="col-item"></td>
                     <td class="col-receita"></td>
-                    <td class="col-percent">{{ TotalPercentualReceitasText }}%</td>
-                    <td class="col-peso"> {{ TotalPesoReceitasText }}</td>
-                    <td class="col-custo">R$ {{ TotalCustoReceitasText }}</td>
+                    <td class="col-percent">{{ totalPercentualReceitasText }}%</td>
+                    <td class="col-peso"> {{ totalPesoReceitasText }}</td>
+                    <td class="col-custo">R$ {{ totalCustoReceitasText }}</td>
                     <td class="col-acoes"></td>
                   </tr>
                 </tfoot>
@@ -173,6 +173,13 @@
           
       </div>
     </form>
+
+    <div>
+      <seleciona-receita-produto :show="selecaoNovaReceitaShow" 
+        @closing="onClosingSelecaoReceita"   
+        @receitaConfirmada="onReceitaConfirmada" />
+    </div>
+
   </div>
 </template>
 
@@ -188,6 +195,7 @@ import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import Produto from '@/core/Produtos/Domain/Produto.js'
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
+import SelecionaReceitaProduto from '@/core/Produtos/Views/SelecionaReceitaProduto.vue'
 
 
 export default {
@@ -195,7 +203,9 @@ export default {
   data() {
     return {
       produto: Produto,
-      custoItemReceira:[]
+      custoItemReceira:[],
+      receitasExcluidas: [],
+      selecaoNovaReceitaShow: false,
     }
   },
   props:['id'],
@@ -207,7 +217,8 @@ export default {
     ButtonSmallAdd, 
     ActionDeleteButton, 
     ActionUpButton, 
-    ActionDownButton
+    ActionDownButton,
+    SelecionaReceitaProduto
   },
   computed: {
     PageTitle(){
@@ -245,10 +256,10 @@ export default {
     },    
   },
   methods: {
-    CustoReceitaText(receita){
-      return NumberToText(this.CalcularCustoReceita(receita).toFixed(2));
+    custoReceitaText(receita){
+      return NumberToText(this.calcularCustoReceita(receita).toFixed(2));
     },
-    CalcularCustoReceita(receita){
+    calcularCustoReceita(receita){
       if (receita === undefined || receita === null)
         return 0;
 
@@ -256,15 +267,15 @@ export default {
           return TextToNumber(item.precoCustoQuilo) + acumulado;
       }, 0);
 
-      var pesoReceitaNoProduto = this.CalcularPesoReferenciaReceita(receita);
+      var pesoReceitaNoProduto = this.calcularPesoReferenciaReceita(receita);
       var custoReceita = (custoIngredientesQuilo / 1000) * pesoReceitaNoProduto;
 
       return custoReceita;
     },
-    CalcularPesoReferenciaReceita(receita){
+    calcularPesoReferenciaReceita(receita){
       return this.produto.pesoReferencia * (receita.percentual / 100);
     },
-    async ObterProdutoEdicao(){
+    async obterProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
 
@@ -288,15 +299,34 @@ export default {
       }
 
     },
-    PesoCalculado(percentual){
+    pesoCalculado(percentual){
       if (percentual === 0 || this.produto.pesoReferencia === 0)
         return 0;
 
       return (this.produto.pesoReferencia * (percentual / 100)).toFixed(0);
+    },
+    adicionarReceita(){
+      this.selecaoNovaReceitaShow = true;
+    },
+    removeReceita(index){
+      if (index >= 0 || index < this.produto.receitas.length){
+        if (this.produto.receitas[index].id > 0) {
+          this.receitasExcluidas.push(this.produto.receitas[index]);
+        }
+        this.produto.receitas.splice(index, 1);
+      }
+    },
+    onClosingSelecaoReceita(){
+      this.selecaoNovaReceitaShow = false;
+    },
+    onReceitaConfirmada(arg){      
+      console.log(this.produto.receitas);
+      console.log(arg);
+      this.produto.receitas.push(arg);
     }
   },
   created(){
-    this.ObterProdutoEdicao();
+    this.obterProdutoEdicao();
   }
 }
 </script>
@@ -304,14 +334,6 @@ export default {
 <style scoped>
   @import '@/styles/group.css';
   @import '@/styles/table-data.css';
-
-  /* .row2 {
-    background: lime;;
-  }
-
-  .xx {
-    border: 2px dotted tomato;
-  } */
 
   table.receitas tbody {
     height: 215px;

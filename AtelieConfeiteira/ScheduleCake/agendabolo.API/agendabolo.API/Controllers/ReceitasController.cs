@@ -102,7 +102,30 @@ namespace Agendabolo.Controllers
         [HttpGet("BuscaPorNome/{nome}")]
         public IActionResult SelecionarPorNome(string nome)
         {
-            return null;
+            if (string.IsNullOrEmpty(nome))
+                return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
+
+            try
+            {
+                var receitas = _service.Get()
+                    .Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase))
+                    .OrderBy(i => i.Nome)
+                    .ToList();
+
+                if (receitas != null && receitas.Any())
+                    return Ok(new
+                    {
+                        total = receitas.Count(),
+                        data = receitas
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
         [HttpPut]
