@@ -1,8 +1,8 @@
 <template>
   <div class="container-fluid">    
     <span class="header-page">
-      <h1>{{PageTitle}}</h1>    
-      <span v-if="id > 0" class="header-page-id">Id: {{id}}</span>  
+      <h1>{{pageTitle}}</h1>    
+      <span v-if="id > 0" class="header-page-id">ID: {{id}}</span>  
     </span>   
 
     <form class="container-fluid">
@@ -13,11 +13,12 @@
             <h2 class="title">Dados do Produto</h2>                
             <div class="container">        
               <div class="row">
+
                 <div class="input-group col">
                   <label for="nome">Nome</label>
                   <input-base id="nome" required v-model="produto.nome" />
                 </div>
-
+                
                 <div class="input-group col-6 col-md-12">
                   <label for="descricao">Descrição</label>
                   <input-area id="descricao" :rows=4 v-model="produto.descricao" />                   
@@ -105,7 +106,7 @@
                     <td class="col-item"></td>
                     <td class="col-receita"></td>
                     <td class="col-percent">{{ totalPercentualReceitasText }}%</td>
-                    <td class="col-peso"> {{ totalPesoReceitasText }}</td>
+                    <td class="col-peso"> {{ totalPesoReceitasText }}g</td>
                     <td class="col-custo">R$ {{ totalCustoReceitasText }}</td>
                     <td class="col-acoes"></td>
                   </tr>
@@ -174,8 +175,18 @@
       </div>
     </form>
 
+    <div class="container-fluid">
+      <div class="row buttons">          
+          <button class="btn btn-primary" @click.prevent="salvarProduto">Salvar</button>
+          <router-link to="/produtos" class="btn">Voltar</router-link>        
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+      </div>  
+    </div>
+
     <div>
-      <seleciona-receita-produto :show="selecaoNovaReceitaShow" 
+      <seleciona-receita-produto 
+        :show="selecaoNovaReceitaShow" 
+        :peso-referencia="produto.pesoReferencia"
         @closing="onClosingSelecaoReceita"   
         @receitaConfirmada="onReceitaConfirmada" />
     </div>
@@ -202,10 +213,15 @@ export default {
   name: 'produto-edicao',
   data() {
     return {
-      produto: Produto,
+      produto: {
+        type: Produto,
+        default: new Produto()
+      },
       custoItemReceira:[],
       receitasExcluidas: [],
       selecaoNovaReceitaShow: false,
+      mensagem: '',
+      menssagemSucesso: '',      
     }
   },
   props:['id'],
@@ -221,13 +237,14 @@ export default {
     SelecionaReceitaProduto
   },
   computed: {
-    PageTitle(){
+    pageTitle(){
         if (this.id === 0 || this.id === undefined)
           return 'Novo Produto';
         else
           return 'Edição Produto';
-      },
-    TotalPercentualReceitasText(){
+    },
+
+    totalPercentualReceitasText(){
       if (this.produto.receitas === undefined)
         return "0,00"
 
@@ -236,21 +253,23 @@ export default {
       }, 0)
       return NumberToText(total.toFixed(2));
     },
-    TotalPesoReceitasText(){
+
+    totalPesoReceitasText(){
       if (this.produto.receitas === undefined)
-        return "0,00"
+        return "0"
 
       var total = this.produto.receitas.reduce((acumulado, receita) => {
-        return acumulado + this.CalcularPesoReferenciaReceita(receita);
+        return acumulado + this.calcularPesoReferenciaReceita(receita);
       },0);
-      return NumberToText(total.toFixed(2));
+      return NumberToText(total.toFixed(0));
     },
-    TotalCustoReceitasText(){
+
+    totalCustoReceitasText(){
       if (this.produto.receitas === undefined)
         return "0,00"
 
       var total = this.produto.receitas.reduce((acumulado, receita) => {        
-        return acumulado + this.CalcularCustoReceita(receita);
+        return acumulado + this.calcularCustoReceita(receita);
       }, 0);
       return NumberToText(total.toFixed(2));
     },    
@@ -259,6 +278,7 @@ export default {
     custoReceitaText(receita){
       return NumberToText(this.calcularCustoReceita(receita).toFixed(2));
     },
+
     calcularCustoReceita(receita){
       if (receita === undefined || receita === null)
         return 0;
@@ -272,9 +292,11 @@ export default {
 
       return custoReceita;
     },
+
     calcularPesoReferenciaReceita(receita){
       return this.produto.pesoReferencia * (receita.percentual / 100);
     },
+
     async obterProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
@@ -284,30 +306,22 @@ export default {
 
       if (response !== undefined){
         this.produto = response.data;
-
-        /*this.produto.pesoReferencia = 1000;
-        this.produto.receitas = [
-          { nome: 'MASSA DE BOLO', percentual: 55.3, custo: 10.50 },
-          { nome: 'BRIGADEIRO GOURMET', percentual: 35, custo: 15.99 },
-          { nome: 'COBERTURA CHANTININGO', percentual: 10, custo: 4.99 }
-        ]*/
-
-        console.log(this.produto);
-
       } else {
         this.$router.push('/produtos');
       }
-
     },
+
     pesoCalculado(percentual){
       if (percentual === 0 || this.produto.pesoReferencia === 0)
         return 0;
 
       return (this.produto.pesoReferencia * (percentual / 100)).toFixed(0);
     },
+
     adicionarReceita(){
       this.selecaoNovaReceitaShow = true;
     },
+
     removeReceita(index){
       if (index >= 0 || index < this.produto.receitas.length){
         if (this.produto.receitas[index].id > 0) {
@@ -316,14 +330,22 @@ export default {
         this.produto.receitas.splice(index, 1);
       }
     },
+
     onClosingSelecaoReceita(){
       this.selecaoNovaReceitaShow = false;
     },
+
     onReceitaConfirmada(arg){      
       console.log(this.produto.receitas);
       console.log(arg);
       this.produto.receitas.push(arg);
+    },
+
+    salvarProduto(){
+      console.log("Salvando...");
     }
+
+
   },
   created(){
     this.obterProdutoEdicao();
@@ -359,6 +381,11 @@ export default {
   .col-custo {
     width: 15%;    
   }
+
+  .buttons {
+      display: flex;
+      margin-top: 20px;
+    }
 
   @media screen and (max-width: 960px) {
     table.receitas tbody {

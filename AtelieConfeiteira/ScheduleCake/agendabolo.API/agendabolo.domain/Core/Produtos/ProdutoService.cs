@@ -1,4 +1,5 @@
 ﻿using Agendabolo.Core.Logs;
+using Agendabolo.Core.Receitas;
 using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
@@ -65,9 +66,33 @@ namespace Agendabolo.Core.Produtos
             }
         }
 
-        public (bool, ProdutoDTA) Save(ProdutoDTA entity)
+        public (bool, ProdutoDTA) Save(ProdutoDTA produto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using(var unit = new UnitOfWork())
+                {
+                    var repository = unit.ProdutoRepository;
+
+                    if (produto.Id == 0)
+                    {
+                        repository.Insert(produto);
+                    } else
+                    {
+                        repository.Update(produto);
+                    }
+
+                    unit.Save();
+                }
+
+                return (true, produto);
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+            }
+
+            return (false, produto);
         }
     }
 }

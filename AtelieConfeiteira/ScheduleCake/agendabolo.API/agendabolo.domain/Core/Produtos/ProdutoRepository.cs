@@ -40,6 +40,23 @@ namespace Agendabolo.Core.Produtos
             return prod;
         }
 
+        public override void Update(ProdutoDTA produto)
+        {            
+            if (produto == null)
+                throw new ArgumentNullException("Invalid entity");
 
+            _context.Entry(produto).State = EntityState.Modified;
+
+            this.UpdateReceitasProduto(produto.Id, produto.Receitas);
+        }
+
+        private void UpdateReceitasProduto(ulong codigoProduto, IEnumerable<ProdutoReceitaDTA> receitas)
+        {
+            foreach(var rec in _context.Produtos.Find(codigoProduto).Receitas)
+                _context.Entry<ProdutoReceitaDTA>(rec).State = EntityState.Deleted;
+            
+            foreach (var rec in receitas)
+                _context.Entry(rec).State = EntityState.Modified;
+        }
     }
 }

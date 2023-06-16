@@ -27,12 +27,12 @@
              <div>
                <div class="input-group col6">
                  <label for="porcao">Porção (%)</label>
-                 <input-number id="porcao" placeholder='0,00' decimalCases=2 v-model="porcaoReceita" />
+                 <input-number id="porcao" placeholder='0,00' :decimalCases=2 v-model="porcaoReceita" />
                </div>
 
                <div class="input-group col6">
                  <label for="peso">Peso</label>
-                 <input-number id="peso" decimalCases=0 v-model="pesoReceita" disabled />
+                 <input-number id="peso" :decimalCases=0 v-model="pesoReceitaText" disabled />
                </div>            
              </div> 
            </span>       
@@ -54,7 +54,7 @@
 import ModalForm from '@/components/Modal/ModalForm.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectSearch from '@/components/Select/SelectSearch.vue'
-import { TextToNumber }  from '@/helpers/NumberHelp.js'
+import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js'
 
 export default {
@@ -66,13 +66,18 @@ export default {
       receitas: null,
       receitaSelecionada: null,
       porcaoReceita: 0,
-      pesoReceita: 0
+      
+      totalReceitas: 0
     }
   },
   props: {
     show: {
       type: Boolean,
       default: false
+    },
+    pesoReferencia: {
+      type: Number,
+      default: 0
     }
   },
   components: { 
@@ -93,6 +98,12 @@ export default {
         return null;
       }
     },
+    pesoReceitaText() {
+      if (this.pesoReferencia !== 0)
+        return NumberToText((this.pesoReferencia * TextToNumber(this.porcaoReceita) / 100).toFixed(0))
+      else
+        return "0,00";
+    }
   },
   watch:{
     show() {

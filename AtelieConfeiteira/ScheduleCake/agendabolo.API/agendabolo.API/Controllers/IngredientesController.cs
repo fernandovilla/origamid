@@ -122,6 +122,21 @@ namespace Agendabolo.Controllers
             }
         }
 
+        [HttpGet("ListaBusca")]
+        public IEnumerable<IngredienteDTA> ListaBusca()
+        {
+            try
+            {
+                return _service.Get()
+                    .OrderBy(i => i.Nome);
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return null;
+            }
+        }
+
         [HttpGet("{id}")]
         public IActionResult get(ulong id)
         {

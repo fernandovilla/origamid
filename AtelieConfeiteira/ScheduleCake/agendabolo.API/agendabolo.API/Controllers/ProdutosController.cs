@@ -1,5 +1,6 @@
 ﻿using Agendabolo.Core.Logs;
 using Agendabolo.Core.Produtos;
+using Agendabolo.Core.Receitas;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,27 @@ namespace Agendabolo.Controllers
             {
                 LogDeErros.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("ListaBusca2")]
+        public IEnumerable<ProdutoBuscaResponse> ListarProdutosBusca2()
+        {
+            try
+            {
+                var produtos = _service.Get()
+                    .OrderBy(i => i.Nome)
+                    .Select(i => new ProdutoBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status });
+
+                if (produtos != null && produtos.Any())
+                    return produtos;
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return null;
             }
         }
 
@@ -91,5 +113,35 @@ namespace Agendabolo.Controllers
         }
 
 
+        [HttpPut]
+        [HttpPost]
+        public IActionResult Salvar(ProdutoRequest produto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //var receitaDta = ReceitaDTA.Parse(receita);
+
+                    //(bool ok, ReceitaDTA result) = _service.Save(receitaDta);
+                    bool ok = false;
+                    ProdutoDTA result = null;
+
+                    if (ok)
+                        return Ok(ProdutoRequest.Parse(result));
+                    else
+                        return BadRequest();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }
