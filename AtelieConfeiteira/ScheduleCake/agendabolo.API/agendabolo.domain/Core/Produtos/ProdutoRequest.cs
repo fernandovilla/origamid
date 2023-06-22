@@ -38,9 +38,13 @@ namespace Agendabolo.Core.Produtos
 
             if (produto.Receitas != null)
             {
+
                 prod.Receitas = from receita in produto.Receitas
                                 select new ProdutoReceitaRequest
                                 {
+                                    Id = (int)receita.Id,
+                                    IdProduto = receita.IdProduto,
+                                    IdReceita = receita.IdReceita,
                                     Receita = Core.Receitas.ReceitaRequest.Parse(receita.Receita),
                                     Percentual = receita.Percentual,
                                     Ordem = receita.Ordem

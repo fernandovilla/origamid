@@ -121,14 +121,12 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    //var receitaDta = ReceitaDTA.Parse(receita);
+                    var produtoDTA = ProdutoDTA.Parse(produto);
 
-                    //(bool ok, ReceitaDTA result) = _service.Save(receitaDta);
-                    bool ok = false;
-                    ProdutoDTA result = null;
+                    (bool ok, ProdutoDTA result) = _service.Save(produtoDTA);
 
                     if (ok)
-                        return Ok(ProdutoRequest.Parse(result));
+                        return Ok(ProdutoRequest.Parse(_service.GetByID(result.Id)));
                     else
                         return BadRequest();
                 }

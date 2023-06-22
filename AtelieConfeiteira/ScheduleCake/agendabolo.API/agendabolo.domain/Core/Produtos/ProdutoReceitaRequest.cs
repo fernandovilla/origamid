@@ -12,14 +12,16 @@ namespace Agendabolo.Core.Produtos
         [JsonIgnore]
         public Receitas.ReceitaRequest Receita { get; set; }
 
-        public int Id => this.Receita.Id;
-        public string Nome => this.Receita.Nome;
-        public IEnumerable<Receitas.ReceitaIngredienteRequest> Ingredientes => this.Receita.Ingredientes;
+        public int Id { get; set; }
+        public ulong IdProduto { get; set; }
+        public ulong IdReceita { get; set; }
+        public string Nome => this.Receita?.Nome;
+        public IEnumerable<Receitas.ReceitaIngredienteRequest> Ingredientes => this.Receita?.Ingredientes;
         public double Percentual { get; set; }
         public int Ordem { get; set; }
 
-        public static ProdutoReceitaRequest Parse(ProdutoReceitaDTA produtoReceita) {
-
+        public static ProdutoReceitaRequest Parse(ProdutoReceitaDTA produtoReceita)
+        {
             return new ProdutoReceitaRequest()
             {
                 Receita = Receitas.ReceitaRequest.Parse(produtoReceita.Receita),
@@ -28,6 +30,4 @@ namespace Agendabolo.Core.Produtos
             };
         }
     }
-
-    
 }

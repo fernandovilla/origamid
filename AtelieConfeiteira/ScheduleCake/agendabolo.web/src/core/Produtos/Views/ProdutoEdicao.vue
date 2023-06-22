@@ -335,15 +335,73 @@ export default {
       this.selecaoNovaReceitaShow = false;
     },
 
-    onReceitaConfirmada(arg){      
-      console.log(this.produto.receitas);
-      console.log(arg);
+    onReceitaConfirmada(arg){                  
+
+      console.log("arg: ", arg);
+      console.log("receitas: ", this.produto.receitas);
+
+      if (this.produto.receitas === undefined)
+        this.produto.receitas = [];
+
       this.produto.receitas.push(arg);
     },
 
-    salvarProduto(){
-      console.log("Salvando...");
-    }
+    async salvarProduto(){
+      var inclusao = (this.produto.id == 0);
+
+      const payload = this.obterProdutoRequest();
+      console.log(payload);
+
+      const response = await produtosAPIService.atualizarProduto(payload);
+      
+      if (response !== null){
+        if (inclusao)
+          this.mostrarMensagemSucesso("Produto cadastrado com sucesso")
+        else
+          this.mostrarMensagemSucesso("Produto atualizado com sucesso")
+      } else {
+        //erro na alteração da receita...
+      }
+    },
+
+    obterProdutoRequest(){
+      var produtoRequest = {
+        id: this.produto.id,
+        nome: this.produto.nome,
+        observacoes: this.produto.observacoes,
+        status: this.produto.status,
+        pesoReferencia: this.produto.pesoReferencia,
+        tempoPreparo: this.produto.tempoPreparo,
+        finalizacao: this.produto.finalizacao,
+        margemPreparo: this.produto.margemPreparo,
+        custoMaoDeObra: this.produto.custoMaoDeObra,
+        custoEmbalagem: this.produto.custoEmbalagem,
+        margemVendaVarejo: this.produto.margemVendaVarejo,
+        precoVendaVarejo: this.produto.precoVendaVarejo,
+        margemVendaAtacado: this.produto.MargemVendaAtacado,
+        precoVendaAtacado: this.produto.precoVendaAtacado,
+        receitas: this.produto.receitas.map((item, index) => ({
+          id: item.id,
+          idProduto: this.id,
+          idReceita: item.id,
+          percentual: item.percentual,
+          ordem: index+1
+        }))
+      };
+
+      return produtoRequest;
+    },
+
+
+    mostrarMensagemSucesso(text){
+        this.mensagem = text;
+        this.menssagemSucesso = true;
+
+        setTimeout(() => {
+          this.menssagemSucesso = false;
+          this.mensagem = '';
+        }, 3000);
+      },
 
 
   },
