@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace Agendabolo.GenericRepository
 {
-    public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
+    public class GenericRepositoryDbContext<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
         protected ApplicationDbContext _context;
         protected DbSet<TEntity> _dbset => _context.Set<TEntity>();
 
-        public GenericRepository(ApplicationDbContext context)
+        public GenericRepositoryDbContext(ApplicationDbContext context)
         {
             _context = context;
         }

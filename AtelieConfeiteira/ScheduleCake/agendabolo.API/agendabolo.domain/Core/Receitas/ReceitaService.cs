@@ -13,9 +13,9 @@ namespace Agendabolo.Core.Receitas
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
-                    unit.ReceitasRepository.Delete(id);
+                    unit.ReceitaRepository.Delete(id);
                     unit.Save();
                 }
 
@@ -31,9 +31,9 @@ namespace Agendabolo.Core.Receitas
 
         public IEnumerable<ReceitaDTA> Get()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWorkDbContext())
             {
-                return unit.ReceitasRepository.Get();                
+                return unit.ReceitaRepository.Get();                
             }
         }
 
@@ -41,9 +41,9 @@ namespace Agendabolo.Core.Receitas
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.ReceitasRepository.GetByID(id);
+                    return unit.ReceitaRepository.GetByID(id);
                 }
             }
             catch (Exception ex)
@@ -56,9 +56,9 @@ namespace Agendabolo.Core.Receitas
 
         public int GetTotal()
         {
-            using(var unit = new UnitOfWork())
+            using(var unit = new UnitOfWorkDbContext())
             {
-                return unit.ReceitasRepository.Count();
+                return unit.ReceitaRepository.Count();
             }
         }
 
@@ -66,9 +66,9 @@ namespace Agendabolo.Core.Receitas
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
-                    var repository = unit.ReceitasRepository;
+                    var repository = unit.ReceitaRepository;
 
                     if (receita.Id == 0)
                         repository.Insert(receita);

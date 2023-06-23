@@ -1,4 +1,5 @@
-﻿using Agendabolo.Core.Logs;
+﻿using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Logs;
 using Agendabolo.Core.Receitas;
 using Agendabolo.Data;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Agendabolo.Core.Produtos
 {
@@ -13,25 +15,37 @@ namespace Agendabolo.Core.Produtos
     {
         public bool Delete(ulong id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var unit = new UnitOfWorkDbContext())
+                {
+                    unit.ProdutoRepository.Delete(id);
+                    unit.Save();
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+            }
+
+            return false;
+            
         }
 
         public IEnumerable<ProdutoDTA> Get()
         {
-            using (var unit = new UnitOfWork())
-            {
-                return unit.ProdutoRepository.Get();
-            }
+            using (var unit = new UnitOfWorkDbContext())
+                return unit.ProdutoRepository.Get().ToList();
         }
 
         public ProdutoDTA GetByID(ulong id)
         {
             try
             {
-                using (var unit = new UnitOfWork())
-                {
+                using (var unit = new UnitOfWorkDbContext())
                     return unit.ProdutoRepository.GetByID(id); ;
-                }
             }
             catch (Exception ex)
             {
@@ -45,10 +59,8 @@ namespace Agendabolo.Core.Produtos
         {
             try
             {
-                using (var unit = new UnitOfWork())
-                {
+                using (var unit = new UnitOfWorkDbContext())
                     return unit.ProdutoRepository.GetByID_Min(id); ;
-                }
             }
             catch (Exception ex)
             {
@@ -60,17 +72,15 @@ namespace Agendabolo.Core.Produtos
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWork())
-            {
+            using (var unit = new UnitOfWorkDbContext())
                 return unit.ProdutoRepository.Count();
-            }
         }
 
         public (bool, ProdutoDTA) Save(ProdutoDTA produto)
         {
             try
             {
-                using(var unit = new UnitOfWork())
+                using(var unit = new UnitOfWorkDbContext())
                 {
                     var repository = unit.ProdutoRepository;
 

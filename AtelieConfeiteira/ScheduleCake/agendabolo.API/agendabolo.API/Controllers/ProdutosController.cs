@@ -24,9 +24,9 @@ namespace Agendabolo.Controllers
             {
                 var produtos = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .Select(i => new ProdutoBuscaResponse {  Id = i.Id, Nome = i.Nome, Status = i.Status})
+                    .Select(i => new ProdutoBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status })
                     .ToList();
-                    
+
                 if (produtos != null && produtos.Any())
                     return Ok(new
                     {

@@ -7,7 +7,7 @@ using System;
 
 namespace Agendabolo.Data
 {
-    public partial class UnitOfWork : IUnitOfWork<ApplicationDbContext>
+    public partial class UnitOfWorkDbContext : IUnitOfWorkDbContext<ApplicationDbContext>
     {
         private readonly ApplicationDbContext _context;
         private IIngredienteRepository _ingredienteRepository;
@@ -15,16 +15,16 @@ namespace Agendabolo.Data
         private IReceitaRepository _receitaRepository;
         private IProdutoRepository _produtoRepository;
 
-        public UnitOfWork()
-            : this(UnitOfWork.GetConnectionString())
+        public UnitOfWorkDbContext()
+            : this(UnitOfWorkDbContext.GetConnectionString())
         { }
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWorkDbContext(string connectionString)
         {
             _context = new ApplicationDbContext(connectionString);
         }
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWorkDbContext(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -36,12 +36,12 @@ namespace Agendabolo.Data
             get => _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_context));
         }
 
-        public IFabricanteRepository FabricantesRepository
+        public IFabricanteRepository FabricanteRepository
         {
             get => _fabricanteRepository ?? (_fabricanteRepository = new FabricanteRepository(_context));
         }
 
-        public IReceitaRepository ReceitasRepository
+        public IReceitaRepository ReceitaRepository
         {
             get => _receitaRepository ?? (_receitaRepository = new ReceitaReposiory(_context));
         }
@@ -53,13 +53,13 @@ namespace Agendabolo.Data
 
 
 
-        public int Save()
+        public void Save()
         {
-            return _context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 
-    public partial class UnitOfWork : IDisposable
+    public partial class UnitOfWorkDbContext : IDisposable
     {
         private bool _disposed = false;
 

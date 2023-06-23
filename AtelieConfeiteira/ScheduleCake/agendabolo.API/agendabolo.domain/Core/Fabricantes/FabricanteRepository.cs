@@ -9,7 +9,7 @@ using Agendabolo.GenericRepository;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public class FabricanteRepository : GenericRepository.GenericRepository<FabricanteDTA, ulong>, IFabricanteRepository
+    public class FabricanteRepository : GenericRepository.GenericRepositoryDbContext<FabricanteDTA, ulong>, IFabricanteRepository
     {
         public FabricanteRepository(ApplicationDbContext context) : base(context)
         { }

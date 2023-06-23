@@ -1,28 +1,48 @@
 ﻿using Agendabolo.Data;
+using Agendabolo.GenericRepository;
+using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
-    public class ProdutoRepository : GenericRepository.GenericRepository<ProdutoDTA, ulong>, IProdutoRepository
+    public class ProdutoRepository : GenericRepositoryDbContext<ProdutoDTA, ulong>, IProdutoRepository
     {
+    
         public ProdutoRepository(ApplicationDbContext context)
-            : base(context)
+            : base (context)
         { }
 
-
-        public override ProdutoDTA GetByID(ulong id)
+        public void Delete(ulong id)
         {
-            IQueryable<ProdutoDTA> produtos = _dbset;
+            var prod = _context.Produtos.SingleOrDefault(i => i.Id == id);
+            if (prod != null)
+                _context.Remove(prod);
+        }
 
-            var prod = produtos
+        public void Delete(ProdutoDTA produto)
+        {
+            Delete(produto.Id);
+        }
+
+        public IEnumerable<ProdutoDTA> Get(Expression<Func<ProdutoDTA, bool>> filter = null)
+        {
+            return _context.Produtos;
+        }
+
+        public ProdutoDTA GetByID(ulong id)
+        {
+            var prod = _context.Produtos
                 .Where(i => i.Id == id)
                 .Include(i => i.Receitas.OrderBy(i => i.Ordem))
                 .ThenInclude(i => i.Receita)
@@ -35,87 +55,86 @@ namespace Agendabolo.Core.Produtos
 
         public ProdutoDTA GetByID_Min(ulong id)
         {
-            IQueryable<ProdutoDTA> produtos = _dbset;
-
-            var prod = produtos
-                .FirstOrDefault(i => i.Id == id);
-
-            return prod;
+            return GetByID(id);
         }
 
-        public override void Update(ProdutoDTA produto)
+        public void Insert(ProdutoDTA entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(ProdutoDTA produto)
         {
             if (produto == null)
                 throw new ArgumentNullException("Invalid entity");
 
-            //var existingProd = _context.Produtos
-            //    .Where(i => i.Id == produto.Id)
-            //    .Include(i => i.Receitas)
-            //    .SingleOrDefault();
-
-            ////_context.Entry(existingProd).CurrentValues.SetValues(produto);
-
-            //foreach(var existingRec in existingProd.Receitas.ToList())
-            //{
-            //    if (!produto.Receitas.Any(i => i.Id == existingRec.Id))
-            //        _context.ProdutosReceitas.Remove(existingRec);
-            //}
-
-            //foreach(var newRec in produto.Receitas)
-            //{
-            //    if (newRec.Id > 0)
-            //        _context.Entry(newRec).State = EntityState.Modified;
-            //    else
-            //        _context.ProdutosReceitas.Add(newRec);
-            //}
-
-
+            var receitasEditadas = produto.Receitas.Select(i => (ProdutoReceitaDTA)i).ToList();
 
             _context.Entry(produto).State = EntityState.Modified;
 
+            //Receitas incluídas 
+            foreach (var receitaAdded in receitasEditadas.Where(i => i.Id == 0))
+                _context.ProdutosReceitas.Add(receitaAdded);
 
-            UpdateReceitasProduto(produto.Id, produto.Receitas);
+
+            //Atualiza receitas editadas
+            foreach (var receitaUpdated in produto.Receitas.Intersect(receitasEditadas.Where(i => i.Id > 0)))
+                _context.Entry(receitaUpdated).State = EntityState.Modified;
+
+
+            var prod = _context.Produtos
+                .Where(i => i.Id == produto.Id)
+                .Include(i => i.Receitas)
+                .First();
+
+            //Remove receitas excluídas
+            foreach(var receitaDeleted in prod.Receitas.Except(receitasEditadas))
+            {
+                _context.ProdutosReceitas.Remove(receitaDeleted);
+            }
+                //_context.Entry(receitaDeleted).State = EntityState.Deleted;
         }
 
         private void UpdateReceitasProduto(ulong codigoProduto, IEnumerable<ProdutoReceitaDTA> receitasUpdate)
         {
-            var existingReceitas = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto).ToList();
 
-            foreach(var rec in existingReceitas)
-            {
-                if (!receitasUpdate.Any(i => i.Id == rec.Id))
-                    _context.Remove(rec);
-            }            
 
-            foreach(var rec in receitasUpdate)
-            {
-                if (rec.Id == 0)
-                    _context.Add(rec);
-                else
-                    _context.Update(rec);
-            }
+
+
+            //var existingReceitas = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto).ToList();
+
+            //foreach(var rec in existingReceitas)
+            //{
+            //    if (!receitasUpdate.Any(i => i.Id == rec.Id))
+            //        _context.Remove(rec);
+            //}            
+
+            //foreach(var rec in receitasUpdate)
+            //{
+            //    if (rec.Id == 0)
+            //        _context.Add(rec);
+            //    else
+            //        _context.Update(rec);
+            //}
         }
 
         private void UpdateReceitasProduto2(ulong codigoProduto, IEnumerable<ProdutoReceitaDTA> receitas)
         {
+            //var currentChilds = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto);
+            //if (currentChilds != null)
+            //{
+            //    foreach (var current in currentChilds)
+            //    {
+            //        var rec = receitas.Where(i => i.Id == current.Id).FirstOrDefault();
+            //        if (rec == null)
+            //            _context.Entry<ProdutoReceitaDTA>(current).State = EntityState.Deleted;
+            //        else
+            //            _context.Entry<ProdutoReceitaDTA>(rec).State = EntityState.Modified;
+            //    }
+            //}
 
-
-
-            var currentChilds = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto);
-            if (currentChilds != null)
-            {
-                foreach (var current in currentChilds)
-                {
-                    var rec = receitas.Where(i => i.Id == current.Id).FirstOrDefault();
-                    if (rec == null)
-                        _context.Entry<ProdutoReceitaDTA>(current).State = EntityState.Deleted;
-                    else
-                        _context.Entry<ProdutoReceitaDTA>(rec).State = EntityState.Modified;
-                }
-            }
-
-            foreach (var rec in receitas.Where(i => i.Id == 0))
-                _context.ProdutosReceitas.Add(rec);
+            //foreach (var rec in receitas.Where(i => i.Id == 0))
+            //    _context.ProdutosReceitas.Add(rec);
         }
     }
 }

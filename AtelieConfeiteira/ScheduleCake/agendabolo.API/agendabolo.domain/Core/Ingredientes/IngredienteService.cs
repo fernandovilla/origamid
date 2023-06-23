@@ -9,7 +9,7 @@ namespace Agendabolo.Core.Ingredientes
     {
         public int GetTotal()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWorkDbContext())
             {
                 return unit.IngredienteRepository.Count();
             }
@@ -17,7 +17,7 @@ namespace Agendabolo.Core.Ingredientes
 
         public IEnumerable<IngredienteDTA> Get()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWorkDbContext())
             {
                 return unit.IngredienteRepository.Get();
             }
@@ -27,7 +27,7 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
                     return unit.IngredienteRepository.GetByID(id);
                 }
@@ -44,7 +44,7 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
                     var repository = unit.IngredienteRepository;
 
@@ -70,7 +70,7 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.IngredienteRepository.Delete(id);
                     unit.Save();

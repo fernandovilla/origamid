@@ -34,6 +34,9 @@ namespace Agendabolo.Core.Receitas
 
         public static ReceitaRequest Parse(ReceitaDTA receita)
         {
+            if (receita == null)
+                return null;
+
             IEnumerable<ReceitaIngredienteRequest> getItens(IEnumerable<ReceitaIngredienteDTA> ingredientes)
             {
                 if (ingredientes != null && ingredientes.Any())

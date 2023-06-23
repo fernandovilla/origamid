@@ -1,15 +1,22 @@
-﻿using Agendabolo.Core.Ingredientes;
-using Agendabolo.Core.Fabricantes;
+﻿using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Ingredientes;
+using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Agendabolo.Data
 {
-    public interface IUnitOfWork<TDbContext> where TDbContext: Microsoft.EntityFrameworkCore.DbContext
+    public interface IUnitOfWork: IDisposable
     {
         IIngredienteRepository IngredienteRepository { get; }
-        IFabricanteRepository FabricantesRepository { get; }        
-        IReceitaRepository ReceitasRepository { get; }
+        IFabricanteRepository FabricanteRepository { get; }
+        IReceitaRepository ReceitaRepository { get; }
+        IProdutoRepository ProdutoRepository { get; }
 
-        int Save();
+        void Save();
     }
 }

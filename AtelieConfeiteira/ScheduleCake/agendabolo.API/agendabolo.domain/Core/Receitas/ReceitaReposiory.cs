@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaReposiory : GenericRepository.GenericRepository<ReceitaDTA, ulong>, IReceitaRepository
+    public class ReceitaReposiory : GenericRepository.GenericRepositoryDbContext<ReceitaDTA, ulong>, IReceitaRepository
     {
         public ReceitaReposiory(ApplicationDbContext context)
             : base(context)

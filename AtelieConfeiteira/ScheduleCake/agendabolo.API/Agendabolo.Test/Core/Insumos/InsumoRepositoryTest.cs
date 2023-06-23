@@ -20,7 +20,7 @@ namespace Agendabolo.Test.Core.Insumos
         [Fact]
         public void GetByID()
         {
-            using(var unit = new UnitOfWork(ctxFixture.Context))
+            using(var unit = new UnitOfWorkDbContext(ctxFixture.Context))
             {
                 var repository = unit.IngredienteRepository;
 
@@ -41,10 +41,10 @@ namespace Agendabolo.Test.Core.Insumos
             };
 
             int affected = 0;
-            using (var unit = new UnitOfWork(ctxFixture.Context))
+            using (var unit = new UnitOfWorkDbContext(ctxFixture.Context))
             {
                 unit.IngredienteRepository.Insert(insumo);
-                affected = unit.Save();
+                //affected = unit.Save();
             }
 
             Assert.Equal(1, affected);

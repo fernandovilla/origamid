@@ -60,7 +60,7 @@ namespace Agendabolo.Core.Produtos
         [Column("precovendaatacado")]
         public decimal PrecoVendaAtacado { get; set; }
 
-        public List<ProdutoReceitaDTA> Receitas { get; set; }
+        public IList<ProdutoReceitaDTA> Receitas { get; set; }
     }
     
     [DebuggerDisplay("{Id} | {Nome} | {Status}")]

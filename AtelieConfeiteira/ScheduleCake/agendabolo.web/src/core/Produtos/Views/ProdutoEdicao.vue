@@ -343,7 +343,18 @@ export default {
       if (this.produto.receitas === undefined)
         this.produto.receitas = [];
 
-      this.produto.receitas.push(arg);
+      //Converter Receita => ProdutoReceita
+      var prodRec = {
+        id: 0,
+        nome: arg.nome,
+        idProduto: this.produto.id,
+        idReceita: arg.id,
+        ingredientes: arg.ingredientes,
+        percentual: arg.percentual,
+        order: this.produto.length,
+      };
+
+      this.produto.receitas.push(prodRec);
     },
 
     async salvarProduto(){
@@ -382,8 +393,8 @@ export default {
         precoVendaAtacado: this.produto.precoVendaAtacado,
         receitas: this.produto.receitas.map((item, index) => ({
           id: item.id,
-          idProduto: this.id,
-          idReceita: item.id,
+          idProduto: this.idProduto,
+          idReceita: item.idReceita,
           percentual: item.percentual,
           ordem: index+1
         }))
