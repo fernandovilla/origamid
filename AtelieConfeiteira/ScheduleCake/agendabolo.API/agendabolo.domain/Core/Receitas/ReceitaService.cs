@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaService : IServiceBase<ReceitaDTA, ulong>
+    public class ReceitaService : IServiceBase<ReceitaDTA, int>
     {
-        public bool Delete(ulong id)
+        public bool Delete(int id)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Agendabolo.Core.Receitas
             }
         }
 
-        public ReceitaDTA GetByID(ulong id)
+        public ReceitaDTA GetByID(int id)
         {
             try
             {

@@ -13,7 +13,7 @@ namespace Agendabolo.Core.Fabricantes
     {
         [Key]
         [Column("id")]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
         [Column("nome")]
         public string Nome { get; set; }
         [Column("descricao")]

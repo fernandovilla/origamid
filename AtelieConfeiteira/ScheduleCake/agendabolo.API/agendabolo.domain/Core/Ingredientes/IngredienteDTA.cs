@@ -10,7 +10,7 @@ namespace Agendabolo.Core.Ingredientes
     {
         [Key]
         [Column("id")]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
 
         [Column("nome")]
         public string Nome { get; set; }

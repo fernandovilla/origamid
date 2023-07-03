@@ -14,13 +14,13 @@ namespace Agendabolo.Core.Receitas
     {                
         [Key]
         [Column("id")]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
 
         [Column("idreceita")]
-        public ulong IdReceita { get; set; }        
+        public int IdReceita { get; set; }        
 
         [Column("idingrediente")]
-        public ulong IdIngrediente { get; set; }        
+        public int IdIngrediente { get; set; }        
 
         [Column("percentual")]
         public double Percentual { get; set; } = 0f;

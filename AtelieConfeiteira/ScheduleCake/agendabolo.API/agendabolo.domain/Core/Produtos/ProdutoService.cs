@@ -11,9 +11,9 @@ using System.Transactions;
 
 namespace Agendabolo.Core.Produtos
 {
-    public class ProdutoService : IServiceBase<ProdutoDTA, ulong>
+    public class ProdutoService : IServiceBase<ProdutoDTA, int>
     {
-        public bool Delete(ulong id)
+        public bool Delete(int id)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Agendabolo.Core.Produtos
                 return unit.ProdutoRepository.Get().ToList();
         }
 
-        public ProdutoDTA GetByID(ulong id)
+        public ProdutoDTA GetByID(int id)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace Agendabolo.Core.Produtos
             return null;
         }
 
-        public ProdutoDTA GetByID_Min(ulong id)
+        public ProdutoDTA GetByID_Min(int id)
         {
             try
             {

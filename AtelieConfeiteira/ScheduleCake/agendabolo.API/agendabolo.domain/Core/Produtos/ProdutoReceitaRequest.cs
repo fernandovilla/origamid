@@ -13,8 +13,8 @@ namespace Agendabolo.Core.Produtos
         public Receitas.ReceitaRequest Receita { get; set; }
 
         public int Id { get; set; }
-        public ulong IdProduto { get; set; }
-        public ulong IdReceita { get; set; }
+        public int IdProduto { get; set; }
+        public int IdReceita { get; set; }
         public string Nome => this.Receita?.Nome;
         public IEnumerable<Receitas.ReceitaIngredienteRequest> Ingredientes => this.Receita?.Ingredientes;
         public double Percentual { get; set; }

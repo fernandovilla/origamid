@@ -5,7 +5,7 @@ using Agendabolo.GenericRepository;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public interface IFabricanteRepository: IGenericRepository<FabricanteDTA, ulong>
+    public interface IFabricanteRepository: IGenericRepository<FabricanteDTA, int>
     {
     }
 }

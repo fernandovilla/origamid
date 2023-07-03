@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
-    public interface IProdutoRepository : IGenericRepository<ProdutoDTA, ulong>
+    public interface IProdutoRepository : IGenericRepository<ProdutoDTA, int>
     {
-        ProdutoDTA GetByID_Min(ulong id);
+        ProdutoDTA GetByID_Min(int id);
 
     }
 }

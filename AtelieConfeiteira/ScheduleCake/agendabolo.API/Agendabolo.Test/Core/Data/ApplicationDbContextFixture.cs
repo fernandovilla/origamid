@@ -34,7 +34,7 @@ namespace Agendabolo.Test.Core.Data
 
         private void AddInsumos()
         {
-            for (ulong i = 1; i < 300; i++)
+            for (int i = 1; i < 300; i++)
             {
                 Context.Ingredientes.Add(new Agendabolo.Core.Ingredientes.IngredienteDTA
                 {

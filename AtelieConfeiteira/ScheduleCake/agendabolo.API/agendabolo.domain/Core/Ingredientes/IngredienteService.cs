@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class IngredienteService: IServiceBase<IngredienteDTA, ulong>
+    public class IngredienteService: IServiceBase<IngredienteDTA, int>
     {
         public int GetTotal()
         {
@@ -23,7 +23,7 @@ namespace Agendabolo.Core.Ingredientes
             }
         }
         
-        public IngredienteDTA GetByID(ulong id)
+        public IngredienteDTA GetByID(int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Agendabolo.Core.Ingredientes
             return (false, ingrediente);
         }
 
-        public bool Delete(ulong id)
+        public bool Delete(int id)
         {
             try
             {

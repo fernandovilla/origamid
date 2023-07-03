@@ -138,7 +138,7 @@ namespace Agendabolo.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult get(ulong id)
+        public IActionResult get(int id)
         {
             try
             {
@@ -216,7 +216,7 @@ namespace Agendabolo.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult delete(ulong id)
+        public IActionResult delete(int id)
         {
             try
             {

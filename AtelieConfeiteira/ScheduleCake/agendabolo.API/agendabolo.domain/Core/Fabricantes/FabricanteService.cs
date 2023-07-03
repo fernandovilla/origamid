@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Fabricantes
 {
-    public class FabricanteService: IServiceBase<FabricanteDTA, ulong>
+    public class FabricanteService: IServiceBase<FabricanteDTA, int>
     {
-        public bool Delete(ulong id)
+        public bool Delete(int id)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace Agendabolo.Core.Fabricantes
             }
         }
 
-        public FabricanteDTA GetByID(ulong id)
+        public FabricanteDTA GetByID(int id)
         {
             try
             {

@@ -77,7 +77,7 @@ namespace Agendabolo.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult SelectByrId(ulong id)
+        public IActionResult SelectByrId(int id)
         {
             try
             {

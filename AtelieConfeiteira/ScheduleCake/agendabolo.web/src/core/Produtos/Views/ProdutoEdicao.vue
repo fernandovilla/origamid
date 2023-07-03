@@ -393,7 +393,7 @@ export default {
         precoVendaAtacado: this.produto.precoVendaAtacado,
         receitas: this.produto.receitas.map((item, index) => ({
           id: item.id,
-          idProduto: this.idProduto,
+          idProduto: this.produto.id,
           idReceita: item.idReceita,
           percentual: item.percentual,
           ordem: index+1

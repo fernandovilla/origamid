@@ -14,7 +14,7 @@ namespace Agendabolo.Core.Receitas
     {
         [Key]
         [Column("id")]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
 
         [Column("nome")]
         public string Nome { get; set; }
@@ -55,9 +55,9 @@ namespace Agendabolo.Core.Receitas
                 {
                     yield return new ReceitaIngredienteDTA
                     {
-                        Id = (ulong)item.Id,
-                        IdIngrediente = (ulong)item.IdIngrediente,
-                        IdReceita = (ulong)idReceita,
+                        Id = item.Id,
+                        IdIngrediente = item.IdIngrediente,
+                        IdReceita = idReceita,
                         Percentual = item.Percentual,
                         Ordem = item.Ordem,
                         Status = (StatusCadastro)item.Status
@@ -66,7 +66,7 @@ namespace Agendabolo.Core.Receitas
             };
 
             var novaReceita = new ReceitaDTA();
-            novaReceita.Id = (ulong)receita.Id;
+            novaReceita.Id = receita.Id;
             novaReceita.Nome = receita.Nome;
             novaReceita.Descricao = receita.Descricao;
             novaReceita.Status = (StatusCadastro)receita.Status;

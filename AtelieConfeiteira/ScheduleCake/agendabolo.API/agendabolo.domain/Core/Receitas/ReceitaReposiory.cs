@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
-    public class ReceitaReposiory : GenericRepository.GenericRepositoryDbContext<ReceitaDTA, ulong>, IReceitaRepository
+    public class ReceitaReposiory : GenericRepository.GenericRepositoryDbContext<ReceitaDTA, int>, IReceitaRepository
     {
         public ReceitaReposiory(ApplicationDbContext context)
             : base(context)
@@ -25,7 +25,7 @@ namespace Agendabolo.Core.Receitas
             return query.AsEnumerable();
         }
 
-        public override ReceitaDTA GetByID(ulong id)
+        public override ReceitaDTA GetByID(int id)
         {
             IQueryable<ReceitaDTA> receitas = _dbset;
 

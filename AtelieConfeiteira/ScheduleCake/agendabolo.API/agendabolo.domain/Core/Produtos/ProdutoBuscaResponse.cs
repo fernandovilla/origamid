@@ -8,7 +8,7 @@ namespace Agendabolo.Core.Produtos
 {
     public class ProdutoBuscaResponse
     {
-        public ulong Id { get; set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public StatusCadastro Status { get; set; }
     }

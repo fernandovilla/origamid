@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
-    public class ProdutoRepository : GenericRepositoryDbContext<ProdutoDTA, ulong>, IProdutoRepository
+    public class ProdutoRepository : GenericRepositoryDbContext<ProdutoDTA, int>, IProdutoRepository
     {
     
         public ProdutoRepository(ApplicationDbContext context)
             : base (context)
         { }
 
-        public void Delete(ulong id)
+        public void Delete(int id)
         {
             var prod = _context.Produtos.SingleOrDefault(i => i.Id == id);
             if (prod != null)
@@ -40,7 +40,7 @@ namespace Agendabolo.Core.Produtos
             return _context.Produtos;
         }
 
-        public ProdutoDTA GetByID(ulong id)
+        public ProdutoDTA GetByID(int id)
         {
             var prod = _context.Produtos
                 .Where(i => i.Id == id)
@@ -53,7 +53,7 @@ namespace Agendabolo.Core.Produtos
             return prod;
         }
 
-        public ProdutoDTA GetByID_Min(ulong id)
+        public ProdutoDTA GetByID_Min(int id)
         {
             return GetByID(id);
         }
@@ -68,7 +68,14 @@ namespace Agendabolo.Core.Produtos
             if (produto == null)
                 throw new ArgumentNullException("Invalid entity");
 
-            var receitasEditadas = produto.Receitas.Select(i => (ProdutoReceitaDTA)i).ToList();
+            var receitasEditadas = produto.Receitas
+                .Select(i => (ProdutoReceitaDTA)i)
+                .ToList();
+
+            var receitasAtuais = _context.ProdutosReceitas
+                .Where(i => i.IdProduto == produto.Id)
+                .Select(i => (ProdutoReceitaDTA)i)
+                .ToList();
 
             _context.Entry(produto).State = EntityState.Modified;
 
@@ -76,26 +83,17 @@ namespace Agendabolo.Core.Produtos
             foreach (var receitaAdded in receitasEditadas.Where(i => i.Id == 0))
                 _context.ProdutosReceitas.Add(receitaAdded);
 
-
             //Atualiza receitas editadas
-            foreach (var receitaUpdated in produto.Receitas.Intersect(receitasEditadas.Where(i => i.Id > 0)))
+            foreach (var receitaUpdated in receitasAtuais.Intersect(receitasEditadas.Where(i => i.Id > 0)))
                 _context.Entry(receitaUpdated).State = EntityState.Modified;
 
-
-            var prod = _context.Produtos
-                .Where(i => i.Id == produto.Id)
-                .Include(i => i.Receitas)
-                .First();
-
             //Remove receitas excluídas
-            foreach(var receitaDeleted in prod.Receitas.Except(receitasEditadas))
-            {
+            var exceptReceitas = receitasAtuais.Except(receitasEditadas, new ProdutoReceitaDTA()).ToList();
+            foreach (var receitaDeleted in exceptReceitas)
                 _context.ProdutosReceitas.Remove(receitaDeleted);
-            }
-                //_context.Entry(receitaDeleted).State = EntityState.Deleted;
         }
 
-        private void UpdateReceitasProduto(ulong codigoProduto, IEnumerable<ProdutoReceitaDTA> receitasUpdate)
+        private void UpdateReceitasProduto(int codigoProduto, IEnumerable<ProdutoReceitaDTA> receitasUpdate)
         {
 
 
@@ -118,7 +116,7 @@ namespace Agendabolo.Core.Produtos
             //}
         }
 
-        private void UpdateReceitasProduto2(ulong codigoProduto, IEnumerable<ProdutoReceitaDTA> receitas)
+        private void UpdateReceitasProduto2(int codigoProduto, IEnumerable<ProdutoReceitaDTA> receitas)
         {
             //var currentChilds = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto);
             //if (currentChilds != null)

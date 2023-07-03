@@ -66,7 +66,7 @@ namespace Agendabolo.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult SelectById(ulong id)
+        public IActionResult SelectById(int id)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace Agendabolo.Controllers
 
 
         [HttpGet("Min/{id}")]
-        public IActionResult SelectById_Minino(ulong id)
+        public IActionResult SelectById_Minino(int id)
         {
             try
             {

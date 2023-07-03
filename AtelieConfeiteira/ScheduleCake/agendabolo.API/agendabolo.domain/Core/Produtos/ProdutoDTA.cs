@@ -16,7 +16,7 @@ namespace Agendabolo.Core.Produtos
 
         [Key]
         [Column("id")]
-        public ulong Id { get; set; }
+        public int Id { get; set; }
 
         [Column("nome")]
         public string Nome { get; set; }
@@ -71,12 +71,12 @@ namespace Agendabolo.Core.Produtos
             if (produtoRequest == null)
                 throw new ArgumentNullException("Argument 'produtoRequest' is invalid");
 
-            IEnumerable<ProdutoReceitaDTA> getReceitas(ulong idProduto, IEnumerable<ProdutoReceitaRequest> receitas)
+            IEnumerable<ProdutoReceitaDTA> getReceitas(int idProduto, IEnumerable<ProdutoReceitaRequest> receitas)
             {
                 foreach (var receita in receitas) {
                     yield return new ProdutoReceitaDTA
                     {
-                        Id = (ulong)receita.Id,                        
+                        Id = receita.Id,                        
                         IdProduto = receita.IdProduto,
                         IdReceita = receita.IdReceita,
                         Ordem = receita.Ordem,
