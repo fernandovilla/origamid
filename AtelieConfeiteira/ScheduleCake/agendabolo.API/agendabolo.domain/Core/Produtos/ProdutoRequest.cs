@@ -17,6 +17,15 @@ namespace Agendabolo.Core.Produtos
         public int TempoPreparo { get; set; }
         public string Finalizacao { get; set; }
 
+        public double MargemPreparo { get; set; }
+        public decimal CustoMaoDeObra { get; set; }
+        public decimal CustoEmbalagem { get; set; }
+        public double MargemVendaVarejo { get; set; }        
+        public decimal PrecoVendaVarejo { get; set; }
+        public double MargemVendaAtacado { get; set; }
+        public decimal PrecoVendaAtacado { get; set; }
+        public decimal MinimoAtacado { get; set; }
+
         public IEnumerable<ProdutoReceitaRequest> Receitas { get; set; }
     }  
 
@@ -33,6 +42,13 @@ namespace Agendabolo.Core.Produtos
                 PesoReferencia = produto.PesoReferencia,
                 TempoPreparo = produto.TempoPreparo,
                 Finalizacao = produto.Finalizacao,
+                MargemPreparo = produto.MargemPreparo,
+                CustoEmbalagem  = produto.CustoEmbalagem,
+                CustoMaoDeObra = produto.CustoMaoDeObra,
+                MargemVendaVarejo = produto.MargemVendaVarejo,
+                PrecoVendaVarejo = produto.PrecoVendaVarejo,
+                MargemVendaAtacado = produto.MargemVendaAtacado,
+                PrecoVendaAtacado = produto.PrecoVendaAtacado,
                 Status = (int)produto.Status
             };
 

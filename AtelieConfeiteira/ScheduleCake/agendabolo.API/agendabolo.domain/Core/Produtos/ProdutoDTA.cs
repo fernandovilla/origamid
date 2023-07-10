@@ -96,13 +96,13 @@ namespace Agendabolo.Core.Produtos
             novoProduto.TempoPreparo = produtoRequest.TempoPreparo;
             novoProduto.Finalizacao = produtoRequest.Finalizacao;
 
-            novoProduto.MargemPreparo = 0;
-            novoProduto.CustoMaoDeObra = 0;
-            novoProduto.CustoEmbalagem = 0;
-            novoProduto.MargemVendaVarejo = 0;
-            novoProduto.PrecoVendaVarejo = 0;
-            novoProduto.MargemVendaAtacado = 0;
-            novoProduto.PrecoVendaAtacado = 0;            
+            novoProduto.MargemPreparo = produtoRequest.MargemPreparo;
+            novoProduto.CustoMaoDeObra = produtoRequest.CustoMaoDeObra;
+            novoProduto.CustoEmbalagem = produtoRequest.CustoEmbalagem;
+            novoProduto.MargemVendaVarejo = produtoRequest.MargemVendaVarejo;
+            novoProduto.PrecoVendaVarejo = produtoRequest.PrecoVendaVarejo;
+            novoProduto.MargemVendaAtacado = produtoRequest.MargemVendaAtacado;
+            novoProduto.PrecoVendaAtacado = produtoRequest.PrecoVendaAtacado;
 
             novoProduto.Receitas = getReceitas(produtoRequest.Id, produtoRequest.Receitas).ToList();
 

@@ -123,49 +123,49 @@
               <div class="row">
                 <div class="input-group col-6">
                   <label for="custoReceitas">Custo Materia Prima (Receitas)</label>
-                  <input-number id="custoReceitas" :decimal-cases=2 />
+                  <input-number id="custoReceitas" :decimal-cases=2 v-model="totalCustoReceitasText" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="margemPreparo">Margem Preparo %</label>
-                  <input-number id="margemPreparo" :decimal-cases=2 />
+                  <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="custoMaoDeObra">Custo Mão de Obra (tempo preparo)</label>
-                  <input-number id="custoMaoDeObra" :decimal-cases=2 />
+                  <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="custoEmbalagem">Custo Embalagem</label>
-                  <input-number id="custoEmbalagem" :decimal-cases=2 />
+                  <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="custoTotal">Custo Total</label>
-                  <input-number id="custoTotal" :decimal-cases=2 disabled />
+                  <input-number id="custoTotal" :decimal-cases=2 disabled v-model="custoTotalProdutoText" />
                 </div>
               </div>
 
               <div class="row">
                 <div class="input-group col-6">
                   <label for="margemVendaVarejo">Margem Varejo %</label>
-                  <input-number id="margemVendaVarejo" :decimal-cases=2 />
+                  <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="precoVendaVarejo">Preço Venda Varejo</label>
-                  <input-number id="precoVendaVarejo" :decimal-cases=2 />
+                  <input-number id="precoVendaVarejo" :decimal-cases=2 disabled v-model="precoVendaVarejoText" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="margemVendaAtacado">Margem Atacado %</label>
-                  <input-number id="margemVendaAtacado" :decimal-cases=2 />
+                  <input-number id="margemVendaAtacado" :decimal-cases=2 v-model="produto.margemVendaAtacado" />
                 </div>
 
                 <div class="input-group col-6">
                   <label for="precoVendaAtacado">Preço Venda Atacado</label>
-                  <input-number id="precoVendaAtacado" :decimal-cases=2 />
+                  <input-number id="precoVendaAtacado" :decimal-cases=2 disabled v-model="precoVendaAtacadoText" />
                 </div>
               </div>
             </div>
@@ -236,6 +236,7 @@ export default {
     ActionDownButton,
     SelecionaReceitaProduto
   },
+
   computed: {
     pageTitle(){
         if (this.id === 0 || this.id === undefined)
@@ -255,42 +256,62 @@ export default {
     },
 
     totalPesoReceitasText(){
-      if (this.produto.receitas === undefined)
-        return "0"
-
       var total = this.produto.receitas.reduce((acumulado, receita) => {
-        return acumulado + this.calcularPesoReferenciaReceita(receita);
+        return acumulado + Produto.CalcularPesoProporcionalReceita(receita, this.produto.pesoReferencia);
       },0);
-      return NumberToText(total.toFixed(0));
+
+      return NumberToText(total);
     },
 
     totalCustoReceitasText(){
-      if (this.produto.receitas === undefined)
-        return "0,00"
+      return NumberToText(Produto.PrecoCustoReceitas(this.produto).toFixed(2));
+    },        
 
-      var total = this.produto.receitas.reduce((acumulado, receita) => {        
-        return acumulado + this.calcularCustoReceita(receita);
-      }, 0);
-      return NumberToText(total.toFixed(2));
-    },    
+    precoVendaVarejoText(){      
+      return NumberToText(this.precoVendaVarejo());
+    },
+
+    precoVendaAtacadoText(){
+      return NumberToText(this.precoVendaAtacado());
+    },
+
+    custoTotalProdutoText(){
+      return NumberToText(this.custoTotalProduto().toFixed(2));
+    }
   },
+
   methods: {
     custoReceitaText(receita){
-      return NumberToText(this.calcularCustoReceita(receita).toFixed(2));
+       return NumberToText(this.calcularCustoReceita(receita).toFixed(2));
+    },
+
+    custoTotalProduto(){
+      var totalReceitas = Produto.PrecoCustoReceitas(this.produto);
+      var valorMargemPreparo = totalReceitas * (TextToNumber(this.produto.margemPreparo) / 100);
+
+      return totalReceitas + valorMargemPreparo + TextToNumber(this.produto.custoMaoDeObra) + TextToNumber(this.produto.custoEmbalagem);
+    },
+
+    precoVendaVarejo(){
+      var totalProdutos = this.custoTotalProduto();
+      var valorMargem = totalProdutos  * TextToNumber(this.produto.margemVendaVarejo) / 100;
+
+      this.produto.precoVendaVarejo = (totalProdutos + valorMargem).toFixed(2);
+
+      return this.produto.precoVendaVarejo;
+    },
+
+    precoVendaAtacado(){
+      var totalProdutos = this.custoTotalProduto();
+      var valorMargem = totalProdutos  * TextToNumber(this.produto.margemVendaAtacado) / 100;
+
+      this.produto.precoVendaAtacado = (totalProdutos + valorMargem).toFixed(2);
+
+      return this.produto.precoVendaAtacado;
     },
 
     calcularCustoReceita(receita){
-      if (receita === undefined || receita === null)
-        return 0;
-
-      var custoIngredientesQuilo = receita.ingredientes.reduce((acumulado, item) => {
-          return TextToNumber(item.precoCustoQuilo) + acumulado;
-      }, 0);
-
-      var pesoReceitaNoProduto = this.calcularPesoReferenciaReceita(receita);
-      var custoReceita = (custoIngredientesQuilo / 1000) * pesoReceitaNoProduto;
-
-      return custoReceita;
+      return Produto.CalcularCustoReceita(receita, this.produto.pesoReferencia);
     },
 
     calcularPesoReferenciaReceita(receita){
@@ -304,8 +325,11 @@ export default {
       this.produto = null;
       var response = await produtosAPIService.obterProduto(this.id);
 
-      if (response !== undefined){
+      if (response !== undefined){        
         this.produto = response.data;
+
+        console.log("Custo Receitas Produto:", 0);
+        
       } else {
         this.$router.push('/produtos');
       }
@@ -361,7 +385,7 @@ export default {
       var inclusao = (this.produto.id == 0);
 
       const payload = this.obterProdutoRequest();
-      console.log(payload);
+      //console.log(payload);
 
       const response = await produtosAPIService.atualizarProduto(payload);
       
@@ -384,13 +408,13 @@ export default {
         pesoReferencia: this.produto.pesoReferencia,
         tempoPreparo: this.produto.tempoPreparo,
         finalizacao: this.produto.finalizacao,
-        margemPreparo: this.produto.margemPreparo,
-        custoMaoDeObra: this.produto.custoMaoDeObra,
-        custoEmbalagem: this.produto.custoEmbalagem,
-        margemVendaVarejo: this.produto.margemVendaVarejo,
-        precoVendaVarejo: this.produto.precoVendaVarejo,
-        margemVendaAtacado: this.produto.MargemVendaAtacado,
-        precoVendaAtacado: this.produto.precoVendaAtacado,
+        margemPreparo: TextToNumber(this.produto.margemPreparo),
+        custoMaoDeObra: TextToNumber(this.produto.custoMaoDeObra),
+        custoEmbalagem: TextToNumber(this.produto.custoEmbalagem),
+        margemVendaVarejo: TextToNumber(this.produto.margemVendaVarejo),
+        precoVendaVarejo: TextToNumber(this.produto.precoVendaVarejo),
+        margemVendaAtacado: TextToNumber(this.produto.margemVendaAtacado),
+        precoVendaAtacado: TextToNumber(this.produto.precoVendaAtacado),
         receitas: this.produto.receitas.map((item, index) => ({
           id: item.id,
           idProduto: this.produto.id,
