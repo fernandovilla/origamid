@@ -84,7 +84,7 @@ namespace Agendabolo.Data
             {
                 if (disposing)
                 {
-                    //_context.Dispose();
+                    _context.Dispose();
                 }
             }
 

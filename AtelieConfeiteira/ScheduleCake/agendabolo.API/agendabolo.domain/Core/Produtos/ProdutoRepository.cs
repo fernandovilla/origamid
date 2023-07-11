@@ -58,15 +58,10 @@ namespace Agendabolo.Core.Produtos
             return GetByID(id);
         }
 
-        public void Insert(ProdutoDTA entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(ProdutoDTA produto)
         {
             if (produto == null)
-                throw new ArgumentNullException("Invalid entity");
+                throw new ArgumentNullException("Produto inválido");
 
             var receitasEditadas = produto.Receitas
                 .Select(i => (ProdutoReceitaDTA)i)

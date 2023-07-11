@@ -33,7 +33,7 @@ namespace Agendabolo.Core.Receitas
         {
             using (var unit = new UnitOfWorkDbContext())
             {
-                return unit.ReceitaRepository.Get();                
+                return unit.ReceitaRepository.Get().ToList();
             }
         }
 

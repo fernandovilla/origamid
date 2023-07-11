@@ -110,4 +110,18 @@ export default {
     margin-left: 0px;
   }
 
+
+  .table-data .head-nome {
+    text-align: left;
+    padding-left: 10px;    
+  }
+  .table-data .body-nome {
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  .table-data .body-nome a:hover {
+    font-weight: bold;
+  }
+
 </style>

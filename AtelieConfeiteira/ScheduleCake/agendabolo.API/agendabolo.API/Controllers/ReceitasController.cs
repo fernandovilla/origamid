@@ -54,7 +54,6 @@ namespace Agendabolo.Controllers
 
                 var receitas = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .ToList()
                     .Skip(skip)
                     .Take(take)
                     .Select(i => ReceitaRequest.Parse(i));

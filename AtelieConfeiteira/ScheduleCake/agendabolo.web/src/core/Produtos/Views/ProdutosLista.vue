@@ -184,6 +184,10 @@ export default {
     font-weight: normal;
   }
 
+  .table-data .body-nome a:hover {
+    font-weight: bold;
+  }
+
   .pagination {
     margin: 10px auto;
   }

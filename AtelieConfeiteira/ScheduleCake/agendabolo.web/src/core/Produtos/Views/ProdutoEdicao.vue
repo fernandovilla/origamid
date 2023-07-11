@@ -256,6 +256,10 @@ export default {
     },
 
     totalPesoReceitasText(){
+
+      if (this.produto.receitas == null)
+        return "0,00";
+
       var total = this.produto.receitas.reduce((acumulado, receita) => {
         return acumulado + Produto.CalcularPesoProporcionalReceita(receita, this.produto.pesoReferencia);
       },0);
@@ -318,7 +322,7 @@ export default {
       return this.produto.pesoReferencia * (receita.percentual / 100);
     },
 
-    async obterProdutoEdicao(){
+    async selecionarProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
 
@@ -327,9 +331,6 @@ export default {
 
       if (response !== undefined){        
         this.produto = response.data;
-
-        console.log("Custo Receitas Produto:", 0);
-        
       } else {
         this.$router.push('/produtos');
       }
@@ -385,15 +386,21 @@ export default {
       var inclusao = (this.produto.id == 0);
 
       const payload = this.obterProdutoRequest();
-      //console.log(payload);
-
-      const response = await produtosAPIService.atualizarProduto(payload);
+      
+      var response = null;
+      if (inclusao)
+        response = await produtosAPIService.incluirProduto(payload);
+      else
+        response = await produtosAPIService.atualizarProduto(payload);
       
       if (response !== null){
-        if (inclusao)
+        if (inclusao) {
+          this.produto.id = response.id;
           this.mostrarMensagemSucesso("Produto cadastrado com sucesso")
-        else
+        }
+        else{
           this.mostrarMensagemSucesso("Produto atualizado com sucesso")
+        }
       } else {
         //erro na alteração da receita...
       }
@@ -403,6 +410,7 @@ export default {
       var produtoRequest = {
         id: this.produto.id,
         nome: this.produto.nome,
+        descricao: this.produto.descricao,
         observacoes: this.produto.observacoes,
         status: this.produto.status,
         pesoReferencia: this.produto.pesoReferencia,
@@ -441,7 +449,7 @@ export default {
 
   },
   created(){
-    this.obterProdutoEdicao();
+    this.selecionarProdutoEdicao();
   }
 }
 </script>
@@ -479,6 +487,14 @@ export default {
       display: flex;
       margin-top: 20px;
     }
+
+  .incluido {
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: tomato;
+    margin-left: 50px;      
+  }
 
   @media screen and (max-width: 960px) {
     table.receitas tbody {

@@ -15,6 +15,8 @@ export default class Produto {
   static PrecoCustoReceitas(produto) {
     if (produto === null || produto === undefined) return 0;
 
+    if (produto.receitas == null || produto.receitas === undefined) return 0;
+
     var total = produto.receitas.reduce((acumulado, receita) => {
       return (
         acumulado + this.CalcularCustoReceita(receita, produto.pesoReferencia)
