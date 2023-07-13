@@ -2,6 +2,7 @@
 using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Agendabolo.Core.Ingredientes
 {
@@ -19,7 +20,7 @@ namespace Agendabolo.Core.Ingredientes
         {
             using (var unit = new UnitOfWorkDbContext())
             {
-                return unit.IngredienteRepository.Get();
+                return unit.IngredienteRepository.Get().ToList();
             }
         }
         

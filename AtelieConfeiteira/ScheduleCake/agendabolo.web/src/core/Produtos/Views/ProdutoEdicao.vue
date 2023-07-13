@@ -325,8 +325,7 @@ export default {
     async selecionarProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
-
-      this.produto = null;
+      
       var response = await produtosAPIService.obterProduto(this.id);
 
       if (response !== undefined){        
@@ -437,14 +436,14 @@ export default {
 
 
     mostrarMensagemSucesso(text){
-        this.mensagem = text;
-        this.menssagemSucesso = true;
+      this.mensagem = text;
+      this.menssagemSucesso = true;
 
-        setTimeout(() => {
-          this.menssagemSucesso = false;
-          this.mensagem = '';
-        }, 3000);
-      },
+      setTimeout(() => {
+        this.menssagemSucesso = false;
+        this.mensagem = '';
+      }, 3000);
+    },
 
 
   },
