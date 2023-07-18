@@ -15,6 +15,9 @@ namespace Agendabolo.Data
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
         public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
         public DbSet<Core.Produtos.ProdutoReceitaDTA> ProdutosReceitas { get; set; }
+        public DbSet<Core.Clientes.ClienteDTA> Clientes { get; set; }
+
+
 
         public ApplicationDbContext(string connectionString)
         {
@@ -40,22 +43,25 @@ namespace Agendabolo.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            //https://www.entityframeworktutorial.net/efcore/configure-many-to-many-relationship-in-ef-core.aspx
 
+            #region [Receitas]
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasKey(i => new { i.IdReceita, i.IdIngrediente });
 
-            //https://www.entityframeworktutorial.net/efcore/configure-many-to-many-relationship-in-ef-core.aspx
+            
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasOne<Core.Receitas.ReceitaDTA>(r => r.Receita)
                 .WithMany(i => i.Ingredientes)
                 .HasForeignKey(i => i.IdReceita);
 
-
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasOne<Core.Ingredientes.IngredienteDTA>(i => i.Ingrediente)
                 .WithMany(i => i.Receitas)
                 .HasForeignKey(i => i.IdIngrediente);
+            #endregion
 
+            #region [Produtos]
             modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
                 .HasKey(i => new { i.IdProduto, i.IdReceita });
 
@@ -74,41 +80,11 @@ namespace Agendabolo.Data
                 .WithOne(i => i.Produto)
                 .HasForeignKey(i => i.IdProduto)
                 .IsRequired();
+            #endregion
 
-            
+            #region [Clientes]
 
-            
-                
-                
-
-
-
-            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
-            //    .HasOne(i => i.Produto)
-            //    .WithMany(i => i.Receitas)
-            //    .HasForeignKey(i => i.IdProduto)
-            //    .IsRequired();
-
-            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
-            //    .HasOne(i => i.Receita)
-
-
-
-            //modelBuilder.Entity<Core.Produtos.ProdutoReceitaDTA>()
-            //    .HasOne<Core.Produtos.ProdutoDTA>(r => r.Produto)
-            //    .WithMany(i => i.Receitas)
-            //    .HasForeignKey(i => i.IdReceita);
-
-
-            //modelBuilder.Entity<Core.Receitas.IngredienteReceita>()
-            //    .HasOne(i => i.Receita)
-            //    .WithMany(i => i.Ingredientes)
-            //    .HasForeignKey(f => f.IdReceita);
-
-            //modelBuilder.Entity<Core.Receitas.IngredienteReceita>()
-            //    .HasOne(i => i.Ingrediente)
-            //    .WithMany(i => i.Receitas)
-            //    .HasForeignKey(f => f.IdIngrediente);    
+            #endregion
         }
     }
 }

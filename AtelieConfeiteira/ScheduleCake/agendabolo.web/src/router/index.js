@@ -96,6 +96,20 @@ const produtosRoutes = [
   },
 ];
 
+const clientesRoutes = [
+  {
+    path: '/clientes',
+    name: 'clientes',
+    component: () => import('@/core/Clientes/Views/ListaClientes.vue'),
+  },
+  {
+    path: '/cliente/:id',
+    name: 'edicao-cliente',
+    component: () => import('@/core/Clientes/Views/EdicaoCliente.vue'),
+    props: true,
+  },
+];
+
 const helloWorld = [
   {
     path: '/helloworld',
@@ -110,6 +124,7 @@ const routes = [
   ...ingredientesRoutes,
   ...receitasRoutes,
   ...produtosRoutes,
+  ...clientesRoutes,
   ...helloWorld,
 ];
 

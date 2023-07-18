@@ -19,8 +19,8 @@ Alterações no cadastro de Receitas:
     > Avaliação do produto;
 
 Cadastro de Receitas:
-  ☐ @high Desenvolver impressão de receita;
-  ☐ @high Desenvolver impressão de ingredientes;
+  ✔ Desenvolver impressão de receita; @done(23-07-18 08:29)
+  ✔ Desenvolver impressão de ingredientes; @done(23-07-18 08:29)
   
 Cadastro de Produtos:  
   ✔ API - Desenvolver tabelas do cadastro de produtos; @done(23-05-29 16:12)
@@ -43,13 +43,21 @@ Cadastro de Produtos:
       > Margem Venda: $
       > Preço Venda: $ calculado
     > Imagens:
+  ☐ Web - Desenvolver Cadastro de Clientes
+      > Nome, contato, endereço
+  ☐ API - Desenvolver Controller Clientes
+  ☐ Web - Desenvolver Cadastro de Pedidos
+      > Cliente
+      > Produtos
+      > Entrega
+      > Meio pagamento
+  ☐ API - Desenvolver Controller Pedidos
   ☐ Web - Desenvolver página de configuração geral;
       > Precificação
         > Custo Mãe de Obra/Hora
         > Margem Preparo
         > Margem Venda Varejo
-        > Margem Venda Atacado
-        
+        > Margem Venda Atacado        
   ☐ API - Desenvolver métodos para salvar as configurações gerais;
   ☐ Web - Menu Lateral - Apresentar toggle quando mobile;
   ☐ Web - Menu Lateral:

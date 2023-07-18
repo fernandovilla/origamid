@@ -1,4 +1,5 @@
-﻿using Agendabolo.Core.Fabricantes;
+﻿using Agendabolo.Core.Clientes;
+using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
@@ -14,6 +15,7 @@ namespace Agendabolo.Data
         private IFabricanteRepository _fabricanteRepository;
         private IReceitaRepository _receitaRepository;
         private IProdutoRepository _produtoRepository;
+        private IClienteRepository _clienteRepository;
 
         public UnitOfWorkDbContext()
             : this(UnitOfWorkDbContext.GetConnectionString())
@@ -50,8 +52,10 @@ namespace Agendabolo.Data
         {
             get => _produtoRepository ?? (_produtoRepository = new ProdutoRepository(_context));
         }
-
-
+        public IClienteRepository ClienteRepository
+        {
+            get => _clienteRepository ?? new ClienteRepository(_context);
+        }
 
         public void Save()
         {
