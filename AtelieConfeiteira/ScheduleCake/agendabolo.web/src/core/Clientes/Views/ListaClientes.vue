@@ -25,7 +25,7 @@
                 <router-link :to="{name: 'edicao-cliente', params: {id: cliente.id}}" >{{nomeLongo(cliente.nome)}}</router-link>                
               </td>
               <td class="body-status">
-                {{this.descricaoStatus(cliente.status)}}
+                {{status_text(cliente.status)}}
               </td>
               <td class="body-actions">
                 <action-edit-button @click="editarCliente(cliente)" />
@@ -48,6 +48,7 @@
 
 <script>
 import { clientesAPIService }  from '@/core/Clientes/Services/ClienteAPIService.js';
+import { status_cadastro_description, texto_contracao } from '@/helpers/TextHelpers.js';
 import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
@@ -67,7 +68,7 @@ export default {
   components: {
     PaginationBar, ActionEditButton, ActionDeleteButton, AddButton, InputSearch
   },
-
+  
   methods: {
     async obterListaClientesInicial(){
       this.currentPage = 1;
@@ -97,22 +98,11 @@ export default {
           alert("cliente excluído");
       }
     },
-    descricaoStatus(status) {
-        if (status === 0)
-          return "Ativo";        
-        else if (status === 1)
-            return "Bloqueado";
-        else if (status === 3)
-            return "Excluído";
-        else
-            return "Indefido";
+    status_text(value){
+      return status_cadastro_description(value);
     },
-    
     nomeLongo(nome) {
-        if (nome.length >= 50)
-            return nome.substring(0, 47) + "...";
-        else
-            return nome;
+      return texto_contracao(nome, 50);
     },
   },
   created() {

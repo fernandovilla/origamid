@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace Agendabolo.Core.Produtos
 {
     [Table("produtos")]
-    public partial class ProdutoDTA
+    [DebuggerDisplay("{Id} | {Nome} | {Status}")]
+    public class ProdutoDTA
     {
 
         [Key]
@@ -61,53 +62,5 @@ namespace Agendabolo.Core.Produtos
         public decimal PrecoVendaAtacado { get; set; }
 
         public IList<ProdutoReceitaDTA> Receitas { get; set; }
-    }
-    
-    [DebuggerDisplay("{Id} | {Nome} | {Status}")]
-    partial class ProdutoDTA
-    {
-        public static ProdutoDTA Parse(ProdutoRequest produtoRequest)
-        {
-            if (produtoRequest == null)
-                throw new ArgumentNullException("Argument 'produtoRequest' is invalid");
-
-            IEnumerable<ProdutoReceitaDTA> getReceitas(int idProduto, IEnumerable<ProdutoReceitaRequest> receitas)
-            {
-                foreach (var receita in receitas) {
-                    yield return new ProdutoReceitaDTA
-                    {
-                        Id = receita.Id,                        
-                        IdProduto = receita.IdProduto,
-                        IdReceita = receita.IdReceita,
-                        Ordem = receita.Ordem,
-                        Percentual = receita.Percentual
-                    };
-                }
-            }
-
-            var novoProduto = new ProdutoDTA();
-            novoProduto.Id = produtoRequest.Id;
-            novoProduto.Nome = produtoRequest.Nome;
-            novoProduto.Descricao = produtoRequest.Descricao;   
-            novoProduto.Observacoes = produtoRequest.Observacoes;            
-            novoProduto.Status = (StatusCadastro)produtoRequest.Status;
-
-            novoProduto.PesoReferencia = produtoRequest.PesoReferencia;
-            novoProduto.TempoPreparo = produtoRequest.TempoPreparo;
-            novoProduto.Finalizacao = produtoRequest.Finalizacao;
-
-            novoProduto.MargemPreparo = produtoRequest.MargemPreparo;
-            novoProduto.CustoMaoDeObra = produtoRequest.CustoMaoDeObra;
-            novoProduto.CustoEmbalagem = produtoRequest.CustoEmbalagem;
-            novoProduto.MargemVendaVarejo = produtoRequest.MargemVendaVarejo;
-            novoProduto.PrecoVendaVarejo = produtoRequest.PrecoVendaVarejo;
-            novoProduto.MargemVendaAtacado = produtoRequest.MargemVendaAtacado;
-            novoProduto.PrecoVendaAtacado = produtoRequest.PrecoVendaAtacado;
-
-            novoProduto.Receitas = getReceitas(produtoRequest.Id, produtoRequest.Receitas).ToList();
-
-            return novoProduto;
-        }
-        
     }
 }

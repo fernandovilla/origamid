@@ -76,7 +76,7 @@ namespace Agendabolo.Controllers
                     return Ok(new
                     {
                         total = 1,
-                        data = ProdutoRequest.Parse(produto)
+                        data = ProdutoRequest.ParseFromDTA(produto)
                     }); ;
 
                 return NoContent();
@@ -100,7 +100,7 @@ namespace Agendabolo.Controllers
                     return Ok(new
                     {
                         total = 1,
-                        data = ProdutoRequest.Parse(produto)
+                        data = ProdutoRequest.ParseFromDTA(produto)
                     }); ;
 
                 return NoContent();
@@ -121,12 +121,12 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var produtoDTA = ProdutoDTA.Parse(produto);
+                    var produtoDTA = ProdutoRequest.ParseToDTA(produto);
 
                     (bool ok, ProdutoDTA result) = _service.Save(produtoDTA);
 
                     if (ok)
-                        return Ok(ProdutoRequest.Parse(_service.GetByID(result.Id)));
+                        return Ok(ProdutoRequest.ParseFromDTA(_service.GetByID(result.Id)));
                     else
                         return BadRequest();
                 }

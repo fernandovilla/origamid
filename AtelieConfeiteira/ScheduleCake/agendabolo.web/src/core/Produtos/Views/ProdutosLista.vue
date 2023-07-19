@@ -49,6 +49,7 @@
 
 <script>
 import { produtosAPIService } from '@/core/Produtos/Services/ProdutoAPIService.js';
+import { status_cadastro_description, texto_contracao } from '@/helpers/TextHelpers.js';
 import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
@@ -108,21 +109,10 @@ export default {
       }
     },
     descricaoStatus(status) {
-        if (status === 1)
-            return "Ativo";
-        else if (status === 2)
-            return "Bloqueado";
-        else if (status === 3)
-            return "Excluído";
-        else
-            return "Indefido";
-    },
-    
-    nomeLongo(nome) {
-        if (nome.length >= 50)
-            return nome.substring(0, 47) + "...";
-        else
-            return nome;
+        return status_cadastro_description(status);
+    },    
+    nomeLongo(nome) { 
+      return texto_contracao(nome);
     },
   },
   created() {

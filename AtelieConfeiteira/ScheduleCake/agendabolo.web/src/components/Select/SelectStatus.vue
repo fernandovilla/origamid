@@ -1,16 +1,16 @@
 <template>
   <span >   
     <select name="status" v-model="selectedValue">
-      <option value="0" disabled>Selecione</option>
+      <option disabled>Selecione</option>
+      <option value="0">{{getStatusDescription(0)}}</option>
       <option value="1">{{getStatusDescription(1)}}</option>
       <option value="2">{{getStatusDescription(2)}}</option>
-      <option value="3">{{getStatusDescription(3)}}</option>
     </select>
   </span>
 </template>
 
 <script>
-import { status_cadastro } from '@/helpers/StatusCadastro.js';
+import { status_cadastro_description } from '@/helpers/TextHelpers.js';
 
 export default {
   name:'select-status',
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     getStatusDescription(value) {
-      return status_cadastro(value);
+      return status_cadastro_description(value);
     }
   },
   watch: {

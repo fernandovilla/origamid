@@ -103,6 +103,11 @@ const clientesRoutes = [
     component: () => import('@/core/Clientes/Views/ListaClientes.vue'),
   },
   {
+    path: '/cliente',
+    name: 'cliente',
+    component: () => import('@/core/Clientes/Views/EdicaoCliente.vue'),
+  },
+  {
     path: '/cliente/:id',
     name: 'edicao-cliente',
     component: () => import('@/core/Clientes/Views/EdicaoCliente.vue'),

@@ -5,9 +5,9 @@ export const status_cadastro_description = (value) => {
     case 1:
       return 'Bloqueado';
     case 2:
-      return 'Oculto';
-    case 3:
       return 'Excluído';
+    case 3:
+      return 'Oculto';
     default:
       return 'Indefinido';
   }

@@ -39,5 +39,58 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpGet("{id}")]
+        public IActionResult SelectById(int id)
+        {
+            try
+            {
+                var cliente = _service.GetByID(id);
+
+                if (cliente != null)
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = ClienteRequest.ParseFromDTA(cliente)
+                    }); ; ; ;
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPut]
+        [HttpPost]
+        public IActionResult Salvar(ClienteRequest cliente)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var clienteDTA = ClienteRequest.ParseToDTA(cliente);
+
+                    (bool ok, ClienteDTA result) = _service.Save(clienteDTA);
+
+                    if (ok)
+                        return Ok(ClienteRequest.ParseFromDTA(_service.GetByID(result.Id)));
+                    else
+                        return BadRequest();
+                }
+                else
+                {
+                    return BadRequest(ModelState);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
     }
 }
