@@ -95,7 +95,6 @@ export default {
       if (result) {
           const i = this.clientes.indexOf(cliente);
           this.clientes.splice(i, 1);
-          alert("cliente excluído");
       }
     },
     status_text(value){

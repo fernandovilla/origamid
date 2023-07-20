@@ -14,7 +14,13 @@ namespace Agendabolo.Core.Clientes
     {
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            using (var unit = new UnitOfWorkDbContext())
+            {
+                unit.ClienteRepository.Delete(id);
+                unit.Save();
+
+                return true;
+            }
         }
 
         public IEnumerable<ClienteDTA> Get()

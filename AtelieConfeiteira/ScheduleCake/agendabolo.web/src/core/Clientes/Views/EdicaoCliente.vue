@@ -2,7 +2,7 @@
     <div class="container-fluid">    
     <span class="header-page">
       <h1>{{pageTitle}}</h1>    
-      <span v-if="id > 0" class="header-page-id">ID: {{id}}</span>  
+      <span v-if="this.cliente.id > 0" class="header-page-id">ID: {{this.cliente.id}}</span>  
     </span>   
 
     <form class="container-fluid">
@@ -86,12 +86,14 @@ export default {
   name: 'edicao-cliente',
 
   data() { return {
-    cliente: {},
+    cliente: { id: 0, nome: '' },
     menssagemSucesso: '',
     mensagem: ''
   }},
 
-  props: ['id'],
+  props: {
+    id: { type: Number, defalt: 0 }
+  },
 
   components: {
     InputBase, 
@@ -99,9 +101,18 @@ export default {
     InputArea
   },
 
-  methods: {
-    async obterClienteEdicao(id){
+  computed: {
+    pageTitle(){
+      if (this.cliente.id === 0 || this.cliente.id === undefined)
+          return 'Novo Cliente';
+        else
+          return 'Edição Cliente';
+    }
+  },
 
+  methods: {
+    async obterClienteEdicao(id)
+    {
       if (id === 0 || id === undefined)
         return;
 
@@ -127,10 +138,12 @@ export default {
       };
     },
 
-    async salvarCliente(){
+    async salvarCliente() {
 
-      var inclusao = (this.cliente.id == 0);
+      var inclusao = (this.cliente.id === 0 || this.cliente.id === undefined);
       var payload = this.obterClienteRequest();
+
+      console.log("Id:", this.cliente.id);
 
       var response = null;
       if (inclusao)
@@ -149,6 +162,16 @@ export default {
       } else {
         //erro na alteração da receita...
       }
+    },
+
+    mostrarMensagemSucesso(text){
+      this.mensagem = text;
+      this.menssagemSucesso = true;
+
+      setTimeout(() => {
+        this.menssagemSucesso = false;
+        this.mensagem = '';
+      }, 3000);
     },
   },
 

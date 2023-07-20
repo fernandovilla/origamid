@@ -4,7 +4,7 @@ import LogErro from '../../../helpers/LogErro.js';
 export const clientesAPIService = {
   async selecionarBusca() {
     try {
-      const response = await api.get(`/clientes/ListaBusca`);
+      const response = await api.get(`/clientes`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -18,7 +18,7 @@ export const clientesAPIService = {
 
   async selecionarPorNome(nome) {
     try {
-      const response = await api.get(`/clientes/buscapornome/${nome}`);
+      const response = await api.get(`/clientes/${nome}`);
 
       if (response.statusText === 'OK') {
         return response.data;

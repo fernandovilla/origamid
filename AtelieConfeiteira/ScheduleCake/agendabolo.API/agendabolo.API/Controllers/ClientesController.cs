@@ -7,15 +7,34 @@ using System;
 using System.Linq;
 
 namespace Agendabolo.Controllers
-{
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class ClientesController : ControllerBase
+{    
+    public class ClientesController : BaseController<ClienteRequest, int>
     {
         private readonly ClienteService _service = new ClienteService();
 
-        [HttpGet("ListaBusca")]
-        public IActionResult ListarClientesBusca()
+
+        public override IActionResult Delete(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Invalid id");
+
+                var ok = _service.Delete(id);
+
+                if (ok)
+                    return Ok();
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult ListarBusca()
         {
             try
             {
@@ -40,8 +59,7 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public IActionResult SelectById(int id)
+        public override IActionResult SelecionarPorId(int id)
         {
             try
             {
@@ -63,9 +81,7 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpPut]
-        [HttpPost]
-        public IActionResult Salvar(ClienteRequest cliente)
+        public override IActionResult Salvar(ClienteRequest cliente)
         {
             try
             {
@@ -91,6 +107,5 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
-
     }
 }
