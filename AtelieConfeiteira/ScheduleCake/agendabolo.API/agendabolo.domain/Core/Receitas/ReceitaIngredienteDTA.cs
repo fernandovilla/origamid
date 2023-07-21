@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Text;
-using System.Text.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Agendabolo.Core.Receitas
-{    
+{
     [Table("receitasingredientes")]
     public partial class ReceitaIngredienteDTA
     {                
@@ -49,5 +48,21 @@ namespace Agendabolo.Core.Receitas
         public ReceitaDTA Receita { get; set; }
         public IngredienteDTA Ingrediente { get; set; }
         public string Nome => Ingrediente?.Nome;
+    }
+
+    public class ReceitaIngredienteComparer : IEqualityComparer<ReceitaIngredienteDTA>
+    {
+        public bool Equals(ReceitaIngredienteDTA x, ReceitaIngredienteDTA y)
+        {
+            return x.Id == y.Id;
+        }
+
+        public int GetHashCode([DisallowNull] ReceitaIngredienteDTA obj)
+        {
+            if (Object.ReferenceEquals(obj, null)) 
+                return 0;
+            
+            return obj.Id == 0 ? 0 : obj.Id.GetHashCode();            
+        }
     }
 }

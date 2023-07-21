@@ -1,4 +1,5 @@
-﻿using Agendabolo.Data;
+﻿using Agendabolo.Core.Produtos;
+using Agendabolo.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -41,9 +42,68 @@ namespace Agendabolo.Core.Receitas
             if (receita == null)
                 throw new ArgumentNullException("Invalid entity");
 
+            //_context.Entry(receita).State = EntityState.Modified;
+
+            //this.UpdateIngredientes(receita.Ingredientes);            
+
+
+            this.UpdateIngredientes2(receita);
+        }
+
+        private void UpdateIngredientes2(ReceitaDTA receita)
+        {
+            if (receita == null)
+                throw new ArgumentNullException("Receita inválida");
+
+            var ingredientesEditados = receita.Ingredientes
+                .Select(i => (ReceitaIngredienteDTA)i)
+                .OrderBy(i => i.Id)
+                .ToList();
+
+            var ingredientesAtuais = _context.IngredientesReceitas
+                .Where(i => i.IdReceita == receita.Id)
+                .ToList();
+
+            if (ingredientesAtuais != null)
+                ingredientesAtuais.ForEach(i => _context.Entry(i).State = EntityState.Detached);
+
+
             _context.Entry(receita).State = EntityState.Modified;
 
-            this.UpdateIngredientes(receita.Ingredientes);            
+            //Receitas incluídas 
+            var ingredientesAdded = ingredientesEditados.Where(i => i.Id == 0);
+            if (ingredientesAdded != null)
+                ingredientesAdded.ToList().ForEach(i => _context.Entry(i).State = EntityState.Added);
+
+
+            //Remove receitas excluídas
+            var ingredientesRemoves = ingredientesAtuais.Except(ingredientesEditados, new ReceitaIngredienteComparer());
+            foreach (var ingredienteDeleted in ingredientesRemoves)
+                _context.IngredientesReceitas.Remove(ingredienteDeleted);
+
+
+            //Atualiza receitas editadas
+            var ingredientesUpdated = ingredientesEditados.Where(i => i.Id > 0).Intersect(ingredientesAtuais, new ReceitaIngredienteComparer());
+            if (ingredientesUpdated != null)
+                ingredientesUpdated.ToList().ForEach(i => _context.Entry(i).State = EntityState.Modified);
+
+
+            
+
+
+
+            ////Receitas incluídas 
+            //foreach (var receitaAdded in receitasEditadas.Where(i => i.Id == 0))
+            //    _context.ProdutosReceitas.Add(receitaAdded);
+
+            ////Atualiza receitas editadas
+            //foreach (var receitaUpdated in receitasAtuais.Intersect(receitasEditadas.Where(i => i.Id > 0)))
+            //    _context.Entry(receitaUpdated).State = EntityState.Modified;
+
+            ////Remove receitas excluídas
+            //var exceptReceitas = receitasAtuais.Except(receitasEditadas, new ProdutoReceitaDTA()).ToList();
+            //foreach (var receitaDeleted in exceptReceitas)
+            //    _context.ProdutosReceitas.Remove(receitaDeleted);
         }
 
         private void UpdateIngredientes(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)

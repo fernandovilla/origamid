@@ -36,7 +36,7 @@ namespace Agendabolo.Data
             if (!optionsBuilder.IsConfigured)
                 optionsBuilder.UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString));
 
-            
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

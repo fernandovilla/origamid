@@ -342,6 +342,7 @@ export default {
     onIngredienteConfirmado(arg){
       arg.idReceita = this.receita.id;
       arg.ordem = this.ingredientes.length + 1;
+      arg.status = 0;
       this.ingredientes.push(arg);
     },
 
@@ -439,24 +440,29 @@ export default {
         preparo: this.receita.preparo,
         tempopreparo: this.receita.tempopreparo,
         observacao: this.receita.observacao,
-        ingredientes: this.ingredientes.map((item, index) => ({
-          id: item.id,
-          idIngrediente: item.idIngrediente,
-          percentual: TextToNumber(item.percentual),
-          ordem: index+1
-        }))
+        ingredientes: this.ingredientes.map((item, index) => {
+          if (item.status === 0){
+            return {
+              id: item.id,
+              idIngrediente: item.idIngrediente,
+              percentual: TextToNumber(item.percentual),
+              status: 0,
+              ordem: index+1
+            }
+          }
+        })
       }
 
-      if (this.ingredientesExcluidos.length > 0) {
-        this.ingredientesExcluidos.map(item => receitaRequest.ingredientes.push({
-          id: item.id,
-          idIngrediente: item.idIngrediente,
-          percentual: 0,
-          ordem: 0,
-          status: 3
-        }));
-        //receitaRequest.ingredientes.push(this.ingredientesExcluidos.map());
-      }
+      // if (this.ingredientesExcluidos.length > 0) {
+      //   this.ingredientesExcluidos.map(item => receitaRequest.ingredientes.push({
+      //     id: item.id,
+      //     idIngrediente: item.idIngrediente,
+      //     percentual: 0,
+      //     ordem: 0,
+      //     status: 3
+      //   }));
+      //   //receitaRequest.ingredientes.push(this.ingredientesExcluidos.map());
+      // }
       
       return receitaRequest;
     },

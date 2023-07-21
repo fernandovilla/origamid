@@ -29,23 +29,9 @@ Cadastro de Produtos:
   ✔ Web - Incluir opção `Produtos` no menu lateral do site; @done(23-05-29 16:12)
   ✔ Web - Desenvolver página para listagem de produtos, tela prinpal chamada pelo menu lateral @done(23-05-29 16:12)
   ✔ API - Desenvolver API.Salvar para incluir e alterar produtos; @done(23-07-11 13:25)
-  ✔ Web - Edição do Produto: @done(23-07-11 13:25)
-    > Nome, Status, Observações, Tempo médio preparo, finalização;
-    > Receitas: Receita | Quantidade (g) | Custo R$
-      > Add | Remove | Up | Down
-    > Preço Custo:
-      > Custo receitas $ calculado
-      > Margem adicional preparo: %
-      > Custo mãe de obra: $
-      > Custo Embalagem: $
-      > Preço Custo Total: $ calculado
-    > Preço Venda:
-      > Margem Venda: $
-      > Preço Venda: $ calculado
-    > Imagens:
-  ☐ Web - Desenvolver Cadastro de Clientes
-      > Nome, contato, endereço
-  ☐ API - Desenvolver Controller Clientes
+  ✔ Web - Edição do Produto: @done(23-07-11 13:25)    
+  ✔ Web - Desenvolver Cadastro de Clientes @done(23-07-20 14:06)
+  ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)
   ☐ Web - Desenvolver Cadastro de Pedidos
       > Cliente
       > Produtos

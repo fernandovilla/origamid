@@ -44,7 +44,7 @@ import PaginacaoItems from '@/components/Pagination/PaginacaoItems.vue'
 import ActionEditButton from '@/components/Button/ActionEditButton.vue'
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue'
 import AddButton from '@/components/Button/AddButton.vue'
-import { status_cadastro } from '@/helpers/StatusCadastro.js'
+import { status_cadastro_description, texto_contracao } from '@/helpers/TextHelpers.js'
 
 
 export default {
@@ -81,10 +81,10 @@ export default {
       console.log("Delete", id);
     },
     statusCadastro(value){
-      return status_cadastro(value);
+      return status_cadastro_description(value);
     },
     nomeLongo(text){
-      return text;
+      return texto_contracao(text, 50);
     }
   },
   async mounted(){
