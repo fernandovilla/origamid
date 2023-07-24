@@ -246,29 +246,15 @@ export default {
     },
 
     totalPercentualReceitasText(){
-      if (this.produto.receitas === undefined)
-        return "0,00"
-
-      var total = this.produto.receitas.reduce((acumulado, receita) => {        
-        return acumulado + receita.percentual;
-      }, 0)
-      return NumberToText(total.toFixed(2));
+      return NumberToText(Produto.CalcularPercentualTotalReceitas(this.produto).toFixed(2));
     },
 
     totalPesoReceitasText(){
-
-      if (this.produto.receitas == null)
-        return "0,00";
-
-      var total = this.produto.receitas.reduce((acumulado, receita) => {
-        return acumulado + Produto.CalcularPesoProporcionalReceita(receita, this.produto.pesoReferencia);
-      },0);
-
-      return NumberToText(total);
+      return NumberToText(Produto.CalcularPesoTotalReceitas(this.produto).toFixed(2));
     },
 
     totalCustoReceitasText(){
-      return NumberToText(Produto.PrecoCustoReceitas(this.produto).toFixed(2));
+      return NumberToText(Produto.CalcularPrecoCustoReceitas(this.produto).toFixed(2));
     },        
 
     precoVendaVarejoText(){      
@@ -290,49 +276,25 @@ export default {
     },
 
     custoTotalProduto(){
-      var totalReceitas = Produto.PrecoCustoReceitas(this.produto);
-      var valorMargemPreparo = totalReceitas * (TextToNumber(this.produto.margemPreparo) / 100);
-
-      return totalReceitas + valorMargemPreparo + TextToNumber(this.produto.custoMaoDeObra) + TextToNumber(this.produto.custoEmbalagem);
+      return Produto.CalcularPrecoCustoTotalProduto(this.produto);
     },
 
     precoVendaVarejo(){
-      var totalProdutos = this.custoTotalProduto();
-      var valorMargem = totalProdutos  * TextToNumber(this.produto.margemVendaVarejo) / 100;
-
-      this.produto.precoVendaVarejo = (totalProdutos + valorMargem).toFixed(2);
-
+      this.produto.precoVendaVarejo = Produto.CalcularPrecoVendaVarejo(this.produto);
       return this.produto.precoVendaVarejo;
     },
 
     precoVendaAtacado(){
-      var totalProdutos = this.custoTotalProduto();
-      var valorMargem = totalProdutos  * TextToNumber(this.produto.margemVendaAtacado) / 100;
-
-      this.produto.precoVendaAtacado = (totalProdutos + valorMargem).toFixed(2);
-
+      this.produto.precoVendaAtacado = Produto.CalcularPrecoVendaAtacado(this.produto);
       return this.produto.precoVendaAtacado;
     },
 
     calcularCustoReceita(receita){
-      return Produto.CalcularCustoReceita(receita, this.produto.pesoReferencia);
+      return Produto.CalcularPrecoCustoReceita(receita, this.produto.pesoReferencia);
     },
 
     calcularPesoReferenciaReceita(receita){
       return this.produto.pesoReferencia * (receita.percentual / 100);
-    },
-
-    async selecionarProdutoEdicao(){
-      if (this.id === undefined || this.id === 0) 
-        return;
-      
-      var response = await produtosAPIService.obterProduto(this.id);
-
-      if (response !== undefined){        
-        this.produto = response.data;
-      } else {
-        this.$router.push('/produtos');
-      }
     },
 
     pesoCalculado(percentual){
@@ -379,6 +341,20 @@ export default {
       };
 
       this.produto.receitas.push(prodRec);
+    },
+
+
+    async selecionarProdutoEdicao(){
+      if (this.id === undefined || this.id === 0) 
+        return;
+      
+      var response = await produtosAPIService.obterProduto(this.id);
+
+      if (response !== undefined){        
+        this.produto = response.data;
+      } else {
+        this.$router.push('/produtos');
+      }
     },
 
     async salvarProduto(){
