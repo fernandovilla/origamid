@@ -16,6 +16,8 @@ namespace Agendabolo.Data
         IFabricanteRepository FabricanteRepository { get; }
         IReceitaRepository ReceitaRepository { get; }
         IProdutoRepository ProdutoRepository { get; }
+        IUnidadeMedidaRepository UnidadeMedidaRepository { get; }
+        IEstoqueRepository EstoqueRepository { get; }
 
         void Save();
     }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System;
 using System.Linq;
+using Agendabolo.Core;
 
 namespace Agendabolo.Controllers
 {    
@@ -40,7 +41,7 @@ namespace Agendabolo.Controllers
             {
                 var clientes = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .Select(i => new ClienteBuscaResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
+                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
                     .ToList();
 
                 if (clientes != null && clientes.Any())

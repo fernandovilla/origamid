@@ -2,6 +2,20 @@ import { api } from '../../../services/serviceAPI.js';
 import LogErro from '../../../helpers/LogErro.js';
 
 export const ingredientesAPIService = {
+  async selecionarBusca() {
+    try {
+      const response = await api.get(`/ingredientes`);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+
   async obterIngredientes(skip, take) {
     try {
       const response = await api.get(`/ingredientes?skip=${skip}&take=${take}`);
@@ -46,7 +60,7 @@ export const ingredientesAPIService = {
     }
   },
 
-  async obterIngrediente(id) {
+  async selecionarPorId(id) {
     try {
       const response = await api.get(`/ingredientes/${id}`);
 
@@ -60,7 +74,7 @@ export const ingredientesAPIService = {
     }
   },
 
-  async incluirIngrediente(ingrediente) {
+  async incluir(ingrediente) {
     try {
       const response = await api.post('/ingredientes', ingrediente);
 
@@ -74,7 +88,7 @@ export const ingredientesAPIService = {
     }
   },
 
-  async atualizarIngrediente(insumo) {
+  async atualizar(insumo) {
     try {
       const response = await api.put('/ingredientes', insumo);
 
@@ -88,7 +102,7 @@ export const ingredientesAPIService = {
     }
   },
 
-  async deletarIngrediente(id) {
+  async deletar(id) {
     try {
       const response = await api.delete(`/ingredientes/${id}`);
 
@@ -101,4 +115,6 @@ export const ingredientesAPIService = {
       LogErro(error, 'Ocorreu erro deletando ingrediente');
     }
   },
+
+  async listarUnidadeMedida() {},
 };

@@ -10,13 +10,15 @@ namespace Agendabolo.Data
 
         //Classe de configuração
         public DbSet<Core.Fabricantes.FabricanteDTA> Fabricantes { get; set; }
-        public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }        
+        public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }
+        public DbSet<Core.Ingredientes.UnidadeMedidaDTA> UnidadesMedidas { get; set; }
+        public DbSet<Core.Ingredientes.EstoqueDTA> Estoque { get; set; }
         public DbSet<Core.Receitas.ReceitaDTA> Receitas { get; set; }
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
         public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
         public DbSet<Core.Produtos.ProdutoReceitaDTA> ProdutosReceitas { get; set; }
         public DbSet<Core.Clientes.ClienteDTA> Clientes { get; set; }
-
+        
 
 
         public ApplicationDbContext(string connectionString)
@@ -44,6 +46,17 @@ namespace Agendabolo.Data
             base.OnModelCreating(modelBuilder);
 
             //https://www.entityframeworktutorial.net/efcore/configure-many-to-many-relationship-in-ef-core.aspx
+
+            #region Ingredientes 
+            modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
+                .HasKey(i => new { i.Id });
+
+            modelBuilder.Entity<Core.Ingredientes.UnidadeMedidaDTA>()
+                .HasMany(i => i.Ingredientes)
+                .WithOne(i => i.UnidadeMedida)
+                .HasForeignKey(i => i.IdUnidadeMedida);
+                
+            #endregion
 
             #region [Receitas]
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()

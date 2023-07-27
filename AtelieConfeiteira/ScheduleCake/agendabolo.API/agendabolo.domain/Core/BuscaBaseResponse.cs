@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Agendabolo.Core.Clientes
+namespace Agendabolo.Core
 {
-    public class ClienteBuscaResponse
+    public class BuscaBaseResponse
     {
         public int Id { get; set; }
         public string Nome { get; set; }

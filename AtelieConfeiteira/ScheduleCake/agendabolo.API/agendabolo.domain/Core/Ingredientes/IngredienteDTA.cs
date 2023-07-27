@@ -11,6 +11,8 @@ namespace Agendabolo.Core.Ingredientes
         [Key]
         [Column("id")]
         public int Id { get; set; }
+        [Column("idunidademedida")]
+        public int? IdUnidadeMedida { get; set; }
 
         [Column("nome")]
         public string Nome { get; set; }
@@ -27,8 +29,13 @@ namespace Agendabolo.Core.Ingredientes
         [Column("status")]
         public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
 
+
+        [JsonIgnore]
+        public UnidadeMedidaDTA UnidadeMedida { get; set; }
+
         [JsonIgnore]
         public ICollection<Receitas.ReceitaIngredienteDTA> Receitas { get; set; }
+
 
         public decimal PrecoCustoQuilo => QuantidadeEmbalagem > 0 ? (PrecoCusto / QuantidadeEmbalagem) * 1000 : 0;
 

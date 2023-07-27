@@ -16,6 +16,8 @@ namespace Agendabolo.Data
         private IReceitaRepository _receitaRepository;
         private IProdutoRepository _produtoRepository;
         private IClienteRepository _clienteRepository;
+        private IUnidadeMedidaRepository _unidadeMedidaRepositorys;
+        private IEstoqueRepository _estoqueRepository;
 
         public UnitOfWorkDbContext()
             : this(UnitOfWorkDbContext.GetConnectionString())
@@ -52,14 +54,49 @@ namespace Agendabolo.Data
         {
             get => _produtoRepository ?? (_produtoRepository = new ProdutoRepository(_context));
         }
+        
         public IClienteRepository ClienteRepository
         {
             get => _clienteRepository ?? new ClienteRepository(_context);
         }
 
+        public IUnidadeMedidaRepository UnidadeMedidaRepository
+        {
+            get => _unidadeMedidaRepositorys ?? new UnidadeMedidaRepository(_context);
+        }
+
+        public IEstoqueRepository EstoqueRepository
+        {
+            get => _estoqueRepository   ?? new EstoqueRepository(_context);
+        }
+
+
+
+        IIngredienteRepository IUnitOfWork.IngredienteRepository => throw new NotImplementedException();
+
+        IFabricanteRepository IUnitOfWork.FabricanteRepository => throw new NotImplementedException();
+
+        IReceitaRepository IUnitOfWork.ReceitaRepository => throw new NotImplementedException();
+
+        IProdutoRepository IUnitOfWork.ProdutoRepository => throw new NotImplementedException();
+
+        IUnidadeMedidaRepository IUnitOfWork.UnidadeMedidaRepository => throw new NotImplementedException();
+
+        IEstoqueRepository IUnitOfWork.EstoqueRepository => throw new NotImplementedException();
+
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        void IDisposable.Dispose()
+        {
+            this.Dispose();
+        }
+
+        void IUnitOfWork.Save()
+        {
+            throw new NotImplementedException();
         }
     }
 

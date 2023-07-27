@@ -5,19 +5,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Agendabolo.Core.Ingredientes;
 
 namespace Agendabolo.Core.Clientes
 {
-    public partial class ClienteRequest
+    public partial class ClienteRequest : ClienteDTA, IValidatableObject
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Celular { get; set; }
-        public string Telefone { get; set; }
-        public string Instagram { get; set; }
-        public string Facebook { get; set; }
-        public string Observacoes { get; set; }
-        public int Status { get; set; }
+        public new int Status { get; set; }
     }
 
     partial class ClienteRequest
@@ -52,6 +46,14 @@ namespace Agendabolo.Core.Clientes
             };
         }
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var results = new List<ValidationResult>();
 
+            if (string.IsNullOrEmpty(this.Nome))
+                results.Add(new ValidationResult("Invalid name", new string[] { nameof(ClienteDTA.Nome) }));
+
+            return results;
+        }
     }
 }

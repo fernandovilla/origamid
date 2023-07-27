@@ -22,10 +22,15 @@
                 </div>
 
                 <div class="input-group col-6 col-sm-12">
+                  <label for="unidadeMedida">Unid. Medida</label>
+                  <select-status id="unidadeMedida" v-model="ingrediente.status" :selected="ingrediente.status" required />      
+                </div>
+
+                <div class="input-group col-6 col-sm-12">
                   <label for="quantidadeEmbalagem">Qtd. Embalagem (gramas)</label>
                   <input-number id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantidadeEmbalagem" :decimalCases=0 />
                 </div>
-                
+
                 <div class="input-group col-6 col-sm-12">
                   <label for="custoQuilo">Preço Custo Quilo</label>
                   <input-base id="custoAquilo" v-model="custoQuiloCalculado" disabled />
@@ -190,7 +195,7 @@ export default {
           status: this.ingrediente.status          
         }
 
-        const response = await ingredientesAPIService.incluirIngrediente(ingredienteRequest);
+        const response = await ingredientesAPIService.incluir(ingredienteRequest);
        
         if (response !== null){
           this.ingrediente = response;
@@ -210,7 +215,7 @@ export default {
           status: this.ingrediente.status
         };
 
-        const response = await ingredientesAPIService.atualizarIngrediente(ingredienteRequest);
+        const response = await ingredientesAPIService.atualizar(ingredienteRequest);
 
         if (response !== null){      
           this.mostrarMensagemSucesso("Ingrediente atualizado com sucesso")
@@ -225,7 +230,7 @@ export default {
 
         this.ingrediente = { id: idIngrediente };
 
-        const response = await ingredientesAPIService.obterIngrediente(idIngrediente);
+        const response = await ingredientesAPIService.selecionarPorId(idIngrediente);
 
         if (response !== undefined){
           this.ingrediente = response.data;

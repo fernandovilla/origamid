@@ -31,13 +31,19 @@ Cadastro de Produtos:
   ✔ API - Desenvolver API.Salvar para incluir e alterar produtos; @done(23-07-11 13:25)
   ✔ Web - Edição do Produto: @done(23-07-11 13:25)    
   ✔ Web - Desenvolver Cadastro de Clientes @done(23-07-20 14:06)
-  ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)
+  ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)  
+  ☐ Web - Corrigir Listagem de Ingredientes
+    > Paginação e busca
+  ☐ API - Inclusão de "UnidadeMedida" em Ingredientes
+  ☐ Web - Inclusão de "UnidadeMedida" em Ingredientes
+  ☐ API - Entrada de Ingredientes
+    > Database, Controller, Entidades, Repository  
+  ☐ Web - Entrada de Ingredientes
+    > Page: Fornecedor, Dados da Compra, Ingredientes 
   ☐ Web - Desenvolver Cadastro de Pedidos
-      > Cliente
-      > Produtos
-      > Entrega
-      > Meio pagamento
-  ☐ API - Desenvolver Controller Pedidos
+      > Cliente, Produtos, Dados Entrega, Meio pagamento
+  ☐ API - Pedidos
+    > Database, controller, entidades, repository
   ☐ Web - Desenvolver página de configuração geral;
       > Precificação
         > Custo Mãe de Obra/Hora
@@ -60,8 +66,6 @@ Cadastro de Produtos:
       
 Cadastro de Ingredientes:
   ☐ Incluir campo: Minimo em Estoque;
-
-
 Cadastro de Clientes:
 Cadastro de Pedidos:
 Estoque - Entrada:

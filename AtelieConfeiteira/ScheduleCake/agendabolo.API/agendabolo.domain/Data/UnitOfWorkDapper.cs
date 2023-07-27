@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Data
 {
+    [Obsolete]
     public partial class UnitOfWorkDapper : IUnitOfWork
     {
         private IProdutoRepository _produtoRepository;
@@ -25,7 +26,9 @@ namespace Agendabolo.Data
             get => null;
         }
 
-        
+        public IUnidadeMedidaRepository UnidadeMedidaRepository => throw new NotImplementedException();
+
+        public IEstoqueRepository EstoqueRepository => throw new NotImplementedException();
     }
 
     partial class UnitOfWorkDapper

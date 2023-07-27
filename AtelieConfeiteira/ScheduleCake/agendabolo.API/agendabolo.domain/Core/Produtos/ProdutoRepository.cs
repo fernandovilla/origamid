@@ -87,47 +87,5 @@ namespace Agendabolo.Core.Produtos
             foreach (var receitaDeleted in exceptReceitas)
                 _context.ProdutosReceitas.Remove(receitaDeleted);
         }
-
-        private void UpdateReceitasProduto(int codigoProduto, IEnumerable<ProdutoReceitaDTA> receitasUpdate)
-        {
-
-
-
-
-            //var existingReceitas = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto).ToList();
-
-            //foreach(var rec in existingReceitas)
-            //{
-            //    if (!receitasUpdate.Any(i => i.Id == rec.Id))
-            //        _context.Remove(rec);
-            //}            
-
-            //foreach(var rec in receitasUpdate)
-            //{
-            //    if (rec.Id == 0)
-            //        _context.Add(rec);
-            //    else
-            //        _context.Update(rec);
-            //}
-        }
-
-        private void UpdateReceitasProduto2(int codigoProduto, IEnumerable<ProdutoReceitaDTA> receitas)
-        {
-            //var currentChilds = _context.ProdutosReceitas.Where(i => i.IdProduto == codigoProduto);
-            //if (currentChilds != null)
-            //{
-            //    foreach (var current in currentChilds)
-            //    {
-            //        var rec = receitas.Where(i => i.Id == current.Id).FirstOrDefault();
-            //        if (rec == null)
-            //            _context.Entry<ProdutoReceitaDTA>(current).State = EntityState.Deleted;
-            //        else
-            //            _context.Entry<ProdutoReceitaDTA>(rec).State = EntityState.Modified;
-            //    }
-            //}
-
-            //foreach (var rec in receitas.Where(i => i.Id == 0))
-            //    _context.ProdutosReceitas.Add(rec);
-        }
     }
 }
