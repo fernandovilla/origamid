@@ -29,13 +29,6 @@
               {{this.descricaoStatus(ingrediente.status)}}
             </td>
             <td class="body-actions">
-              <!-- <button class="btn-action editar" @click="editarIngredientes(ingrediente)">
-                <img src="@/assets/edit-white.svg" alt="editar">
-              </button>
-              <button class="btn-action delete" @click="deletarIngredientes(ingrediente)">
-                <img src="@/assets/delete-white.svg" alt="deletar">
-              </button> -->
-
               <action-edit-button @click="editarIngrediente(ingrediente)" />
               <action-delete-button @click="deletarIngrediente(ingrediente)" />
             </td>          
@@ -56,6 +49,7 @@
 
 <script>
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+import { status_cadastro_description } from '@/helpers/TextHelpers.js';
 import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
@@ -66,13 +60,18 @@ export default {
   name: 'ingredientes-lista',
   data() {
     return {
+      ingredientesSource: null,
+      ingredientesSearching: null,
       ingredientes: null,      
+      totalRegistrosSource: 0,
       totalRegistros: 0,
       itemsByPage: 15,
       currentPage: 1,
-      textSearching: ''
+      textSearching: '',
+      buscando: false,
     };
   },
+
   components: {
     PaginationBar,
     AddButton,
@@ -80,50 +79,61 @@ export default {
     ActionDeleteButton,
     InputSearch
   },
+
   computed: {
     totalPages() {
       var pages = this.totalRegistros / this.itemsByPage;
       return pages.toFixed(0);
     }
   },
+  
   methods: {
     async obterListaIngredientesInicial() {
-      this.currentPage = 1;
-      return await this.obterListaIngredientes(0, '');
+      await this.obterListaIngredientes();
+
+      this.currentPage = 1;      
+      this.onChangePage(this.currentPage);
     },
 
-    async obterListaIngredientes(skip, text){
-      
-      var result = null;
-      if (text.length > 0){
-        result = await ingredientesAPIService.obterIngredientesPorNomeSkip(text, skip, this.itemsByPage);
-      }
-      else{
-        result = await ingredientesAPIService.obterIngredientes(skip, this.itemsByPage);
-      }
+    async obterListaIngredientes(){
+      var result = await ingredientesAPIService.selecionarBusca();
       
       if (result != null) {          
           this.totalRegistros = result.total;          
-          this.ingredientes = result.data;
+          this.totalRegistrosSource = result.total;                 
+          this.ingredientesSource = result.data;       
+          this.ingredientesSearch = result.data;   
       }
     },
 
-    async onChangePage(pageNumber){
+    onChangePage(pageNumber){
       this.currentPage = pageNumber;
       var skip = (this.currentPage-1) * this.itemsByPage;
 
-      await this.obterListaIngredientes(skip, this.textSearching);
+      if (this.buscando)
+        this.ingredientes = this.ingredientesSearching.slice(skip, skip + this.itemsByPage);
+      else
+        this.ingredientes = this.ingredientesSource.slice(skip, skip + this.itemsByPage);
     },
 
-    async onChengeSearchText(text){
-      if (text.length >= 3) {      
-        var skip = (this.currentPage-1) * this.itemsByPage;
-        this.textSearching = text;
-        await this.obterListaIngredientes(skip, text);
+    onChengeSearchText(text){
 
-      } else if (text.length == 0){        
-        this.textSearching = '';
-        await this.obterListaIngredientes(0, '');
+      this.textSearching = text.trim().toUpperCase();
+
+      if (text.length >= 1) {      
+        this.buscando = true;
+
+        this.ingredientesSearching = this.ingredientesSource.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
+
+        this.totalRegistros = this.ingredientesSearching.length;
+        this.onChangePage(1);
+
+      } else if (text.length == 0) { 
+
+        this.ingredientesSearching = null;
+        this.buscando = false;
+        this.totalRegistros = this.ingredientesSource.length;
+        this.onChangePage(this.currentPage);
       }
     },
 
@@ -141,14 +151,7 @@ export default {
     },
 
     descricaoStatus(status) {
-        if (status === 1)
-            return "Ativo";
-        else if (status === 2)
-            return "Bloqueado";
-        else if (status === 3)
-            return "Excluído";
-        else
-            return "Indefido";
+        return status_cadastro_description(status);
     },
     
     nomeLongo(nome) {

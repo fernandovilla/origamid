@@ -17,112 +17,112 @@ namespace Agendabolo.Controllers
         private readonly IngredienteService _service = new IngredienteService();
 
 
-        [HttpGet("BuscaSkip")]
-        public IActionResult get([FromQuery] int skip = 0, [FromQuery] int take = 20)
-        {
-            if (take > 1000)
-                return BadRequest("Max take is 1000");
+        //[HttpGet("BuscaSkip")]
+        //public IActionResult get([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        //{
+        //    if (take > 1000)
+        //        return BadRequest("Max take is 1000");
 
-            try
-            {
-                var ingredientes = _service.Get()
-                        .ToList()
-                        .OrderBy(i => i.Nome)
-                        .Skip(skip)
-                        .Take(take);
+        //    try
+        //    {
+        //        var ingredientes = _service.Get()
+        //                .ToList()
+        //                .OrderBy(i => i.Nome)
+        //                .Skip(skip)
+        //                .Take(take);
 
-                if (ingredientes != null && ingredientes.Any())
-                    return Ok(new
-                    {
-                        total = _service.GetTotal(),
-                        data = ingredientes
-                    });
+        //        if (ingredientes != null && ingredientes.Any())
+        //            return Ok(new
+        //            {
+        //                total = _service.GetTotal(),
+        //                data = ingredientes
+        //            });
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErros.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogDeErros.Default.Write(ex);
+        //        return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    }
+        //}
 
-        [HttpGet("BuscaPorNome/{nome}")]
-        public IActionResult get(string nome)
-        {
-            if (string.IsNullOrEmpty(nome))
-                return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
+        //[HttpGet("BuscaPorNome/{nome}")]
+        //public IActionResult get(string nome)
+        //{
+        //    if (string.IsNullOrEmpty(nome))
+        //        return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
 
-            try
-            {
-                var ingredientes = _service.Get()
-                    .Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase))
-                    .OrderBy(i => i.Nome)
-                    .ToList();
+        //    try
+        //    {
+        //        var ingredientes = _service.Get()
+        //            .Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase))
+        //            .OrderBy(i => i.Nome)
+        //            .ToList();
 
-                if (ingredientes != null && ingredientes.Any())
-                    return Ok(new
-                    {
-                        total = ingredientes.Count(),
-                        data = ingredientes
-                    });
+        //        if (ingredientes != null && ingredientes.Any())
+        //            return Ok(new
+        //            {
+        //                total = ingredientes.Count(),
+        //                data = ingredientes
+        //            });
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErros.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
-
-
-        //[HttpGet("BuscaPorNome/{nome}/{skip}/{take}")]
-        [HttpGet("BuscaPorNomeSkip")]
-        public IActionResult getByNameSkip([FromQuery] string nome, [FromQuery] int skip = 0, [FromQuery] int take = 20)
-        {
-            if (string.IsNullOrEmpty(nome))
-                return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
-
-            try
-            {
-                var ingredientes = _service.Get().Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase));
-                int total = ingredientes.Count();
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogDeErros.Default.Write(ex);
+        //        return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    }
+        //}
 
 
-                IEnumerable<IngredienteDTA> ingredientesResult;
-                if (ingredientes.Count() < skip || ingredientes.Count() < take)
-                {
-                    ingredientesResult = ingredientes
-                        .OrderBy(i => i.Nome)
-                        .ToList();
+        ////[HttpGet("BuscaPorNome/{nome}/{skip}/{take}")]
+        //[HttpGet("BuscaPorNomeSkip")]
+        //public IActionResult getByNameSkip([FromQuery] string nome, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+        //{
+        //    if (string.IsNullOrEmpty(nome))
+        //        return BadRequest("Informe ao menos 3 caracteres para realizar a busca");
 
-                }
-                else
-                {
-                    ingredientesResult = ingredientes
-                        .Skip(skip)
-                        .Take(take)
-                        .OrderBy(i => i.Nome)
-                        .ToList();
-                }
+        //    try
+        //    {
+        //        var ingredientes = _service.Get().Where(i => i.Nome.Contains(nome, StringComparison.CurrentCultureIgnoreCase));
+        //        int total = ingredientes.Count();
 
 
-                if (ingredientesResult != null && ingredientesResult.Any())
-                    return Ok(new
-                    {
-                        total = total,
-                        data = ingredientesResult
-                    });
+        //        IEnumerable<IngredienteDTA> ingredientesResult;
+        //        if (ingredientes.Count() < skip || ingredientes.Count() < take)
+        //        {
+        //            ingredientesResult = ingredientes
+        //                .OrderBy(i => i.Nome)
+        //                .ToList();
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErros.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
+        //        }
+        //        else
+        //        {
+        //            ingredientesResult = ingredientes
+        //                .Skip(skip)
+        //                .Take(take)
+        //                .OrderBy(i => i.Nome)
+        //                .ToList();
+        //        }
+
+
+        //        if (ingredientesResult != null && ingredientesResult.Any())
+        //            return Ok(new
+        //            {
+        //                total = total,
+        //                data = ingredientesResult
+        //            });
+
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogDeErros.Default.Write(ex);
+        //        return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    }
+        //}
 
 
         public override IActionResult Delete(int id)

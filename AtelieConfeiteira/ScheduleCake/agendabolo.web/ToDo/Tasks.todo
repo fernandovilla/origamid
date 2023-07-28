@@ -32,10 +32,11 @@ Cadastro de Produtos:
   ✔ Web - Edição do Produto: @done(23-07-11 13:25)    
   ✔ Web - Desenvolver Cadastro de Clientes @done(23-07-20 14:06)
   ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)  
-  ☐ Web - Corrigir Listagem de Ingredientes
-    > Paginação e busca
-  ☐ API - Inclusão de "UnidadeMedida" em Ingredientes
-  ☐ Web - Inclusão de "UnidadeMedida" em Ingredientes
+  ✔ Web - Corrigir Listagem de Ingredientes: busca e paginação @done(23-07-28 15:57)
+  ☐ API - Inclusão de campoes em Ingredientes
+    > Unidade Medida, EAN, Fracionamento (quantidade embalagem)
+  ☐ Web - Inclusão de campos em Ingredientes
+    > Unidade Medida, EAN, Fracionamento (quantidade embalagem)
   ☐ API - Entrada de Ingredientes
     > Database, Controller, Entidades, Repository  
   ☐ Web - Entrada de Ingredientes
