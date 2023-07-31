@@ -21,9 +21,12 @@
                   <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
                 </div>
 
+                AAA: ({{ this.ingrediente.idUnidadeMedida }})
+                BBB: ({{ this.unidadeMedida }})
+
                 <div class="input-group col-6 col-sm-12">
                   <label for="unidadeMedida">Unid. Medida</label>
-                  <select-status id="unidadeMedida" v-model="ingrediente.status" :selected="ingrediente.status" required />      
+                  <select-unidade-medida id="unidadeMedida" v-model="unidadesMedida" :selected="ingrediente.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" required />      
                 </div>
 
                 <div class="input-group col-6 col-sm-12">
@@ -122,6 +125,7 @@
 import InputBase from '@/components/Input/InputBase.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
+import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
 
@@ -134,16 +138,21 @@ export default {
           id: 0,
           nome: '',
           quantidadeEmbalagem: 0,
+          idUnidadeMedida: 0,
           precoCusto: 0,
           fabricanteId: 0,
           status: 1
         },
+        unidadeMedida: null,
         mensagem: '',
         menssagemSucesso: false
       } 
     }, 
+
     props: ['id'],
-    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd },
+
+    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, SelectUnidadeMedida },
+
     computed: {
       quantidadeEmbalagemCalc(){
         if (this.ingrediente === null || this.ingrediente === undefined)
@@ -186,6 +195,7 @@ export default {
       },
       
     },
+
     methods: {
       async incluirIngrediente() {
 
@@ -209,6 +219,7 @@ export default {
 
         var ingredienteRequest = {
           id: this.ingrediente.id,
+          idUnidadeMedida: this.ingrediente.idUnidadeMedida,
           nome: this.ingrediente.nome,
           precoCusto: this.precoIngrediente,
           quantidadeEmbalagem: this.ingrediente.quantidadeEmbalagem,
@@ -233,12 +244,16 @@ export default {
         const response = await ingredientesAPIService.selecionarPorId(idIngrediente);
 
         if (response !== undefined){
+          console.log("Ingrediente", response.data);
           this.ingrediente = response.data;
-
-          console.log(this.ingrediente);
         } else {
           this.$router.push('/ingredientes');
         }
+      },
+
+      changeSelectedItem(arg){
+        this.ingrediente.idUnidadeMedida = arg.id;
+        this.unidadeMedida = arg;
       },
 
       mostrarMensagemSucesso(text){
@@ -251,6 +266,7 @@ export default {
         }, 3000);
       }
     },
+
     created() {
       this.obterIngrediente(this.id);
     }

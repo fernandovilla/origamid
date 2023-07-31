@@ -180,6 +180,7 @@ export default {
     }
   }, 
   props: ['id'],
+  
   components: { 
       InputBase, 
       InputArea,
@@ -192,6 +193,7 @@ export default {
       ButtonSmallPrint,      
       SelecionaIngredienteReceita    
   },
+
   computed: {
     ingredientesOk(){
       if (this.receita === null || this.receita === undefined) return false;
@@ -248,6 +250,7 @@ export default {
           return 'Edição Receita';
     }
   },  
+
   methods: {
 
     handleKeyDownRow(e){
@@ -516,6 +519,7 @@ export default {
         }, 3000);
       },
   },
+
   async created() {
 
     if (this.id !== 0 && this.id !== undefined){

@@ -29,6 +29,7 @@ export default {
       paginaAtual: 1
     }
   },
+
   props: {
     totalRegistros: {
       type: Number,
@@ -42,6 +43,7 @@ export default {
       default: 15
     }
   },
+
   computed: {
     paginas(){
 
@@ -61,6 +63,7 @@ export default {
       return totalPaginas;
     }
   },
+
   methods: {
     paginar(page){
 
@@ -104,6 +107,7 @@ export default {
       }            
     }
   },  
+  
   mounted(){
     this.setActivePage();
   }
