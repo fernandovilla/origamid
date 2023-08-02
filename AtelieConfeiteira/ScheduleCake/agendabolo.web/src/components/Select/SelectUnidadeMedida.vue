@@ -1,7 +1,7 @@
 <template>
   <span >   
     <select name="unidadeMedida" v-model="selectedValue" @change="changeItem">
-      <option disabled>Selecione</option>
+      <option :value="-1" disabled>Selecione</option>
       <option v-for="(unidadeMedida, index) in unidadesMedidas" :key="index" :value="index" >{{unidadeMedida.nome}}</option>      
     </select>
   </span>
@@ -21,12 +21,15 @@ export default {
   watch: {
     selectedValue(){
       if (this.unidadesMedidas.length > 0)
-        this.$emit('update:modelValue', this.unidadesMedidas[Number(this.selectedIndex)]);
+        this.$emit('update:modelValue', this.unidadesMedidas[this.selectedIndex]);
 
     },
     selected(){
       if (this.selected > 0 && this.unidadesMedidas.length > 0){
-        this.selectedValue = Number(this.selectedIndex);
+
+        var x = this.unidadesMedidas.find(i => i.id === this.selected);
+        this.selectedIndex = this.unidadesMedidas.indexOf(x);        
+        this.selectedValue = this.selectedIndex;
       } 
     }
   },
@@ -35,18 +38,17 @@ export default {
 
   methods: {
     async obterUnidadesMedida() {
-        const response = await unidadeMedidaAPIService.selecionarBusca();
+        
+        if (localStorage.getItem("unidadeMedida") === null) {
+          const response = await unidadeMedidaAPIService.selecionarBusca();
+          if (response !== undefined) {
+            localStorage.setItem('unidadeMedida', await JSON.stringify(response.data));
+          }
+        } 
 
-        if (response !== undefined){
-          this.unidadesMedidas = response.data;
-
-          this.unidadesMedidas.map((item, index) => {
-            if (item.id === this.selected){
-              this.selectedIndex = index;
-              this.selectedValue = index;
-            }})
-        }
-      },
+        this.unidadesMedidas = await JSON.parse(localStorage.getItem('unidadeMedida'));        
+        this.selectedValue = -1;
+    },
 
     changeItem(event){
       this.selectedIndex = event.target.value;

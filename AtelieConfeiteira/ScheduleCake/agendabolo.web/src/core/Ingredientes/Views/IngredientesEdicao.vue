@@ -21,9 +21,6 @@
                   <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
                 </div>
 
-                AAA: ({{ this.ingrediente.idUnidadeMedida }})
-                BBB: ({{ this.unidadeMedida }})
-
                 <div class="input-group col-6 col-sm-12">
                   <label for="unidadeMedida">Unid. Medida</label>
                   <select-unidade-medida id="unidadeMedida" v-model="unidadesMedida" :selected="ingrediente.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" required />      
@@ -244,7 +241,6 @@ export default {
         const response = await ingredientesAPIService.selecionarPorId(idIngrediente);
 
         if (response !== undefined){
-          console.log("Ingrediente", response.data);
           this.ingrediente = response.data;
         } else {
           this.$router.push('/ingredientes');
