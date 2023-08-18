@@ -33,14 +33,19 @@ Cadastro de Produtos:
   ✔ Web - Desenvolver Cadastro de Clientes @done(23-07-20 14:06)
   ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)  
   ✔ Web - Corrigir Listagem de Ingredientes: busca e paginação @done(23-07-28 15:57)
-  ☐ API - Inclusão de campos em Ingredientes
-    > Unidade Medida, EAN, Fracionamento (quantidade embalagem)
-  ☐ Web - Inclusão de campos em Ingredientes
-    > Unidade Medida, EAN, Fracionamento (quantidade embalagem)
-  ☐ API - Entrada de Ingredientes
-    > Database, Controller, Entidades, Repository  
   ☐ Web - Entrada de Ingredientes
     > Page: Fornecedor, Dados da Compra, Ingredientes 
+  ☐ API - Entrada de Ingredientes
+    > Database, Controller, Entidades, Repository
+  ☐ API - Inclusão de campos em Ingredientes
+    ✔ Unidade Medida @done(23-08-03 10:39)
+    ☐ EAN
+    ☐ Fracionamento (quantidade embalagem)    
+  ☐ Web - Inclusão de campos em Ingredientes
+    ✔ Unidade Medida @done(23-08-03 10:39)
+    ☐ EAN
+    ☐ Quantidade embalagem
+  
   ☐ Web - Desenvolver Cadastro de Pedidos
       > Cliente, Produtos, Dados Entrega, Meio pagamento
   ☐ API - Pedidos

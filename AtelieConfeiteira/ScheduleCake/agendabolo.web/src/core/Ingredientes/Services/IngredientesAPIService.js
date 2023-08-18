@@ -32,7 +32,7 @@ export const ingredientesAPIService = {
 
   async obterIngredientesPorNome(nome) {
     try {
-      const response = await api.get(`/ingredientes/buscapornome/${nome}`);
+      const response = await api.get(`/ingredientes/selecionarpornome/${nome}`);
 
       if (response.statusText === 'OK') {
         return response.data;

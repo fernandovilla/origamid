@@ -39,7 +39,7 @@ namespace Agendabolo.Controllers
             {
                 var unidadesMedida = _service.Get()
                     .OrderBy(i => i.Abreviada)
-                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = $"{i.Descricao} - {i.Abreviada}" })
+                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = $"{i.Descricao} ({i.Abreviada})" })
                     .ToList();
 
                 if (unidadesMedida != null && unidadesMedida.Any())

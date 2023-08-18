@@ -19,6 +19,7 @@ import {
 
 import {
   faCirclePlus,
+  faCircleTrash,
   faAngleDown,
   faSearch,
 } from '@fortawesome/sharp-solid-svg-icons';
@@ -27,6 +28,7 @@ const FontawelsomeLibrary = (app) => {
   library.add(
     faUserSecret,
     faCirclePlus,
+    faCircleTrash,
     faPen,
     faPenToSquare,
     faTrash,

@@ -3,7 +3,7 @@
     <div class="header-page">
       <h1>Home > Ingredientes</h1>
       <div class="header-items">
-        <add-button to="ingrediente">Novo Ingrediente</add-button>      
+        <add-button to="ingrediente">Novo Ingrediente</add-button>
         <div class="header-search">
           <input-search class="input-search" placeHolder="Busca de ingredientes" @onChengeSearchText="onChengeSearchText" />
         </div>                
@@ -68,7 +68,7 @@ export default {
       itemsByPage: 15,
       currentPage: 1,
       textSearching: '',
-      buscando: false,
+      buscando: false
     };
   },
 
@@ -88,6 +88,7 @@ export default {
   },
   
   methods: {
+
     async obterListaIngredientesInicial() {
       await this.obterListaIngredientes();
 

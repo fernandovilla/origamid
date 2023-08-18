@@ -10,6 +10,7 @@
           <menu-lateral-item subitem=true display="Ingredientes" router="/ingredientes"  />            
           <menu-lateral-item subitem=true display="Receitas" router="/receitas" />
           <menu-lateral-item subitem=true display="Produtos" router="/produtos"  />                
+          <menu-lateral-item subitem=true display="Entrada Ingredientes" router="/entradaIngredientes"  />            
         </ul>
       </menu-lateral-item>      
       <menu-lateral-item display="Compras" router="/" :src="require('@/assets/cart-shop-white.svg')" src_alt="compras" />            

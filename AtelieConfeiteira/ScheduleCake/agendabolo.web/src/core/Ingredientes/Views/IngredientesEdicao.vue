@@ -337,6 +337,10 @@ export default {
     }
   }
 
+  .tabela-nutricional {
+    display: none;
+  }
+
   @media screen and (max-width: 960px) {
     .tabela-nutricional
     {

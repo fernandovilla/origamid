@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Agendabolo.Controllers
@@ -153,6 +154,61 @@ namespace Agendabolo.Controllers
                 var ingredientes = _service.Get()
                     .OrderBy(i => i.Nome)
                     .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
+                    .ToList();
+
+                if (ingredientes != null && ingredientes.Any())
+                    return Ok(new
+                    {
+                        total = _service.GetTotal(),
+                        data = ingredientes
+                    });
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("Ativos")]
+        public IActionResult ListarBuscaAtivos()
+        {
+            try
+            {
+                var ingredientes = _service.Get()
+                    .Where(i => i.Status == StatusCadastro.Normal)
+                    .OrderBy(i => i.Nome)
+                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
+                    .ToList();
+
+                if (ingredientes != null && ingredientes.Any())
+                    return Ok(new
+                    {
+                        total = _service.GetTotal(),
+                        data = ingredientes
+                    });
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                LogDeErros.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("SelecionarPorNome/{nome}")]
+        public IActionResult SelecionarPorNome(string nome)
+        {
+            try
+            {
+                var ingredientes = _service.Get()
+                    .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastro.Normal)
+                    .OrderBy(i => i.Nome)
                     .ToList();
 
                 if (ingredientes != null && ingredientes.Any())

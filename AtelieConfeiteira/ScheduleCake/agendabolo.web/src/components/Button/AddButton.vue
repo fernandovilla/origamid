@@ -17,6 +17,9 @@ export default {
   },  
   methods: {
     goTo(){
+
+      this.$emit('click');
+
       if (this.to){
         this.$router.push({ name: this.to, params: this.params});
       }
