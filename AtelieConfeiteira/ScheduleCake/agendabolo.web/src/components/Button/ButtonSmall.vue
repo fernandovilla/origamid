@@ -1,8 +1,8 @@
 <template>
   <button>
-    <span class="icon">
+    <div class="icon">
       <slot></slot>
-    </span>    
+    </div>    
     <p>{{label}}</p>    
   </button>
 </template>
@@ -20,19 +20,16 @@ export default {
     display: flex;
     align-items: center;
     color: var(--text-color-blue);
-    font-size: 14px;
+    font-size: 16px;
     background: none;
     border: none;
     cursor: pointer;
     line-height: 30px;
   }
  
-  .icon {    
-    width: 20px;
-    height: 20px;   
+  .icon {        
     font-size: 20px;
     margin: 0;
-    margin-right: 3px;     
     vertical-align: 0px;
     display: flex;
     align-items: center;
