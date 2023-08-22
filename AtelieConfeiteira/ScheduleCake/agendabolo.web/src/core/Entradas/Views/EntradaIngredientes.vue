@@ -46,15 +46,29 @@
               <input-base v-model="item.lote" />
             </td>
             <td class="col-data-fabricacao editable">
-              <input-base v-model="item.dataFabricacao" />
+              <input-date v-model="item.dataFabricacao" />
             </td>
             <td class="col-data-validade editable">
-              <input-base v-model="item.dataValidade" />
+              <input-date v-model="item.dataValidade" />
             </td>
           </tr>
         </tbody>
         <tfoot>
-
+          <tr>
+            <td class="col-actions"></td>
+            <td class="col-ingrediente"></td>
+            <td class="col-unidade-medida"></td>
+            <td class="col-estoque"></td>
+            <td class="col-quantidade editable"></td>
+            <td class="col-preco-unitario editable"></td>
+            <td class="col-frete editable"></td>
+            <td class="col-total editable">
+              <input-number v-model="totalItens" :decimalCases=2 disabled />
+            </td>          
+            <td class="col-lote editable"></td>
+            <td class="col-data-fabricacao editable"></td>
+            <td class="col-data-validade editable"></td>
+          </tr>
         </tfoot>        
       </table>
     </div>
@@ -62,14 +76,22 @@
     <div class="row entrada-adicionais">
       
       <div class="input-group col-1">
+        <label for="dataEntrada">Data Entrada</label>
+        <input-date v-model="dataEntrada" name="dataEntrada" />        
+      </div>
+
+      <div class="input-group col-1">
         <label for="valorFrete">Valor Frete</label>
         <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
       </div>
 
-      <div class="frete col-2">        
+      <div class="frete col-1">        
         <input type="checkbox" name="calculaFrete" v-model="distribuiFrete" />
         <label for="calculaFrete">Distribuir Frete</label>
       </div>
+      
+      
+
     </div>
 
 
@@ -77,10 +99,12 @@
 </template>
 
 <script>
-import InputNumber from '@/components/Input/InputNumber.vue';
 import InputBase from '@/components/Input/InputBase.vue';
+import InputNumber from '@/components/Input/InputNumber.vue';
+import InputDate from '@/components/Input/InputDate.vue';
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue';
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
+
 
 export default {
   name: 'entrada-ingredientes',
@@ -88,12 +112,14 @@ export default {
     return {
       itensEntrada: [],
       distribuiFrete: true,
-      valorFrete: 0
+      valorFrete: 0,
+      dataEntrada: new Date().toJSON().slice(0, 10)
   }},
 
   components: {
-    InputNumber,
     InputBase,
+    InputNumber,
+    InputDate,    
     ButtonSmallDelete
   },
 
@@ -110,7 +136,14 @@ export default {
 
   },
 
+  computed: {
+    totalItens() {
+      return 0;
+    }
+  },
+
   methods: {
+    
     totalItem(item){
 
       this.distribuirFrete();
@@ -150,8 +183,8 @@ export default {
           frete: 0.00,
           total: 0.00,
           lote: '',
-          dataFabricacao: '',
-          dataValidade: ''
+          dataFabricacao: new Date().toJSON().slice(0,10),
+          dataValidade: new Date().toJSON().slice(0,10),
         },
         { ingredienteId: 2, 
           ingredienteNome: 'AMIDO DE MILHO',
@@ -160,10 +193,10 @@ export default {
           quant: 0,
           precoUnitario: 0.00,
           frete: 0.00,
-          
+          total: 0.00,
           lote: '',
-          dataFabricacao: '',
-          dataValidade: ''
+          dataFabricacao: new Date().toJSON().slice(0,10),
+          dataValidade: new Date().toJSON().slice(0,10),
         },
       ]
     }
@@ -188,11 +221,13 @@ export default {
     overflow: auto;
   }
 
-  table tbody tr {      
+  table tbody tr,
+  table tfoot tr {      
     height: 40px;   
   }
 
-  .table-data tbody tr td input {      
+  .table-data tbody tr td input, 
+  .table-data tfoot tr td input {            
     height: 32px;
     padding: 0 5px 0 5px;
     text-align: left;
@@ -200,12 +235,15 @@ export default {
     font-size: 0.950em;    
   }
 
+  .table-data tfoot tr td {
+    padding: 5px 0 5px 0;
+  };
+
   .entrada-items {
     background: white;
     padding: 20px;
   }
-  
-  
+    
   .col-actions {
     width: 30px;
   }
