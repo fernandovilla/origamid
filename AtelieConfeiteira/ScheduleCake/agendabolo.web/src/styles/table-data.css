@@ -49,6 +49,7 @@
   display: table;
   table-layout: fixed;
   width: 100%;
+  height: 32px;
   padding: 0px;
   margin: 0px;
 }
@@ -77,16 +78,19 @@
   font-size: 11px;
 }
 
-.table-data td.editable input {    
+.table-data td.editable input, 
+.table-data td.editable select  {    
   background: none;
   outline: none;
-  line-height: 24px;     
-  text-align: center;
+  text-align: left;
   border: 1px solid var(--border-color-input);
   border-radius: 4px;  
+  width: 100%!important;
+  height: 100%!important;
 }
 
-.table-data td.editable input:focus {          
+.table-data td.editable input:focus,
+.table-data td.editable select:focus {          
   background: white;
 }
 

@@ -1,14 +1,13 @@
 <template>
-  <span >   
-    <select name="unidadeMedida" v-model="selectedValue" @change="changeItem">
+    <select name="unidadeMedida" v-model="selectedValue" @change="changeItem" @focusin="focusIn" @mousedown="mouseDown">
       <option :value="-1" disabled>Selecione</option>
       <option v-for="(unidadeMedida, index) in unidadesMedidas" :key="index" :value="index" >{{unidadeMedida.nome}}</option>      
     </select>
-  </span>
 </template>
 
 <script>
 import { unidadeMedidaAPIService } from '@/core/UnidadesMedidas/Service/UnidadeMedidaAPIService.js'
+import { log } from 'pdfmake/build/pdfmake';
 
 export default {
   name:'select-unidade-medida',
@@ -53,6 +52,15 @@ export default {
     changeItem(event){
       this.selectedIndex = event.target.value;
       this.$emit('onChangeSelectedItem', this.unidadesMedidas[this.selectedIndex]);
+    },
+
+    focusIn(event){
+      var event2 = new Event("mousedown");
+      event.target.dispatchEvent(event2); //funciona!!
+    },
+
+    mouseDown(event){
+      event.size=2;
     }
   },
 
@@ -67,6 +75,10 @@ export default {
   span {
     display: flex;
     flex-direction: column;
+  }
+
+  select {
+    width: 100%;
   }
 
 </style>

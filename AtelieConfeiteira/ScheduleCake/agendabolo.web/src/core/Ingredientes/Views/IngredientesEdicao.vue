@@ -6,108 +6,149 @@
     </span>   
     
     <form>
-      <span class="row">        
-        <span class="col-8 col-md-12">    
-            <div class="group dados-ingrediente ">
-              <h2 class="title">Dados do Ingrediente</h2>                
-              <div class="container">         
-                <div class="input-group col">
+      <div class="row">
+        <div class="col-12 col-md-12">    
+          <div class="group dados-ingrediente ">
+            <h2 class="title">Dados do Ingrediente</h2>                
+            <div class="container-fluid">    
+
+              <div class="row">
+                <div class="input-group col-6 col-md-12">
                   <label for="nome">Nome</label>
                   <input-base type="text" id="nome" required v-model="ingrediente.nome" />        
                 </div>
-
-                <div class="input-group col-6 col-sm-12">
-                  <label for="precoCusto">Preço Custo Embalagem</label>
+              </div>
+              
+              <div class="row">
+                <div class="input-group col-3 col-sm-12">
+                  <label for="precoCusto">Preço Custo Médio</label>
                   <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
                 </div>
 
-                <div class="input-group col-6 col-sm-12">
-                  <label for="unidadeMedida">Unid. Medida</label>
-                  <select-unidade-medida id="unidadeMedida" v-model="unidadesMedida" :selected="ingrediente.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" required />      
-                </div>
-
-                <div class="input-group col-6 col-sm-12">
-                  <label for="quantidadeEmbalagem">Qtd. Embalagem (gramas)</label>
-                  <input-number id="quantidadeEmbalagem" placeholder='0,00' v-model="ingrediente.quantidadeEmbalagem" :decimalCases=0 />
-                </div>
-
-                <div class="input-group col-6 col-sm-12">
-                  <label for="custoQuilo">Preço Custo Quilo</label>
-                  <input-base id="custoAquilo" v-model="custoQuiloCalculado" disabled />
-                </div>
-
-                <div class="input-group col-6 col-sm-12">
+                <div class="input-group col-3 col-sm-12">
                   <label for="status">Status</label>
                   <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
                 </div>
-              </div>    
-            </div>
-        </span>
-        
-        <span class="col-4 col-md-12 ">     
-          <div class="group tabela-nutricional m-left-10">
-            <h2 class="title">
-              Tabela Nutricional
-              <button-small-add />
-            </h2>      
-            <table class="nutrientes table-data">
-              <thead>
-                <td>Nutriente</td>
-                <td>%</td>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Calorias</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>Lipídios</td>
-                  <td>50%</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td>Total</td>
-                  <td>100%</td>
-                </tr>
-              </tfoot>
-            </table>  
-          </div>          
-        </span>        
-      </span>
+              </div>              
+            </div>    
+          </div>
+        </div>       
+      </div>
 
-      
+      <div class="row m-top-10">
+        <div class="col-12 col-md-12">
+          <div class="group dados-embalagens">
+            <h2 class="title">Embalagens</h2>
+            <div class="container-fluid">
+              <table v-if="embalagens.length > 0" class="table-data">
+                <thead>
+                  <tr>                    
+                    <td class="col-descricao">Descição</td>
+                    <td class="col-ean">EAN</td>                    
+                    <td class="col-unidade-medida">Un. Medida</td>
+                    <td class="col-fracionamento">Fracionamento (gramas)</td>
+                    <td class="col-tipo">Tipo</td>
+                    <td class="col-remove"></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, index) in embalagens" :key="index">
+                    
+                    <td class="col-descricao editable">
+                      <input-base />
+                    </td>
+                    <td class="col-ean editable">
+                      <input-base />
+                    </td>
+                    <td class="col-unidade-medida editable">
+                      <select-unidade-medida  @onChangeSelectedItem="changeSelectedItem" />
+                    </td>
+                    <td class="col-fracionamento editable">
+                      <input-base />
+                    </td>
+                    <td class="col-tipo editable">
+                      <select>
+                        <option value="1">Entrada</option>
+                        <option value="2">Saída</option>
+                      </select>
+                    </td>
+                    <td class="col-remove">
+                      <button-small-delete @click.prevent="removerEmbalagem(index)" />
+                    </td>
+                  </tr>
+                </tbody>
+                
+              </table>
+
+              <button-small-add label="Adicionar embalagem" @click.prevent="adicionarEmbalagem" />
+
+            </div>
+          </div>
+
+        </div>
+      </div>
 
     </form>    
     
+    <div class="col-4 col-md-12 ">     
+      <div class="group tabela-nutricional m-left-10">
+        <h2 class="title">
+          Tabela Nutricional
+          <button-small-add />
+        </h2>      
+        <table class="nutrientes table-data">
+          <thead>
+            <td>Nutriente</td>
+            <td>%</td>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Calorias</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+            <tr>
+              <td>Lipídios</td>
+              <td>50%</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Total</td>
+              <td>100%</td>
+            </tr>
+          </tfoot>
+        </table>  
+      </div>          
+    </div>    
+
 
     <div class="row buttons">
       <button v-if="ingrediente.id === 0" class="btn btn-primary" @click.prevent="incluirIngrediente">Incluir</button>
@@ -125,6 +166,8 @@ import SelectStatus from '@/components/Select/SelectStatus.vue'
 import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
+
 
 
 export default {
@@ -140,6 +183,7 @@ export default {
           fabricanteId: 0,
           status: 1
         },
+        embalagens: [],
         unidadeMedida: null,
         mensagem: '',
         menssagemSucesso: false
@@ -148,50 +192,7 @@ export default {
 
     props: ['id'],
 
-    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, SelectUnidadeMedida },
-
-    computed: {
-      quantidadeEmbalagemCalc(){
-        if (this.ingrediente === null || this.ingrediente === undefined)
-          return 0.00;
-
-        if (this.ingrediente.quantidadeEmbalagem === undefined || this.ingrediente.quantidadeEmbalagem === null)
-          return 0.00;
-
-        if (isNaN(this.ingrediente.quantidadeEmbalagem))  
-          return Number(this.ingrediente.quantidadeEmbalagem.replace(',','.'));        
-        else 
-          return this.ingrediente.quantidadeEmbalagem;
-      },
-      precoIngrediente() {
-        if (this.ingrediente === null || this.ingrediente === undefined)
-          return 0.00;
-
-        if (this.ingrediente.precoCusto === undefined || this.ingrediente.precoCusto === null)
-          return 0.00;
-
-        if (isNaN(this.ingrediente.precoCusto))  
-          return Number(this.ingrediente.precoCusto.replace(',','.'));        
-        else 
-          return this.ingrediente.precoCusto;
-      },
-      custoQuiloCalculado(){        
-        if (isNaN(this.quantidadeEmbalagemCalc) || isNaN(this.precoIngrediente))
-          return "0,00";
-
-        if (Number(this.quantidadeEmbalagemCalc) === 0 || Number(this.precoIngrediente) === 0)
-          return "0,00";
-
-        return ((this.precoIngrediente / this.quantidadeEmbalagemCalc) * 1000).toFixed(2).replace('.',',');        
-      },
-      PageTitle(){
-        if (this.ingrediente.id === 0)
-          return 'Novo Ingrediente';
-        
-          return 'Edição Ingrediente';
-      },
-      
-    },
+    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, SelectUnidadeMedida, ButtonSmallDelete },
 
     methods: {
       async incluirIngrediente() {
@@ -250,6 +251,22 @@ export default {
       changeSelectedItem(arg){
         this.ingrediente.idUnidadeMedida = arg.id;
         this.unidadeMedida = arg;
+      },
+
+      adicionarEmbalagem(){
+        this.embalagens.push({
+          nome: '',
+          ean: '',
+          unidademedida: '',
+          fracionamento: 0,
+          tipo: 'Entrada'
+        })
+      },
+
+      removerEmbalagem(index){
+        var emb = this.embalagens[index];
+        console.log(this.embalagens.length, emb, index);
+        this.embalagens.splice(index, 1);
       },
 
       mostrarMensagemSucesso(text){
@@ -339,6 +356,16 @@ export default {
 
   .tabela-nutricional {
     display: none;
+  }
+
+
+  .table-data tbody tr td input, 
+  .table-data tfoot tr td input {            
+    height: 32px;
+    padding: 0 5px 0 5px;
+    text-align: left;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.950em;        
   }
 
   @media screen and (max-width: 960px) {

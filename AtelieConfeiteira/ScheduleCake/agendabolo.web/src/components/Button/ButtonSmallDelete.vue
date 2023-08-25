@@ -1,6 +1,6 @@
 <template>
   <button-small>
-    <font-awesome-icon icon="fa-sharp fa-solid fa-circle-trash" class="icon" />
+    <font-awesome-icon icon="fa-solid fa-trash" class="icon" />
   </button-small>
 </template>
 

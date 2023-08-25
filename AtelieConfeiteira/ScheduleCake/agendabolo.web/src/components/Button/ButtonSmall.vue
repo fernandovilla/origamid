@@ -10,7 +10,7 @@
 <script>
 export default {
   name:'button-small',  
-  props: { label: {type: String, default: 'buton-small'} }
+  props: { label: {type: String, default: ''} }
 }
 </script>
 
@@ -18,17 +18,20 @@ export default {
 
   button {
     display: flex;
-    align-items: center;
-    color: var(--text-color-blue);
-    font-size: 16px;
+    align-items: center;    
     background: none;
-    border: none;
-    cursor: pointer;
+    border: none;    
     line-height: 30px;
+    color: var(--text-color-blue);
+    font-size: 0.950em;
+    cursor: pointer;
+  }
+
+  p {
+    padding-left: 2px;        
   }
  
-  .icon {        
-    font-size: 20px;
+  .icon {            
     margin: 0;
     vertical-align: 0px;
     display: flex;

@@ -2,7 +2,7 @@
   <input-base 
     type="date"    
     v-model="dateValue"
-    min="2000-1-1"   
+    min="1800-01-01"   
     pattern="'\d{2}-\d{2}-\d{2}'"
     placeHolder="dd/mm/yy"
     @keypress="handleKeyPress" 
@@ -45,8 +45,22 @@ export default {
 
     handleFocusOut() {
 
-      if (this.isDate(this.dateValue))
+      if (this.isDate(this.dateValue)){
+
+        var date = new Date(this.dateValue);
+        let year = date.getFullYear();
+
+        if (year.toString().length === 3) {
+          year = year + 1000;
+          this.dateValue = `${year}${this.dateValue.substring(4,10)}`;
+        } 
+        else if (year.toString().length < 3) {                 
+          year = year + 2000;
+          this.dateValue = `${year}${this.dateValue.substring(4,10)}`;
+        }
+
         this.$emit('update:modelValue', this.dateValue);    
+      }
     },
 
     isDate(value) {
@@ -80,8 +94,6 @@ export default {
 
 <style scoped>
   @import '@/styles/inputs.css';
-
-   
 
   .validity {
     float: right;

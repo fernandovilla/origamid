@@ -62,9 +62,7 @@
             <td class="col-quantidade editable"></td>
             <td class="col-preco-unitario editable"></td>
             <td class="col-frete editable"></td>
-            <td class="col-total editable">
-              <input-number v-model="totalItens" :decimalCases=2 disabled />
-            </td>          
+            <td class="col-total editable">{{ this.totalItens }}            </td>          
             <td class="col-lote editable"></td>
             <td class="col-data-fabricacao editable"></td>
             <td class="col-data-validade editable"></td>
@@ -138,7 +136,7 @@ export default {
 
   computed: {
     totalItens() {
-      return 0;
+      return this.itensEntrada.reduce((acum, item) => acum + TextToNumber(item.total), 0);
     }
   },
 
@@ -183,7 +181,7 @@ export default {
           frete: 0.00,
           total: 0.00,
           lote: '',
-          dataFabricacao: new Date().toJSON().slice(0,10),
+          dataFabricacao: 0,
           dataValidade: new Date().toJSON().slice(0,10),
         },
         { ingredienteId: 2, 

@@ -71,9 +71,9 @@
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
                       <td class="body-actions col-acoes">
-                        <action-up-button @click.prevent="moveIngredienteUp(index)" />           
-                        <action-down-button @click.prevent="moveIngredienteDown(index)" />           
-                        <action-delete-button @click.prevent="removeIngrediente(index)" />                      
+                        <action-up-button @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
+                        <action-down-button @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
+                        <action-delete-button @click.prevent="removeIngrediente(index)" tabindex="-1" />                      
                       </td>
                     </tr>                    
                   </tbody>
