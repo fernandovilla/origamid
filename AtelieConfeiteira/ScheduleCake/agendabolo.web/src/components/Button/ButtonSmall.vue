@@ -1,5 +1,5 @@
 <template>
-  <button>
+  <button class="btn btn-small">
     <div class="icon">
       <slot></slot>
     </div>    
@@ -20,11 +20,18 @@ export default {
     display: flex;
     align-items: center;    
     background: none;
-    border: none;    
     line-height: 30px;
     color: var(--text-color-blue);
     font-size: 0.950em;
     cursor: pointer;
+    height: 20px;
+    margin: 2px;    
+  }
+
+  .btn-small {
+    border: none;
+    box-shadow: none;    
+    padding: 0px 2px;
   }
 
   p {

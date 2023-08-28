@@ -71,9 +71,10 @@
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
                       <td class="body-actions col-acoes">
-                        <action-up-button @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
-                        <action-down-button @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
-                        <action-delete-button @click.prevent="removeIngrediente(index)" tabindex="-1" />                      
+                        
+                        <button-small-up @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
+                        <button-small-down @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
+                        <button-small-delete @click.prevent="removeIngrediente(index)" tabindex="-1" />
                       </td>
                     </tr>                    
                   </tbody>
@@ -151,17 +152,18 @@ import Receita from '@/core/Receitas/Domain/Receita.js';
 import InputBase from '@/components/Input/InputBase.vue';
 import InputArea from '@/components/Input/InputArea.vue';
 import InputNumber from '@/components/Input/InputNumber.vue';
-import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
-import ActionUpButton from '@/components/Button/ActionUpButton.vue';
-import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
 import ButtonSmallPrint from '@/components/Button/ButtonSmallPrint.vue';
+import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue';
+import ButtonSmallUp from '@/components/Button/ButtonSmallUp.vue';
+import ButtonSmallDown from '@/components/Button/ButtonSmallDown.vue';
 import SelectStatus from '@/components/Select/SelectStatus.vue';
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
 import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default {
@@ -186,12 +188,12 @@ export default {
       InputArea,
       InputNumber,      
       SelectStatus,
-      ActionDeleteButton,
-      ActionUpButton,
-      ActionDownButton,
       ButtonSmallAdd,
       ButtonSmallPrint,      
-      SelecionaIngredienteReceita    
+      ButtonSmallUp,
+      ButtonSmallDown,
+      SelecionaIngredienteReceita,
+    ButtonSmallDelete    
   },
 
   computed: {
@@ -537,6 +539,8 @@ export default {
 
     .table-data {
       border: none;      
+      font-size: 0.950em;
+      font-family: 'Poppins', sans-serif;  
     }
 
     .table-data tbody {      
@@ -571,12 +575,12 @@ export default {
       margin-left: 10px;
     }
 
-    .ingredientes {
-      font-size: 13px;
+    .ingredientes input {
+      font-size: 0.950em;
     }
 
     .ingredientes tr {
-      height: 30px;
+      /* height: 36px; */
     }
 
     .ingredientes .col-item {

@@ -17,9 +17,7 @@
                   <label for="nome">Nome</label>
                   <input-base type="text" id="nome" required v-model="ingrediente.nome" />        
                 </div>
-              </div>
               
-              <div class="row">
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCusto">Preço Custo Médio</label>
                   <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
@@ -43,17 +41,20 @@
               <table v-if="embalagens.length > 0" class="table-data">
                 <thead>
                   <tr>                    
+                    <td class="col-remove"></td>
                     <td class="col-descricao">Descição</td>
                     <td class="col-ean">EAN</td>                    
                     <td class="col-unidade-medida">Un. Medida</td>
                     <td class="col-fracionamento">Fracionamento (gramas)</td>
                     <td class="col-tipo">Tipo</td>
-                    <td class="col-remove"></td>
+                    
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(item, index) in embalagens" :key="index">
-                    
+                    <td class="col-remove">
+                      <button-small-delete @click.prevent="removerEmbalagem(index)" tabindex="-1" />
+                    </td>
                     <td class="col-descricao editable">
                       <input-base />
                     </td>
@@ -68,13 +69,10 @@
                     </td>
                     <td class="col-tipo editable">
                       <select>
-                        <option value="1">Entrada</option>
-                        <option value="2">Saída</option>
+                        <option value="1">Compra</option>
+                        <option value="2">Consumo</option>
                       </select>
-                    </td>
-                    <td class="col-remove">
-                      <button-small-delete @click.prevent="removerEmbalagem(index)" />
-                    </td>
+                    </td>                    
                   </tr>
                 </tbody>
                 
@@ -194,6 +192,15 @@ export default {
 
     components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, SelectUnidadeMedida, ButtonSmallDelete },
 
+    computed: {
+      PageTitle(){
+        if (this.ingrediente.id === 0)
+          return 'Novo ingrediente';
+        
+          return 'Edição Ingrediente';
+      },
+    },
+
     methods: {
       async incluirIngrediente() {
 
@@ -269,6 +276,8 @@ export default {
         this.embalagens.splice(index, 1);
       },
 
+      
+
       mostrarMensagemSucesso(text){
         this.mensagem = text;
         this.menssagemSucesso = true;
@@ -282,6 +291,7 @@ export default {
 
     created() {
       this.obterIngrediente(this.id);
+      this.adicionarEmbalagem();
     }
 }
 </script>
@@ -327,6 +337,18 @@ export default {
   
   .table-data {
     border: none;
+  }
+
+  .col-descricao {
+    width: 30%;
+  }
+  .col-remove {
+    width: 24px;
+  }
+  .col-remove button {
+    /* display: flex;
+    justify-content: center; */
+    margin: 0 auto;
   }
 
 

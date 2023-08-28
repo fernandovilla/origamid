@@ -83,13 +83,10 @@
         <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
       </div>
 
-      <div class="frete col-1">        
+      <div class="frete col-2">        
         <input type="checkbox" name="calculaFrete" v-model="distribuiFrete" />
         <label for="calculaFrete">Distribuir Frete</label>
-      </div>
-      
-      
-
+      </div>      
     </div>
 
 
@@ -224,15 +221,6 @@ export default {
     height: 40px;   
   }
 
-  .table-data tbody tr td input, 
-  .table-data tfoot tr td input {            
-    height: 32px;
-    padding: 0 5px 0 5px;
-    text-align: left;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.950em;    
-  }
-
   .table-data tfoot tr td {
     padding: 5px 0 5px 0;
   };
@@ -270,7 +258,6 @@ export default {
   .col-data-validade
    {
     width: 8%;
-    padding-right: 5px;
   }
 
   .entrada-adicionais .frete

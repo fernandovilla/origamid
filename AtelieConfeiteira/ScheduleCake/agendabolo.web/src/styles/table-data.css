@@ -49,13 +49,13 @@
   display: table;
   table-layout: fixed;
   width: 100%;
-  height: 32px;
+  height: 36px;
   padding: 0px;
   margin: 0px;
 }
 
 .table-data tbody td {
-  padding: 0px;
+  padding: 2px 1px;
   margin: 0px;
 }
 
@@ -73,13 +73,14 @@
 }
 
 .table-data .body-actions button {
-  width: 20px;
-  height: 20px;
-  font-size: 11px;
+  /* margin: 0 10px;
+  background: lime; */
 }
 
 .table-data td.editable input, 
 .table-data td.editable select  {    
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.950em;    
   background: none;
   outline: none;
   text-align: left;
@@ -87,6 +88,11 @@
   border-radius: 4px;  
   width: 100%!important;
   height: 100%!important;
+  padding: 0 5px 0 5px;  
+}
+
+.table-data td.editable input {
+  text-transform: uppercase;
 }
 
 .table-data td.editable input:focus,
