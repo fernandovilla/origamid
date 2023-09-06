@@ -49,8 +49,7 @@ namespace Agendabolo.Core.Receitas
                             IdIngrediente = (int)item.IdIngrediente,
                             Nome = item.Nome,
                             Percentual = item.Percentual,
-                            PrecoCustoQuilo = item.Ingrediente != null  ? item.Ingrediente.PrecoCustoQuilo : 0,
-                            PrecoCustoMedioQuilo = item.Ingrediente != null ? item.Ingrediente.PrecoCustoMedioQuilo : 0,
+                            PrecoCustoMedioQuilo = item.Ingrediente != null ? item.Ingrediente.PrecoCustoMedio : 0,
                             Ordem = item.Ordem,
                             Status = (int)item.Status
                         };

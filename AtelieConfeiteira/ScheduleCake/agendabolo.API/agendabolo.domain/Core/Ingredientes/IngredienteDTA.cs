@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Agendabolo.Core.Ingredientes
@@ -11,34 +12,30 @@ namespace Agendabolo.Core.Ingredientes
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Column("idunidademedida")]
-        public int? IdUnidadeMedida { get; set; }
-
+        
         [Column("nome")]
         public string Nome { get; set; }
 
+        [JsonIgnore]
         [Column("precocusto")]
         public decimal PrecoCusto { get; set; }
 
         [Column("precocustomedio")]
         public decimal PrecoCustoMedio { get; set; }
-
-        [Column("quantidadeembalagem")]
-        public decimal QuantidadeEmbalagem { get; set; }
-
+        
         [Column("status")]
         public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
 
+        public double EstoqueTotal => Estoque != null ? Estoque.Sum(i => i.Quantidade) : 0;
 
-        [JsonIgnore]
-        public UnidadeMedidaDTA UnidadeMedida { get; set; }
 
         [JsonIgnore]
         public ICollection<Receitas.ReceitaIngredienteDTA> Receitas { get; set; }
 
+        public ICollection<IngredienteEmbalagemDTA> Embalagens { get; set; }
 
-        public decimal PrecoCustoQuilo => QuantidadeEmbalagem > 0 ? (PrecoCusto / QuantidadeEmbalagem) * 1000 : 0;
+        public ICollection<EstoqueDTA> Estoque { get; set; }
 
-        public decimal PrecoCustoMedioQuilo => QuantidadeEmbalagem > 0 ? (PrecoCustoMedio / QuantidadeEmbalagem) * 1000 : 0;
+
     }
 }

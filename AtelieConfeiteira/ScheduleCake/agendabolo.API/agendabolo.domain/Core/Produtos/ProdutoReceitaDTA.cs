@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -44,8 +45,10 @@ namespace Agendabolo.Core.Produtos
             this.Receita = receita;
         }
 
+        [JsonIgnore]
         public ProdutoDTA Produto { get; set; }
 
+        [JsonIgnore]
         public ReceitaDTA Receita { get; set; }
 
         public override bool Equals(object obj)

@@ -1,39 +1,42 @@
 <template>
     <select name="unidadeMedida" v-model="selectedValue" @change="changeItem" @focusin="focusIn" @mousedown="mouseDown">
-      <option :value="-1" disabled>Selecione</option>
-      <option v-for="(unidadeMedida, index) in unidadesMedidas" :key="index" :value="index" >{{unidadeMedida.nome}}</option>      
+      <option :value="-1" disabled>Selecione...</option>
+      <option v-for="(unidadeMedida, index) in unidadesMedidas" :key="index" :value="unidadeMedida.id" >{{unidadeMedida.nome}}</option>      
     </select>
 </template>
 
 <script>
 import { unidadeMedidaAPIService } from '@/core/UnidadesMedidas/Service/UnidadeMedidaAPIService.js'
-import { log } from 'pdfmake/build/pdfmake';
 
 export default {
   name:'select-unidade-medida',
   data(){ return {
     unidadesMedidas: [],
-    selectedValue: 0,
-    selectedIndex: 0
+    selectedValue: undefined,
+    selectedIndex: undefined,
+    iniciando: true,
   }},
-
   watch: {
     selectedValue(){
-      if (this.unidadesMedidas.length > 0)
-        this.$emit('update:modelValue', this.unidadesMedidas[this.selectedIndex]);
+      if (this. unidadesMedidas.length > 0) {
 
+        if (this.iniciando && this.selectedValue !== this.selected)
+          this.selectedValue = this.selected;
+
+        this.$emit('update:modelValue', this.selectedValue);        
+      }
     },
-    selected(){
-      if (this.selected > 0 && this.unidadesMedidas.length > 0){
-
-        var x = this.unidadesMedidas.find(i => i.id === this.selected);
-        this.selectedIndex = this.unidadesMedidas.indexOf(x);        
-        this.selectedValue = this.selectedIndex;
-      } 
+    selected() {
+        this.selectedValue = this.selected;
     }
   },
 
-  props: ['selected'],
+  props: {
+    selected: {
+      type: Number, 
+      default: undefined
+    }
+  },
 
   methods: {
     async obterUnidadesMedida() {
@@ -47,6 +50,19 @@ export default {
 
         this.unidadesMedidas = await JSON.parse(localStorage.getItem('unidadeMedida'));        
         this.selectedValue = -1;
+    },
+
+    getUnidadeMedidaIndex(id){
+      if (this.unidadesMedidas.length > 0) {
+        var x = this.unidadesMedidas.find(i => i.id === id);
+        if (x !== null) {
+          return this.unidadesMedidas.indexOf(x);    
+        } else {
+          return 0;
+        }
+      } else {
+        return 0;
+      }
     },
 
     changeItem(event){
@@ -65,7 +81,10 @@ export default {
   },
 
   created() {
-    this.obterUnidadesMedida();
+    this.obterUnidadesMedida();        
+  },
+  updated(){
+    this.iniciando = false;
   }
 
 }

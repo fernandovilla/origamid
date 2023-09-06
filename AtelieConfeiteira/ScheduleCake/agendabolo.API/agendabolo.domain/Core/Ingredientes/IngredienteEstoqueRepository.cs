@@ -8,9 +8,9 @@ using System.Transactions;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class EstoqueRepository : GenericRepository.GenericRepositoryDbContext<EstoqueDTA, int>, IEstoqueRepository
+    public class IngredienteEstoqueRepository : GenericRepository.GenericRepositoryDbContext<EstoqueDTA, int>, IEstoqueRepository
     {
-        public EstoqueRepository(ApplicationDbContext context)
+        public IngredienteEstoqueRepository(ApplicationDbContext context)
             : base(context)
         { }
 

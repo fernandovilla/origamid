@@ -18,7 +18,5 @@ namespace Agendabolo.Core.Ingredientes
         public string Descricao { get; set; }
         [Column("abreviada")]
         public string Abreviada { get; set; }
-
-        public ICollection<IngredienteDTA> Ingredientes { get; set; }
     }
 }

@@ -88,9 +88,9 @@ export const ingredientesAPIService = {
     }
   },
 
-  async atualizar(insumo) {
+  async atualizar(ingrediente) {
     try {
-      const response = await api.put('/ingredientes', insumo);
+      const response = await api.put('/ingredientes', ingrediente);
 
       if (response.statusText === 'OK') {
         return response.data;

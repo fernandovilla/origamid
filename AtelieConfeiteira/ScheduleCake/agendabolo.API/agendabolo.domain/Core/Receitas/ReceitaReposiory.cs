@@ -40,19 +40,6 @@ namespace Agendabolo.Core.Receitas
         public override void Update(ReceitaDTA receita)
         {
             if (receita == null)
-                throw new ArgumentNullException("Invalid entity");
-
-            //_context.Entry(receita).State = EntityState.Modified;
-
-            //this.UpdateIngredientes(receita.Ingredientes);            
-
-
-            this.UpdateIngredientes2(receita);
-        }
-
-        private void UpdateIngredientes2(ReceitaDTA receita)
-        {
-            if (receita == null)
                 throw new ArgumentNullException("Receita inválida");
 
             var ingredientesEditados = receita.Ingredientes
@@ -88,40 +75,8 @@ namespace Agendabolo.Core.Receitas
                 ingredientesUpdated.ToList().ForEach(i => _context.Entry(i).State = EntityState.Modified);
 
 
-            
-
-
-
-            ////Receitas incluídas 
-            //foreach (var receitaAdded in receitasEditadas.Where(i => i.Id == 0))
-            //    _context.ProdutosReceitas.Add(receitaAdded);
-
-            ////Atualiza receitas editadas
-            //foreach (var receitaUpdated in receitasAtuais.Intersect(receitasEditadas.Where(i => i.Id > 0)))
-            //    _context.Entry(receitaUpdated).State = EntityState.Modified;
-
-            ////Remove receitas excluídas
-            //var exceptReceitas = receitasAtuais.Except(receitasEditadas, new ProdutoReceitaDTA()).ToList();
-            //foreach (var receitaDeleted in exceptReceitas)
-            //    _context.ProdutosReceitas.Remove(receitaDeleted);
         }
 
-        private void UpdateIngredientes(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)
-        {
-            foreach (var item in ingredientesReceita)
-            {
-                if (item.Id > 0)
-                    if (item.Status == StatusCadastro.Excluido)
-                        _context.Entry(item).State = EntityState.Deleted;
-                    else
-                        _context.Entry(item).State = EntityState.Modified;
-                else
-                    _context.Entry(item).State = EntityState.Added;
-                    
-
-                    //_context.IngredientesReceitas.Add(item);
-            }
-        }
 
         public void RemoveItems(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)
         {

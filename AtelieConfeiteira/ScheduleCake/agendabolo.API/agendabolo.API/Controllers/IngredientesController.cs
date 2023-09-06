@@ -153,7 +153,7 @@ namespace Agendabolo.Controllers
             {
                 var ingredientes = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
+                    .Select(i => new IngredienteBuscaResponse { Id = i.Id, Nome = i.Nome, EstoqueTotal = i.EstoqueTotal,  Status = (int)i.Status })
                     .ToList();
 
                 if (ingredientes != null && ingredientes.Any())

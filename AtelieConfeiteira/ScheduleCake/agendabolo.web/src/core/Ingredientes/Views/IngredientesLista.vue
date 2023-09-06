@@ -16,8 +16,9 @@
         <thead>
           <tr>
             <th class="head-nome">Ingrediente</th>
-            <th class="head-status">Status</th>
-            <th class="head-actions">Ações</th>
+            <th class="col-estoque">Estoque</th>
+            <th class="head-status">Status</th>            
+            <th class="head-actions"></th>
           </tr>
         </thead>
         <tbody>
@@ -25,9 +26,12 @@
             <td class="body-nome">
               <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >{{nomeLongo(ingrediente.nome)}}</router-link>                
             </td>
+            <td class="col-estoque">
+              <a href="#">{{ this.estoqueText(ingrediente.estoqueTotal) }}</a>              
+            </td>
             <td class="body-status">
               {{this.descricaoStatus(ingrediente.status)}}
-            </td>
+            </td>            
             <td class="body-actions">
               <action-edit-button @click="editarIngrediente(ingrediente)" />
               <action-delete-button @click="deletarIngrediente(ingrediente)" />
@@ -42,7 +46,10 @@
           </td>          
         </tfoot>
       </table>
-      <h2 v-else class="span5">Não há ingredientes cadastrados. Clique em 'Adicionar Novo'</h2>
+      <div v-if="this.ingredientes === null">
+        <h2 v-if="this.carregando" class="span5">Carregando ingredientes. Aguarde...</h2>
+        <h2 v-else class="span5">Não há ingredientes cadastrados. Clique em 'Novo Ingrediente'</h2>
+      </div>
     </div>
   </span>
 </template>
@@ -55,6 +62,7 @@ import ActionEditButton from '@/components/Button/ActionEditButton.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import AddButton from '@/components/Button/AddButton.vue';
 import InputSearch from '@/components/Input/InputSearch.vue';
+import { NumberToText, TextToNumber } from '@/helpers/NumberHelp';
 
 export default {
   name: 'ingredientes-lista',
@@ -68,7 +76,8 @@ export default {
       itemsByPage: 15,
       currentPage: 1,
       textSearching: '',
-      buscando: false
+      buscando: false,
+      carregando: false,
     };
   },
 
@@ -97,6 +106,8 @@ export default {
     },
 
     async obterListaIngredientes(){
+      this.carregando = true;
+
       var result = await ingredientesAPIService.selecionarBusca();
       
       if (result != null) {          
@@ -105,6 +116,8 @@ export default {
           this.ingredientesSource = result.data;       
           this.ingredientesSearch = result.data;   
       }
+
+      this.carregando = false;
     },
 
     onChangePage(pageNumber){
@@ -149,6 +162,15 @@ export default {
           this.ingrediente.splice(i, 1);
           alert("Ingrediente excluído");
       }
+    },
+
+    estoqueText(estoqueItem){
+      var e = TextToNumber(estoqueItem);
+
+      if (e > 0)
+        return `${NumberToText(e.toFixed(3))}g`;
+      else 
+        return "0"
     },
 
     descricaoStatus(status) {

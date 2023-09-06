@@ -67,7 +67,7 @@ namespace Agendabolo.Data
 
         public IEstoqueRepository EstoqueRepository
         {
-            get => _estoqueRepository   ?? new EstoqueRepository(_context);
+            get => _estoqueRepository   ?? new IngredienteEstoqueRepository(_context);
         }
 
 

@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class IngredienteRequest : IngredienteDTA, IValidatableObject, IParsableEntity<IngredienteRequest, IngredienteDTA>
+    public partial class IngredienteRequest
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public decimal PrecoCustoMedio { get; set; }
+        public int Status { get; set; }
+        public double EstoqueTotal { get; set; }
+        public IEnumerable<IngredienteEmbalagemRequest> Embalagens { get; set; }
+    }
+
+    partial class IngredienteRequest : IValidatableObject, IParsableEntity<IngredienteRequest, IngredienteDTA>
     {
         public static IngredienteRequest Parse(IngredienteDTA entity)
         {
@@ -18,12 +25,11 @@ namespace Agendabolo.Core.Ingredientes
             return new IngredienteRequest()
             {
                 Id = entity.Id,
-                IdUnidadeMedida = entity.IdUnidadeMedida,
                 Nome = entity.Nome,
-                PrecoCusto = entity.PrecoCusto,
                 PrecoCustoMedio = entity.PrecoCustoMedio,
-                QuantidadeEmbalagem = entity.QuantidadeEmbalagem,
-                Status = entity.Status
+                Status = (int)entity.Status,
+                EstoqueTotal = entity.Estoque.Sum(i => i.Quantidade),
+                Embalagens = entity.Embalagens.Select(i => IngredienteEmbalagemRequest.Parse(i)).ToList()
             };
         }
 
@@ -35,12 +41,10 @@ namespace Agendabolo.Core.Ingredientes
             return new IngredienteDTA()
             {
                 Id = entity.Id,
-                IdUnidadeMedida = entity.IdUnidadeMedida,
                 Nome = entity.Nome,
-                PrecoCusto = entity.PrecoCusto,
                 PrecoCustoMedio = entity.PrecoCustoMedio,
-                QuantidadeEmbalagem = entity.QuantidadeEmbalagem,
-                Status = entity.Status
+                Status = (StatusCadastro)entity.Status,
+                Embalagens = entity.Embalagens.Select(i => IngredienteEmbalagemRequest.ToDTA(i)).ToList()
             };
         }
 
@@ -53,5 +57,6 @@ namespace Agendabolo.Core.Ingredientes
 
             return results;
         }
+
     }
 }

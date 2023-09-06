@@ -10,8 +10,9 @@ namespace Agendabolo.Data
 
         //Classe de configuração
         public DbSet<Core.Fabricantes.FabricanteDTA> Fabricantes { get; set; }
-        public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }
         public DbSet<Core.Ingredientes.UnidadeMedidaDTA> UnidadesMedidas { get; set; }
+        public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }
+        public DbSet<Core.Ingredientes.IngredienteEmbalagemDTA> IngredientesEmbalagens { get; set; }
         public DbSet<Core.Ingredientes.EstoqueDTA> Estoque { get; set; }
         public DbSet<Core.Receitas.ReceitaDTA> Receitas { get; set; }
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
@@ -51,11 +52,22 @@ namespace Agendabolo.Data
             modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
                 .HasKey(i => new { i.Id });
 
-            modelBuilder.Entity<Core.Ingredientes.UnidadeMedidaDTA>()
-                .HasMany(i => i.Ingredientes)
-                .WithOne(i => i.UnidadeMedida)
-                .HasForeignKey(i => i.IdUnidadeMedida);
-                
+            //modelBuilder.Entity<Core.Ingredientes.UnidadeMedidaDTA>()
+            //    .HasMany(i => i.Ingredientes)
+            //    .WithOne(i => i.UnidadeMedida)
+            //    .HasForeignKey(i => i.IdUnidadeMedida);
+
+            modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
+                .HasMany(i => i.Estoque)
+                .WithOne(i => i.Ingrediente)
+                .HasForeignKey(i => i.IdIngrediente);
+
+            modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
+                .HasMany(i => i.Embalagens)
+                .WithOne(i => i.Ingredente)
+                .HasForeignKey(i => i.IdIngrediente);
+
+                                
             #endregion
 
             #region [Receitas]

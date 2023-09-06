@@ -20,7 +20,7 @@
               
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCusto">Preço Custo Médio</label>
-                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
+                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
                 </div>
 
                 <div class="input-group col-3 col-sm-12">
@@ -56,21 +56,21 @@
                       <button-small-delete @click.prevent="removerEmbalagem(index)" tabindex="-1" />
                     </td>
                     <td class="col-descricao editable">
-                      <input-base />
+                      <input-base v-model="item.descricao" />
                     </td>
                     <td class="col-ean editable">
-                      <input-base />
+                      <input-base v-model="item.ean" />
                     </td>
                     <td class="col-unidade-medida editable">
-                      <select-unidade-medida  @onChangeSelectedItem="changeSelectedItem" />
+                      <select-unidade-medida v-model="item.idUnidadeMedida" :selected="item.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" />
                     </td>
                     <td class="col-fracionamento editable">
-                      <input-base />
+                      <input-base v-model="item.quantidade" />
                     </td>
                     <td class="col-tipo editable">
-                      <select>
-                        <option value="1">Compra</option>
-                        <option value="2">Consumo</option>
+                      <select v-model="item.tipoEmbalagem">
+                        <option value="0">Compra</option>
+                        <option value="1">Consumo</option>
                       </select>
                     </td>                    
                   </tr>
@@ -175,10 +175,7 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
-          quantidadeEmbalagem: 0,
-          idUnidadeMedida: 0,
-          precoCusto: 0,
-          fabricanteId: 0,
+          precoCustoMedio: 0,
           status: 1
         },
         embalagens: [],
@@ -224,15 +221,16 @@ export default {
 
         var ingredienteRequest = {
           id: this.ingrediente.id,
-          idUnidadeMedida: this.ingrediente.idUnidadeMedida,
           nome: this.ingrediente.nome,
-          precoCusto: this.precoIngrediente,
-          quantidadeEmbalagem: this.ingrediente.quantidadeEmbalagem,
-          status: this.ingrediente.status
+          precoCustoMedio: this.ingrediente.precoCustoMedio,
+          status: this.ingrediente.status,
+          embalagens: JSON.parse(JSON.stringify(this.embalagens))
         };
 
-        const response = await ingredientesAPIService.atualizar(ingredienteRequest);
+        console.log(JSON.stringify(ingredienteRequest));
 
+        var response = await ingredientesAPIService.atualizar(ingredienteRequest);
+        
         if (response !== null){      
           this.mostrarMensagemSucesso("Ingrediente atualizado com sucesso")
         } else {
@@ -250,6 +248,11 @@ export default {
 
         if (response !== undefined){
           this.ingrediente = response.data;
+
+          if (this.ingrediente.embalagens !== undefined) {
+            this.embalagens = this.ingrediente.embalagens;
+          }
+
         } else {
           this.$router.push('/ingredientes');
         }
@@ -291,7 +294,7 @@ export default {
 
     created() {
       this.obterIngrediente(this.id);
-      this.adicionarEmbalagem();
+      //this.adicionarEmbalagem();
     }
 }
 </script>
