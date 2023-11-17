@@ -7,6 +7,19 @@
 
     <form class="container-fluid">
       <div class="row">
+        <Card>
+          <template #title> Simple Card </template>
+          <template #content>
+              <p class="m-0">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                  quas!
+              </p>
+          </template>
+        </Card>
+      </div>
+
+
+      <div class="row">
 
         <div class="col-6 col-md-12">    
           <div class="group dados-cliente">
@@ -81,6 +94,8 @@ import { clientesAPIService } from '@/core/Clientes/Services/ClienteAPIService.j
 import InputBase from '@/components/Input/InputBase.vue';
 import InputArea from '@/components/Input/InputArea.vue';
 import SelectStatus from '@/components/Select/SelectStatus.vue'
+
+
 
 export default {
   name: 'edicao-cliente',

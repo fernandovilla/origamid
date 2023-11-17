@@ -1,19 +1,19 @@
 <template>
-  <header-top />
+  <top-bar />
     
   <div class="main">
-    <menu-lateral class="menu-lateral" />
+    <side-bar class="side-bar" />
     <router-view class="body"/>
   </div>
 </template>
 
 <script>
-import MenuLateral from '@/components/Menu/MenuLateral.vue'
-import HeaderTop from '@/components/HeaderTop.vue';
+import SideBar from '@/components/Menu/SideBar.vue'
+import TopBar from '@/components/TopBar.vue';
 
 export default {
   components: {
-    MenuLateral, HeaderTop
+    SideBar, TopBar
   }
 }
 </script>
@@ -31,15 +31,10 @@ export default {
     padding: 0;
   }
 
-  .main {
-    display: flex;   
-  }
-  
-  .menu-lateral {
-    flex-grow: 0;
-    flex-shrink: 0;
-    overflow: hidden;
-    flex-basis: 220px;
+  html {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 2px;        
   }
 
   .body {
@@ -47,8 +42,21 @@ export default {
     flex-grow: 1;
     flex-shrink: 1;
     overflow: auto;
-    height: calc(100vh - 30px);
+    height: calc(100vh - var(--top-bar-height) - 7px);
   }
+  
+  .main {
+    display: flex;   
+  }
+  
+  .side-bar {
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    flex-basis: var(--side-bar-width);
+  }
+
+  
 
   #app {
     font-family: 'Poppins', Helvetica, sans-serif;

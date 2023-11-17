@@ -18,17 +18,17 @@ const fabricantesRoutes = [
   {
     path: '/fabricantes',
     name: 'fabricantes',
-    component: () => import('@/core/Fabricantes/Views/FabricanteLista.vue'),
+    component: () => import('@/core/Fabricantes/Pages/FabricanteLista.vue'),
   },
   {
     path: '/fabricante',
     name: 'fabricante-inclusao',
-    component: () => import('@/core/Fabricantes/Views/FabricanteEdicao.vue'),
+    component: () => import('@/core/Fabricantes/Pages/FabricanteEdicao.vue'),
   },
   {
     path: '/fabricante/:id',
     name: 'fabricante-edicao',
-    component: () => import('@/core/Fabricantes/Views/FabricanteEdicao.vue'),
+    component: () => import('@/core/Fabricantes/Pages/FabricanteEdicao.vue'),
     props: true,
   },
 ];
@@ -37,29 +37,29 @@ const ingredientesRoutes = [
   {
     path: '/ingredientes',
     name: 'ingredientes',
-    component: () => import('@/core/Ingredientes/Views/IngredientesLista.vue'),
+    component: () => import('@/core/Ingredientes/Pages/IngredientesLista.vue'),
   },
   {
     path: '/ingrediente',
     name: 'ingrediente',
-    component: () => import('@/core/Ingredientes/Views/IngredientesEdicao.vue'),
+    component: () => import('@/core/Ingredientes/Pages/IngredientesEdicao.vue'),
   },
   {
     path: '/ingrediente/:id',
     name: 'ingrediente-edicao',
-    component: () => import('@/core/Ingredientes/Views/IngredientesEdicao.vue'),
+    component: () => import('@/core/Ingredientes/Pages/IngredientesEdicao.vue'),
     props: true,
   },
   {
     path: '/selecionaIngrediente',
     name: 'seleciona-ingrediente',
     component: () =>
-      import('@/core/Receitas/Views/SelecionaIngredienteReceita.vue'),
+      import('@/core/Receitas/Pages/SelecionaIngredienteReceita.vue'),
   },
   {
     path: '/entradaIngredientes',
     name: 'entrada-ingredientes',
-    component: () => import('@/core/Entradas/Views/EntradaIngredientes.vue'),
+    component: () => import('@/core/Entradas/Pages/EntradaIngredientes.vue'),
   },
 ];
 
@@ -67,17 +67,17 @@ const receitasRoutes = [
   {
     path: '/receitas',
     name: 'receitas',
-    component: () => import('@/core/Receitas/Views/ReceitasLista.vue'),
+    component: () => import('@/core/Receitas/Pages/ReceitasLista.vue'),
   },
   {
     path: '/receita',
     name: 'receita',
-    component: () => import('@/core/Receitas/Views/ReceitasEdicao.vue'),
+    component: () => import('@/core/Receitas/Pages/ReceitasEdicao.vue'),
   },
   {
     path: '/receita/:id',
     name: 'receita-edicao',
-    component: () => import('@/core/Receitas/Views/ReceitasEdicao.vue'),
+    component: () => import('@/core/Receitas/Pages/ReceitasEdicao.vue'),
     props: true,
   },
 ];
@@ -86,17 +86,17 @@ const produtosRoutes = [
   {
     path: '/produtos',
     name: 'produtos',
-    component: () => import('@/core/Produtos/Views/ProdutosLista.vue'),
+    component: () => import('@/core/Produtos/Pages/ProdutosLista.vue'),
   },
   {
     path: '/produto',
     name: 'produto',
-    component: () => import('@/core/Produtos/Views/ProdutoEdicao.vue'),
+    component: () => import('@/core/Produtos/Pages/ProdutoEdicao.vue'),
   },
   {
     path: '/produto/:id',
     name: 'produto-edicao',
-    component: () => import('@/core/Produtos/Views/ProdutoEdicao.vue'),
+    component: () => import('@/core/Produtos/Pages/ProdutoEdicao.vue'),
     props: true,
   },
 ];
@@ -105,17 +105,17 @@ const clientesRoutes = [
   {
     path: '/clientes',
     name: 'clientes',
-    component: () => import('@/core/Clientes/Views/ListaClientes.vue'),
+    component: () => import('@/core/Clientes/Pages/ListaClientes.vue'),
   },
   {
     path: '/cliente',
     name: 'cliente',
-    component: () => import('@/core/Clientes/Views/EdicaoCliente.vue'),
+    component: () => import('@/core/Clientes/Pages/EdicaoCliente.vue'),
   },
   {
     path: '/cliente/:id',
     name: 'edicao-cliente',
-    component: () => import('@/core/Clientes/Views/EdicaoCliente.vue'),
+    component: () => import('@/core/Clientes/Pages/EdicaoCliente.vue'),
     props: true,
   },
 ];

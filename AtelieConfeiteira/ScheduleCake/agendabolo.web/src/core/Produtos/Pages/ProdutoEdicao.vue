@@ -206,7 +206,7 @@ import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import Produto from '@/core/Produtos/Domain/Produto.js'
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
-import SelecionaReceitaProduto from '@/core/Produtos/Views/SelecionaReceitaProduto.vue'
+import SelecionaReceitaProduto from '@/core/Produtos/Pages/SelecionaReceitaProduto.vue'
 
 
 export default {

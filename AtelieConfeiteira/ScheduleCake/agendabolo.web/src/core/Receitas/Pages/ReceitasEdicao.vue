@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import SelecionaIngredienteReceita from '@/core/Receitas/Views/SelecionaIngredienteReceita.vue';
+import SelecionaIngredienteReceita from '@/core/Receitas/Pages/SelecionaIngredienteReceita.vue';
 import Receita from '@/core/Receitas/Domain/Receita.js';
 import InputBase from '@/components/Input/InputBase.vue';
 import InputArea from '@/components/Input/InputArea.vue';
