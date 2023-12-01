@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .container2 {    
+    @apply 
+      flex 
+      flex-row 
+      gap-2 
+      bg-blue-300 
+      p-4
+      border rounded-md;
+  }
+
+  .sample {
+    @apply 
+      text-sm 
+      p-4
+      mb-4
+      border 
+      border-gray-300 
+      border-l-4 border-l-green-500
+      rounded-r-md
+      shadow-inner;
+      /* shadow-[3px_2px_2px_1px_rgba(0,0,0,0.2)] */
+  }
+
+  .sample .title {
+    @apply font-bold text-xl text-gray-800 mb-5;
+  }
+}
+
+@layer components {
+  .laravue {
+    background: lime;
+  }
+}
+
