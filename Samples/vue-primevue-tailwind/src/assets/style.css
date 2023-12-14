@@ -1,6 +1,10 @@
 @tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
+
+/* npx tailwindcss -i ./src/assets/style.css -o ./src/assets/tailwind.css --watch */
 
 @layer base {
   .container2 {    
@@ -35,5 +39,22 @@
   .laravue {
     background: lime;
   }
+
+  .button {
+    @apply px-4 py-2 rounded  hover:cursor-pointer shadow-md m-1;    
+  }
+
+  .button-primary {
+    @apply bg-blue-500 hover:bg-blue-600 text-white;
+  }
+
+  .button-secondary {
+    @apply hover:bg-gray-300 text-gray-800;
+  }
+
+  .transition-input {
+    @apply transition duration-200 ease-in-out;
+  }
+
 }
 

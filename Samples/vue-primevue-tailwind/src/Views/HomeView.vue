@@ -135,14 +135,25 @@
         </div>
       </div>
 
-      <div class="sample">
-        <h1 class="title">#Sample 10 | Card</h1>
+      <div class="sample bg-gray-200">
+        <h1 class="title">#Sample 10 | Card, Buttons, Badge</h1>
+        <card-view />
+        <button-view buttonType="primary" text="#Primary" />
+        <button-view buttonType="secondary" text="#Secondary"/>
+        <badg-view text="Ativo" />
+      </div>
 
-        <div class="container mx-auto px-4 py-8 bg-yellow-300">
-          <h6 class="font-bold">Component Card</h6>
-        </div>
+      <div class="sample">
+        <h1 class="title">#Sample 11 | Input, DropDown</h1>
+        <input-text :placeholder="'Digite o texto'" class="mb-2" />
+        <input-text :placeholder="'Digite outro texto'" class="mb-2" />
+
+        <drop-down />
 
       </div>
+
+      
+
 
 
 
@@ -152,7 +163,17 @@
 </template>
 
 <script>
+import CardView from '@/components/CardView.vue';
+import ButtonView from '@/components/ButtonView.vue';
+import BadgView from '@/components/BadgView.vue';
+import InputText from '@/components/InputText.vue';
+import DropDown from '@/components/DropDown.vue';
+
 export default {
+  name: 'home-view',
+  components: {
+    CardView, ButtonView, BadgView, InputText, DropDown
+  }
 
 }
 </script>

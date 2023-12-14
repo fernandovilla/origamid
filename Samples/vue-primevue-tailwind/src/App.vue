@@ -1,16 +1,21 @@
-
-import HomeView from './Views/HomeView.vue';
 <template>
-  <home-view />
+  <!-- <home-view />	 -->
+	<!-- <login-view /> -->
+	<home-site-view />
 </template>
 
 <script>
-import HomeView from './Views/HomeView.vue'
+// import HomeView from './Views/HomeView.vue'
+//import LoginView from './Views/LoginView.vue';
+import HomeSiteView from './Views/HomeSiteView.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HomeView    
+    // HomeView
+		//LoginView
+		HomeSiteView
   }
 }
 </script>
