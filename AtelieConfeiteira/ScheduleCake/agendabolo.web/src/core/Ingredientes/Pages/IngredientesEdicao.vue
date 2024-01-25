@@ -165,7 +165,7 @@ import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
-
+import { TextToNumber } from '@/helpers/NumberHelp'
 
 
 export default {
@@ -219,15 +219,25 @@ export default {
 
       async alterarIngrediente() {
 
+        var embalagensRequest = this.embalagens.map((item, i) => (
+          {
+            id: item.id,
+            idingrediente: this.ingrediente.id,
+            descricao: item.descricao,
+            ean: item.ean,
+            idunidademedida: item.idUnidadeMedida,
+            quantidade: TextToNumber(item.quantidade),
+            tipoembalagem: TextToNumber(item.tipoEmbalagem)
+          }
+        ));
+
         var ingredienteRequest = {
           id: this.ingrediente.id,
           nome: this.ingrediente.nome,
-          precoCustoMedio: this.ingrediente.precoCustoMedio,
+          precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
           status: this.ingrediente.status,
-          embalagens: JSON.parse(JSON.stringify(this.embalagens))
+          embalagens: embalagensRequest
         };
-
-        console.log(JSON.stringify(ingredienteRequest));
 
         var response = await ingredientesAPIService.atualizar(ingredienteRequest);
         

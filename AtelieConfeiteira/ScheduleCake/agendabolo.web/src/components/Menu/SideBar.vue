@@ -5,7 +5,7 @@
     <ul>
       
       <side-bar-item display="Home" router="/" googleIcon="home" src_alt="home" />            
-      <side-bar-item display="Pedidos" router="/" googleIcon="shopping_cart" src_alt="pedidos" />
+      <side-bar-item display="Pedidos" router="/" googleIcon="sell" src_alt="pedidos" />      
       <side-bar-item display="Clientes" router="/clientes" googleIcon="group" src_alt="clientes" />      
       <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false>
         <ul>

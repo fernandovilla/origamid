@@ -62,36 +62,16 @@ namespace Agendabolo.Core.Ingredientes
             if (embalagensAdded != null)
                 embalagensAdded.ToList().ForEach(i => _context.Entry(i).State = EntityState.Added);
 
-
-            //Remove embalagens excluídas
+            // Embalagens excluídas
             var embalagensRemoved = embalagensAtuais.Except(embalagensEditadas, new IngredienteEmbalagemDTA());
             if (embalagensRemoved != null)
                 embalagensRemoved.ToList().ForEach(i => _context.IngredientesEmbalagens.Remove(i));
 
-
-            //Atualiza receitas editadas
+            // Embalagens editadas
             var embalagensUpdated = embalagensEditadas.Where(i => i.Id > 0).Intersect(embalagensAtuais, new IngredienteEmbalagemDTA());
             if (embalagensUpdated != null)
                 embalagensUpdated.ToList().ForEach(i => _context.Entry(i).State = EntityState.Modified);
 
-
-
-            //// Embalagens Incluídas
-            //foreach (var embalagem in embalagensEditadas.Where(i => i.Id == 0))
-            //    _context.IngredientesEmbalagens.Add(embalagem);
-
-            //// Embalagens Editadas
-            //foreach (var embalagem in embalagensAtuais.Intersect(embalagensEditadas.Where(i =>  i.Id > 0), new IngredienteEmbalagemDTA()))
-            //    _context.Entry(embalagem).State = EntityState.Modified;
-
-            ////Atualiza receitas editadas
-            ////foreach (var receitaUpdated in receitasAtuais.Intersect(receitasEditadas.Where(i => i.Id > 0)))
-            ////    _context.Entry(receitaUpdated).State = EntityState.Modified;
-
-            //// Embalagens Removidas
-            //var embalagensRemoved = embalagensAtuais.Except(embalagensEditadas, new IngredienteEmbalagemDTA());
-            //foreach (var embalagem in embalagensRemoved)
-            //    _context.IngredientesEmbalagens.Remove(embalagem);
         }
     }
 }
