@@ -23,6 +23,6 @@ appGlobal.component('InputText', InputText);
 //   },
 // });
 
-FontawelsomeLibrary(appGlobal);
-
 appGlobal.mount('#app');
+
+FontawelsomeLibrary(appGlobal);

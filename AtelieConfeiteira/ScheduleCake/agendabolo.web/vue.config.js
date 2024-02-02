@@ -1,8 +1,15 @@
 const { defineConfig } = require('@vue/cli-service');
+const path = require('path');
+
 module.exports = defineConfig({
-  lintOnSave: false,
-  //transpileDependencies: true
-  configureWebpack: {
-    devtool: 'source-map',
+  publicPath: '/',
+  outputDir: 'dist',
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === 'production') {
+      // mutate config for production...
+    } else {
+      // mutate for development...
+    }
   },
+  lintOnSave: false,
 });

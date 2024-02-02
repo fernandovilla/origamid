@@ -39,6 +39,17 @@ namespace Agendabolo.Core.Ingredientes
             };
         }
 
+        IngredienteEmbalagemRequest IParsableEntity<IngredienteEmbalagemRequest, IngredienteEmbalagemDTA>.Parse(IngredienteEmbalagemDTA entity)
+        {
+            return IngredienteEmbalagemRequest.Parse(entity);
+        }
+
+        IngredienteEmbalagemDTA IParsableEntity<IngredienteEmbalagemRequest, IngredienteEmbalagemDTA>.ToDTA(Agendabolo.Core.Ingredientes.IngredienteEmbalagemRequest entity)
+        {
+            return IngredienteEmbalagemRequest.ToDTA(entity);
+        }
+
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();

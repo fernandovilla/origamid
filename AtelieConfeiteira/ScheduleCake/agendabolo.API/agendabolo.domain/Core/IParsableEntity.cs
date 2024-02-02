@@ -8,7 +8,7 @@ namespace Agendabolo.Core
 {
     public interface IParsableEntity<TRequest, TDTA>
     {
-        static abstract TDTA ToDTA(TRequest entity);
-        static abstract TRequest Parse(TDTA entity);
+        TDTA ToDTA(TRequest entity);
+        TRequest Parse(TDTA entity);
     }
 }
