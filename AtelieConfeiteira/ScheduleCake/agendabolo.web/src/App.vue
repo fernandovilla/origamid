@@ -2,14 +2,16 @@
   <top-bar />
     
   <div class="main">
-    <side-bar class="side-bar" />
+    <side-bar class="side-bar" />    
     <router-view class="body"/>
   </div>
 </template>
 
 <script>
-import SideBar from '@/components/Menu/SideBar.vue'
+import SideBar from '@/components/Sidebar/SideBar.vue'
 import TopBar from '@/components/TopBar.vue';
+
+
 
 export default {
   components: {

@@ -120,6 +120,25 @@ const clientesRoutes = [
   },
 ];
 
+const formasRoutes = [
+  {
+    path: '/formas',
+    name: 'formas',
+    component: () => import('@/core/Formas/Pages/FormaLista.vue'),
+  },
+  {
+    path: '/forma',
+    name: 'forma',
+    component: () => import('@/core/Formas/Pages/FormaEdicao.vue'),
+  },
+  {
+    path: '/forma/:id',
+    name: 'forma-edicao',
+    component: () => import('@/core/Formas/Pages/FormaEdicao.vue'),
+    props: true,
+  },
+];
+
 const helloWorld = [
   {
     path: '/helloworld',
@@ -135,6 +154,7 @@ const routes = [
   ...receitasRoutes,
   ...produtosRoutes,
   ...clientesRoutes,
+  ...formasRoutes,
   ...helloWorld,
 ];
 

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const corsProxy = 'https://cors-everywhere.herokuapp.com/';
-const urlAPI =
-  'http://agenda-bolo-sample-env.eba-kgtdytka.us-east-2.elasticbeanstalk.com';
+//const corsProxy = 'https://cors-everywhere.herokuapp.com/';
+//const urlAPI = 'https://agenda-bolo-sample-env.eba-kgtdytka.us-east-2.elasticbeanstalk.com';
+const corsProxy = '';
+const urlAPI = 'http://localhost:81';
 
 const axiosInstance = axios.create({
   baseURL: `${corsProxy}${urlAPI}/api/v1`,

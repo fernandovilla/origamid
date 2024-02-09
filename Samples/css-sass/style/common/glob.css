@@ -1,0 +1,6 @@
+@import './_fade.css';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}

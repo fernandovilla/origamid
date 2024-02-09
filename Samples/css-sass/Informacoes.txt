@@ -1,0 +1,13 @@
+# METODOLOGIA BEM (Block Element Modifier):
+    block {}
+    block--modifier {}
+    element__block {}
+    element--modifier {}
+
+# SAMPLE:
+    .users { ... }
+    .users--active { ... }
+    .users__item { ... }
+    .users__item--admin { ... }
+
+

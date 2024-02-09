@@ -1,11 +1,9 @@
-﻿using Agendabolo.Core.Logs;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System;
 
 namespace Agendabolo.Controllers
 {
-    
+
     public interface IBaseController<TEntityRequest, TId>
     {
         IActionResult ListarBusca();
@@ -16,6 +14,7 @@ namespace Agendabolo.Controllers
 
     [ApiController]
     [Route("api/v1/[controller]")]
+    [EnableCors("Policy1")]
     public abstract class BaseController<TEntityRequest, TId> : 
         ControllerBase, 
         IBaseController<TEntityRequest, TId>
@@ -23,14 +22,14 @@ namespace Agendabolo.Controllers
         [HttpDelete("{id}")]
         public abstract IActionResult Delete(TId id);
 
-        [HttpGet]
+        [HttpGet]        
         public abstract IActionResult ListarBusca();
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}")]      
         public abstract IActionResult SelecionarPorId(TId id);
 
         [HttpPost]
-        [HttpPut]
+        [HttpPut]        
         public abstract IActionResult Salvar(TEntityRequest entity);        
     }
 }

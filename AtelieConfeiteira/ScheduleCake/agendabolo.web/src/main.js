@@ -3,19 +3,23 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import FontawelsomeLibrary from '@/helpers/Fontawelsome.js';
-import PrimeVue from 'primevue/config';
 
-import 'primeicons/primeicons.css';
-import InputText from 'primevue/inputtext';
-import Card from 'primevue/card';
+// import PrimeVue from 'primevue/config';
+// import 'primeicons/primeicons.css';
+// import InputText from 'primevue/inputtext';
+// import Card from 'primevue/card';
+// import Sidebar from 'primevue/sidebar';
+// import InputNumber from 'primevue/inputnumber';
 
 const appGlobal = createApp(App);
 appGlobal.use(router);
 appGlobal.use(store);
-appGlobal.use(PrimeVue);
 
-appGlobal.component('Card', Card);
-appGlobal.component('InputText', InputText);
+// appGlobal.use(PrimeVue);
+// appGlobal.component('Card', Card);
+// appGlobal.component('InputText', InputText);
+// appGlobal.component('Sidebar', Sidebar);
+// appGlobal.component('InputNumber', InputNumber);
 
 // appGlobal.directive('focus', {
 //   mounted: function (el) {
