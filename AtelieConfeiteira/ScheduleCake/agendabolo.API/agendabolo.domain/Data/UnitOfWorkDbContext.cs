@@ -1,5 +1,6 @@
 ﻿using Agendabolo.Core.Clientes;
 using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Formas;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
@@ -18,6 +19,7 @@ namespace Agendabolo.Data
         private IClienteRepository _clienteRepository;
         private IUnidadeMedidaRepository _unidadeMedidaRepositorys;
         private IEstoqueRepository _estoqueRepository;
+        private IFormaRepository _formaRepository;
 
         public UnitOfWorkDbContext()
             : this(UnitOfWorkDbContext.GetConnectionString())
@@ -70,6 +72,11 @@ namespace Agendabolo.Data
             get => _estoqueRepository   ?? new IngredienteEstoqueRepository(_context);
         }
 
+
+        public IFormaRepository FormaRepository
+        {
+            get => _formaRepository ?? new FormaRepository(_context);
+        }
 
 
         IIngredienteRepository IUnitOfWork.IngredienteRepository => throw new NotImplementedException();

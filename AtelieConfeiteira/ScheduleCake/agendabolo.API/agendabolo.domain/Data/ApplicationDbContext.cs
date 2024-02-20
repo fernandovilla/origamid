@@ -19,6 +19,7 @@ namespace Agendabolo.Data
         public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
         public DbSet<Core.Produtos.ProdutoReceitaDTA> ProdutosReceitas { get; set; }
         public DbSet<Core.Clientes.ClienteDTA> Clientes { get; set; }
+        public DbSet<Core.Formas.FormaDTA> Formas { get; set; }
         
 
 
@@ -109,6 +110,9 @@ namespace Agendabolo.Data
 
             #region [Clientes]
 
+            #endregion
+
+            #region [Formas]
             #endregion
         }
     }
