@@ -1,0 +1,30 @@
+.group {
+  border: 1px solid var(--border-color-light);
+  background: var(--background-color-white);
+  border-radius: 5px;
+  padding: 20px 20px;      
+  display: flex;
+  flex-direction: column;  
+}
+
+.group .title {
+  margin: 0px;
+  margin-bottom: 20px;
+  padding: 10px 0px;
+  padding-top: 0px;
+  color: var(--text-color-blue);    
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  font-weight: 500;
+  width: 100%;
+  text-align: start;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;    
+}
+
+.group .body {
+  height: auto;
+  width: auto;
+  overflow-y: scroll;
+}

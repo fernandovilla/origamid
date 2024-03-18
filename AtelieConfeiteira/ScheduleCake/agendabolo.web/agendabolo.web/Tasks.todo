@@ -1,0 +1,66 @@
+
+Alterações no cadastro de Receitas:
+  ✔ Web - Remover rendimento @done(23-03-27 08:31)
+  ✔ Web - Remover quantidade e custo do ingrediente @done(23-03-27 08:31)
+  ✔ Web - Incluir campo "Observações" @done(23-04-06 16:13)
+  ✔ Web - Concluir inclusão do campo "Observações". Não está atualizando... @done(23-04-13 10:21)
+  ☐ @low Web - Incluir novos campos na Receita:
+    > "Máquinas, equipamento e utensílios utilizados"
+    > "Controle de processo:"
+      > Tempo de mistura ou batimento;
+      > Tempo de descanso;
+      > Tempo de assamento;
+      > Temperatura forno lastro;
+      > Temperatura forno vertical;
+      > Percentual perda;
+      > Peso unidade;
+      > Tipo assadeira;
+      > Quantidade assadeiras
+    > Avaliação do produto;
+
+Cadastro de Receitas:
+  ☐ @high Desenvolver impressão de receita;
+  ☐ @high Desenvolver impressão de ingredientes;
+  
+Cadastro de Produtos:  
+  ☐ API - Desenvolver tabelas do cadastro de produtos;
+  ☐ API - Desenvolver API.Listar para listar produtos;
+  ☐ API - Desenvolver API.BuscarPorId para selecionar um produto específico;
+  ☐ API - Desenvolver API.Salvar para incluir e alterar produtos;
+  ☐ Web - Incluir opção `Produtos` no menu lateral do site;
+  ☐ Web - Desenvolver página para listagem de produtos, tela prinpal chamada pelo menu lateral
+  ☐ Web - Edição do Produto:
+    > Nome, Status, Observações, Tempo médio preparo, finalização;
+    > Receitas: Receita | Quantidade (g) | Custo R$
+      > Add | Remove | Up | Down
+    > Preço Custo:
+      > Custo receitas $ calculado
+      > Margem adicional preparo: %
+      > Custo mãe de obra: $
+      > Custo Embalagem: $
+      > Preço Custo Total: $ calculado
+    > Preço Venda:
+      > Margem Venda: $
+      > Preço Venda: $ calculado
+    > Imagens:
+  ☐ Web - Menu Lateral - Apresentar toggle quando mobile;
+  ☐ Web - Menu Lateral:
+      Home
+      Produtos
+        Ingredientes
+        Receitas
+        Produtos
+        Estoque
+        Fornecedores
+      Clientes
+      Compras
+      Pedidos
+      
+Cadastro de Ingredientes:
+  ☐ Incluir campo: Minimo em Estoque;
+
+
+Cadastro de Clientes:
+Cadastro de Pedidos:
+Estoque - Entrada:
+Estoque - Saída:
