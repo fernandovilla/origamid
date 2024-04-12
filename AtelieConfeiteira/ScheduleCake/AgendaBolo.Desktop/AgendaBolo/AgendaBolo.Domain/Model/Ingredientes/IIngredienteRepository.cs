@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.Domain.Model.Ingredientes
 {
-    public interface IIngredienteRepository: IGenericRepository<IngredienteDTA, uint>
+    public interface IIngredienteRepository: IGenericRepository<IngredienteDTA, uint>, ISearch<IngredienteBusca, string>
     {
     }
 }

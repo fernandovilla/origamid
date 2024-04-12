@@ -9,9 +9,7 @@ namespace AgendaBolo.Domain.Model.Repositories
 {
     public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {
-
-        TEntity GetByID(TKey id);
-        IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null);
+        TEntity GetByID(TKey id);        
         void Delete(TKey id);
         void Delete(TEntity entity);
         void Insert(TEntity entity);

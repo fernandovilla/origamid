@@ -11,7 +11,7 @@ using System.Windows.Forms.Design;
 
 namespace AgendaBolo.UI.Windows.Forms.Designer
 {
-    public class TextBoxFlatDesigner : ControlDesigner
+    public class TextBoxFormatDesigner : ControlDesigner
     {
         private DesignerActionListCollection actionLists;
         private char passwordChar;
@@ -24,7 +24,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
                 if (this.actionLists == null)
                 {
                     this.actionLists = new DesignerActionListCollection();
-                    this.actionLists.Add(new TextBoxFlatActionList(this));
+                    this.actionLists.Add(new TextBoxFormatActionList(this));
                 }
 
                 return this.actionLists;
@@ -35,7 +35,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
         {
             get
             {
-                TextBox control = this.Control as TextBox;
+                TextBoxString control = this.Control as TextBoxString;
                 if (control.UseSystemPasswordChar)
                 {
                     return this.passwordChar;
@@ -45,7 +45,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
             }
             set
             {
-                TextBox control = this.Control as TextBox;
+                TextBoxString control = this.Control as TextBoxString;
                 this.passwordChar = value;
                 control.PasswordChar = value;
             }
@@ -112,7 +112,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
             set
             {
                 this.Control.Text = value;
-                ((TextBoxBase)this.Control).Select(0, 0);
+                ((System.Windows.Forms.TextBoxBase)this.Control).Select(0, 0);
             }
         }
 
@@ -140,7 +140,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
                 PropertyDescriptor oldPropertyDescriptor = (PropertyDescriptor)properties[strArray[i]];
                 if (oldPropertyDescriptor != null)
                 {
-                    properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(TextBoxFlatDesigner), oldPropertyDescriptor, attributes);
+                    properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(TextBoxFormatDesigner), oldPropertyDescriptor, attributes);
                 }
             }
         }
@@ -152,10 +152,10 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
 
         private bool ShouldSerializeText()
         {
-            return TypeDescriptor.GetProperties(typeof(TextBoxBase))["Text"].ShouldSerializeValue(base.Component);
+            return TypeDescriptor.GetProperties(typeof(System.Windows.Forms.TextBoxBase))["Text"].ShouldSerializeValue(base.Component);
         }
 
-        public TextBoxFlatDesigner()
+        public TextBoxFormatDesigner()
         {
             base.AutoResizeHandles = true;
         }

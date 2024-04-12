@@ -56,7 +56,7 @@
 import InputBase from '@/components/Input/InputBase.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
-import { async } from 'pdfmake/build/pdfmake'
+import formaAPIService from '../Services/FormaApiService.js'
 
 
 export default {
@@ -97,22 +97,17 @@ export default {
 
         this.forma = { id: idForma };
 
-        // const response = await ingredientesAPIService.selecionarPorId(idIngrediente);
+        const response = await formaAPIService.obterForma(idForma);
 
-        // if (response !== undefined){
-        //   this.ingrediente = response.data;
-
-        //   if (this.ingrediente.embalagens !== undefined) {
-        //     this.embalagens = this.ingrediente.embalagens;
-        //   }
-
-        // } else {
-        //   this.$router.push('/ingredientes');
-        // }
+        if (response !== undefined){
+           this.forma = response.data;
+        } else {
+          this.$router.push('/formas');
+        }
       },
 
       async incluirForma(){
-
+        
       },
 
       async alterarForma() {

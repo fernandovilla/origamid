@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.UI.Windows.Forms
 {
-    [DebuggerNonUserCode(), ToolboxBitmap(typeof(TextBox)), Designer(typeof(TextBoxFlatDesigner))]
-    public class TextBoxFlat: TextBox
+    [ToolboxItem(false)]
+    [DebuggerNonUserCode(), ToolboxBitmap(typeof(TextBox)), Designer(typeof(TextBoxFormatDesigner))]
+    public class TextBoxFormatBase : System.Windows.Forms.TextBox
     {
-        private TextBoxFormat format;
-
+        private TextBoxTypeFormat format;
 
         public event EventHandler FormatChanged;
 
 
         [DefaultValue(null)]
-        [Editor(typeof(TextBoxFormatEditor), typeof(UITypeEditor))]
-        public TextBoxFormat Format
+        [Editor(typeof(TextBoxTypeFormatEditor), typeof(UITypeEditor))]
+        public TextBoxTypeFormat Format
         {
             get
             {

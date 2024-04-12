@@ -28,12 +28,51 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            Windows.Forms.TextBoxTypeFormatInteger textBoxTypeFormatInteger1 = new Windows.Forms.TextBoxTypeFormatInteger();
+            Windows.Forms.TextBoxTypeFormatInteger textBoxTypeFormatInteger2 = new Windows.Forms.TextBoxTypeFormatInteger();
+            textBoxInteger1 = new Windows.Forms.TextBoxInteger();
+            textBoxInteger2 = new Windows.Forms.TextBoxInteger();
+            SuspendLayout();
+            // 
+            // textBoxInteger1
+            // 
+            textBoxInteger1.ForeColor = Color.FromArgb(64, 64, 64);
+            textBoxInteger1.Format = textBoxTypeFormatInteger1;
+            textBoxInteger1.Location = new Point(22, 25);
+            textBoxInteger1.Name = "textBoxInteger1";
+            textBoxInteger1.Size = new Size(100, 23);
+            textBoxInteger1.TabIndex = 0;
+            textBoxInteger1.Text = "1";
+            textBoxInteger1.TextAlign = HorizontalAlignment.Right;
+            // 
+            // textBoxInteger2
+            // 
+            textBoxInteger2.ForeColor = Color.FromArgb(64, 64, 64);
+            textBoxInteger2.Format = textBoxTypeFormatInteger2;
+            textBoxInteger2.Location = new Point(128, 25);
+            textBoxInteger2.Name = "textBoxInteger2";
+            textBoxInteger2.PlaceholderText = "Informe o ID";
+            textBoxInteger2.Size = new Size(100, 23);
+            textBoxInteger2.TabIndex = 1;
+            // 
+            // Form1
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(232, 240, 244);
+            ClientSize = new Size(800, 450);
+            Controls.Add(textBoxInteger2);
+            Controls.Add(textBoxInteger1);
+            ForeColor = SystemColors.ControlText;
+            Name = "Form1";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Windows.Forms.TextBoxInteger textBoxInteger1;
+        private Windows.Forms.TextBoxInteger textBoxInteger2;
     }
 }

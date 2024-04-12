@@ -9,17 +9,18 @@ namespace AgendaBolo.Domain.Database
 {
     public partial class UnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDatabase _database;
         private IIngredienteRepository _ingredienteRepository;
 
         public IIngredienteRepository IngredienteReopsitory
         {
-            get => _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_context));
+            get => _ingredienteRepository ?? (_ingredienteRepository = new IngredienteRepository(_database));
         }
 
-        public int SaveChanges()
+        public void SaveChanges()
         {
-            return _context.SaveChanges();
+            _database.Commit();
+            _database.BeginTransaction();
         }
     }
 
@@ -28,17 +29,14 @@ namespace AgendaBolo.Domain.Database
         private bool _disposed = false;
 
         public UnitOfWork()
-            : this(UnitOfWork.GetConnectionString())
+            : this(new PostgresqlDatabase())
         { }
 
-        public UnitOfWork(string connectionString)
+        public UnitOfWork(IDatabase database)
         {
-            _context = new ApplicationDbContext(connectionString);
-        }
-
-        public UnitOfWork(ApplicationDbContext context)
-        {
-            _context = context;
+            _database = database;
+            _database.Open();
+            _database.BeginTransaction();
         }
 
         public void Dispose()
@@ -52,16 +50,11 @@ namespace AgendaBolo.Domain.Database
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    _database.Dispose();
                 }
             }
 
             _disposed = true;
-        }
-
-        private static string GetConnectionString()
-        {
-            return "Host=localhost;Port=5432;Pooling=true;Database=agendabolo;User Id=postgres;Password=admin;";
         }
     }
 

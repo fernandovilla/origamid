@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.Domain.Database
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork: IDisposable
     {
         IIngredienteRepository IngredienteReopsitory { get; }        
         
-        int SaveChanges();
+        void SaveChanges();
     }
 }

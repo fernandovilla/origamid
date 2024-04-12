@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.UI.Windows.Forms
 {
-    public class TextBoxFlatInteger: TextBoxFlat
-    {
-        public TextBoxFlatInteger()
+    [ToolboxBitmap(typeof(TextBox))]
+    internal class TextBoxEmail: TextBoxFormatBase
+    {        
+        public TextBoxEmail()
         {
-            Format = new TextBoxFormatInteger();
+            this.Format = new TextBoxTypeFormatEmail();
         }
     }
 }

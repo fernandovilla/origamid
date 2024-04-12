@@ -1,4 +1,5 @@
 ﻿using AgendaBolo.Domain.Database;
+using AgendaBolo.Domain.Model.Ingredientes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,76 +12,46 @@ namespace AgendaBolo.Domain.Model.Repositories
 {
     public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        protected ApplicationDbContext _context;
-        protected DbSet<TEntity> _dbset => _context.Set<TEntity>();
-
-        public GenericRepository(ApplicationDbContext context)
+        protected readonly IDatabase _database;
+        
+        public GenericRepository(IDatabase database)
         {
-            _context = context;
+            _database = database;
         }
 
         public virtual void Delete(TKey id)
         {
-            if (id == null) throw new ArgumentNullException("Invalid id");
-
-            var entity = GetByID(id);
-
-            if (entity == null) throw new KeyNotFoundException("Entity not found");
-
-            this.Delete(entity);
+            throw new NotImplementedException();
         }
 
         public virtual void Delete(TEntity entity)
         {
-            if (entity == null) throw new ArgumentNullException("Invalid entity");
-
-            if (_context.Entry(entity).State == EntityState.Detached)
-                _dbset.Attach(entity);
-
-            _dbset.Remove(entity);
-        }
-
-        public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null)
-        {
-            IQueryable<TEntity> query = _dbset;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            return query.AsEnumerable();
+            throw new NotImplementedException();
         }
 
         public virtual TEntity GetByID(TKey id)
         {
-            if (id == null)
-                throw new ArgumentNullException("Invalid id");
-
-            return _dbset.Find(id);
+            throw new NotImplementedException();
         }
 
         public virtual void Insert(TEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException("Invalid entity");
-
-            _dbset.Attach(entity);
+            throw new NotImplementedException();
         }
 
         public virtual void Update(TEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException("Invalid entity");
-
-            _dbset.Attach(entity);
-
-            _context.Entry(entity).State = EntityState.Modified;
+            throw new NotImplementedException();
         }
 
         public int Count()
         {
-            return _dbset.Count();
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TEntity> Search(string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

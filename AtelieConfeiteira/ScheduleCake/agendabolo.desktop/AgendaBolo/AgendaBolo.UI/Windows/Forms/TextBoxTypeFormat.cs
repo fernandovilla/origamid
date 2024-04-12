@@ -13,10 +13,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AgendaBolo.UI.Windows.Forms
-{    
-    [TypeConverter(typeof(TextBoxFormatConverter))]
+{
+    
+    [TypeConverter(typeof(TextBoxTypeFormatConverter))]
     [DebuggerNonUserCode()]
-    public abstract class TextBoxFormat
+    public abstract class TextBoxTypeFormat
     {
         private Dictionary<TextBox, TextBoxMessageHandle> textBoxes;
         private bool enabled;
@@ -226,7 +227,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected virtual void WmSetText(ref Message m)
         {
-            TextBox textBox = (TextBox)Control.FromHandle(m.HWnd);
+            var textBox = (TextBox)Control.FromHandle(m.HWnd);
 
             if (!this.Enabled || textBox == null)
             {
@@ -250,7 +251,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected virtual void WmPaste(ref Message m)
         {
-            TextBox textBox = (TextBox)Control.FromHandle(m.HWnd);
+            var textBox = (TextBox)Control.FromHandle(m.HWnd);
 
             if (!this.Enabled || textBox == null)
             {
@@ -278,7 +279,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected void WndProc(ref Message m)
         {
-            TextBox textBox = (TextBox)Control.FromHandle(m.HWnd);
+            var textBox = (TextBox)Control.FromHandle(m.HWnd);
 
             TextBoxMessageHandle messages = this.textBoxes[textBox];
 
@@ -286,7 +287,7 @@ namespace AgendaBolo.UI.Windows.Forms
         }
 
 
-        public void Assign(TextBox textBox)
+        public void Assign(System.Windows.Forms.TextBox textBox)
         {
             if (!this.textBoxes.ContainsKey(textBox))
             {
@@ -310,7 +311,7 @@ namespace AgendaBolo.UI.Windows.Forms
         {
             while (this.textBoxes.Keys.Any())
             {
-                TextBox textBox = this.textBoxes.Keys.First();
+                var textBox = this.textBoxes.Keys.First();
 
                 this.Release(textBox);
             }
@@ -343,16 +344,16 @@ namespace AgendaBolo.UI.Windows.Forms
             this.CharacterValidation?.Invoke(this, e);
         }
 
-        public TextBoxFormat()
+        public TextBoxTypeFormat()
         {
             this.textBoxes = new Dictionary<TextBox, TextBoxMessageHandle>();
             this.enabled = true;
         }
     }
 
-    [ToolboxBitmap(typeof(TextBoxFormatText), "TextBoxFormatText.bmp")]
+    [ToolboxBitmap(typeof(TextBoxTypeFormatText), "TypeFormatText.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatText : TextBoxFormat
+    public class TextBoxTypeFormatText : TextBoxTypeFormat
     {
         private bool allowAscent;
         private CharacterCasing casing;
@@ -360,8 +361,8 @@ namespace AgendaBolo.UI.Windows.Forms
         private const string WrongCharsMultiline = "'ÁÉÍÓÚÂÊÎÔÛÃÕÄËÏÖÜÀÈÌÒÙÇÝŸÑ'´`~^¨\a\b\f";
         private const string ValidCharsMultiline = " AEIOUAEIOUAOAEIOUAEIOUCYYN         ";
 
-        private const string WrongCharsSingleLine = TextBoxFormatText.WrongCharsMultiline + "\n\r\t\v";
-        private const string ValidCharsSingleLine = TextBoxFormatText.ValidCharsMultiline + "    ";
+        private const string WrongCharsSingleLine = TextBoxTypeFormatText.WrongCharsMultiline + "\n\r\t\v";
+        private const string ValidCharsSingleLine = TextBoxTypeFormatText.ValidCharsMultiline + "    ";
 
 
         public override string Name
@@ -442,13 +443,13 @@ namespace AgendaBolo.UI.Windows.Forms
 
                     if (context.Multiline)
                     {
-                        wrongChars = TextBoxFormatText.WrongCharsMultiline;
-                        validChars = TextBoxFormatText.ValidCharsMultiline;
+                        wrongChars = TextBoxTypeFormatText.WrongCharsMultiline;
+                        validChars = TextBoxTypeFormatText.ValidCharsMultiline;
                     }
                     else
                     {
-                        wrongChars = TextBoxFormatText.WrongCharsSingleLine;
-                        validChars = TextBoxFormatText.ValidCharsSingleLine;
+                        wrongChars = TextBoxTypeFormatText.WrongCharsSingleLine;
+                        validChars = TextBoxTypeFormatText.ValidCharsSingleLine;
                     }
 
                     int index = wrongChars.IndexOf(x);
@@ -473,16 +474,16 @@ namespace AgendaBolo.UI.Windows.Forms
         }
 
 
-        public TextBoxFormatText()
+        public TextBoxTypeFormatText()
         {
             this.allowAscent = false;
             this.casing = CharacterCasing.Upper;
         }
     }
-    
-    [ToolboxBitmap(typeof(TextBoxFormatEmail), "TextBoxFormatEmail.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatEmail), "TypeFormatEmail.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatEmail : TextBoxFormat
+    public class TextBoxTypeFormatEmail : TextBoxTypeFormat
     {
         private Color linkColor;
 
@@ -560,53 +561,53 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void TextBox_TextChanged(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ConfigureAppearance(textBox);
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ConfigureCursor(textBox);
         }
 
-        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)   
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ConfigureCursor(textBox);
         }
 
         private void TextBox_MouseMove(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ConfigureCursor(textBox);
         }
 
         private void TextBox_MouseUp(object sender, MouseEventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ProcessLink(textBox);
         }
 
         private void TextBox_FontChanged(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             this.ConfigureAppearance(textBox, true);
         }
 
         private void WmSetFont(ref Message m)
         {
-            TextBox textBox = (TextBox)Control.FromHandle(m.HWnd);
+            var textBox = (TextBox)Control.FromHandle(m.HWnd);
 
             if (textBox != null)
             {
-                State state = TextBoxFormatEmail.states[textBox];
+                State state = TextBoxTypeFormatEmail.states[textBox];
 
                 if (state.font != null)
                 {
@@ -644,7 +645,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void ConfigureAppearance(TextBox textBox, bool update = false)
         {
-            State state = TextBoxFormatEmail.states[textBox];
+            State state = TextBoxTypeFormatEmail.states[textBox];
 
             if (state.configuringAppearance) return;
 
@@ -677,7 +678,7 @@ namespace AgendaBolo.UI.Windows.Forms
                         {
                             state.font = font;
 
-                            TextBoxFormatEmail.OnFontChangedMethod.Invoke(textBox, new object[] { EventArgs.Empty });
+                            TextBoxTypeFormatEmail.OnFontChangedMethod.Invoke(textBox, new object[] { EventArgs.Empty });
                         }
                     }
 
@@ -692,7 +693,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void ConfigureCursor(TextBox textBox)
         {
-            State state = TextBoxFormatEmail.states[textBox];
+            State state = TextBoxTypeFormatEmail.states[textBox];
 
             if (Control.ModifierKeys == Keys.Control && state.status == Status.Email && this.MouseHoverText(textBox))
             {
@@ -708,7 +709,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected virtual void ProcessLink(TextBox textBox)
         {
-            State state = TextBoxFormatEmail.states[textBox];
+            State state = TextBoxTypeFormatEmail.states[textBox];
 
             if (state.mouseHoverLink)
             {
@@ -752,7 +753,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected override void Assign(TextBox textBox, TextBoxMessageHandle messages)
         {
-            TextBoxFormatEmail.states.Add(textBox, State.FromTextBox(textBox));
+            TextBoxTypeFormatEmail.states.Add(textBox, State.FromTextBox(textBox));
 
             textBox.TextChanged += this.TextBox_TextChanged;
             textBox.KeyDown += this.TextBox_KeyDown;
@@ -768,7 +769,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         protected override void Release(TextBox textBox, TextBoxMessageHandle messages)
         {
-            TextBoxFormatEmail.states.Remove(textBox);
+            TextBoxTypeFormatEmail.states.Remove(textBox);
 
             textBox.TextChanged -= this.TextBox_TextChanged;
             textBox.KeyDown -= this.TextBox_KeyDown;
@@ -782,15 +783,15 @@ namespace AgendaBolo.UI.Windows.Forms
             base.Release(textBox, messages);
         }
 
-        public TextBoxFormatEmail()
+        public TextBoxTypeFormatEmail()
         {
             this.linkColor = Color.Blue;
         }
     }
-    
-    [ToolboxBitmap(typeof(TextBoxFormatNumeric), "TextBoxFormatNumeric.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatNumeric), "TypeFormatNumeric.bmp")]
     [DebuggerNonUserCode()]
-    public abstract class TextBoxFormatNumeric : TextBoxFormat
+    public abstract class TextBoxTypeFormatNumeric : TextBoxTypeFormat
     {
         private bool allowNegative;
         private Emptiness emptiness;
@@ -932,7 +933,7 @@ namespace AgendaBolo.UI.Windows.Forms
         {
             if (!e.Handled && this.AllowNegative && e.KeyChar == '-')
             {
-                TextBox textBox = (TextBox)sender;
+                var textBox = (TextBox)sender;
 
                 if (textBox.Text.Contains('-'))
                 {
@@ -949,7 +950,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void TextBox_Enter(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             if (this.Enabled)
             {
@@ -979,7 +980,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void TextBox_Leave(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             if (this.Enabled)
             {
@@ -1082,17 +1083,17 @@ namespace AgendaBolo.UI.Windows.Forms
             textBox.Leave -= this.TextBox_Leave;
         }
 
-        public TextBoxFormatNumeric()
+        public TextBoxTypeFormatNumeric()
         {
             this.allowNegative = true;
             this.emptiness = Emptiness.Blank;
         }
     }
 
-    
-    [ToolboxBitmap(typeof(TextBoxFormatInteger), "TextBoxFormatInteger.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatInteger), "TypeFormatInteger.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatInteger : TextBoxFormatNumeric
+    public class TextBoxTypeFormatInteger : TextBoxTypeFormatNumeric
     {
         private int leadingZeros;
 
@@ -1173,16 +1174,16 @@ namespace AgendaBolo.UI.Windows.Forms
             return "0";
         }
 
-        public TextBoxFormatInteger()
+        public TextBoxTypeFormatInteger()
         {
             this.leadingZeros = 0;
         }
     }
 
-    
-    [ToolboxBitmap(typeof(TextBoxFormatDecimal), "TextBoxFormatDecimal.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatDecimal), "TypeFormatDecimal.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatDecimal : TextBoxFormatNumeric
+    public class TextBoxTypeFormatDecimal : TextBoxTypeFormatNumeric
     {
         private int decimals;
         private int trailingZeros;
@@ -1324,17 +1325,17 @@ namespace AgendaBolo.UI.Windows.Forms
             return result;
         }
 
-        public TextBoxFormatDecimal()
+        public TextBoxTypeFormatDecimal()
         {
             this.decimals = 2;
             this.trailingZeros = 0;
         }
     }
 
-    
-    [ToolboxBitmap(typeof(TextBoxFormatCurrency), "TextBoxFormatCurrency.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatCurrency), "TypeFormatCurrency.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatCurrency : TextBoxFormatDecimal
+    public class TextBoxTypeFormatCurrency : TextBoxTypeFormatDecimal
     {
         private string symbol;
 
@@ -1389,7 +1390,7 @@ namespace AgendaBolo.UI.Windows.Forms
             return result;
         }
 
-        public TextBoxFormatCurrency()
+        public TextBoxTypeFormatCurrency()
         {
             this.symbol = CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
             base.TrailingZeros = 2;
@@ -1397,10 +1398,10 @@ namespace AgendaBolo.UI.Windows.Forms
     }
 
 
-    
-    [ToolboxBitmap(typeof(TextBoxFormatCurrency), "TextBoxFormatNumber.bmp")]
+
+    [ToolboxBitmap(typeof(TextBoxTypeFormatCurrency), "TypeFormatNumber.bmp")]
     [DebuggerNonUserCode()]
-    public class TextBoxFormatNumber : TextBoxFormat
+    public class TextBoxTypeFormatNumber : TextBoxTypeFormat
     {
         public override string Name
         {
@@ -1422,7 +1423,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void TextBox_Enter(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             Action align = () =>
             {
@@ -1445,7 +1446,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
         private void TextBox_Leave(object sender, EventArgs e)
         {
-            TextBox textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;
 
             Action align = () =>
             {
@@ -1486,15 +1487,15 @@ namespace AgendaBolo.UI.Windows.Forms
             textBox.Leave -= this.TextBox_Leave;
         }
 
-        public TextBoxFormatNumber()
+        public TextBoxTypeFormatNumber()
         {
         }
     }
 
 
-    
+
     [DebuggerNonUserCode()]
-    public class TextBoxFormatConverter : TypeConverter
+    public class TextBoxTypeFormatConverter : TypeConverter
     {
         private static string none = "(none)";
 
@@ -1515,7 +1516,7 @@ namespace AgendaBolo.UI.Windows.Forms
                 return none;
             }
 
-            TextBoxFormat format = value as TextBoxFormat;
+            TextBoxTypeFormat format = value as TextBoxTypeFormat;
 
             if (format != null)
             {
@@ -1537,9 +1538,9 @@ namespace AgendaBolo.UI.Windows.Forms
         }
     }
 
-    
+
     public delegate void CharacterValidationEventHandler(object sender, CharacterValidationEventArgs e);
-    
+
     public class CharacterValidationEventArgs : CancelEventArgs
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -1577,7 +1578,7 @@ namespace AgendaBolo.UI.Windows.Forms
 
     }
 
-    
+
     [DebuggerNonUserCode()]
     public struct TextContext
     {
@@ -1629,7 +1630,7 @@ namespace AgendaBolo.UI.Windows.Forms
         }
     }
 
-    
+
     public enum TextContextMethod
     {
         Set = 0,
@@ -1637,7 +1638,7 @@ namespace AgendaBolo.UI.Windows.Forms
         Typing,
     }
 
-    
+
     public enum Emptiness
     {
         Blank,

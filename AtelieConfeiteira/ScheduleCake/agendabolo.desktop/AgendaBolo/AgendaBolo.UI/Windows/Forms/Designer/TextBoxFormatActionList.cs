@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.UI.Windows.Forms.Designer
 {
-    public class TextBoxFlatActionList : DesignerActionList
+    public class TextBoxFormatActionList : DesignerActionList
     {
 
         //public TextBoxFlat.SpeedButtonCollection Buttons
@@ -23,7 +23,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
         {
             get
             {
-                return ((TextBox)base.Component).Multiline;
+                return ((TextBoxString)base.Component).Multiline;
             }
             set
             {
@@ -41,7 +41,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
             return items;
         }
 
-        public TextBoxFlatActionList(TextBoxFlatDesigner designer)
+        public TextBoxFormatActionList(TextBoxFormatDesigner designer)
             : base(designer.Component)
         {
         }

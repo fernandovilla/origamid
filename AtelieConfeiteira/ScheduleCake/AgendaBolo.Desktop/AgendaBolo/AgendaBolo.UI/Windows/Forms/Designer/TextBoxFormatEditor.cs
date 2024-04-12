@@ -8,7 +8,7 @@ using System.Windows.Forms.Design;
 namespace AgendaBolo.UI.Windows.Forms.Designer
 {
 
-    public class TextBoxFormatEditor : UITypeEditor
+    public class TextBoxTypeFormatEditor : UITypeEditor
     {
         private static string none = "(none)";
 
@@ -16,10 +16,10 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
 
         private class ListBoxItem
         {
-            private TextBoxFormat format;
+            private TextBoxTypeFormat format;
             private string description;
 
-            public TextBoxFormat Format
+            public TextBoxTypeFormat Format
             {
                 get
                 {
@@ -40,7 +40,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
                 return this.description;
             }
 
-            public ListBoxItem(TextBoxFormat format, string description)
+            public ListBoxItem(TextBoxTypeFormat format, string description)
             {
                 this.format = format;
                 this.description = description;
@@ -75,9 +75,9 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
 
             ListBoxItem selectedItem = (ListBoxItem)listBox.Items[index];
 
-            IEnumerable<TextBoxFormat> formatters = TextBoxFormatEditor.GetTextBoxFormatInstances(provider);
+            IEnumerable<TextBoxTypeFormat> formatters = TextBoxTypeFormatEditor.GetTextBoxFormatInstances(provider);
 
-            foreach (TextBoxFormat format in formatters)
+            foreach (TextBoxTypeFormat format in formatters)
             {
                 string description = format.Name ?? format.ToString();
 
@@ -108,13 +108,13 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
                 return value;
             }
 
-            TextBoxFormat result = selectedItem.Format;
+            TextBoxTypeFormat result = selectedItem.Format;
 
-            if (value != null && value is TextBoxFormat)
+            if (value != null && value is TextBoxTypeFormat)
             {
-                TextBoxFormat source = (TextBoxFormat)value;
+                TextBoxTypeFormat source = (TextBoxTypeFormat)value;
 
-                TextBoxFormatEditor.CopyTextBoxFormatProperties(result, source);
+                TextBoxTypeFormatEditor.CopyTextBoxFormatProperties(result, source);
             }
 
             return result;
@@ -133,7 +133,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
             ListBox box = (ListBox)sender;
 
             ListBoxItem item = (ListBoxItem)box.Items[e.Index];
-            TextBoxFormat format = item.Format;
+            TextBoxTypeFormat format = item.Format;
 
             e.DrawBackground();
 
@@ -158,7 +158,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
 
         public override void PaintValue(PaintValueEventArgs e)
         {
-            if (e.Value is TextBoxFormat)
+            if (e.Value is TextBoxTypeFormat)
             {
                 Image image = null;
 
@@ -189,7 +189,7 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
 
             if (service != null)
             {
-                ICollection types = service.GetTypes(typeof(TextBoxFormat), false);
+                ICollection types = service.GetTypes(typeof(TextBoxTypeFormat), false);
 
                 foreach (Type type in types)
                 {
@@ -200,22 +200,22 @@ namespace AgendaBolo.UI.Windows.Forms.Designer
             }
         }
 
-        private static IEnumerable<TextBoxFormat> GetTextBoxFormatInstances(IServiceProvider provider)
+        private static IEnumerable<TextBoxTypeFormat> GetTextBoxFormatInstances(IServiceProvider provider)
         {
-            foreach (Type type in TextBoxFormatEditor.GetTextBoxFormatTypes(provider))
+            foreach (Type type in TextBoxTypeFormatEditor.GetTextBoxFormatTypes(provider))
             {
-                TextBoxFormat format = (TextBoxFormat)Activator.CreateInstance(type);
+                TextBoxTypeFormat format = (TextBoxTypeFormat)Activator.CreateInstance(type);
 
                 yield return format;
             }
         }
 
-        private static void CopyTextBoxFormatProperties(TextBoxFormat dest, TextBoxFormat source)
+        private static void CopyTextBoxFormatProperties(TextBoxTypeFormat dest, TextBoxTypeFormat source)
         {
             Type sourceType = source.GetType();
             Type destType = dest.GetType();
 
-            Type parent = TextBoxFormatEditor.GetLowestCommonAncestor(destType, sourceType);
+            Type parent = TextBoxTypeFormatEditor.GetLowestCommonAncestor(destType, sourceType);
 
             if (parent == null) return;
 
