@@ -8,10 +8,8 @@ namespace AgendaBolo.Domain.Database
         public override IDbCommand CreateCommand(string commandText)
         {
             var cmd = (NpgsqlCommand)CurrentConnection.CreateCommand();            
-            cmd.Transaction = (NpgsqlTransaction)CurrentTransaction;
-
-            if (CurrentTransaction != null)
-                cmd.CommandText = commandText;
+            cmd.Transaction = (NpgsqlTransaction)CurrentTransaction;            
+            cmd.CommandText = commandText;
 
             return cmd;
         }

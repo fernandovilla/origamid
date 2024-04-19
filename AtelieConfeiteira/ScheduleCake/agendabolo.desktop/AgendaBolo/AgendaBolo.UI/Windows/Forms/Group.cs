@@ -9,7 +9,7 @@ using System.IO;
 
 namespace AgendaBolo.UI.Windows.Forms
 {
-    public class Group: System.Windows.Forms.ContainerControl
+    public class Group : System.Windows.Forms.ContainerControl
     {
         private Padding _padding = new Padding(1);
 
@@ -21,21 +21,19 @@ namespace AgendaBolo.UI.Windows.Forms
 
             Color backColor = this.BackColor;
             GraphicsPath path = new GraphicsPath();
-            path.AddRectangle(new Rectangle(0,0, this.Width-1, this.Height-1));
+            path.AddRectangle(new Rectangle(0, 0, this.Width - 1, this.Height - 1));
 
 
             using (Brush brush = new SolidBrush(backColor))
                 e.Graphics.FillPath(brush, path);
 
-            Color borderColor = Color.LightGray;
-            float borderWidth  = 1;
+            Color borderColor = Const.BORDER_COLOR;
+            float borderWidth = 1;
 
             using (Pen pen = new Pen(borderColor, borderWidth))
-            {
                 e.Graphics.DrawPath(pen, path);
-            }
         }
 
-       
+
     }
 }

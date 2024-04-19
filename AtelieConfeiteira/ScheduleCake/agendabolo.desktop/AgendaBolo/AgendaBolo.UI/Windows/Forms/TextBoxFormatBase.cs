@@ -16,8 +16,15 @@ namespace AgendaBolo.UI.Windows.Forms
     public class TextBoxFormatBase : System.Windows.Forms.TextBox
     {
         private TextBoxTypeFormat format;
+        private Font _font = new Font(Const.FONT_FAMILY, Const.FONT_SIZE_TEXTBOX, FontStyle.Regular);
 
         public event EventHandler FormatChanged;
+
+        //public override Font Font
+        //{
+        //    get => _font;
+        //    set => _font = value;
+        //}
 
 
         [DefaultValue(null)]
@@ -52,6 +59,12 @@ namespace AgendaBolo.UI.Windows.Forms
         protected virtual void OnFormatChanged(EventArgs e)
         {
             this.FormatChanged?.Invoke(this, e);
+        }
+
+        public TextBoxFormatBase()
+        {
+            this.Font = new Font(Const.FONT_FAMILY, Const.FONT_SIZE_TEXTBOX, FontStyle.Regular);
+            this.ForeColor = Const.TEXT_COLOR_DARK;
         }
     }
 }

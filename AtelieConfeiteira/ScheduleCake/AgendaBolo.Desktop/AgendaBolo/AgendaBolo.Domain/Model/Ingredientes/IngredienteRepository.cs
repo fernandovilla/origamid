@@ -38,13 +38,20 @@ namespace AgendaBolo.Domain.Model.Ingredientes
                 $"  i.id as Id, \n" +
                 $"  i.nome as Nome, \n" +
                 $"  sum(coalesce(e.quantidade,0)) as QuantidadeEstoque\n" +
-                "from ingredientes i inner join embalagensingredientes e on i.id  = e.idingrediente \n" +
-                "   left join estoqueingredientes s on i.id = s.idingrediente \n" +
-                $"where i.nome like '{value.Trim()}%' \n" +
-                $"  or e.EAN = {value.ToSql()} \n" +
-                $"  or i.id= {codigo.ToSql()} \n" +
-                "group by i.id, i.nome \n" +
-                "order by i.nome;";
+                "from ingredientes i " +
+                "   left join embalagensingredientes e on i.id  = e.idingrediente \n" +
+                "   left join estoqueingredientes s on i.id = s.idingrediente \n";
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                sql +=
+                    $"where i.nome like '{value.Trim()}%' \n" +
+                    $"  or e.EAN = {value.ToSql()} \n" +
+                    $"  or i.id= {codigo.ToSql()} \n";
+            }
+
+            sql += "group by i.id, i.nome \n" +
+                    "order by i.nome;";
 
             using (var reader = _database.ExecuteReader(sql))
             {

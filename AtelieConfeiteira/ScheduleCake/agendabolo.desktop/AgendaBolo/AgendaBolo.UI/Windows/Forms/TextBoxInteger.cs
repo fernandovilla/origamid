@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AgendaBolo.UI.Windows.Forms
 {
-    [ToolboxItem(true)]
+    [ToolboxItem(true), ToolboxBitmap(typeof(TextBox))]
     public class TextBoxInteger: TextBoxFormatBase
     {
         public TextBoxInteger()
