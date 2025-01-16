@@ -18,18 +18,18 @@ import {
   faSave,
 } from '@fortawesome/free-solid-svg-icons';
 
-import {
-  faCirclePlus,
-  faCircleTrash,
-  faAngleDown,
-  faSearch,
-} from '@fortawesome/sharp-solid-svg-icons';
+// import {
+//   faCirclePlus,
+//   faCircleTrash,
+//   faAngleDown,
+//   faSearch,
+// } from '@fortawesome/sharp-solid-svg-icons';
 
 const FontawelsomeLibrary = (app) => {
   library.add(
     faUserSecret,
-    faCirclePlus,
-    faCircleTrash,
+    /*faCirclePlus,*/
+    /*faCircleTrash,*/
     faPen,
     faPenToSquare,
     faTrash,
@@ -38,8 +38,8 @@ const FontawelsomeLibrary = (app) => {
     faForwardStep,
     faCaretRight,
     faCaretLeft,
-    faAngleDown,
-    faSearch,
+    /*faAngleDown,*/
+    /*faSearch,*/
     faCircleXmark,
     faCaretUp,
     faCaretDown,

@@ -219,7 +219,7 @@ export default {
 
       async alterarIngrediente() {
 
-        var embalagensRequest = this.embalagens.map((item, i) => (
+        var embalagensRequest = this.embalagens.map((item) => (
           {
             id: item.id,
             idingrediente: this.ingrediente.id,
