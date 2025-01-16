@@ -1,5 +1,5 @@
 ﻿using Agendabolo.Core.Fabricantes;
-using Agendabolo.Core.Logs;
+using Agendabolo.Core.LogDeErros;
 using Agendabolo.Core.Receitas;
 using Agendabolo.Data;
 using System;
@@ -27,7 +27,7 @@ namespace Agendabolo.Core.Produtos
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return false;
@@ -49,7 +49,7 @@ namespace Agendabolo.Core.Produtos
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return null;
@@ -64,7 +64,7 @@ namespace Agendabolo.Core.Produtos
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return null;
@@ -99,7 +99,7 @@ namespace Agendabolo.Core.Produtos
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return (false, produto);

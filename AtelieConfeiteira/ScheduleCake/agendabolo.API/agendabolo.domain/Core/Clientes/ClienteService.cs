@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Logs;
+﻿using Agendabolo.Core.LogDeErros;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Data;
 using System;
@@ -63,7 +63,7 @@ namespace Agendabolo.Core.Clientes
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return (result, cliente);

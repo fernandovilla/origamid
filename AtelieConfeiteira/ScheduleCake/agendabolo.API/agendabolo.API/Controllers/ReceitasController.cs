@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Logs;
+﻿using Agendabolo.Core.LogDeErros;
 using Agendabolo.Core.Receitas;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,7 +36,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErro.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -69,7 +69,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErro.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -93,7 +93,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErro.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -122,7 +122,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErro.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -151,7 +151,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErro.Default.Write(ex);
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }

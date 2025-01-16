@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Logs;
+﻿using Agendabolo.Core.LogDeErros;
 using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Agendabolo.Core.Fabricantes
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return false;
@@ -57,7 +57,7 @@ namespace Agendabolo.Core.Fabricantes
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return null;
@@ -83,7 +83,7 @@ namespace Agendabolo.Core.Fabricantes
             }
             catch (Exception ex)
             {
-                LogDeErros.Default.Write(ex);
+                LogDeErros.LogDeErro.Default.Write(ex);
             }
 
             return (false, fabricante);
