@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Agendabolo.Core.Receitas
 {
@@ -23,7 +24,7 @@ namespace Agendabolo.Core.Receitas
         public string Descricao { get; set; }
 
         [Column("pesoreferencia")]
-        public int PesoReferencia { get; set; }
+        public double PesoReferencia { get; set; }
 
         [Column("status")]
         public StatusCadastro Status { get; set; }
@@ -32,7 +33,9 @@ namespace Agendabolo.Core.Receitas
         public string Preparo { get; set; }
 
         [Column("tempopreparo")]
-        public double TempoPreparo { get; set; }
+        public long TempoPreparoTicks { get; set; }
+
+        public TimeSpan TempoPreparo => new TimeSpan(this.TempoPreparoTicks);
 
         [Column("observacao")]
         public string Observacao { get; set; }
