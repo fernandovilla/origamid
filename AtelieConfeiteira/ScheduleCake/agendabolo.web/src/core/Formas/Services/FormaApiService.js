@@ -1,7 +1,7 @@
 import { api } from '../../../services/serviceAPI.js';
 import LogErro from '../../../helpers/LogErro.js';
 
-export const formaAPIService = {
+const formaAPIService = {
   async obterFormas() {
     return null;
   },
@@ -61,4 +61,6 @@ export const formaAPIService = {
       LogErro(error, 'Ocorreu erro deletando forma');
     }
   },
-};
+}
+
+export default formaAPIService;

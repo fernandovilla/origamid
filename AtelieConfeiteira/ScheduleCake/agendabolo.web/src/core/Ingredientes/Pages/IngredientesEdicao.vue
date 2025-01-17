@@ -19,20 +19,29 @@
                 </div>
               
                 <div class="input-group col-3 col-sm-12">
-                  <label for="precoCusto">Preço Custo Médio</label>
-                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
-                </div>
-
-                <div class="input-group col-3 col-sm-12">
                   <label for="status">Status</label>
                   <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
                 </div>
               </div>              
+
+              <div class="row">
+                <div class="input-group col-3 col-sm-12">
+                  <label for="precoCusto">Preço Custo</label>
+                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
+                </div>
+
+                <div class="input-group col-3 col-sm-12">
+                  <label for="precoCusto">Preço Custo Médio</label>
+                  <input-number id="precoCustoMedio" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
+                </div>
+              </div>
+
             </div>    
           </div>
         </div>       
       </div>
 
+      <!-- Embalagem -->
       <div class="row m-top-10">
         <div class="col-12 col-md-12">
           <div class="group dados-embalagens">
@@ -167,7 +176,6 @@ import { ingredientesAPIService } from '@/core/Ingredientes/Services/Ingrediente
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
 import { TextToNumber } from '@/helpers/NumberHelp'
 
-
 export default {
     name: "ingrediente-edicao",
     data() {
@@ -175,6 +183,7 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
+          precoCusto: 0,
           precoCustoMedio: 0,
           status: 1
         },
@@ -199,13 +208,12 @@ export default {
     },
 
     methods: {
+
+      
+
       async incluirIngrediente() {
 
-        const ingredienteRequest = {
-          nome: this.ingrediente.nome, 
-          precoCusto: this.precoingrediente,
-          status: this.ingrediente.status          
-        }
+        var ingredienteRequest = this.getIngredienteRequest();
 
         const response = await ingredientesAPIService.incluir(ingredienteRequest);
        
@@ -219,25 +227,7 @@ export default {
 
       async alterarIngrediente() {
 
-        var embalagensRequest = this.embalagens.map((item) => (
-          {
-            id: item.id,
-            idingrediente: this.ingrediente.id,
-            descricao: item.descricao,
-            ean: item.ean,
-            idunidademedida: item.idUnidadeMedida,
-            quantidade: TextToNumber(item.quantidade),
-            tipoembalagem: TextToNumber(item.tipoEmbalagem)
-          }
-        ));
-
-        var ingredienteRequest = {
-          id: this.ingrediente.id,
-          nome: this.ingrediente.nome,
-          precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
-          status: this.ingrediente.status,
-          embalagens: embalagensRequest
-        };
+        var ingredienteRequest = this.getIngredienteRequest();
 
         var response = await ingredientesAPIService.atualizar(ingredienteRequest);
         
@@ -266,6 +256,32 @@ export default {
         } else {
           this.$router.push('/ingredientes');
         }
+      },
+
+      getIngredienteRequest(){
+        var embalagensRequest = this.embalagens.map((item) => (
+          {
+            id: item.id,
+            idingrediente: this.ingrediente.id,
+            descricao: item.descricao,
+            ean: item.ean,
+            idunidademedida: item.idUnidadeMedida,
+            quantidade: TextToNumber(item.quantidade),
+            tipoembalagem: TextToNumber(item.tipoEmbalagem)
+          }
+        ));
+
+        var ingredienteRequest = {
+          id: this.ingrediente.id != undefined ? this.ingrediente.id : 0,
+          nome: this.ingrediente.nome,
+          precoCusto: TextToNumber(this.ingrediente.precoCusto),
+          precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
+          status: this.ingrediente.status,
+          estoqueTotal: 0,
+          embalagens: embalagensRequest
+        };
+
+        return ingredienteRequest;
       },
 
       changeSelectedItem(arg){

@@ -56,7 +56,7 @@
 import InputBase from '@/components/Input/InputBase.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
-import formaAPIService from '../Services/FormaApiService.js'
+import formaAPIService from '@/core/Formas/Services/FormaApiService.js'
 
 
 export default {
