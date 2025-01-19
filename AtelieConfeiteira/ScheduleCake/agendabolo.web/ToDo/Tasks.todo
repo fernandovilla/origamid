@@ -76,3 +76,17 @@ Cadastro de Clientes:
 Cadastro de Pedidos:
 Estoque - Entrada:
 Estoque - Saída:
+
+
+
+Cadastro Ingredientes:
+  - Data ultimo preço
+
+Concluir:
+  - Cadastro de Ingredientes  
+  - Cadastro de receitas
+  - Cadastro de produtos
+
+Próximas Alterações:
+  - Entrada de mercadorias
+  - Controle de estoque
