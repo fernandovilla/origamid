@@ -31,6 +31,13 @@
                 </div>
 
                 <div class="input-group col-3 col-sm-12">
+                  <label for="dataUltimoPrecoCusto">Data Último Preço</label>
+                  <input-base type="text" id="dataUltimoPrecoCusto" v-model="DataUltimoPrecoCusto" disabled />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-group col-3 col-sm-12">
                   <label for="precoCusto">Preço Custo Médio</label>
                   <input-number id="precoCustoMedio" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
                 </div>
@@ -175,6 +182,7 @@ import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
 import { TextToNumber } from '@/helpers/NumberHelp'
+import { DateTimeToTextShort, GetCurrentDateTimeZone } from '@/helpers/DateTimeHelp'
 
 export default {
     name: "ingrediente-edicao",
@@ -185,12 +193,14 @@ export default {
           nome: '',
           precoCusto: 0,
           precoCustoMedio: 0,
+          dataUltimoPrecoCusto: undefined,
           status: 1
-        },
+        },        
         embalagens: [],
         unidadeMedida: null,
         mensagem: '',
-        menssagemSucesso: false
+        menssagemSucesso: false,
+        precoCustoOriginal: 0,
       } 
     }, 
 
@@ -205,6 +215,9 @@ export default {
         
           return 'Edição Ingrediente';
       },
+      DataUltimoPrecoCusto() {      
+        return DateTimeToTextShort(this.ingrediente.dataUltimoPrecoCusto);
+      }
     },
 
     methods: {
@@ -249,6 +262,8 @@ export default {
         if (response !== undefined){
           this.ingrediente = response.data;
 
+          this.precoCustoOriginal = this.ingrediente.precoCusto;
+          
           if (this.ingrediente.embalagens !== undefined) {
             this.embalagens = this.ingrediente.embalagens;
           }
@@ -259,6 +274,7 @@ export default {
       },
 
       getIngredienteRequest(){
+
         var embalagensRequest = this.embalagens.map((item) => (
           {
             id: item.id,
@@ -271,15 +287,24 @@ export default {
           }
         ));
 
+        var dataPrecoCusto = this.ingrediente.dataUltimoPrecoCusto;
+        if (this.ingrediente.precoCusto != this.precoCustoOriginal){          
+          dataPrecoCusto = GetCurrentDateTimeZone();
+          this.ingrediente.dataUltimoPrecoCusto = dataPrecoCusto;
+        }
+        
         var ingredienteRequest = {
           id: this.ingrediente.id != undefined ? this.ingrediente.id : 0,
           nome: this.ingrediente.nome,
           precoCusto: TextToNumber(this.ingrediente.precoCusto),
           precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
+          dataUltimoPrecoCusto: dataPrecoCusto,
           status: this.ingrediente.status,
           estoqueTotal: 0,
           embalagens: embalagensRequest
         };
+
+        console.log('novo: ', ingredienteRequest);
 
         return ingredienteRequest;
       },
