@@ -163,6 +163,7 @@ import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
 import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { PrintReceita }  from '../Services/PrintReceita.js'
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -184,15 +185,15 @@ export default {
   props: ['id'],
   
   components: { 
-      InputBase, 
-      InputArea,
-      InputNumber,      
-      SelectStatus,
-      ButtonSmallAdd,
-      ButtonSmallPrint,      
-      ButtonSmallUp,
-      ButtonSmallDown,
-      SelecionaIngredienteReceita,
+    InputBase, 
+    InputArea,
+    InputNumber,      
+    SelectStatus,
+    ButtonSmallAdd,
+    ButtonSmallPrint,      
+    ButtonSmallUp,
+    ButtonSmallDown,
+    SelecionaIngredienteReceita,
     ButtonSmallDelete    
   },
 
@@ -351,88 +352,9 @@ export default {
       this.ingredientes.push(arg);
     },
 
-    obterIngredientesImpressao(){
-
-      var peso1 = this.receita.pesoReferencia;
-
-      var ingredientesPrint = [[
-        'Ingredientes', 
-        { text: '%', style: { alignment: 'center'} }, 
-        { text: 'REF', style: { alignment: 'center'}}, 
-        { text: 'PESO #2', style: { alignment: 'center'}},
-        { text: 'PESO #3', style: { alignment: 'center'}},
-        { text: 'PESO #4', style: { alignment: 'center'}}
-      ]];
-
-      //ITENS
-      this.ingredientes.map((item) => {
-        var percent = TextToNumber(item.percentual).toFixed(2);
-
-        ingredientesPrint.push([ 
-          item.nome, 
-          { text: NumberToText(percent), style: { alignment: 'right'} }, 
-          { text: (percent / 100 * peso1).toFixed(0), style: { alignment: 'right'} }, 
-          { text: '', style: { alignment: 'right'}},
-          { text: '', style: { alignment: 'right'}},
-          { text: '', style: { alignment: 'right'}}
-        ]);
-      });
-
-      var totalPercent = this.ingredientes.reduce((prev,item) => TextToNumber(item.percentual) + prev,0);
-      var total1 = this.ingredientes.reduce((prev,item) => ((TextToNumber(item.percentual) / 100) * peso1) + prev,0);
-
-      //FOOTER
-      ingredientesPrint.push([ 
-        { text: 'TOTAL', style: { bold: true, fontSize: 12 } }, 
-        { text: totalPercent.toFixed(2), style: { bold: true, fontSize: 12, alignment: 'right'}},
-        { text: total1.toFixed(0), style: { bold: true, fontSize: 12, alignment: 'right'}},
-        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
-        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
-        { text: '', style: { bold: true, fontSize: 12, alignment: 'right'}},
-      ]);
-
-      return ingredientesPrint;
-    },
-
     imprimirIngredientes(){
-
-      let ingredientesPrint = this.obterIngredientesImpressao();
-
-      let docDefinition = {
-        content:[
-          { text: this.receita.nome, style: 'header', margin: [0,0,0,20] },
-          {
-            // layout: 'lightHorizontalLines',
-            table: {
-              headerRows: 1,
-              widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
-              body: ingredientesPrint 
-            }
-          },
-          { text: 'Preparo:', style: 'header2', margin: [0,20,0,5] },
-          { text: this.receita.preparo },
-          { text: 'Observações', style: 'header2', margin: [0,20,0,0] },          
-          { text: this.receita.observacao }
-        ],
-        styles: {
-          header: {
-            fontSize: 16,
-            bold: true,
-            alignment: 'center'
-          },
-          header2: {
-            fontSize: 12,
-            bold: true,
-            alignment: 'left'
-          }
-        }
-      };
-      
-      pdfMake.createPdf(docDefinition).open();
-    },
-    
-    imprimirReceita(){
-      
+      console.log("Imprimindo...");
+      PrintReceita(this.receita, this.ingredientes);
     },
 
     obterReceitaRequest(){

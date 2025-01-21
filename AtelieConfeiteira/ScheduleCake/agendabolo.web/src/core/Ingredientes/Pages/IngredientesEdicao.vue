@@ -81,7 +81,7 @@
                       <select-unidade-medida v-model="item.idUnidadeMedida" :selected="item.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" />
                     </td>
                     <td class="col-fracionamento editable">
-                      <input-base v-model="item.quantidade" />
+                      <input-base v-model="item.quantidade" @blur="fracionamentoBlurHandle" />
                     </td>
                     <td class="col-tipo editable">
                       <select v-model="item.tipoEmbalagem">
@@ -240,6 +240,7 @@ export default {
 
       async alterarIngrediente() {
 
+        console.log('#updating...');
         var ingredienteRequest = this.getIngredienteRequest();
 
         var response = await ingredientesAPIService.atualizar(ingredienteRequest);
@@ -325,12 +326,16 @@ export default {
       },
 
       removerEmbalagem(index){
+
+        console.log('#removendo embalagem...');
         var emb = this.embalagens[index];
         console.log(this.embalagens.length, emb, index);
         this.embalagens.splice(index, 1);
       },
 
-      
+      fracionamentoBlurHandle(index){
+        console.log("#blur", index);
+      },
 
       mostrarMensagemSucesso(text){
         this.mensagem = text;
