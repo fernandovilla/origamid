@@ -36,7 +36,7 @@ namespace Agendabolo.Test.Core.Insumos
             var insumo = new IngredienteDTA
             {
                 Nome = "NOVO INSUMO",
-                PrecoCusto = 10.05m,
+                PrecoCustoQuilo = 10.05m,
                 Status = Agendabolo.Core.StatusCadastro.Normal
             };
 

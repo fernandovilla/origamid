@@ -56,7 +56,6 @@ namespace Agendabolo.Core.Ingredientes
             if (embalagensAtuais != null)
                 embalagensAtuais.ForEach(i => _context.Entry(i).State = EntityState.Detached);
 
-
             // Embalagens incluídas 
             var embalagensAdded = embalagensEditadas.Where(i => i.Id == 0);
             if (embalagensAdded != null)

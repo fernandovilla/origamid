@@ -29,6 +29,9 @@ namespace Agendabolo.Core.Ingredientes
 
         [Column("descricao")]
         public string Descricao { get; set; }
+        
+        [Column("preco")]
+        public decimal Preco { get; set; }
 
         [Column("ean")]
         public string EAN { get; set; }

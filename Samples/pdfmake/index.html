@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>pdfmake-0.2.6 + vue.js Example</title>
+    <!-- BOOTSTRAP CDN 5.2.2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap.min.css" integrity="sha512-CpIKUSyh9QX2+zSdfGP+eWLx23C8Dj9/XmHjZY2uDtfkdLGo0uY12jgcnkX9vXOgYajEKb/jiw67EYm+kBf+6g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- VUE.JS CDN DEVELOPMENT LATEST -->
+    <!-- <script src="https://unpkg.com/vue@next"></script> -->
+    <!-- VUE.JS 3.2.8 LOCAL PRODUCTION -->
+    <!-- <script src="js/v3.2.8/vue.global.prod.js" type="text/javascript" charset="utf-8"></script> -->
+    <!-- VUE.JS 3.2.8 CDN DEVELOPMENT -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.global.min.js" integrity="sha512-lgbnN1gNswbc8DPmFF2F9n951EGPK0p9PmPkzECHyjC4bmv6Be6ezWQB7mIjPJ5pAdYehSj+Nm0brW0NjCoFmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <!-- VUE.JS 3.2.8 CDN PRODUCTION -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.41/vue.global.prod.min.js" integrity="sha512-0bHFSq8ASKChkYlLEzEnqpH3H/RSqL7UvhhOmSPz5JxozXuMge8JtNuv/0cgZRv2ZUR0GO9rdo576xUbKcrNIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- PDFMAKE CORE 0.2.6 CDN PRODUCTION -->
+    <!-- <script src="pdfmake-0.2.6/build/pdfmake.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/pdfmake.min.js" integrity="sha512-7BzHjLXs8xehClrkJEtJtAwXxcbLast87k+XekuItHxrMr/v6POWkoKS2/8CU6DHdIjY+A4NwvsBQ8PxoRH7xQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- PDFMAKE VFS_FONTS 0.2.6 LOCAL PRODUCTION -->
+    <!-- <script src="pdfmake-0.2.6/build/vfs_fonts.js"></script> -->
+    <!-- PDFMAKE VFS_FONTS 0.2.6 CDN PRODUCTION -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.6/vfs_fonts.min.js" integrity="sha512-P0bOMePRS378NwmPDVPU455C/TuxDS+8QwJozdc7PGgN8kLqR4ems0U/3DeJkmiE31749vYWHvBOtR+37qDCZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- BUTTON RENDER PDF -->
+      <button type="button" id="buttonRenderPdf" class="btn btn-info" v-on:click="renderPdf($event)">Render PDF</button>
+      &nbsp;
+      <!-- BUTTON DOWNLOAD PDF -->
+      <button type="button" id="buttonDownloadPdf" class="btn btn-info" v-on:click="downloadPdf($event)">Download PDF</button>
+      <br>
+      <!-- IFRAME PDF PREVIEW -->
+      <iframe id="iframePreviewPdf" width="100%" height="2048"></iframe>
+
+    </div>
+    <script>
+
+      const App = {
+        
+        data() {
+          
+          return {
+            
+            docDefinition: { 
+
+              /**
+               * ##########################################################
+               * ##########################################################
+               * ##########################################################
+               */
+            
+              /**
+               * 
+               *     ####   ####  #    # ###### #  ####  
+               *    #    # #    # ##   # #      # #    # 
+               *    #      #    # # #  # #####  # #      
+               *    #      #    # #  # # #      # #  ### 
+               *    #    # #    # #   ## #      # #    # 
+               *     ####   ####  #    # #      #  ####  
+               * 
+               *    The pdf document is configured with
+               *    the following default object properties.
+               * 
+               */
+              // Document Meta Data (Visible in document properties)
+              info: {
+                title: "Title of Document",
+                author: "Author Name",
+                subject: "Subject of Document",
+                keywords: "Keywords for Document",
+                creator: "XYZ Solutions Inc.",
+                producer: "pdfmake-0.2.6",
+                creationDate: new Date(),
+                modDate: new Date()
+              },
+      
+              // Document Compression (May substantially reduce size of PDF file!)
+              compress: false,
+              
+              // Document Version of PDF (Required for and specifies encryption type!)
+              version: "1.7",
+              // Document User Password (Required to activate encryption!)
+              userPassword: "",
+              // Document Owner Password (Required to activate permissions!)
+              ownerPassword: "123",
+              
+              // Document Permissions
+              permissions: {
+                printing: "highResolution",
+                modifying: false,
+                copying: false,
+                annotating: false,
+                fillingForms: false,
+                contentAccessibility: false,
+                documentAssembly: false,
+                exttractingPages: false
+              },
+      
+              // Document Page Settings (Affects all pages!)
+              pageSize: "LETTER",
+              pageOrientation: "portrait",
+              // left, top, right, bottom
+              pageMargins: [54, 54, 54, 72],
+      
+              // Background Layer (Prints on all pages!)
+              background: {
+                // Document Border
+                canvas: [
+                  {
+                    type: "rect",
+                    x: 36,  y: 36,
+                    w: 540, h: 702,
+                    r: 3,
+                    lineColor: "#212121"
+                  }
+                ]
+              },
+      
+              // Watermark (Prints on all pages!)
+              watermark: {
+                text: "Watermark",
+                fontSize: 72,
+                color: "#6d4c41",
+                opacity: 0.075,
+                angle: -55,
+                normal: true,
+                bold: true,
+                italics: false,
+                bolditalics: false
+              },
+              
+              // Document Default Styles (Takes precendence until locally overwritten!)
+              defaultStyle: {
+                font: "Roboto",
+                fontSize: 12,
+                color: "#404040",
+                normal: true,
+                bold: false,
+                italics: false,
+                bolditalics: false
+              },
+              
+              // Document Custom Styles (Optionally applied locally!)
+              styles: {
+                "text-left": {
+                  alignment: "left"
+                },
+                "text-center": {
+                  alignment: "center"
+                },
+                "text-right": {
+                  alignment: "right"
+                },
+              },
+              
+              /**
+               * ##########################################################
+               * ##########################################################
+               * ##########################################################
+               */
+            
+              /**
+               * 
+               *    #    # ######   ##   #####  ###### #####  
+               *    #    # #       #  #  #    # #      #    # 
+               *    ###### #####  #    # #    # #####  #    # 
+               *    #    # #      ###### #    # #      #####  
+               *    #    # #      #    # #    # #      #   #  
+               *    #    # ###### #    # #####  ###### #    # 
+               * 
+               *    The pdf document header is stored
+               *    in the header object property.
+               * 
+               */
+              header: {
+                columns: [
+                  // STACK 1
+                  {
+                    stack: [
+                      {
+                        text: "header-left",
+                        // left, top, right, bottom
+                        margin: [41, 27, 0, 0],
+                        font: "Roboto",
+                        fontSize: 7.5,
+                        color: "#404040",
+                        normal: true,
+                        bold: true,
+                        italics: false,
+                        bolditalics: false
+                      }
+                    ],
+                    width: "*",
+                    style: "text-left"
+                  },
+                  // STACK 2
+                  {
+                    stack: [
+                      {
+                        text: "header-center",
+                        // left, top, right, bottom
+                        margin: [0, 27, 0, 0],
+                        font: "Roboto",
+                        fontSize: 7.5,
+                        color: "#404040",
+                        normal: true,
+                        bold: true,
+                        italics: false,
+                        bolditalics: false
+                      }
+                    ],
+                    width: "*",
+                    style: "text-center"
+                  },
+                  // STACK 3
+                  {
+                    stack: [
+                      {
+                        text: "header-right",
+                        // left, top, right, bottom
+                        margin: [0, 27, 41, 0],
+                        font: "Roboto",
+                        fontSize: 7.5,
+                        color: "#404040",
+                        normal: true,
+                        bold: true,
+                        italics: false,
+                        bolditalics: false
+                      }
+                    ],
+                    width: "*",
+                    style: "text-right"
+                  }
+                ]
+              },
+              
+              /**
+               * ##########################################################
+               * ##########################################################
+               * ##########################################################
+               */
+            
+              /**
+               * 
+               *     ####   ####  #    # ##### ###### #    # ##### 
+               *    #    # #    # ##   #   #   #      ##   #   #   
+               *    #      #    # # #  #   #   #####  # #  #   #   
+               *    #      #    # #  # #   #   #      #  # #   #   
+               *    #    # #    # #   ##   #   #      #   ##   #   
+               *     ####   ####  #    #   #   ###### #    #   #   
+               * 
+               *    The pdf document content is stored
+               *    in the content object property.
+               * 
+               */
+            
+              content: [
+                // Simple text example
+                "This is a simple text line.",
+                // Rich text example
+                {
+                  text: [
+                    // Simple text part...
+                    "This is a rich-text line with text ",
+                    // Rich text part...
+                    {
+                      text: "formatted in bold",
+                      // left, top, right, bottom
+                      margin: [0, 0, 0, 0],
+                      font: "Roboto",
+                      fontSize: 12,
+                      color: "#404040",
+                      normal: true,
+                      bold: true,
+                      italics: false,
+                      bolditalics: false
+                    },
+                    // Another Simple text part...
+                    ".",
+                    // Add more parts from here on...
+                  ],
+                },
+                
+              ], // End content here.
+              
+              /**
+               * ##########################################################
+               * ##########################################################
+               * ##########################################################
+               */
+              
+              /**
+               * 
+               *    ######  ####   ####  ##### ###### #####  
+               *    #      #    # #    #   #   #      #    # 
+               *    #####  #    # #    #   #   #####  #    # 
+               *    #      #    # #    #   #   #      #####  
+               *    #      #    # #    #   #   #      #   #  
+               *    #       ####   ####    #   ###### #    # 
+               * 
+               *    The pdf document footer is returned
+               *    from the footer object property.
+               *    In this case, footer is a function which
+               *    returns dynamic data including current year,
+               *    page nubmer & page count.
+               * 
+               */
+              footer: function(currentPage, pageCount) {
+              
+                return {
+      
+                  columns: [
+                    // STACK 1
+                    {
+                      stack: [
+                        {
+                          text: `Form F-1 © ${new Date().getFullYear()} - XYZ Solutions Inc.`,
+                          // left, top, right, bottom
+                          margin: [41, 21, 0, 0],
+                          font: "Roboto",
+                          fontSize: 7.5,
+                          color: "#404040",
+                          normal: true,
+                          bold: true,
+                          italics: false,
+                          bolditalics: false
+                        }
+                      ],
+                      width: "*",
+                      style: "text-left"
+                    },
+                    // STACK 2
+                    {
+                      stack: [
+                        {
+                          text: "footer-center",
+                          // left, top, right, bottom
+                          margin: [0, 21, 0, 0],
+                          font: "Roboto",
+                          fontSize: 7.5,
+                          color: "#404040",
+                          normal: true,
+                          bold: true,
+                          italics: false,
+                          bolditalics: false
+                        }
+                      ],
+                      width: "*",
+                      style: "text-center"
+                    },
+                    // STACK 3
+                    {
+                      stack: [
+                        {
+                          text: "PAGE " + currentPage.toString() + " of " + pageCount.toString(),
+                          // left, top, right, bottom
+                          margin: [0, 21, 41, 0],
+                          font: "Roboto",
+                          fontSize: 7.5,
+                          color: "#404040",
+                          normal: true,
+                          bold: true,
+                          italics: false,
+                          bolditalics: false
+                        }
+                      ],
+                      width: "*",
+                      style: "text-right"
+                    }
+                  ]
+                }
+              }
+              
+              /**
+               * ##########################################################
+               * ##########################################################
+               * ##########################################################
+               */
+              
+            } // End pdfmake docDefinition {}
+          } // End VUE return {}
+        }, // End VUE data {}
+        methods: {
+          
+          // VUE Method
+          renderPdf: function (event) {
+
+            const pdfDocument = pdfMake.createPdf(this.docDefinition);
+            
+            /**
+             * 
+             * pdfmake getDataUrl & render to iframe
+             * 
+             */
+            pdfDocument.getDataUrl((dataUrl) => {
+              document.querySelector("#iframePreviewPdf").src = dataUrl;
+            });
+            
+          },
+          
+          // VUE Method
+          downloadPdf: function (event) {
+          
+            const pdfDocument = pdfMake.createPdf(this.docDefinition);
+            
+            /***
+             * 
+             * Trigger a file download by saving a Blob with 
+             * Content-Type set to "application/octet-stream",
+             * then programatically creating an anchor with 
+             * target attribute set to "_blank" and download
+             * attribute set to "CustomFileName.pdf"
+             * 
+             */
+            pdfDocument.getBlob((blob) => {
+              
+              const file = new Blob([blob], {type: "application/octet-stream"});
+              
+              const a = document.createElement("a");
+              
+              a.href = URL.createObjectURL(file);
+              a.target = "_blank";
+              a.download = "CustomFileName.pdf";
+              a.click();
+            
+            });
+          
+          }
+          
+        }, // END VUE methods
+        
+      };
+      Vue.createApp(App).mount("#app");
+    </script>
+    <!-- BOOTSTRAP CDN 5.2.2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.bundle.min.js" integrity="sha512-BOsvKbLb0dB1IVplOL9ptU1EYA+LuCKEluZWRUYG73hxqNBU85JBIBhPGwhQl7O633KtkjMv8lvxZcWP+N3V3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </body>
+</html>

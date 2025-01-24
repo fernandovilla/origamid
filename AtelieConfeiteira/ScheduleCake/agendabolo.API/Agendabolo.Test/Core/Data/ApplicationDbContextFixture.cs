@@ -40,7 +40,7 @@ namespace Agendabolo.Test.Core.Data
                 {
                     Id = i,
                     Nome = $"INSUMO #{i}",
-                    PrecoCusto = i + 0.01m,
+                    PrecoCustoQuilo = i + 0.01m,
                     Status = Agendabolo.Core.StatusCadastro.Normal
                 });
             }

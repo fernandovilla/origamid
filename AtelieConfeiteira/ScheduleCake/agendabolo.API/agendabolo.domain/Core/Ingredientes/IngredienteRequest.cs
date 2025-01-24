@@ -9,7 +9,7 @@ namespace Agendabolo.Core.Ingredientes
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public decimal PrecoCusto { get; set; }
+        public decimal PrecoCustoQuilo { get; set; }
         public decimal PrecoCustoMedio { get; set; }
         public DateTime DataUltimoPrecoCusto { get; set; }
         public int Status { get; set; }
@@ -28,7 +28,7 @@ namespace Agendabolo.Core.Ingredientes
             {
                 Id = entity.Id,
                 Nome = entity.Nome,
-                PrecoCusto = entity.PrecoCusto,
+                PrecoCustoQuilo = entity.PrecoCustoQuilo,
                 PrecoCustoMedio = entity.PrecoCustoMedio,
                 DataUltimoPrecoCusto = entity.DataUltimoPrecoCusto,
                 Status = (int)entity.Status,
@@ -46,7 +46,7 @@ namespace Agendabolo.Core.Ingredientes
             {
                 Id = entity.Id,
                 Nome = entity.Nome,
-                PrecoCusto = entity.PrecoCusto,
+                PrecoCustoQuilo = entity.PrecoCustoQuilo,
                 PrecoCustoMedio = entity.PrecoCustoMedio,
                 DataUltimoPrecoCusto = entity.DataUltimoPrecoCusto,
                 Status = (StatusCadastro)entity.Status,

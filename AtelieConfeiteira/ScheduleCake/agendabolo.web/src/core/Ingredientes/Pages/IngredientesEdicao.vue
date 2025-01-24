@@ -26,8 +26,8 @@
 
               <div class="row">
                 <div class="input-group col-3 col-sm-12">
-                  <label for="precoCusto">Preço Custo</label>
-                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCusto" :decimalCases=2 />
+                  <label for="precoCustoQuilo">Preço Custo Kg</label>
+                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCustoQuilo" :decimalCases=2 />
                 </div>
 
                 <div class="input-group col-3 col-sm-12">
@@ -59,11 +59,11 @@
                   <tr>                    
                     <td class="col-remove"></td>
                     <td class="col-descricao">Descição</td>
+                    <td class="col-preco">Preço</td>
                     <td class="col-ean">EAN</td>                    
                     <td class="col-unidade-medida">Un. Medida</td>
-                    <td class="col-fracionamento">Fracionamento (gramas)</td>
-                    <td class="col-tipo">Tipo</td>
-                    
+                    <td class="col-fracionamento">Fracionamento (gramas)</td>                    
+                    <td class="col-tipo">Tipo</td>                    
                   </tr>
                 </thead>
                 <tbody>
@@ -74,6 +74,9 @@
                     <td class="col-descricao editable">
                       <input-base v-model="item.descricao" />
                     </td>
+                    <td class="col-preco editable">
+                      <input-number v-model="item.preco" />
+                    </td>
                     <td class="col-ean editable">
                       <input-base v-model="item.ean" />
                     </td>
@@ -82,7 +85,7 @@
                     </td>
                     <td class="col-fracionamento editable">
                       <input-base v-model="item.quantidade" @blur="fracionamentoBlurHandle" />
-                    </td>
+                    </td>                    
                     <td class="col-tipo editable">
                       <select v-model="item.tipoEmbalagem">
                         <option value="0">Compra</option>
@@ -191,7 +194,7 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
-          precoCusto: 0,
+          precoCustoQuilo: 0,
           precoCustoMedio: 0,
           dataUltimoPrecoCusto: undefined,
           status: 1
@@ -210,7 +213,7 @@ export default {
 
     computed: {
       PageTitle(){
-        if (this.ingrediente.id === 0)
+        if (this.ingrediente.id === undefined || this.ingrediente.id === 0)
           return 'Novo ingrediente';
         
           return 'Edição Ingrediente';
@@ -242,6 +245,8 @@ export default {
 
         console.log('#updating...');
         var ingredienteRequest = this.getIngredienteRequest();
+
+        console.log("#alterando", JSON.stringify(ingredienteRequest));
 
         var response = await ingredientesAPIService.atualizar(ingredienteRequest);
         
@@ -276,11 +281,14 @@ export default {
 
       getIngredienteRequest(){
 
+        var itemId = this.ingrediente.id === undefined ? 0 : this.ingrediente.id;
+
         var embalagensRequest = this.embalagens.map((item) => (
           {
             id: item.id,
-            idingrediente: this.ingrediente.id,
+            idingrediente: itemId,
             descricao: item.descricao,
+            preco: TextToNumber(item.preco),
             ean: item.ean,
             idunidademedida: item.idUnidadeMedida,
             quantidade: TextToNumber(item.quantidade),
@@ -295,17 +303,15 @@ export default {
         }
         
         var ingredienteRequest = {
-          id: this.ingrediente.id != undefined ? this.ingrediente.id : 0,
+          id: itemId,
           nome: this.ingrediente.nome,
-          precoCusto: TextToNumber(this.ingrediente.precoCusto),
+          precoCustoQuilo: TextToNumber(this.ingrediente.precoCustoQuilo),
           precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
           dataUltimoPrecoCusto: dataPrecoCusto,
           status: this.ingrediente.status,
           estoqueTotal: 0,
           embalagens: embalagensRequest
         };
-
-        console.log('novo: ', ingredienteRequest);
 
         return ingredienteRequest;
       },
