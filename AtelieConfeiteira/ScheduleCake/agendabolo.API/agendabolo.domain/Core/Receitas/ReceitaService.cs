@@ -43,7 +43,18 @@ namespace Agendabolo.Core.Receitas
             {
                 using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.ReceitaRepository.GetByID(id);
+                    var receita = unit.ReceitaRepository.GetByID(id);]
+                    
+                    var ingredienteRepository = unit.IngredienteRepository;
+                    foreach(var i in receita.Ingredientes)
+                    {
+                        var ingrediente = ingredienteRepository.GetByID(i.IdIngrediente);
+                        var pesoReceita = (decimal)(receita.PesoReferencia * i.Percentual / 100);
+                        var custoQuiloReceita = (ingrediente.PrecoCustoQuilo / 1000) * pesoReceita;
+                    }
+
+                    return receita;
+                    
                 }
             }
             catch (Exception ex)

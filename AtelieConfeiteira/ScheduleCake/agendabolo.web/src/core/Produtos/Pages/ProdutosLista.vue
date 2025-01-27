@@ -85,8 +85,8 @@ export default {
       this.currentPage = 1;
       this.obterListaProdutos();
     },
-    async obterListaProdutos(){
 
+    async obterListaProdutos(){
       var result = await produtosAPIService.obterProdutosBusca();
             
       if (result != null) {          

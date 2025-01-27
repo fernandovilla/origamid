@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
-    public partial class ProdutoRequest
+    public partial class ProdutoRequest : IValidatableObject
     {
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -27,6 +28,19 @@ namespace Agendabolo.Core.Produtos
         public decimal MinimoAtacado { get; set; }
 
         public IEnumerable<ProdutoReceitaRequest> Receitas { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var results = new List<ValidationResult>();
+
+            if (string.IsNullOrEmpty(this.Nome))
+                results.Add(new ValidationResult("Invalid name", new string[] { nameof(this.Nome) }));
+
+            if (!Enum.TryParse(typeof(StatusCadastro), Status.ToString(), out object outStatus))
+                results.Add(new ValidationResult("Invalid Status", new string[] { nameof(this.Status) }));
+
+            return results;
+        }
     }  
 
     partial class ProdutoRequest

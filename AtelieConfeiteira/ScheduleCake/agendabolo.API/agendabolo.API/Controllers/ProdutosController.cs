@@ -72,6 +72,8 @@ namespace Agendabolo.Controllers
             {
                 var produto = _service.GetByID(id);
 
+                //Calcular custo receita/item
+
                 if (produto != null)
                     return Ok(new
                     {

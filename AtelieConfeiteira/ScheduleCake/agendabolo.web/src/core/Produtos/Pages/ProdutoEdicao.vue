@@ -214,8 +214,23 @@ export default {
   data() {
     return {
       produto: {
-        type: Produto,
-        default: new Produto()
+        id: 0,
+        nome: '',
+        descricao: '',
+        observacoes: '',
+        finalizacao: '',
+        pesoReferencia: 0,
+        tempoPreparo: 0,
+        custoEmbalagem: 0.00,
+        custoMaoDeObra: 0.00,
+        margemPreparo: 0.00,
+        margemVendaVarejo: 0.00,
+        margemVendaAtacado: 0.00,
+        precoVendaAtacado: 0.00,
+        precoVendaVarejo: 0.00,        
+        minimoAtacado: 0.00,
+        status: 0,
+        receitas: []
       },
       custoItemReceira:[],
       receitasExcluidas: [],
@@ -382,8 +397,23 @@ export default {
     },
 
     obterProdutoRequest(){
+
+      var receitasRequest = [];
+
+      if (this.produto.receitas !== undefined){
+        receitasRequest = this.produto.receitas.map((item, index) => {
+          return {
+            id: item.id !== undefined ? item.id : 0,
+            idProduto: this.produto.id !== undefined ? this.produto.id : 0,
+            idReceita: item.idReceita,
+            percentual: TextToNumber(item.percentual),
+            ordem: index+1
+          }
+        });
+      }
+
       var produtoRequest = {
-        id: this.produto.id,
+        id: this.produto.id !== undefined ? this.produto.id : 0,
         nome: this.produto.nome,
         descricao: this.produto.descricao,
         observacoes: this.produto.observacoes,
@@ -398,13 +428,7 @@ export default {
         precoVendaVarejo: TextToNumber(this.produto.precoVendaVarejo),
         margemVendaAtacado: TextToNumber(this.produto.margemVendaAtacado),
         precoVendaAtacado: TextToNumber(this.produto.precoVendaAtacado),
-        receitas: this.produto.receitas.map((item, index) => ({
-          id: item.id,
-          idProduto: this.produto.id,
-          idReceita: item.idReceita,
-          percentual: item.percentual,
-          ordem: index+1
-        }))
+        receitas: receitasRequest
       };
 
       return produtoRequest;

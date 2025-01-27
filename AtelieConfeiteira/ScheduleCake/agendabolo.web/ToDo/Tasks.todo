@@ -84,8 +84,9 @@ Cadastro Ingredientes:
 
 Concluir:
   OK Cadastro de Ingredientes  
-  - Cadastro de receitas
+  OK Cadastro de receitas
   - Cadastro de produtos
+    - Calculo do Custo Matéria Prima, por receita
 
 Próximas Alterações:
   - Entrada de mercadorias
