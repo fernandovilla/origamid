@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Agendabolo.Core.Ingredientes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -48,10 +49,11 @@ namespace Agendabolo.Core.Receitas
                             Id = (int)item.Id,
                             IdIngrediente = (int)item.IdIngrediente,
                             Nome = item.Nome,
-                            Percentual = item.Percentual,
-                            PrecoCustoMedioQuilo = item.Ingrediente != null ? item.Ingrediente.PrecoCustoMedio : 0,
+                            Percentual = item.Percentual,                            
                             Ordem = item.Ordem,
-                            Status = (int)item.Status
+                            Status = (int)item.Status,
+                            PrecoCustoQuilo = item.Ingrediente != null ? item.Ingrediente.PrecoCustoQuilo : 0,
+                            PrecoCustoMedioQuilo = item.Ingrediente != null ? item.Ingrediente.PrecoCustoMedio : 0
                         };
                     }
                 }

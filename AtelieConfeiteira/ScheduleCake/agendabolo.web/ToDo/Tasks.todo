@@ -86,7 +86,9 @@ Concluir:
   OK Cadastro de Ingredientes  
   OK Cadastro de receitas
   - Cadastro de produtos
-    - Calculo do Custo Matéria Prima, por receita
+    OK Calculo do Custo Matéria Prima, por receita
+    - Calculo do Preço de Venda
+    - Alerta de preço de venda desatualizado em relação à margem
 
 Próximas Alterações:
   - Entrada de mercadorias

@@ -338,9 +338,6 @@ export default {
 
     onReceitaConfirmada(arg){                  
 
-      console.log("arg: ", arg);
-      console.log("receitas: ", this.produto.receitas);
-
       if (this.produto.receitas === undefined)
         this.produto.receitas = [];
 

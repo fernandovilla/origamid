@@ -19,21 +19,21 @@ namespace Agendabolo.Core.Ingredientes
 
     partial class IngredienteRequest : IValidatableObject, IParsableEntity<IngredienteRequest, IngredienteDTA>
     {
-        public static IngredienteRequest Parse(IngredienteDTA entity)
+        public static IngredienteRequest Parse(IngredienteDTA ingrediente)
         {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            if (ingrediente == null)
+                throw new ArgumentNullException(nameof(ingrediente));
 
             return new IngredienteRequest()
             {
-                Id = entity.Id,
-                Nome = entity.Nome,
-                PrecoCustoQuilo = entity.PrecoCustoQuilo,
-                PrecoCustoMedio = entity.PrecoCustoMedio,
-                DataUltimoPrecoCusto = entity.DataUltimoPrecoCusto,
-                Status = (int)entity.Status,
-                EstoqueTotal = entity.Estoque.Sum(i => i.Quantidade),
-                Embalagens = entity.Embalagens.Select(i => IngredienteEmbalagemRequest.Parse(i)).ToList()
+                Id = ingrediente.Id,
+                Nome = ingrediente.Nome,
+                PrecoCustoQuilo = ingrediente.PrecoCustoQuilo,
+                PrecoCustoMedio = ingrediente.PrecoCustoMedio,
+                DataUltimoPrecoCusto = ingrediente.DataUltimoPrecoCusto,
+                Status = (int)ingrediente.Status,
+                //EstoqueTotal = ingrediente.Estoque != null ? ingrediente.Estoque.Sum(i => i.Quantidade) : 0,
+                //Embalagens = ingrediente?.Embalagens.Select(i => IngredienteEmbalagemRequest.Parse(i)).ToList()
             };
         }
 
