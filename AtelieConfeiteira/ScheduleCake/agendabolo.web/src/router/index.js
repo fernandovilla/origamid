@@ -4,7 +4,7 @@ const defaultRoutes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/HomeView.vue'),
+    component: () => import('../core/Dashboard/Pages/DashboardView.vue'),
   },
   {
     path: '/about',

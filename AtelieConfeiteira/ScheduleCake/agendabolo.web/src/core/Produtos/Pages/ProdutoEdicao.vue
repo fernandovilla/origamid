@@ -44,12 +44,12 @@
             <div class="container">
                 <div class="row">
 
-                  <div class="input-group col-6">
+                  <div class="input-group col-4">
                     <label for="pesoReferencia">Peso Referência (gramas)</label>
                     <input-number id="pesoReferencia" :decimal-cases=0 v-model="produto.pesoReferencia" />
                   </div>
 
-                  <div class="input-group col-6">
+                  <div class="input-group col-4">
                     <label for="tempopreparo">Tempo Preparo (minutos)</label>
                     <input-number id="tempopreparo" :decimal-cases=0 v-model="produto.tempoPreparo" />
                   </div>
@@ -121,53 +121,67 @@
             <h2 class="title">Precificação</h2>
             <div class="content container">
               <div class="row">
-                <div class="input-group col-6">
-                  <label for="custoReceitas">Custo Materia Prima (Receitas)</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoReceitas">Custo Materia Prima (R$)</label>
                   <input-number id="custoReceitas" :decimal-cases=2 v-model="totalCustoReceitasText" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="margemPreparo">Margem Preparo %</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="margemPreparo">Margem Preparo (%)</label>
                   <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="custoMaoDeObra">Custo Mão de Obra (tempo preparo)</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoMaoDeObra">Custo Mão de Obra (R$)</label>
                   <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="custoEmbalagem">Custo Embalagem</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoEmbalagem">Custo Embalagem (R$)</label>
                   <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="custoTotal">Custo Total</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoTotal">Custo Total (R$)</label>
                   <input-number id="custoTotal" :decimal-cases=2 disabled v-model="custoTotalProdutoText" />
                 </div>
               </div>
 
               <div class="row">
-                <div class="input-group col-6">
-                  <label for="margemVendaVarejo">Margem Varejo %</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="margemVendaVarejo">Margem Varejo (%)</label>
                   <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="precoVendaVarejo">Preço Venda Varejo</label>
-                  <input-number id="precoVendaVarejo" :decimal-cases=2 disabled v-model="precoVendaVarejoText" />
-                </div>
-
-                <div class="input-group col-6">
-                  <label for="margemVendaAtacado">Margem Atacado %</label>
+                <div class="input-group col-3 col-md-12">
+                  <label for="margemVendaAtacado">Margem Atacado (%)</label>
                   <input-number id="margemVendaAtacado" :decimal-cases=2 v-model="produto.margemVendaAtacado" />
                 </div>
 
-                <div class="input-group col-6">
-                  <label for="precoVendaAtacado">Preço Venda Atacado</label>
+                <div class="buttons col-4 col-md-12 m-left-5">
+                  <button class="btn btn-primary" @click.prevent="calcularPreço">Calcular Preços</button>
+                </div>
+
+                
+              </div>
+
+              <div class="row">
+                <div class="input-group col-3 col-md-12">
+                  <label for="precoVendaAtacado">Preço Venda Atacado (R$)</label>
                   <input-number id="precoVendaAtacado" :decimal-cases=2 disabled v-model="precoVendaAtacadoText" />
                 </div>
+
+                <div class="input-group col-3 col-md-12">
+                  <label for="precoVendaVarejo">Preço Venda Varejo (R$)</label>
+                  <input-number id="precoVendaVarejo" :decimal-cases=2 disabled v-model="precoVendaVarejoText" />
+                </div>
               </div>
+
+              <div class="row legenda-precos m-top-10 m-left-10">
+                  <p class="col-12">Custo Matéria Prima: Custo total das receitas</p>
+                  <p class="col-12">Margem Preparo: % referente à produção do produto</p>
+                  <p class="col-12">Custo Mão de Obra: (valor da mão de obra / hora) * tempo preparo</p>                  
+                </div>
             </div>
           </div>
         </div>
@@ -490,6 +504,12 @@ export default {
     font-weight: 600;
     color: tomato;
     margin-left: 50px;      
+  }
+
+  .legenda-precos p {
+    text-align: left;
+    font-size: 0.857em;
+    font-style: italic;
   }
 
   @media screen and (max-width: 960px) {
