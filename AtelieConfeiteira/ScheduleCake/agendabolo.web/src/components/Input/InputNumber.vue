@@ -20,14 +20,18 @@ export default {
       focusNow: false
     }
   },
+
   components: {
     InputBase
   }, 
+
   props: {
     modelValue: { type: [String, Number], default: '0,00' },
     decimalCases: { type: Number, default: 2 },
-    allowNegative: { type: Boolean, default: false}
+    allowNegative: { type: Boolean, default: false},
+    allowAsterisk: { type: Boolean, default: false}
   },
+
   computed: {
     numericValue() {      
       if (this.internalValue === null)
@@ -44,6 +48,7 @@ export default {
       }
     }
   },
+
   watch: {
     modelValue(){
       this.internalValue = this.modelValue;
@@ -53,6 +58,13 @@ export default {
     handleKeyPress(event){
 
      if (event.key === '.') {
+        event.preventDefault();
+        return false;
+      }
+
+      if (event.key === '*' && !this.allowAsterisk)
+      {
+        console.log("Fail asterisk")
         event.preventDefault();
         return false;
       }
@@ -71,7 +83,14 @@ export default {
           event.preventDefault();
           return false;
         }
-      } else {
+      }
+      else if (event.key === '*' && this.allowAsterisk){
+        if (input.value !== '' && !this.focusNow){
+          event.preventDefault();
+          return false;
+        }
+      }
+      else {
         if (isNaN(event.key)) {
           event.preventDefault();
           return false;

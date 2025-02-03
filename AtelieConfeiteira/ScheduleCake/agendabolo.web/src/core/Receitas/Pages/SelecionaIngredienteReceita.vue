@@ -155,11 +155,14 @@ export default {
         }
     },    
     ingredientesHtml(item){
+
+      console.log("PrecoCusto", item);
+
       return '' +
         '<div style="display:flex;justify-content:space-between;align-items:center;">\n' +
         ` <p>${item.nome}</p>\n` +
         ' <div style="display:flex;flex-direction:column;align-items:flex-end">\n' +
-        `   <span>R$ ${NumberToText(item.precoCusto.toFixed(2))}</span>` +
+        `   <span>R$ ${NumberToText(item.precoCustoQuilo.toFixed(2))}</span>` +
         ' </div>' +
         '</div>'
     },
