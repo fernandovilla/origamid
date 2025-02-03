@@ -87,7 +87,7 @@ Concluir:
   OK Cadastro de receitas
   - Cadastro de produtos
     OK Calculo do Custo Matéria Prima, por receita
-    - Calculo do Preço de Venda, botão para calcular
+    OK Calculo do Preço de Venda, utilizando o "*" no campo
     - Alerta de preço de venda desatualizado em relação à margem
 
 Próximas Alterações:

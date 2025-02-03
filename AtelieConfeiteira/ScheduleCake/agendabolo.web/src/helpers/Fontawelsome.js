@@ -16,6 +16,7 @@ import {
   faCaretDown,
   faPrint,
   faSave,
+  faTriangleExclamation
 } from '@fortawesome/free-solid-svg-icons';
 
 // import {
@@ -45,6 +46,7 @@ const FontawelsomeLibrary = (app) => {
     faCaretDown,
     faPrint,
     faSave,
+    faTriangleExclamation
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

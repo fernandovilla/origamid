@@ -6,8 +6,11 @@
     </span>   
 
     <form class="container-fluid">
+
+      
       <div class="row">
 
+        <!-- Grupo: Dados do Produto -->
         <div class="col-6 col-md-12">    
           <div class="group dados-produto">
             <h2 class="title">Dados do Produto</h2>                
@@ -38,6 +41,7 @@
           </div>
         </div>
 
+        <!-- Grupo: Preparo -->
         <div class="col-6 col-md-12 ">
           <div class="group preparo m-left-10">
             <h2 class="title">Preparo</h2>
@@ -66,8 +70,9 @@
 
       </div>
 
+      
       <div class="row row2">
-
+        <!-- Grupo: Receitas -->         
         <div class="col-6 col-md-12 xx">
           <div class="group receitas m-top-10">
             <h2 class="title">
@@ -116,6 +121,7 @@
           </div>
         </div>
 
+        <!-- Grupo: Precificação -->
         <div class="col-6 col-md-12">
           <div class="group precos m-left-10 m-top-10">
             <h2 class="title">Precificação</h2>
@@ -156,25 +162,38 @@
                 <div class="input-group col-4 col-md-12">
                   <label for="margemVendaVarejo">Margem Varejo (%)</label>
                   <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
-                </div>
-
-                <!-- <div class="buttons col-4 col-md-12 m-left-5">
-                  <button class="btn btn-primary" @click.prevent="calcularPrecoVenda">Calcular Preços</button>
-                </div> -->               
+                </div>        
               </div>
 
               <div class="row">
                 <div class="input-group col-4 col-md-12">
                   <label for="precoVendaAtacado">Preço Venda Atacado (R$)</label>
-                  <input-number id="precoVendaAtacado" :decimal-cases=2 :allow-asterisk=true v-model="produto.precoVendaAtacado" @keypress="precoVendaAtacadoHandleKeyPress" />
+                  <input-number id="precoVendaAtacado"  
+                    :decimal-cases=2 
+                    :allow-asterisk=true 
+                    v-model="produto.precoVendaAtacado" 
+                    @keypress="precoVendaAtacadoHandleKeyPress" />
+                    <span class="margemPreco" :class="{ margemMenor: margemAtacadoCalculadaBaixa }">
+                      <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemAtacadoCalculadaBaixa" />
+                      Margem: {{ this.margemPrecoCalculadaAtacado }} %
+                    </span>
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="precoVendaVarejo">Preço Venda Varejo (R$)</label>
-                  <input-number id="precoVendaVarejo" :decimal-cases=2 :allow-asterisk=true v-model="produto.precoVendaVarejo" @keypress="precoVendaVarejoHandleKeyPress"  />
-                </div>
+                  <input-number id="precoVendaVarejo" 
+                    :decimal-cases=2 
+                    :allow-asterisk=true 
+                    v-model="produto.precoVendaVarejo" 
+                    @keypress="precoVendaVarejoHandleKeyPress"  />
+                    <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
+                      <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
+                      Margem: {{ this.margemPrecoCalculadaVarejo }} %                      
+                    </span>
+                </div>                
               </div>
 
+              
               <div class="row legenda-precos m-top-10 m-left-10">
                   <p class="col-12">Custo Matéria Prima: Custo total das receitas</p>
                   <p class="col-12">Margem Preparo: % referente à produção do produto</p>
@@ -219,6 +238,7 @@ import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import Produto from '@/core/Produtos/Domain/Produto.js'
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
 import SelecionaReceitaProduto from '@/core/Produtos/Pages/SelecionaReceitaProduto.vue'
+
 
 
 export default {
@@ -294,6 +314,56 @@ export default {
 
     custoTotalProdutoText(){
       return NumberToText(this.custoTotalProduto().toFixed(2));
+    },
+
+    margemPrecoCalculadaVarejo(){
+      var margem = ((TextToNumber(this.produto.precoVendaVarejo) / TextToNumber(this.custoTotalProduto())) - 1) * 100;
+      return NumberToText(margem.toFixed(2));
+    },
+
+    margemPrecoCalculadaAtacado(){
+      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / TextToNumber(this.custoTotalProduto())) - 1) * 100;
+      return NumberToText(margem.toFixed(2));
+    },
+
+    margemVarejoDivergente(){
+      var margemCalculada = TextToNumber(this.margemPrecoCalculadaVarejo).toFixed(2);
+      var margemInformada = TextToNumber(this.produto.margemVendaVarejo).toFixed(2);
+
+      if (margemCalculada < margemInformada){
+        return 'menor';
+      } else if (margemCalculada > margemInformada){
+        return 'maior';
+      } else {
+        return undefined;
+      }
+    },
+
+    margemAtacadoDivergente(){
+      var margemCalculada = TextToNumber(this.margemPrecoCalculadaAtacado).toFixed(2);
+      var margemInformada = TextToNumber(this.produto.margemVendaAtacado).toFixed(2);
+
+      if (margemCalculada < margemInformada){
+        return 'menor';
+      } else if (margemCalculada > margemInformada){
+        return 'maior';
+      } else {
+        return undefined;
+      }
+    },
+
+    margemVarejoCalculadaBaixa(){
+      if (this.margemVarejoDivergente === 'menor')
+        return true;
+
+      return false;
+    },
+
+    margemAtacadoCalculadaBaixa() {
+      if (this.margemAtacadoDivergente === 'menor')
+        return true;
+      
+      return false;
     }
   },
 
@@ -524,6 +594,20 @@ export default {
 
   #custoTotal {
     font-weight: bold;
+  }
+
+  .margemMaior {
+    color: green;
+  }
+
+  .margemMenor {
+    color: red;
+    font-weight: bold;
+  }
+
+  .margemPreco {
+    font-style: italic;
+    font-size: 0.857em;
   }
 
   @media screen and (max-width: 960px) {
