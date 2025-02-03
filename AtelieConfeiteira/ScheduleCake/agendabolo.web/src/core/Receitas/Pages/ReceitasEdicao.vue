@@ -8,7 +8,8 @@
     <form class="container-fluid">
 
       <div class="row">
-        <div class="col-6 col-md-12">
+        <!-- Grupo: DADOS DA RECEITA -->
+        <div class="col-6 col-md-12">          
           <div class="group dados-receita">
             <h2 class="title">Dados da Receita</h2>    
             <div class="container">
@@ -38,6 +39,7 @@
           </div>
         </div>
 
+        <!-- Grupo: INGREDIENTES -->
         <div class="col-6 col-md-12">
           <div class="group ingredientes m-left-10 ">
             <h2 class="title">
@@ -70,8 +72,7 @@
                       </td>
                       <td class="col-peso">{{pesoCalculado(item)}}g</td>
                       <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
-                      <td class="body-actions col-acoes">
-                        
+                      <td class="body-actions col-acoes">                        
                         <button-small-up @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
                         <button-small-down @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
                         <button-small-delete @click.prevent="removeIngrediente(index)" tabindex="-1" />

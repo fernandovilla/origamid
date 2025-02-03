@@ -96,8 +96,10 @@
                   <tr v-for="(receita, index) in produto.receitas" :key="index">
                     <td class="col-item">{{index+1}}</td>
                     <td class="col-receita">{{receita.nome}}</td>
-                    <td class="col-percent">{{receita.percentual.toFixed(2)}}%</td>
-                    <td class="col-peso">{{ pesoCalculado(receita.percentual) }}g</td>
+                    <td class="col-percent editable">
+                      <input-number type="text" v-model.number="receita.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                    </td>
+                    <td class="col-peso">{{pesoCalculado(receita.percentual)}}g</td>
                     <td class="col-custo">R$ {{ custoReceitaText(receita)}}</td>
                     <td class="body-actions col-acoes">
                       <action-up-button @click.prevent="moveReceitaUp(index)" />           
@@ -129,39 +131,39 @@
               <div class="row">
                 <div class="input-group col-4 col-md-12">
                   <label for="custoReceitas">Custo Matéria Prima (R$)</label>
-                  <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="totalCustoReceitasText" />
+                  <input-number id="custoReceitas" :decimal-cases=2 disabled v-model.number="totalCustoReceitasText" />
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="margemPreparo">Margem Preparo (%)</label>
-                  <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
+                  <input-number id="margemPreparo" :decimal-cases=2 v-model.number="produto.margemPreparo" />
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="custoMaoDeObra">Custo Mão de Obra (R$)</label>
-                  <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
+                  <input-number id="custoMaoDeObra" :decimal-cases=2 v-model.number="produto.custoMaoDeObra" />
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="custoEmbalagem">Custo Embalagem (R$)</label>
-                  <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
+                  <input-number id="custoEmbalagem" :decimal-cases=2 v-model.number="produto.custoEmbalagem" />
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="custoTotal">Custo Total (R$)</label>
-                  <input-number id="custoTotal" :decimal-cases=2 disabled v-model="custoTotalProdutoText" />
+                  <input-number id="custoTotal" :decimal-cases=2 disabled v-model.number="custoTotalProdutoText" />
                 </div>
               </div>
 
               <div class="row">
                 <div class="input-group col-4 col-md-12">
                   <label for="margemVendaAtacado">Margem Atacado (%)</label>
-                  <input-number id="margemVendaAtacado" :decimal-cases=2 v-model="produto.margemVendaAtacado" />
+                  <input-number id="margemVendaAtacado" :decimal-cases=2 v-model.number="produto.margemVendaAtacado" />
                 </div>
 
                 <div class="input-group col-4 col-md-12">
                   <label for="margemVendaVarejo">Margem Varejo (%)</label>
-                  <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
+                  <input-number id="margemVendaVarejo" :decimal-cases=2 v-model.number="produto.margemVendaVarejo" />
                 </div>        
               </div>
 
@@ -184,7 +186,7 @@
                   <input-number id="precoVendaVarejo" 
                     :decimal-cases=2 
                     :allow-asterisk=true 
-                    v-model="produto.precoVendaVarejo" 
+                    v-model.number="produto.precoVendaVarejo" 
                     @keypress="precoVendaVarejoHandleKeyPress"  />
                     <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
                       <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
@@ -317,8 +319,9 @@ export default {
     },
 
     margemPrecoCalculadaVarejo(){
-      var margem = ((TextToNumber(this.produto.precoVendaVarejo) / TextToNumber(this.custoTotalProduto())) - 1) * 100;
-      return NumberToText(margem.toFixed(2));
+      var margem = ((this.produto.precoVendaVarejo / this.custoTotalProduto()) - 1) * 100;
+      //return NumberToText(margem.toFixed(2));
+      return margem.toFixed(2);
     },
 
     margemPrecoCalculadaAtacado(){
@@ -410,7 +413,9 @@ export default {
       if (percentual === 0 || this.produto.pesoReferencia === 0)
         return 0;
 
-      return (this.produto.pesoReferencia * (percentual / 100)).toFixed(0);
+      var peso = TextToNumber(this.produto.pesoReferencia) * TextToNumber(percentual) / 100;
+
+      return peso.toFixed(0);
     },
 
     adicionarReceita(){
@@ -497,7 +502,7 @@ export default {
             id: item.id !== undefined ? item.id : 0,
             idProduto: this.produto.id !== undefined ? this.produto.id : 0,
             idReceita: item.idReceita,
-            percentual: TextToNumber(item.percentual),
+            percentual: item.percentual,
             ordem: index+1
           }
         });
@@ -534,6 +539,41 @@ export default {
         this.menssagemSucesso = false;
         this.mensagem = '';
       }, 3000);
+    },
+
+    handleKeyDownRow(e){
+
+      if (e.key === 'Tab' || e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+
+        var next = 0;
+        if (e.shiftKey || e.key === 'ArrowUp')
+          next = -1;
+        else 
+          next = 1;
+
+        var inputs = document.querySelectorAll('.table-data tbody tr td input');
+        var lastItem = inputs[inputs.length-1].tabIndex;
+        var nextItem = (e.target.tabIndex) + next;        
+                
+        var nextElement;
+        if (nextItem > lastItem){
+          nextElement = document.querySelector('.group .preparo');
+        } else {
+
+          for(var i = 0; i < (lastItem); i++){
+            if (inputs[i].tabIndex === nextItem){
+              nextElement = inputs[i];
+              break;
+            }
+          }
+        }
+
+        if (nextElement !== undefined && nextElement !== null){
+          nextElement.focus();        
+          e.preventDefault();
+        }        
+      }
+
     },
 
 

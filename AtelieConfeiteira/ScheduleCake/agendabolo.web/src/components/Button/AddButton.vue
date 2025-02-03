@@ -1,7 +1,7 @@
 <template>
   <button class="btn btn-primary" @click="goTo">
     <!-- <img src="@/assets/add-white.svg" alt="novo registro"> -->
-    <font-awesome-icon icon="fa-sharp fa-solid fa-circle-plus" class="icon" />
+    <font-awesome-icon icon="fa-solid fa-circle-plus" class="icon" />
     <slot></slot>
   </button>
 </template>

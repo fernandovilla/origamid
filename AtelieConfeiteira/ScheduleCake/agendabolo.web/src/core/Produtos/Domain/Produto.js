@@ -13,6 +13,7 @@ export default class Produto {
   receitas = [];
 
   static CalcularPrecoCustoReceita(receita, pesoReferencia) {
+    
     if (receita === undefined || receita === null) return 0;
 
     if (receita.ingredientes === undefined || receita.ingredientes === null)
@@ -53,7 +54,7 @@ export default class Produto {
     if (produto.receitas === undefined) return 0;
 
     var total = produto.receitas.reduce((acumulado, receita) => {
-      return acumulado + receita.percentual;
+      return acumulado + TextToNumber(receita.percentual);
     }, 0);
     return total;
   }

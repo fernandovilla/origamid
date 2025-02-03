@@ -88,7 +88,9 @@ Concluir:
   - Cadastro de produtos
     OK Calculo do Custo Matéria Prima, por receita
     OK Calculo do Preço de Venda, utilizando o "*" no campo
-    - Alerta de preço de venda desatualizado em relação à margem
+    OK Alerta de preço de venda desatualizado em relação à margem
+    - Alterar % da Receita no table - EF não está atualizando BD
+    - 
 
 Próximas Alterações:
   - Entrada de mercadorias
