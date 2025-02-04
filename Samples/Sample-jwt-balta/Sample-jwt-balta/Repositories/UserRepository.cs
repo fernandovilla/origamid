@@ -10,10 +10,10 @@ namespace Sample_jwt_balta.Repositories
         {
             _users = new List<User>()
             {
-                new User {Id = 1, Name = "Fernando Villa", Username = "admin@microleme.com",Password = "admin", Role = RoleEnum.Admin},
-                new User {Id = 1, Name = "Gerente", Username = "gerente@microleme.com",Password = "222", Role = RoleEnum.Employee},
-                new User {Id = 1, Name = "Coordenador", Username = "coordenador@microleme.com",Password = "333", Role = RoleEnum.Employee},
-                new User {Id = 1, Name = "Comum", Username = "comum@microleme.com",Password = "comum", Role = RoleEnum.Comum},
+                new User {Id = 1, Name = "Fernando Villa", Username = "admin@microleme.com",Password = "", Role = RoleEnum.Admin},
+                new User {Id = 1, Name = "Gerente", Username = "gerente@microleme.com",Password = "", Role = RoleEnum.Employee},
+                new User {Id = 1, Name = "Coordenador", Username = "coordenador@microleme.com",Password = "", Role = RoleEnum.Employee},
+                new User {Id = 1, Name = "Comum", Username = "comum@microleme.com",Password = "", Role = RoleEnum.Comum},
             };
         }
 
