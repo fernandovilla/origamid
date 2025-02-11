@@ -2,12 +2,19 @@
   <span class="wrap">
     <div class="header-page">
       <h1>Home > Ingredientes</h1>
-      <div class="header-items">
-        <add-button to="ingrediente">Novo Ingrediente</add-button>
-        <div class="header-search">
-          <input-search class="input-search" placeHolder="Busca de ingredientes" @onChengeSearchText="onChengeSearchText" />
-        </div>                
-      </div>
+      
+        <div class="header-items row">
+          <add-button to="ingrediente" class="col-2 col-md-12">Novo Ingrediente</add-button>
+          <div class="header-search col-6 col-md-12">
+            <input-search class="input-search" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
+          </div>     
+
+          <div class="header-ativos col-3 col-md-12">
+            <input id="apenasAtivos" type="checkbox" v-model="somenteAtivos">
+            <label for="apenasAtivos">Listar apenas ingredientes Ativos</label>            
+          </div>           
+        </div>
+      
       
     </div>
 
@@ -78,6 +85,7 @@ export default {
       textSearching: '',
       buscando: false,
       carregando: false,
+      somenteAtivos: true,
     };
   },
 
@@ -130,7 +138,7 @@ export default {
         this.ingredientes = this.ingredientesSource.slice(skip, skip + this.itemsByPage);
     },
 
-    onChengeSearchText(text){
+    onChangeSearchText(text){
 
       this.textSearching = text.trim().toUpperCase();
 
@@ -220,8 +228,19 @@ export default {
   }
 
   .header-search .input-search {
-    width: 60%;
+    width: 80%;
+  }
 
+  .header-ativos {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .header-ativos input {
+    padding: 0;
+    margin: 0;
+    width: 30px;
   }
 
   .content {

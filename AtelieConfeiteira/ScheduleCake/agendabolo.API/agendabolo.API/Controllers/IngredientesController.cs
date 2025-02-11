@@ -277,5 +277,11 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpGet("Teste")]
+        public IActionResult Teste()
+        {
+            return Ok("TESTE OK");
+        }
     }
 }

@@ -43,9 +43,9 @@ namespace Agendabolo
                 options.AddPolicy(MyAllowSpecificOrigins, policy =>
                 {
                     policy
-                        .AllowAnyHeader()
                         .AllowAnyOrigin()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
             });
 
@@ -67,15 +67,18 @@ namespace Agendabolo
                 //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "agendabolo.API v1"));
             }
 
+            
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "agendabolo.API v1"));
-
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            //app.UseCors(MyAllowSpecificOrigins);
             app.UseCors(MyAllowSpecificOrigins);
+
 
             app.UseAuthorization();
 

@@ -197,7 +197,7 @@ export default {
           precoCustoQuilo: 0,
           precoCustoMedio: 0,
           dataUltimoPrecoCusto: undefined,
-          status: 1
+          status: 0
         },        
         embalagens: [],
         unidadeMedida: null,

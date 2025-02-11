@@ -4,6 +4,7 @@ import axios from 'axios';
 //const urlAPI = 'https://agenda-bolo-sample-env.eba-kgtdytka.us-east-2.elasticbeanstalk.com';
 const corsProxy = '';
 const urlAPI = 'http://localhost:42916';
+//const urlAPI = 'http://agendabolo.ddns.net:501';
 
 const axiosInstance = axios.create({
   baseURL: `${corsProxy}${urlAPI}/api/v1`,

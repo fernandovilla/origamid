@@ -24,7 +24,7 @@ export default {
       alert("Buscando...")
     },
     onChangeText(event){
-      this.$emit('onChengeSearchText', event.target.value);
+      this.$emit('onChangeSearchText', event.target.value);
     }
   }
 }
