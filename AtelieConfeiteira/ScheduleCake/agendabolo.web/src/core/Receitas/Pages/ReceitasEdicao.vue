@@ -16,12 +16,12 @@
               <div class="row">
                 <div class="input-group col-12">
                   <label for="nome">Nome</label>
-                  <input-base type="text" id="nome" required v-model="receita.nome" />        
+                  <input-base type="text" id="nome" required v-model="receita.nome" maxlength="100" />        
                 </div>
                 <div class="col-12">
                   <div class="input-group">
                     <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows=3 v-model="receita.descricao" />                   
+                    <input-area id="descricao" :rows=3 v-model="receita.descricao" maxlength="100" />                   
                   </div>
                 </div>
                 
@@ -106,7 +106,7 @@
               <div class="col-12">
                   <div class="input-group">
                     <label for="preparo">Etapas do Preparo</label>
-                    <input-area id="preparo" :rows="15" v-model="receita.preparo" :upperCase=false />                   
+                    <input-area id="preparo" :rows="15" v-model="receita.preparo" :upperCase=false maxlength="500" />                   
                   </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
               <div class="col-12">
                 <div class="input-group">
                     <label for="obs">Observações sobre a receita</label>
-                    <input-area id="obs" :rows="15" v-model="receita.observacao" :upperCase=false />                   
+                    <input-area id="obs" :rows="15" v-model="receita.observacao" :upperCase=false maxlength="500" />                   
                   </div>
               </div>
             </div>

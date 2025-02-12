@@ -8,6 +8,7 @@ namespace Agendabolo.Core.Ingredientes
 {
     public class IngredienteBuscaResponse : BuscaBaseResponse
     {
+        public string Marca { get; set; }
         public double EstoqueTotal { get; set; }
     }
 }

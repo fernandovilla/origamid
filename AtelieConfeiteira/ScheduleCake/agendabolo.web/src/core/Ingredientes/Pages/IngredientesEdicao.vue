@@ -12,34 +12,46 @@
             <h2 class="title">Dados do Ingrediente</h2>                
             <div class="container-fluid">    
 
-              <div class="row">
-                <div class="input-group col-6 col-md-12">
+              <div class="row">              
+                <div class="input-group col-7 col-md-12">
                   <label for="nome">Nome</label>
-                  <input-base type="text" id="nome" required v-model="ingrediente.nome" />        
-                </div>
+                  <input-base type="text" id="nome" required v-model="ingrediente.nome" maxlength="100" />        
+                </div>              
+              </div>  
               
-                <div class="input-group col-3 col-sm-12">
-                  <label for="status">Status</label>
-                  <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
+              <div class="row">
+                <div class="input-group col-7 col-md-12">
+                  <label for="marca">Marca</label>
+                  <input-base type="text" id="marca" required v-model="ingrediente.marca" maxlength="100" />        
                 </div>
-              </div>              
+              </div>
 
               <div class="row">
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCustoQuilo">Preço Custo Kg</label>
-                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCustoQuilo" :decimalCases=2 />
+                  <input-number id="precoCusto" placeholder='0,00' v-model.number="ingrediente.precoCustoQuilo" :decimalCases=2 />
                 </div>
 
-                <div class="input-group col-3 col-sm-12">
-                  <label for="dataUltimoPrecoCusto">Data Último Preço</label>
-                  <input-base type="text" id="dataUltimoPrecoCusto" v-model="DataUltimoPrecoCusto" disabled />
+                <div class="ultimoPreco col-3 col-sm-12 ">
+                  <!-- <label for="dataUltimoPrecoCusto">Data Último Preço</label>
+                  <input-base type="text" id="dataUltimoPrecoCusto" v-model="DataUltimoPrecoCusto" disabled /> -->
+                  <label for="">Último Preço: {{ DataUltimoPrecoCusto }}</label>
                 </div>
               </div>
 
               <div class="row">
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCusto">Preço Custo Médio</label>
-                  <input-number id="precoCustoMedio" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
+                  <input-number id="precoCustoMedio" placeholder='0,00' v-model.number="ingrediente.precoCustoMedio" :decimalCases=2 />
+                </div>
+
+                
+              </div>
+
+              <div class="row">
+                <div class="input-group col-3 col-sm-12">
+                  <label for="status">Status</label>
+                  <select-status id="status" v-model="ingrediente.status" :selected="ingrediente.status" required />      
                 </div>
               </div>
 
@@ -59,10 +71,11 @@
                   <tr>                    
                     <td class="col-remove"></td>
                     <td class="col-descricao">Descição</td>
+                    <td class="col-ean">EAN</td>      
                     <td class="col-preco">Preço</td>
-                    <td class="col-ean">EAN</td>                    
-                    <td class="col-unidade-medida">Un. Medida</td>
-                    <td class="col-fracionamento">Fracionamento (gramas)</td>                    
+                    <td class="col-fracionamento">Quant (gramas)</td>                                                      
+                    <td class="col-preco-quilo">Preço Kg</td>                    
+                    <td class="col-unidade-medida">Un. Medida</td>                    
                     <td class="col-tipo">Tipo</td>                    
                   </tr>
                 </thead>
@@ -74,18 +87,24 @@
                     <td class="col-descricao editable">
                       <input-base v-model="item.descricao" />
                     </td>
-                    <td class="col-preco editable">
-                      <input-number v-model="item.preco" />
-                    </td>
                     <td class="col-ean editable">
                       <input-base v-model="item.ean" />
                     </td>
+                    <td class="col-preco editable">
+                      <input-number v-model.number="item.preco" />
+                    </td>                    
+                    <td class="col-fracionamento editable">
+                      <input-base v-model.number="item.quantidade" @blur="fracionamentoBlurHandle" />
+                    </td>                    
+                    <td class="col-preco editable">
+
+                      R$ {{ custoQuilo(item.preco, item.quantidade) }}
+                    </td>
+                    
                     <td class="col-unidade-medida editable">
                       <select-unidade-medida v-model="item.idUnidadeMedida" :selected="item.idUnidadeMedida" @onChangeSelectedItem="changeSelectedItem" />
                     </td>
-                    <td class="col-fracionamento editable">
-                      <input-base v-model="item.quantidade" @blur="fracionamentoBlurHandle" />
-                    </td>                    
+                    
                     <td class="col-tipo editable">
                       <select v-model="item.tipoEmbalagem">
                         <option value="0">Compra</option>
@@ -225,7 +244,10 @@ export default {
 
     methods: {
 
-      
+      custoQuilo(preco, quantidade) {        
+        var valor = preco / quantidade * 1000;
+        return valor.toFixed(2);
+      },
 
       async incluirIngrediente() {
 
@@ -305,6 +327,7 @@ export default {
         var ingredienteRequest = {
           id: itemId,
           nome: this.ingrediente.nome,
+          marca: this.ingrediente.marca,
           precoCustoQuilo: TextToNumber(this.ingrediente.precoCustoQuilo),
           precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
           dataUltimoPrecoCusto: dataPrecoCusto,
@@ -405,7 +428,7 @@ export default {
   }
 
   .col-descricao {
-    width: 30%;
+    width: 25%;
   }
   .col-remove {
     width: 24px;
@@ -455,11 +478,33 @@ export default {
     font-size: 0.950em;        
   }
 
+  .ultimoPreco {
+    font-style: italic;
+    color: var(--text-color-light);
+    display: flex;
+    align-items: center;   
+    padding-top: 18px;
+    padding-left: 10px;
+    
+  }
+
+  
+
+
+
   @media screen and (max-width: 960px) {
     .tabela-nutricional
     {
       margin-left: 0px;
       margin-top: 10px;      
+    }
+
+    .ultimoPreco {
+      padding: 0px;
+    }
+
+    .ultimoPreco label {
+      text-align: center;
     }
   }
 

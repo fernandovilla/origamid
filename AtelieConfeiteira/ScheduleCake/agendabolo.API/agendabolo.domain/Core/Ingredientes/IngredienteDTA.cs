@@ -17,6 +17,9 @@ namespace Agendabolo.Core.Ingredientes
         [Column("nome")]
         public string Nome { get; set; }
 
+        [Column("marca")]
+        public string Marca { get; internal set; }
+
         [Column("precocustoquilo")]
         public decimal PrecoCustoQuilo { get; set; }
 
@@ -38,7 +41,6 @@ namespace Agendabolo.Core.Ingredientes
         public ICollection<IngredienteEmbalagemDTA> Embalagens { get; set; }
 
         public ICollection<EstoqueDTA> Estoque { get; set; }
-
-
+        
     }
 }

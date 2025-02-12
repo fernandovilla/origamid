@@ -19,17 +19,17 @@
 
                 <div class="input-group col">
                   <label for="nome">Nome</label>
-                  <input-base id="nome" required v-model="produto.nome" />
+                  <input-base id="nome" required v-model="produto.nome" maxlength="100" />
                 </div>
                 
                 <div class="input-group col-6 col-md-12">
                   <label for="descricao">Descrição</label>
-                  <input-area id="descricao" :rows=4 v-model="produto.descricao" />                   
+                  <input-area id="descricao" :rows=4 v-model="produto.descricao" maxlength="500" />                   
                 </div>
 
                 <div class="input-group col-6 col-md-12">
                   <label for="observacoes">Observações</label>
-                  <input-area id="observacoes" :rows=4 v-model="produto.observacoes" />                   
+                  <input-area id="observacoes" :rows=4 v-model="produto.observacoes" maxlength="500" />                   
                 </div>
 
                 <div class="input-group col-6">
@@ -50,17 +50,17 @@
 
                   <div class="input-group col-4">
                     <label for="pesoReferencia">Peso Referência (gramas)</label>
-                    <input-number id="pesoReferencia" :decimal-cases=0 v-model="produto.pesoReferencia" />
+                    <input-number id="pesoReferencia" :decimal-cases=0 v-model.number="produto.pesoReferencia" />
                   </div>
 
                   <div class="input-group col-4">
                     <label for="tempopreparo">Tempo Preparo (minutos)</label>
-                    <input-number id="tempopreparo" :decimal-cases=0 v-model="produto.tempoPreparo" />
+                    <input-number id="tempopreparo" :decimal-cases=0 v-model.number="produto.tempoPreparo" />
                   </div>
 
                   <div class="input-group col">
                     <label for="finalizacao">Finalização</label>
-                    <input-area id="finalizacao" :rows=7 v-model="produto.finalizacao" />                   
+                    <input-area id="finalizacao" :rows=7 v-model="produto.finalizacao" maxlength="1000" />                   
                   </div>       
                 </div>
 

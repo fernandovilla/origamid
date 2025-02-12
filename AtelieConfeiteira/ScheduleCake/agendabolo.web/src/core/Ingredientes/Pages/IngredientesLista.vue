@@ -4,15 +4,24 @@
       <h1>Home > Ingredientes</h1>
       
         <div class="header-items row">
-          <add-button to="ingrediente" class="col-2 col-md-12">Novo Ingrediente</add-button>
-          <div class="header-search col-6 col-md-12">
-            <input-search class="input-search" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
+          <add-button to="ingrediente" class="col-md-12">Novo Ingrediente</add-button>
+          <div class="header-search col-md-12">
+            <input-search class="input-search col-md-12" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
           </div>     
 
           <div class="header-ativos col-3 col-md-12">
             <input id="apenasAtivos" type="checkbox" v-model="somenteAtivos">
             <label for="apenasAtivos">Listar apenas ingredientes Ativos</label>            
           </div>           
+
+          <div class="input-group">
+            <select name="filtroStatus" id="filtroStatus" class="filter-status" >
+              <option value="0">Somente Ativos</option>
+              <option value="1">Somente Bloqueados</option>
+              <option value="2">Somente Excluídos</option>
+              <option value="-1">Todos</option>
+            </select>
+          </div>
         </div>
       
       
@@ -31,7 +40,11 @@
         <tbody>
           <tr v-for="(ingrediente, index) in ingredientes" :key="index">
             <td class="body-nome">
-              <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >{{nomeLongo(ingrediente.nome)}}</router-link>                
+              <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >
+                <p class="nomeIngrediente">{{nomeLongo(ingrediente.nome)}}</p>                
+                <p class="marcaIngrediente">Marca: {{ ingrediente.marca }}</p>
+              </router-link>                 
+              
             </td>
             <td class="col-estoque">
               <a href="#">{{ this.estoqueText(ingrediente.estoqueTotal) }}</a>              
@@ -97,11 +110,38 @@ export default {
     InputSearch
   },
 
+  watch: {
+    somenteAtivos() {
+      this.ingredientes = this.ingredientesSource;
+
+      if (this.somenteAtivos)
+        this.ingredientes = this.ingredientesSource.filter((item) => item.status === 0);
+
+      this.totalRegistros = this.ingredientes.length;
+      this.onChangePage(1);
+    }
+  },
+
   computed: {
     totalPages() {
       var pages = this.totalRegistros / this.itemsByPage;
       return pages.toFixed(0);
+    },
+
+    
+    ingredientesView(){
+
+      var result = this.ingredientesSource;
+
+      if (this.somenteAtivos)
+      
+      if (this.somenteAtivos)
+        result = result.filter((item) => item.status === 0);
+      
+      return result;
     }
+
+
   },
   
   methods: {
@@ -119,10 +159,10 @@ export default {
       var result = await ingredientesAPIService.selecionarBusca();
       
       if (result != null) {          
-          this.totalRegistros = result.total;          
-          this.totalRegistrosSource = result.total;                 
           this.ingredientesSource = result.data;       
           this.ingredientesSearch = result.data;   
+          this.totalRegistros = this.ingredientesView.length;          
+          this.totalRegistrosSource = result.total;                           
       }
 
       this.carregando = false;
@@ -133,9 +173,9 @@ export default {
       var skip = (this.currentPage-1) * this.itemsByPage;
 
       if (this.buscando)
-        this.ingredientes = this.ingredientesSearching.slice(skip, skip + this.itemsByPage);
+         this.ingredientes = this.ingredientesSearching.slice(skip, skip + this.itemsByPage);
       else
-        this.ingredientes = this.ingredientesSource.slice(skip, skip + this.itemsByPage);
+         this.ingredientes = this.ingredientesView.slice(skip, skip + this.itemsByPage);
     },
 
     onChangeSearchText(text){
@@ -145,7 +185,8 @@ export default {
       if (text.length >= 1) {      
         this.buscando = true;
 
-        this.ingredientesSearching = this.ingredientesSource.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
+        //this.ingredientesSearching = this.ingredientesSource.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
+        this.ingredientesSearching = this.ingredientesView.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
 
         this.totalRegistros = this.ingredientesSearching.length;
         this.onChangePage(1);
@@ -263,9 +304,32 @@ export default {
     font-weight: normal;
   }
 
+  .table-data .body-nome .nomeIngrediente:hover {
+    font-weight: bold;
+  }
+
+  .table-data .body-nome .marcaIngrediente {
+    font-weight:100;
+    margin-left: 5px;
+    font-size: 0.875em;
+  }
+
   .pagination {
     margin: 10px auto;
   }
+
+  .filter-status {
+    border: 1px solid var(--border-color-light);
+    border-radius: 25px;    
+    padding: 0px 10px;
+    padding-left: 35px;
+    outline: none;
+    text-transform: uppercase;
+    font-family: 'Poppins', Helvetica, sans-serif;
+    font-size: 0.853rem;
+  }
+  
+
 
   @media screen and (max-width: 960px) {
     .header-items {
