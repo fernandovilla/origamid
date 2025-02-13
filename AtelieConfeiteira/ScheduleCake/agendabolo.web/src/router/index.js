@@ -139,6 +139,14 @@ const formasRoutes = [
   },
 ];
 
+const menuLateral = [
+  {
+    path:'/menuLateral',
+    name: 'menuLateral', 
+    component: () => import('@/components/Sidebar/MenuLateral.vue')
+  }
+]
+
 const helloWorld = [
   {
     path: '/helloworld',
@@ -156,6 +164,7 @@ const routes = [
   ...clientesRoutes,
   ...formasRoutes,
   ...helloWorld,
+  ...menuLateral
 ];
 
 const router = createRouter({

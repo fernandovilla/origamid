@@ -12,8 +12,7 @@
           <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />            
           <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
           <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
-          <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                
-          
+          <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                          
         </ul>
       </side-bar-item>      
       <side-bar-item display="Compras" router="" googleIcon="shopping_cart" src_alt="compras" :expansible="true" @expanded="onExpandedCompras">
@@ -22,6 +21,7 @@
           <side-bar-item subitem=true display="Entrada" googleIcon="local_mall" router="/entradaIngredientes"  />                      
         </ul>
       </side-bar-item>
+      <side-bar-item subitem=true display="Menu" googleIcon="cake" router="/menuLateral"  />                
     </ul>
   </nav>
 </template>
