@@ -55,7 +55,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     overflow: hidden;
-    flex-basis: var(--side-bar-width);
+    flex-basis: var(--side-bar-max-width);
   }
 
   
@@ -134,12 +134,22 @@ export default {
       font-size: 0.850rem;
     }
 
-    .menu-lateral {
+    /* .menu-lateral {
       display: none;
-    }
+    } */
 
     h1, h2 {
       text-align: center;
     }
+   
+    .side-bar {
+      position: absolute;
+      z-index: 1000;      
+    }    
+
+    .body {
+      margin-left: var(--side-bar-min-width);
+    }
+  
   }
 </style>

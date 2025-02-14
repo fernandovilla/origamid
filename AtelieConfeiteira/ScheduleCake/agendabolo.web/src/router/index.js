@@ -139,21 +139,27 @@ const formasRoutes = [
   },
 ];
 
-const menuLateral = [
+const teste = [
   {
-    path:'/menuLateral',
-    name: 'menuLateral', 
-    component: () => import('@/components/Sidebar/MenuLateral.vue')
-  }
+    path:'/teste',
+    name:'teste',
+    component: () => import('@/core/Teste/PaginaTeste.vue'),
+    children: [
+      {
+        default: true,
+        path: '/home',        
+        name: 'home',        
+        component: () => import('@/core/Teste/HelloWorld.vue')
+      },
+      {
+        path: '/lista',
+        name:'lista',
+        component: () => import('@/core/Teste/Lista.vue')
+      }            
+    ]
+  }  
 ]
 
-const helloWorld = [
-  {
-    path: '/helloworld',
-    name: 'helloworld',
-    component: () => import('@/components/HelloWorld.vue'),
-  },
-];
 
 const routes = [
   ...defaultRoutes,
@@ -163,8 +169,7 @@ const routes = [
   ...produtosRoutes,
   ...clientesRoutes,
   ...formasRoutes,
-  ...helloWorld,
-  ...menuLateral
+  ...teste
 ];
 
 const router = createRouter({

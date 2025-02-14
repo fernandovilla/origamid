@@ -41,7 +41,7 @@
 
 <script>
 import ButtonLargeSave from '@/components/Button/ButtonLargeSave.vue'
-import ButtonLargePrint from './Button/ButtonLargePrint.vue'
+import ButtonLargePrint from '@/components/Button/ButtonLargePrint.vue'
 
 export default {
   name: 'HelloWorld',

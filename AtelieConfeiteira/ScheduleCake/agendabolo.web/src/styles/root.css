@@ -6,7 +6,8 @@
   --side-bar-background-color: #3c4861;
   --side-bar-background-color-hover: #59667d;
   --side-bar-text-color: #CDD2DB;
-  --side-bar-width: 230px;
+  --side-bar-max-width: 230px;
+  --side-bar-min-width: 35px;
 
   --top-bar-background-color:#FDFEFF;
   --top-bar-text-color: #515C66;
