@@ -15,11 +15,11 @@
           </div>           
 
           <div class="input-group">
-            <select name="filtroStatus" id="filtroStatus" class="filter-status" >
+            <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterOption" >
               <option value="0">Somente Ativos</option>
               <option value="1">Somente Bloqueados</option>
               <option value="2">Somente Excluídos</option>
-              <option value="-1">Todos</option>
+              <option value="todos">Todos</option>
             </select>
           </div>
         </div>
@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(ingrediente, index) in ingredientes" :key="index">
+          <tr v-for="(ingrediente, index) in filteredItems" :key="index">
             <td class="body-nome">
               <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >
                 <p class="nomeIngrediente">{{nomeLongo(ingrediente.nome)}}</p>                
@@ -96,6 +96,8 @@ export default {
       itemsByPage: 15,
       currentPage: 1,
       textSearching: '',
+      filterStatus: 'todos',
+      filterOption: 'todos',
       buscando: false,
       carregando: false,
       somenteAtivos: true,
@@ -122,7 +124,35 @@ export default {
     }
   },
 
+//******************************************************************************************************  
+//  <select name="filtroStatus" id="filtroStatus" class="filter-status" >
+//    <option value="0">Somente Ativos</option>
+//    <option value="1">Somente Bloqueados</option>
+//    <option value="2">Somente Excluídos</option>
+//    <option value="todos">Todos</option>
+//  </select>
+//
+//  return this.itens.filter(item => {
+//      const matchesQuery = item.nome.toLowerCase().includes(this.searchQuery.toLowerCase());
+//      const matchesFilter = this.filterOption === 'todos' || (this.filterOption === 'par' && item.id % 2 === 0) || (this.filterOption === 'impar' && item.id % 2 !== 0);
+//      return matchesQuery && matchesFilter;
+//  });
+//******************************************************************************************************
+
   computed: {
+    filteredItems(){
+      var filtered =  this.ingredientes.filter(item => {
+                const matchesQuery = item.nome.toLowerCase().includes(this.textSearching.toLowerCase());
+                const matchesFilter = this.filterOption === 'todos' || (this.filterOption !== 'todos' && item.status === this.filterOption);
+                return matchesQuery && matchesFilter;
+            });     
+
+      console.log("filterStatus", this.filterStatus);  
+      console.log("filtered", filtered);  
+            
+      return filtered;
+    },
+
     totalPages() {
       var pages = this.totalRegistros / this.itemsByPage;
       return pages.toFixed(0);

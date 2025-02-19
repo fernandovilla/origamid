@@ -4,8 +4,8 @@
         <label>
             <select v-model="filterOption">
                 <option value="todos">Todos</option>
-                <option value="par">Par</option>
-                <option value="impar">Ímpar</option>
+                <option value="0">Par</option>
+                <option value="1">Ímpar</option>
             </select>
         </label>
         <table>
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in filteredItems" :key="item.id">
+                <tr v-for="(item, index) in filteredItems" :key="index">
                     <td>{{ item.id }}</td>
                     <td>{{ item.nome }}</td>
                     <td>{{ item.link }}</td>
@@ -34,13 +34,13 @@ export default {
             searchQuery: '',
             filterOption: 'todos',
             itens: [
-                { id: 1, nome: 'Home', link: '/' },
-                { id: 2, nome: 'Ingredientes', link: '/ingredientes' },
-                { id: 3, nome: 'Receitas', link: '/receitas' },
-                { id: 4, nome: 'Unidades de Medida', link: '/unidades-medida' },
-                { id: 5, nome: 'Categorias', link: '/categorias' },
-                { id: 6, nome: 'Usuários', link: '/usuarios' },
-                { id: 7, nome: 'Configurações', link: '/configuracoes' }
+                { id: 1, nome: 'Home', link: '/', status: '1' },
+                { id: 2, nome: 'Ingredientes', link: '/ingredientes', status: '0' },
+                { id: 3, nome: 'Receitas', link: '/receitas', status: '1' },
+                { id: 4, nome: 'Unidades de Medida', link: '/unidades-medida', status: '1' },
+                { id: 5, nome: 'Categorias', link: '/categorias', status: '1' },
+                { id: 6, nome: 'Usuários', link: '/usuarios', status: '0' },
+                { id: 7, nome: 'Configurações', link: '/configuracoes', status: '0' }
             ]
         };
     },
@@ -48,9 +48,7 @@ export default {
         filteredItems() {
             return this.itens.filter(item => {
                 const matchesQuery = item.nome.toLowerCase().includes(this.searchQuery.toLowerCase());
-                const matchesFilter = this.filterOption === 'todos' ||
-                                      (this.filterOption === 'par' && item.id % 2 === 0) ||
-                                      (this.filterOption === 'impar' && item.id % 2 !== 0);
+                const matchesFilter = this.filterOption === 'todos' || (this.filterOption === '0' && item.id % 2 === 0) || (this.filterOption === '1' && item.id % 2 !== 0);
                 return matchesQuery && matchesFilter;
             });
         }
