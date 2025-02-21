@@ -8,12 +8,20 @@
                 <option value="1">Ímpar</option>
             </select>
         </label>
+        <p>
+            <select v-model="filterOptionStatus">
+                <option value="todos">Todos</option>
+                <option value="0">Inativo</option>
+                <option value="1">Ativo</option>
+            </select>
+        </p>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Link</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,6 +29,7 @@
                     <td>{{ item.id }}</td>
                     <td>{{ item.nome }}</td>
                     <td>{{ item.link }}</td>
+                    <td>{{ item.status }}</td>
                 </tr>
             </tbody>
         </table>
@@ -33,6 +42,7 @@ export default {
         return {
             searchQuery: '',
             filterOption: 'todos',
+            filterOptionStatus: 'todos',
             itens: [
                 { id: 1, nome: 'Home', link: '/', status: '1' },
                 { id: 2, nome: 'Ingredientes', link: '/ingredientes', status: '0' },
@@ -49,7 +59,8 @@ export default {
             return this.itens.filter(item => {
                 const matchesQuery = item.nome.toLowerCase().includes(this.searchQuery.toLowerCase());
                 const matchesFilter = this.filterOption === 'todos' || (this.filterOption === '0' && item.id % 2 === 0) || (this.filterOption === '1' && item.id % 2 !== 0);
-                return matchesQuery && matchesFilter;
+                const matchesFilterStatus = this.filterOptionStatus === 'todos' || item.status === this.filterOptionStatus;
+                return matchesQuery && matchesFilter && matchesFilterStatus && matchesFilterStatus
             });
         }
     },

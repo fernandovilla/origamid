@@ -9,22 +9,15 @@
             <input-search class="input-search col-md-12" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
           </div>     
 
-          <div class="header-ativos col-3 col-md-12">
-            <input id="apenasAtivos" type="checkbox" v-model="somenteAtivos">
-            <label for="apenasAtivos">Listar apenas ingredientes Ativos</label>            
-          </div>           
-
-          <div class="input-group">
-            <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterOption" >
-              <option value="0">Somente Ativos</option>
-              <option value="1">Somente Bloqueados</option>
-              <option value="2">Somente Excluídos</option>
+          <div class="input-group col-md-12">
+            <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterStatus" >
+              <option value="0">Ativos</option>
+              <option value="1">Bloqueados</option>
+              <option value="2">Excluídos</option>
               <option value="todos">Todos</option>
             </select>
           </div>
-        </div>
-      
-      
+        </div>      
     </div>
 
     <div class="content">      
@@ -38,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(ingrediente, index) in filteredItems" :key="index">
+          <tr v-for="(ingrediente, index) in ingredientes" :key="index">
             <td class="body-nome">
               <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >
                 <p class="nomeIngrediente">{{nomeLongo(ingrediente.nome)}}</p>                
@@ -87,20 +80,16 @@ import { NumberToText, TextToNumber } from '@/helpers/NumberHelp';
 export default {
   name: 'ingredientes-lista',
   data() {
-    return {
-      ingredientesSource: null,
-      ingredientesSearching: null,
+    return {      
       ingredientes: null,      
-      totalRegistrosSource: 0,
+      ingredientesSource: null,
       totalRegistros: 0,
       itemsByPage: 15,
       currentPage: 1,
       textSearching: '',
-      filterStatus: 'todos',
-      filterOption: 'todos',
-      buscando: false,
+      filterStatus: '0',
       carregando: false,
-      somenteAtivos: true,
+      totalPages: 0,
     };
   },
 
@@ -113,69 +102,34 @@ export default {
   },
 
   watch: {
-    somenteAtivos() {
-      this.ingredientes = this.ingredientesSource;
-
-      if (this.somenteAtivos)
-        this.ingredientes = this.ingredientesSource.filter((item) => item.status === 0);
-
-      this.totalRegistros = this.ingredientes.length;
-      this.onChangePage(1);
-    }
+    filterStatus() {
+      this.filtrarItens();
+    },
+    textSearching() {
+      this.filtrarItens();      
+    },
   },
 
-//******************************************************************************************************  
-//  <select name="filtroStatus" id="filtroStatus" class="filter-status" >
-//    <option value="0">Somente Ativos</option>
-//    <option value="1">Somente Bloqueados</option>
-//    <option value="2">Somente Excluídos</option>
-//    <option value="todos">Todos</option>
-//  </select>
-//
-//  return this.itens.filter(item => {
-//      const matchesQuery = item.nome.toLowerCase().includes(this.searchQuery.toLowerCase());
-//      const matchesFilter = this.filterOption === 'todos' || (this.filterOption === 'par' && item.id % 2 === 0) || (this.filterOption === 'impar' && item.id % 2 !== 0);
-//      return matchesQuery && matchesFilter;
-//  });
-//******************************************************************************************************
+  methods: {
 
-  computed: {
-    filteredItems(){
-      var filtered =  this.ingredientes.filter(item => {
+    filtrarItens(skip){
+      this.ingredientes = this.ingredientesSource.filter(item => {
                 const matchesQuery = item.nome.toLowerCase().includes(this.textSearching.toLowerCase());
-                const matchesFilter = this.filterOption === 'todos' || (this.filterOption !== 'todos' && item.status === this.filterOption);
+                const matchesFilter = this.filterStatus === 'todos' || item.status === parseInt(this.filterStatus);                
                 return matchesQuery && matchesFilter;
             });     
 
-      console.log("filterStatus", this.filterStatus);  
-      console.log("filtered", filtered);  
-            
-      return filtered;
+      this.totalRegistros = this.ingredientes.length;     
+      this.totalPages = this.totalRegistros / this.itemsByPage;      
+      
+      if (skip !== undefined && skip > 0) {
+        this.ingredientes = this.ingredientes.slice(skip, skip + this.itemsByPage);    
+      } else {
+        this.ingredientes = this.ingredientes.slice(0, this.itemsByPage);    
+      }
     },
 
-    totalPages() {
-      var pages = this.totalRegistros / this.itemsByPage;
-      return pages.toFixed(0);
-    },
-
-    
-    ingredientesView(){
-
-      var result = this.ingredientesSource;
-
-      if (this.somenteAtivos)
-      
-      if (this.somenteAtivos)
-        result = result.filter((item) => item.status === 0);
-      
-      return result;
-    }
-
-
-  },
-  
-  methods: {
-
+    // método executado quando a página é carregada
     async obterListaIngredientesInicial() {
       await this.obterListaIngredientes();
 
@@ -183,6 +137,7 @@ export default {
       this.onChangePage(this.currentPage);
     },
 
+    // método executado quando a página é carregada pela primeira vez
     async obterListaIngredientes(){
       this.carregando = true;
 
@@ -190,44 +145,23 @@ export default {
       
       if (result != null) {          
           this.ingredientesSource = result.data;       
-          this.ingredientesSearch = result.data;   
-          this.totalRegistros = this.ingredientesView.length;          
-          this.totalRegistrosSource = result.total;                           
+          this.filtrarItens();          
       }
 
       this.carregando = false;
     },
 
+    // método executado quando o usuário clica em uma página da paginação
     onChangePage(pageNumber){
       this.currentPage = pageNumber;
       var skip = (this.currentPage-1) * this.itemsByPage;
-
-      if (this.buscando)
-         this.ingredientes = this.ingredientesSearching.slice(skip, skip + this.itemsByPage);
-      else
-         this.ingredientes = this.ingredientesView.slice(skip, skip + this.itemsByPage);
+      
+      this.filtrarItens(skip);
     },
 
+    // método executado quando o usuário digita no campo de busca
     onChangeSearchText(text){
-
       this.textSearching = text.trim().toUpperCase();
-
-      if (text.length >= 1) {      
-        this.buscando = true;
-
-        //this.ingredientesSearching = this.ingredientesSource.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
-        this.ingredientesSearching = this.ingredientesView.filter((item) => item.nome.toUpperCase().includes(this.textSearching));
-
-        this.totalRegistros = this.ingredientesSearching.length;
-        this.onChangePage(1);
-
-      } else if (text.length == 0) { 
-
-        this.ingredientesSearching = null;
-        this.buscando = false;
-        this.totalRegistros = this.ingredientesSource.length;
-        this.onChangePage(this.currentPage);
-      }
     },
 
     editarIngrediente(ingrediente){
@@ -351,12 +285,12 @@ export default {
   .filter-status {
     border: 1px solid var(--border-color-light);
     border-radius: 25px;    
-    padding: 0px 10px;
-    padding-left: 35px;
+    padding: 0px 15px;
     outline: none;
     text-transform: uppercase;
     font-family: 'Poppins', Helvetica, sans-serif;
     font-size: 0.853rem;
+    text-align: left;
   }
   
 
