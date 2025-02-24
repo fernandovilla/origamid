@@ -1,30 +1,32 @@
 <template>
   <nav :class="['sidebar', { 'sidebar-open': isOpen }]" >
-    <p class="toggle">
-      <button @click="onToggleMenu">X</button>
-    </p>
-    <p class="title">FAVORITOS</p>
-    <p class="title">MENU</p>
-    <ul>      
-      <side-bar-item display="Home" router="/" googleIcon="home" src_alt="home" />            
-      <side-bar-item display="Clientes" router="/clientes" googleIcon="group" src_alt="clientes" />      
-      <side-bar-item display="Agenda de Produção" router="/" googleIcon="calendar_clock" src_alt="clientes" />      
-      <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false :expansible="true" @expanded="onExpandedCadastros">
-        <ul class="subitem" :class="expandedCadastros ? 'shown' : 'hidden'">
-          <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />            
-          <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
-          <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
-          <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                          
-        </ul>
-      </side-bar-item>      
-      <side-bar-item display="Compras" router="" googleIcon="shopping_cart" src_alt="compras" :expansible="true" @expanded="onExpandedCompras">
-        <ul class="subitem" :class="expandedCompras ? 'shown' : 'hidden'">
-          <side-bar-item subitem=true display="Pedido" googleIcon="sell" router="/"  />                      
-          <side-bar-item subitem=true display="Entrada" googleIcon="local_mall" router="/entradaIngredientes"  />                      
-        </ul>
-      </side-bar-item>
-      <side-bar-item subitem=true display="Teste" googleIcon="bug_report" router="/teste"  />                
-    </ul>
+    <div class="toggle">
+      <button @click="onToggleMenu"><img src="@/assets/bars.svg" alt="menu" class="toggle-icon"></button>
+    </div>
+    <div class="sidebar-content">
+      <p class="title">FAVORITOS</p>
+      <p class="title">MENU</p>
+      <ul>      
+        <side-bar-item display="Home" router="/" googleIcon="home" src_alt="home" />            
+        <side-bar-item display="Clientes" router="/clientes" googleIcon="group" src_alt="clientes" />      
+        <side-bar-item display="Agenda de Produção" router="/" googleIcon="calendar_clock" src_alt="clientes" />      
+        <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false :expansible="true" @expanded="onExpandedCadastros">
+          <ul class="subitem" :class="expandedCadastros ? 'shown' : 'hidden'">
+            <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />            
+            <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
+            <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
+            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                          
+          </ul>
+        </side-bar-item>      
+        <side-bar-item display="Compras" router="" googleIcon="shopping_cart" src_alt="compras" :expansible="true" @expanded="onExpandedCompras">
+          <ul class="subitem" :class="expandedCompras ? 'shown' : 'hidden'">
+            <side-bar-item subitem=true display="Pedido" googleIcon="sell" router="/"  />                      
+            <side-bar-item subitem=true display="Entrada" googleIcon="local_mall" router="/entradaIngredientes"  />                      
+          </ul>
+        </side-bar-item>
+        <side-bar-item subitem=true display="Teste" googleIcon="bug_report" router="/teste"  />                
+      </ul>
+    </div>
   </nav>
 </template>
 
@@ -78,13 +80,47 @@ export default {
     border-radius: 0 0 0 5px;
   }
 
+  nav .toggle {
+    text-align: right;    
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  nav .toggle button {
+    border: 0px;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    padding-right: 5px;
+    padding-top: 5px;
+  }
+
+
+  nav .toggle .toggle-icon img {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    color: white;
+    fill: green;
+  } 
+
   .sidebar {
     max-width: var(--side-bar-min-width);
     transition: all 0.2s;
   }
 
   .sidebar-open {
-    max-width: var(--side-bar-max-width);
+    max-width: var(--side-bar-max-width);    
+  }
+
+  .sidebar-content {
+    display: none;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .sidebar-open .sidebar-content {
+    display: block;    
   }
 
   nav .title {
@@ -106,6 +142,14 @@ export default {
     display: none;    
   }
 
+  .subitem.hidden {
+    display: none;    
+  }
+
+  .subitem.hidden.sidebar-content {
+    border: 1px solid green;
+  }
+
 
   @keyframes slideDown {
     from { transform: translateY(-5px); }
@@ -117,19 +161,7 @@ export default {
     animation-duration: 0.2s;        
   }
 
-  nav .toggle {
-    text-align: right;    
-  }
-
-  nav .toggle button {
-    border: 0px;
-    background: transparent;
-    font-size: 16px;
-    cursor: pointer;
-    color: white;
-    padding: 10px;    
-  }
-
+  
  
   
 </style>

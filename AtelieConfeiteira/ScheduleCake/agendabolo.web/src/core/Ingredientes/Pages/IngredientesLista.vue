@@ -3,21 +3,22 @@
     <div class="header-page">
       <h1>Home > Ingredientes</h1>
       
-        <div class="header-items row">
-          <add-button to="ingrediente" class="col-md-12">Novo Ingrediente</add-button>
-          <div class="header-search col-md-12">
-            <input-search class="input-search col-md-12" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
-          </div>     
+      <div class="header-items row">
+        <add-button to="ingrediente" class="col-md-12">Novo Ingrediente</add-button>
 
-          <div class="input-group col-md-12">
-            <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterStatus" >
-              <option value="0">Ativos</option>
-              <option value="1">Bloqueados</option>
-              <option value="2">Excluídos</option>
-              <option value="todos">Todos</option>
-            </select>
-          </div>
-        </div>      
+        <div class="header-search col-md-12">
+          <input-search class="input-search col-md-12" placeHolder="Busca de ingredientes" @onChangeSearchText="onChangeSearchText" />
+        </div>     
+
+        <div class="input-group col-md-12">
+          <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterStatus" >
+            <option value="0">Ativos</option>
+            <option value="1">Bloqueados</option>
+            <option value="2">Excluídos</option>
+            <option value="todos">Todos</option>
+          </select>
+        </div>
+      </div>      
     </div>
 
     <div class="content">      
@@ -233,7 +234,7 @@ export default {
   }
 
   .header-search .input-search {
-    width: 80%;
+    width: 100%; 
   }
 
   .header-ativos {
@@ -248,9 +249,9 @@ export default {
     width: 30px;
   }
 
-  .content {
+  /*.content {
     overflow: auto;
-  }
+  }*/
 
   .table-data .head-nome {
     text-align: left;
