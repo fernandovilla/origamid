@@ -1,5 +1,6 @@
-import { api } from '../../../services/serviceAPI.js';
-import LogErro from '../../../helpers/LogErro.js';
+import { api } from '../../services/serviceAPI.js';
+import LogErro from '../../helpers/LogErro.js';
+
 
 export const ingredientesAPIService = {
   async selecionarBusca() {

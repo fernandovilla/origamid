@@ -29,12 +29,10 @@
               <div class="row">
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCustoQuilo">Preço Custo Kg</label>
-                  <input-number id="precoCusto" placeholder='0,00' v-model.number="ingrediente.precoCustoQuilo" :decimalCases=2 />
+                  <input-number id="precoCusto" placeholder='0,00' v-model="ingrediente.precoCustoQuilo" :decimalCases=2 />
                 </div>
 
-                <div class="ultimoPreco col-3 col-sm-12 ">
-                  <!-- <label for="dataUltimoPrecoCusto">Data Último Preço</label>
-                  <input-base type="text" id="dataUltimoPrecoCusto" v-model="DataUltimoPrecoCusto" disabled /> -->
+                <div class="ultimoPreco col-3 col-sm-12 ">                  
                   <label for="">Último Preço: {{ DataUltimoPrecoCusto }}</label>
                 </div>
               </div>
@@ -42,7 +40,7 @@
               <div class="row">
                 <div class="input-group col-3 col-sm-12">
                   <label for="precoCusto">Preço Custo Médio</label>
-                  <input-number id="precoCustoMedio" placeholder='0,00' v-model.number="ingrediente.precoCustoMedio" :decimalCases=2 />
+                  <input-number id="precoCustoMedio" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
                 </div>
 
                 
@@ -201,7 +199,7 @@ import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
 import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
-import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIService.js'
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
 import { TextToNumber } from '@/helpers/NumberHelp'
 import { DateTimeToTextShort, GetCurrentDateTimeZone } from '@/helpers/DateTimeHelp'
@@ -213,8 +211,8 @@ export default {
         ingrediente: {
           id: 0,
           nome: '',
-          precoCustoQuilo: 0,
-          precoCustoMedio: 0,
+          precoCustoQuilo: 0.00,
+          precoCustoMedio: 0.00,
           dataUltimoPrecoCusto: undefined,
           status: 0
         },        
@@ -328,8 +326,8 @@ export default {
           id: itemId,
           nome: this.ingrediente.nome,
           marca: this.ingrediente.marca,
-          precoCustoQuilo: this.ingrediente.precoCustoQuilo,
-          precoCustoMedio: this.ingrediente.precoCustoMedio,
+          precoCustoQuilo: TextToNumber(this.ingrediente.precoCustoQuilo),
+          precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
           dataUltimoPrecoCusto: dataPrecoCusto,
           status: this.ingrediente.status,
           estoqueTotal: 0,

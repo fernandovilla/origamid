@@ -56,10 +56,10 @@
   import ModalForm from '@/components/Modal/ModalForm.vue'
   import InputNumber from '@/components/Input/InputNumber.vue'
   import SelectSearch from '@/components/Select/SelectSearch.vue'
-  import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+  import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIService.js'
   import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
   //import ReceitaIngrediente from '@/core/Receitas/Domain/ReceitaIngrediente.js'
-  import Ingrediente from '@/core/Ingredientes/Domain/Ingrediente.js'
+  import Ingrediente from '@/core/Ingredientes/Ingrediente.js'
   
 export default {
   name:'seleciona-ingrediente-receita',

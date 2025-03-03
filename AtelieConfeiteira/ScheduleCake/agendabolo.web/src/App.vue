@@ -3,7 +3,7 @@
     
   <div class="main">
     <side-bar class="side-bar" />    
-    <router-view class="body"/>
+    <router-view class="body-page"/>
   </div>
 </template>
 
@@ -39,11 +39,12 @@ export default {
     margin: 2px;        
   }
 
-  .body {
-    padding: 20px;
+  .body-page {
+    position: relative;
+    padding: 15px;
     flex-grow: 1;
     flex-shrink: 1;
-    overflow: auto;
+    overflow-y: auto;
     height: calc(100vh - var(--top-bar-height) - 7px);
   }
   

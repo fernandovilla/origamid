@@ -2,7 +2,7 @@
     <input-base 
       id="inputNumber"  
       type="text"       
-      :value="numericValue"       
+      v-model.lazy="numericValue"
       @keypress="handleKeyPress" 
       @change="handleChange" 
       @focus="handleFocus" 
@@ -11,6 +11,8 @@
 
 <script>
 import InputBase from '@/components/Input/InputBase.vue'
+
+//v-model.lazy.number="numericValue"
 
 export default {
   name:'input-number',
@@ -26,7 +28,7 @@ export default {
   }, 
 
   props: {
-    modelValue: { type: [String, Number], default: '0,00' },
+    modelValue: { type: Number, default: 0.00 },
     decimalCases: { type: Number, default: 2 },
     allowNegative: { type: Boolean, default: false},
     allowAsterisk: { type: Boolean, default: false}
@@ -40,12 +42,13 @@ export default {
       if (isNaN(this.internalValue.toString().replace(',','.')))
         return '';    
 
-      if (this.internalValue > 0 || this.internalValue.length > 0){
-        return parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
-      } else {
-        var zero = 0;
-        return zero.toFixed(this.decimalCases).replace('.,',',');
-      }
+      var valueReturn = 0;
+
+      if (this.internalValue > 0 || this.internalValue.length > 0) {
+        valueReturn = parseFloat(this.internalValue.toString().replace(',','.')).toFixed(this.decimalCases).replace('.',',');
+      } 
+
+      return valueReturn;
     }
   },
 

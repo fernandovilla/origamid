@@ -1,97 +1,70 @@
-
-Alterações no cadastro de Receitas:
-  ✔ Web - Remover rendimento @done(23-03-27 08:31)
-  ✔ Web - Remover quantidade e custo do ingrediente @done(23-03-27 08:31)
-  ✔ Web - Incluir campo "Observações" @done(23-04-06 16:13)
-  ✔ Web - Concluir inclusão do campo "Observações". Não está atualizando... @done(23-04-13 10:21)
-  ☐ @low Web - Incluir novos campos na Receita:
-    > "Máquinas, equipamento e utensílios utilizados"
-    > "Controle de processo:"
-      > Tempo de mistura ou batimento;
-      > Tempo de descanso;
-      > Tempo de assamento;
-      > Temperatura forno lastro;
-      > Temperatura forno vertical;
-      > Percentual perda;
-      > Peso unidade;
-      > Tipo assadeira;
-      > Quantidade assadeiras
-    > Avaliação do produto;
-
-Cadastro de Receitas:
-  ✔ Desenvolver impressão de receita; @done(23-07-18 08:29)
-  ✔ Desenvolver impressão de ingredientes; @done(23-07-18 08:29)
-  
-Cadastro de Produtos:  
-  ✔ API - Desenvolver tabelas do cadastro de produtos; @done(23-05-29 16:12)
-  ✔ API - Desenvolver API.Listar para listar produtos; @done(23-05-29 16:12)
-  ✔ API - Desenvolver API.BuscarPorId para selecionar um produto específico; @done(23-05-29 16:12)  
-  ✔ Web - Incluir opção `Produtos` no menu lateral do site; @done(23-05-29 16:12)
-  ✔ Web - Desenvolver página para listagem de produtos, tela prinpal chamada pelo menu lateral @done(23-05-29 16:12)
-  ✔ API - Desenvolver API.Salvar para incluir e alterar produtos; @done(23-07-11 13:25)
-  ✔ Web - Edição do Produto: @done(23-07-11 13:25)    
-  ✔ Web - Desenvolver Cadastro de Clientes @done(23-07-20 14:06)
-  ✔ API - Desenvolver Controller Clientes @done(23-07-20 14:06)  
-  ✔ Web - Corrigir Listagem de Ingredientes: busca e paginação @done(23-07-28 15:57)
-  ☐ Web - Entrada de Ingredientes
-    > Page: Fornecedor, Dados da Compra, Ingredientes 
-  ☐ API - Entrada de Ingredientes
-    > Database, Controller, Entidades, Repository
-  ☐ API - Inclusão de campos em Ingredientes
-    ✔ Unidade Medida @done(23-08-03 10:39)
-    ☐ EAN
-    ☐ Fracionamento (quantidade embalagem)    
-  ☐ Web - Inclusão de campos em Ingredientes
-    ✔ Unidade Medida @done(23-08-03 10:39)
-    ☐ EAN
-    ☐ Quantidade embalagem
-  
-  ☐ Web - Desenvolver Cadastro de Pedidos
-      > Cliente, Produtos, Dados Entrega, Meio pagamento
-  ☐ API - Pedidos
-    > Database, controller, entidades, repository
-  ☐ Web - Desenvolver página de configuração geral;
-      > Precificação
-        > Custo Mãe de Obra/Hora
-        > Margem Preparo
-        > Margem Venda Varejo
-        > Margem Venda Atacado        
-  ☐ API - Desenvolver métodos para salvar as configurações gerais;
-  ☐ Web - Menu Lateral - Apresentar toggle quando mobile;
-  ☐ Web - Menu Lateral:
-      Home
-      Produtos
-        Ingredientes
-        Receitas
-        Produtos
-        Estoque
-        Fornecedores
-      Clientes
-      Compras
-      Pedidos
-      
-Cadastro de Ingredientes:
-  ☐ Incluir campo: Minimo em Estoque;
-Cadastro de Clientes:
-Cadastro de Pedidos:
-Estoque - Entrada:
-Estoque - Saída:
-
-
-
 Cadastro Ingredientes:
-  OK Data ultimo preço
+  ✔ Data ultimo preço @done(25-02-26 14:05)
+  ☐ @critical Corrigir erro de preço de custo e preço custo médio
 
-Concluir:
-  OK Cadastro de Ingredientes  
-  OK Cadastro de receitas
-  - Cadastro de produtos
-    OK Calculo do Custo Matéria Prima, por receita
-    OK Calculo do Preço de Venda, utilizando o "*" no campo
-    OK Alerta de preço de venda desatualizado em relação à margem
-    - Alterar % da Receita no table - EF não está atualizando BD
-    - 
+Cadastro de receitas:
+  ✔ Cadastro de receitas @done(25-02-26 14:05)
+  
+Cadastro de produtos:
+  ✔ Calculo do Custo Matéria Prima, por receita @done(25-02-26 14:05)
+  ✔ Calculo do Preço de Venda, utilizando o "*" no campo @done(25-02-26 14:05)
+  ✔ OK Alerta de preço de venda desatualizado em relação à margem @done(25-02-26 14:08)
+  ✔ OK Alterar % da Receita no table - EF não está atualizando BD @done(25-02-26 14:08)
+   
+Desenvolver página de análise de preços:
+    ☐ Listar todos os produtos Ativos
+    ☐ Campos: Produto | Custo Total | Preço Atacado | % Atacado | Preço Varejo | % Varejo | Botão: atualizar preço, editar
 
-Próximas Alterações:
-  - Entrada de mercadorias
-  - Controle de estoque
+Desenvolver cadastro de embalagens:
+  ☐ Desenvolver página de listagem de embalagens
+  ☐ Desenvolver página para cadastro de embalagens: Nome, Medidas (largura, altura, profundidade), Preço de Custo, Preço Venda, Status
+  
+Alterar página de cadastro de produtos:
+  ☐ Adicionar embalagens no cadastro de produtos
+  ☐ Alterar calculo do preço de venda do produto para considerar embalagens
+
+Desenvolver página para cadastro de clientes:
+    ☐ Desenvolver página de listagem de clientes
+    ☐ Desenovlver página para cadastro de clientes: Nome, CPF, Celular, Email, Endereço, Bairro, Cidade, Estado, CEP, Observação
+
+Desenvolver página para registro de vendas:
+  ☐ Seleção de clientes de por nome, cpf
+  ☐ Seleção de produtos por nome, código de barras
+  ☐ Seleção de data de emissão
+  ☐ Seleção de forma de pagamento
+  ☐ Impressão de recibo com canhoto de recebimento (papel termico)
+    
+Desenvolver página para registro de despesas:
+
+Desenvolver página para fechamento de caixa:
+
+Desenvolver página para registro de encomendas/orçamento:
+
+Desenovlver dashboard:
+  ☐  Apresentar: calendário de encomendas
+
+Desenvolver entrada de mercadorias:
+    ☐ Desenvolver página de Entrada de mercadorias/ingredientes
+    ☐ Busca por código de barras e nome
+    ☐ Alteração do "preço custo quilo" do ingrediente
+    ☐ Alteração do preço de venda atacado e varejo
+    ☐ Inclusão de estoque
+    ☐ Registro no histórico
+
+Desenvolver Gerenciamento de estoque:
+  
+Desenvolver geração de lista de compras:
+
+Desenovlver Relatório Histórico:
+
+Desenovlver tabela nutriciional no cadastro de ingredientes:
+
+Desenovlver tabela nutriciional no cadastro de receitas:
+
+Desenovlver tabela nutriciional no cadastro de produtos:
+
+Desenvolver impressão da etiqueta de produtos:
+
+Desenovlvr download do PDF da encomenda/orçamento:
+
+

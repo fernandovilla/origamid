@@ -33,7 +33,7 @@
 .input-group input, 
 .input-group select, 
 .input-group .input-select {  
-  height: 32px;  
+  height: 25px;  
 }
 
 .input-group textarea {  

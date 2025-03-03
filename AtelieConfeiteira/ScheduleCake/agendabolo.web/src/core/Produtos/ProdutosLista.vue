@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { produtosAPIService } from '@/core/Produtos/Services/ProdutoAPIService.js';
+import { produtosAPIService } from '@/core/Produtos/ProdutoAPIService.js';
 import { status_cadastro_description, texto_contracao } from '@/helpers/TextHelpers.js';
 import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';

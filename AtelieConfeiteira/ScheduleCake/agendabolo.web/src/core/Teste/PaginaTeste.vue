@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <h1>Teste</h1>
+    <div class="body-teste">
+        <h1>Página de Testes</h1>
         <div class="test-container">
-            <menu-lateral />
-            <router-view class="bodyteste"/>        
+            <menu-lateral class="menu-lateral-teste" />
+            <router-view class="content-teste"/>        
         </div>  
     </div>
 </template>
@@ -25,17 +25,32 @@ export default {
 }
 </script>
 
-<style scoped>
-.test-container {
-    display: flex;
-    flex-direction: row;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-}
+<style scoped>    
 
-.bodyteste {
-    flex: 1;
-    padding: 20px;
-}
+
+    .body-teste {
+        border: 1px solid blue;
+        overflow-y: scroll;
+    }
+
+    .test-container {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid lightgray;
+        border-radius: 8px;      
+        max-height: 500px;
+    }
+
+    .menu-lateral-teste {
+        
+    }
+
+    
+
+    .content-teste {
+        flex: 1;
+        padding: 10px;
+
+    }
 
 </style>

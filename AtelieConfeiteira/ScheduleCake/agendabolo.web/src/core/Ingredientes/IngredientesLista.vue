@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { ingredientesAPIService } from '@/core/Ingredientes/Services/IngredientesAPIService.js'
+import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIService.js'
 import { status_cadastro_description } from '@/helpers/TextHelpers.js';
 import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';

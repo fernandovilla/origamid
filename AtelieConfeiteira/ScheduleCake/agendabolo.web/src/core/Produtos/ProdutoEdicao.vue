@@ -1,38 +1,37 @@
 <template>
-  <div class="container-fluid">    
-    <span class="header-page">
+  <div class="container-fluid edicao-produto">    
+    <span class="header-page header-fixo">
       <h1>{{pageTitle}}</h1>    
       <span v-if="id > 0" class="header-page-id">ID: {{id}}</span>  
     </span>   
 
     <form class="container-fluid">
-
       
+      <!-- Grupo: Dados do Produto -->
       <div class="row">
-
-        <!-- Grupo: Dados do Produto -->
-        <div class="col-6 col-md-12">    
+        
+        <div class="col-12">    
           <div class="group dados-produto">
             <h2 class="title">Dados do Produto</h2>                
-            <div class="container">        
+            <div class="content">        
               <div class="row">
 
-                <div class="input-group col">
+                <div class="input-group col-12">
                   <label for="nome">Nome</label>
                   <input-base id="nome" required v-model="produto.nome" maxlength="100" />
                 </div>
                 
                 <div class="input-group col-6 col-md-12">
                   <label for="descricao">Descrição</label>
-                  <input-area id="descricao" :rows=4 v-model="produto.descricao" maxlength="500" />                   
+                  <input-area id="descricao" :rows=3 v-model="produto.descricao" maxlength="500" />                   
                 </div>
 
                 <div class="input-group col-6 col-md-12">
                   <label for="observacoes">Observações</label>
-                  <input-area id="observacoes" :rows=4 v-model="produto.observacoes" maxlength="500" />                   
+                  <input-area id="observacoes" :rows=3 v-model="produto.observacoes" maxlength="500" />                   
                 </div>
 
-                <div class="input-group col-6">
+                <div class="input-group col-3 col-md-12">
                   <label for="status">Status</label>
                   <select-status id="status" v-model="produto.status" :selected="produto.status" required />
                 </div>   
@@ -40,25 +39,28 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Grupo: Preparo -->
-        <div class="col-6 col-md-12 ">
-          <div class="group preparo m-left-10">
+      <!-- Grupo: Preparo -->
+      <div class="row m-top-10">
+        
+        <div class="col-12">
+          <div class="group preparo">
             <h2 class="title">Preparo</h2>
-            <div class="container">
+            <div class="content">
                 <div class="row">
 
-                  <div class="input-group col-4">
+                  <div class="input-group col-3 col-md-12">
                     <label for="pesoReferencia">Peso Referência (gramas)</label>
-                    <input-number id="pesoReferencia" :decimal-cases=0 v-model.number="produto.pesoReferencia" />
+                    <input-number id="pesoReferencia" :decimal-cases=0 v-model="produto.pesoReferencia" />
                   </div>
 
-                  <div class="input-group col-4">
+                  <div class="input-group col-3 col-md-12">
                     <label for="tempopreparo">Tempo Preparo (minutos)</label>
-                    <input-number id="tempopreparo" :decimal-cases=0 v-model.number="produto.tempoPreparo" />
+                    <input-number id="tempopreparo" :decimal-cases=0 v-model="produto.tempoPreparo" />
                   </div>
 
-                  <div class="input-group col">
+                  <div class="input-group col-12">
                     <label for="finalizacao">Finalização</label>
                     <input-area id="finalizacao" :rows=7 v-model="produto.finalizacao" maxlength="1000" />                   
                   </div>       
@@ -69,12 +71,11 @@
         </div>
 
       </div>
-
       
-      <div class="row row2">
+      <div class="row m-top-10">
         <!-- Grupo: Receitas -->         
-        <div class="col-6 col-md-12 xx">
-          <div class="group receitas m-top-10">
+        <div class="col-12">
+          <div class="group receitas">
             <h2 class="title">
               Receitas
               <div class="buttons">
@@ -97,7 +98,7 @@
                     <td class="col-item">{{index+1}}</td>
                     <td class="col-receita">{{receita.nome}}</td>
                     <td class="col-percent editable">
-                      <input-number type="text" v-model.number="receita.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                      <input-number type="text" v-model="receita.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                     </td>
                     <td class="col-peso">{{pesoCalculado(receita.percentual)}}g</td>
                     <td class="col-custo">R$ {{ custoReceitaText(receita)}}</td>
@@ -122,79 +123,85 @@
             </div>
           </div>
         </div>
+      </div>
 
+      <div class="row m-top-10"  >
         <!-- Grupo: Precificação -->
-        <div class="col-6 col-md-12">
-          <div class="group precos m-left-10 m-top-10">
+        <div class="col-12">
+          <div class="group precos">
             <h2 class="title">Precificação</h2>
-            <div class="content container">
+            <div class="content">
+            
               <div class="row">
-                <div class="input-group col-4 col-md-12">
-                  <label for="custoReceitas">Custo Matéria Prima (R$)</label>
-                  <input-number id="custoReceitas" :decimal-cases=2 disabled v-model.number="totalCustoReceitasText" />
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoReceitas">Matéria Prima (R$)</label>
+                  <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="totalCustoReceitasText" />
                 </div>
 
-                <div class="input-group col-4 col-md-12">
-                  <label for="margemPreparo">Margem Preparo (%)</label>
-                  <input-number id="margemPreparo" :decimal-cases=2 v-model.number="produto.margemPreparo" />
+                <div class="input-group col-3 col-md-12">
+                  <label for="margemPreparo">Preparo (%)</label>
+                  <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
                 </div>
 
-                <div class="input-group col-4 col-md-12">
-                  <label for="custoMaoDeObra">Custo Mão de Obra (R$)</label>
-                  <input-number id="custoMaoDeObra" :decimal-cases=2 v-model.number="produto.custoMaoDeObra" />
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoMaoDeObra">Mão de Obra (R$)</label>
+                  <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
                 </div>
 
-                <div class="input-group col-4 col-md-12">
-                  <label for="custoEmbalagem">Custo Embalagem (R$)</label>
-                  <input-number id="custoEmbalagem" :decimal-cases=2 v-model.number="produto.custoEmbalagem" />
+                <div class="input-group col-3 col-md-12">
+                  <label for="custoEmbalagem">Embalagem (R$)</label>
+                  <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
                 </div>
 
-                <div class="input-group col-4 col-md-12">
+                <div class="input-group col-3 col-md-12">
                   <label for="custoTotal">Custo Total (R$)</label>
-                  <input-number id="custoTotal" :decimal-cases=2 disabled v-model.number="custoTotalProdutoText" />
+                  <input-number id="custoTotal" :decimal-cases=2 disabled v-model="custoTotalProdutoText" />
                 </div>
               </div>
 
               <div class="row">
-                <div class="input-group col-4 col-md-12">
+                <div class="input-group col-3 col-md-12">
                   <label for="margemVendaAtacado">Margem Atacado (%)</label>
-                  <input-number id="margemVendaAtacado" :decimal-cases=2 v-model.number="produto.margemVendaAtacado" />
+                  <input-number id="margemVendaAtacado" :decimal-cases=2 v-model="produto.margemVendaAtacado" />
                 </div>
-
-                <div class="input-group col-4 col-md-12">
-                  <label for="margemVendaVarejo">Margem Varejo (%)</label>
-                  <input-number id="margemVendaVarejo" :decimal-cases=2 v-model.number="produto.margemVendaVarejo" />
-                </div>        
-              </div>
-
-              <div class="row">
-                <div class="input-group col-4 col-md-12">
+                
+                <div class="input-group col-3 col-md-12">
                   <label for="precoVendaAtacado">Preço Venda Atacado (R$)</label>
                   <input-number id="precoVendaAtacado"  
                     :decimal-cases=2 
                     :allow-asterisk=true 
                     v-model="produto.precoVendaAtacado" 
-                    @keypress="precoVendaAtacadoHandleKeyPress" />
-                    <span class="margemPreco" :class="{ margemMenor: margemAtacadoCalculadaBaixa }">
-                      <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemAtacadoCalculadaBaixa" />
-                      Margem: {{ this.margemPrecoCalculadaAtacado }} %
-                    </span>
+                    @keypress="precoVendaAtacadoHandleKeyPress" />                    
                 </div>
 
-                <div class="input-group col-4 col-md-12">
+                <span class="margemPreco" :class="{ margemMenor: margemAtacadoCalculadaBaixa }">
+                  <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemAtacadoCalculadaBaixa" />                  
+                  <span>Margem: {{ this.margemPrecoCalculadaAtacado }} %</span>                                          
+                </span>
+              </div>
+
+              <div class="row">
+
+                <div class="input-group col-3 col-md-12">
+                  <label for="margemVendaVarejo">Margem Varejo (%)</label>
+                  <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
+                </div>        
+                
+                <div class="input-group col-3 col-md-12">
                   <label for="precoVendaVarejo">Preço Venda Varejo (R$)</label>
                   <input-number id="precoVendaVarejo" 
                     :decimal-cases=2 
                     :allow-asterisk=true 
-                    v-model.number="produto.precoVendaVarejo" 
-                    @keypress="precoVendaVarejoHandleKeyPress"  />
-                    <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
-                      <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
-                      Margem: {{ this.margemPrecoCalculadaVarejo }} %                      
-                    </span>
-                </div>                
+                    v-model="produto.precoVendaVarejo" 
+                    @keypress="precoVendaVarejoHandleKeyPress"  />                    
+                </div>                         
+                <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
+                  <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
+                  <span>Margem: {{ this.margemPrecoCalculadaVarejo }} %</span>                                          
+                </span>
+                
+                
               </div>
-
               
               <div class="row legenda-precos m-top-10 m-left-10">
                   <p class="col-12">Custo Matéria Prima: Custo total das receitas</p>
@@ -208,13 +215,14 @@
       </div>
     </form>
 
-    <div class="container-fluid">
-      <div class="row buttons">          
+    <div class="container-fluid footer-fixo">
+      <div class="row buttons m-top-10">          
           <button class="btn btn-primary" @click.prevent="salvarProduto">Salvar</button>
           <router-link to="/produtos" class="btn">Voltar</router-link>        
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
       </div>  
     </div>
+
 
     <div>
       <seleciona-receita-produto 
@@ -228,7 +236,8 @@
 </template>
 
 <script>
-import { produtosAPIService } from '@/core/Produtos/Services/ProdutoAPIService.js'
+import { produtosAPIService } from '@/core/Produtos/ProdutoAPIService.js'
+import SelecionaReceitaProduto from '@/core/Produtos/SelecionaReceitaProduto.vue'
 import InputBase from '@/components/Input/InputBase.vue'
 import InputArea from '@/components/Input/InputArea.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
@@ -237,10 +246,8 @@ import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
-import Produto from '@/core/Produtos/Domain/Produto.js'
+import Produto from '@/core/Produtos/Produto.js'
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
-import SelecionaReceitaProduto from '@/core/Produtos/Pages/SelecionaReceitaProduto.vue'
-
 
 
 export default {
@@ -589,9 +596,14 @@ export default {
   @import '@/styles/table-data.css';
 
   table.receitas tbody {
-    height: 215px;
+    height: 150px;
   }
 
+  .receitas .title {
+    display: flex;
+    align-items: center;
+  }
+  
   .col-item {
     width: 5%;
   }
@@ -613,10 +625,7 @@ export default {
     width: 15%;    
   }
 
-  .buttons {
-      display: flex;
-      margin-top: 20px;
-    }
+  
 
   .incluido {
     align-self: center;
@@ -648,12 +657,54 @@ export default {
   .margemPreco {
     font-style: italic;
     font-size: 0.857em;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 5px;
   }
 
   @media screen and (max-width: 960px) {
     table.receitas tbody {
       height: 100%;
     }
+
+    .margemPreco {
+      width: 100%;
+      margin-left: 5px;
+    }
+
+    .margemPreco span {
+      width: 100%;
+      margin-right: 5px;
+      text-align: right;
+    }
+
+  }
+
+  .header-fixo {
+    /*background-color: white;    
+    position: relative;
+    top: 0px;
+    width: 100%;
+    padding-top: 10px;
+    */
+  }
+
+  .footer-fixo {    
+    position: fixed;
+    bottom: 0px;
+    height: auto;
+    margin: 0px auto;
+    padding-bottom: 10px;
+    background-color: var(--background-color-body);
+  }
+
+  .edicao-produto {
+    border: 1px solid red;  
+  }
+
+  .body {
+    overflow-y: auto;
   }
 
 </style>

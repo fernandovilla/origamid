@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">    
+  <div class="container-fluid">    
     <section class="header-page">
       <h1>{{PageTitle}}</h1>    
       <span v-if="receita.id > 0" class="header-page-id">Id: {{receita.id}}</span>  
@@ -9,10 +9,10 @@
 
       <div class="row">
         <!-- Grupo: DADOS DA RECEITA -->
-        <div class="col-6 col-md-12">          
+        <div class="col-12">          
           <div class="group dados-receita">
             <h2 class="title">Dados da Receita</h2>    
-            <div class="container">
+            <div class="content">
               <div class="row">
                 <div class="input-group col-12">
                   <label for="nome">Nome</label>
@@ -21,16 +21,16 @@
                 <div class="col-12">
                   <div class="input-group">
                     <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows=3 v-model="receita.descricao" maxlength="100" />                   
+                    <input-area id="descricao" :rows=2 v-model="receita.descricao" maxlength="100" />                   
                   </div>
                 </div>
                 
-                <div class="input-group col-6">
+                <div class="input-group col-3 col-md-12">
                   <label for="pesoreferencia">Peso Referência (gramas)</label>
                   <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
                 </div>
 
-                <div class="input-group col-6">
+                <div class="input-group col-3 col-md-12">
                   <label for="status">Status</label>
                   <select-status id="status" v-model="receita.status" :selected="receita.status" required />      
                 </div>
@@ -38,10 +38,12 @@
             </div>    
           </div>
         </div>
+      </div>
 
+      <div class="row m-top-10">
         <!-- Grupo: INGREDIENTES -->
-        <div class="col-6 col-md-12">
-          <div class="group ingredientes m-left-10 ">
+        <div class="col-12">
+          <div class="group ingredientes">
             <h2 class="title">
               Ingredientes
               <div class="buttons">
@@ -99,28 +101,30 @@
       </div>
       
       <div class="row m-top-10">
-        <div class="col-6 col-md-12" >
+        <div class="col-12" >
           <div class="group preparo">
             <h2 class="title">Preparo</h2>
             <div class="content">
               <div class="col-12">
                   <div class="input-group">
                     <label for="preparo">Etapas do Preparo</label>
-                    <input-area id="preparo" :rows="15" v-model="receita.preparo" :upperCase=false maxlength="500" />                   
+                    <input-area id="preparo" :rows="10" v-model="receita.preparo" :upperCase=false maxlength="500" />                   
                   </div>
                 </div>
             </div>
           </div>        
         </div>              
+      </div>
 
-        <div class="col-6 col-md-12">
-          <div class="group observacao m-left-10">
+      <div class="row m-top-10">
+        <div class="col-12">
+          <div class="group observacao">
             <h2 class="title">Observações</h2>
             <div class="content">
               <div class="col-12">
                 <div class="input-group">
                     <label for="obs">Observações sobre a receita</label>
-                    <input-area id="obs" :rows="15" v-model="receita.observacao" :upperCase=false maxlength="500" />                   
+                    <input-area id="obs" :rows="5" v-model="receita.observacao" :upperCase=false maxlength="500" />                   
                   </div>
               </div>
             </div>
@@ -131,7 +135,7 @@
     </form>
 
     <div class="container-fluid">
-      <div class="row buttons">          
+      <div class="row buttons m-top-10">          
           <button class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
           <router-link to="/receitas" class="btn">Voltar</router-link>        
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      

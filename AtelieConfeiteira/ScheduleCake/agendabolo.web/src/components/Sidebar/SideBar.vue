@@ -12,10 +12,13 @@
         <side-bar-item display="Agenda de Produção" router="/" googleIcon="calendar_clock" src_alt="clientes" />      
         <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false :expansible="true" @expanded="onExpandedCadastros">
           <ul class="subitem" :class="expandedCadastros ? 'shown' : 'hidden'">
-            <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />            
+            <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />                        
             <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
             <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
-            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                          
+            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                    
+            <side-bar-item subitem=true display="Embalagens" googleIcon="featured_seasonal_and_gifts" router="/embalagens"  />                    
+            <hr>      
+            <side-bar-item subitem=true display="Ajuste de Preços" googleIcon="attach_money" router="/ajustePrecos"  />                          
           </ul>
         </side-bar-item>      
         <side-bar-item display="Compras" router="" googleIcon="shopping_cart" src_alt="compras" :expansible="true" @expanded="onExpandedCompras">
@@ -158,10 +161,15 @@ export default {
   
   .subitem {
     animation-name: slideDown;
-    animation-duration: 0.2s;        
+    animation-duration: 0.3 s;        
   }
 
-  
+  .subitem hr {
+    margin: 0px 20px;
+    padding: 0px 20px;
+    border: 1px solid var(--side-bar-text-color);
+    opacity: 0.10;
+  }
  
   
 </style>
