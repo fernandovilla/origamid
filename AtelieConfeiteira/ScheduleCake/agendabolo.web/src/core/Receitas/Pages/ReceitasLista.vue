@@ -1,5 +1,5 @@
 <template>
-  <span class="wrap">
+  <span class="wrap-column content">
     <div class="header-page">
       <h1>Home > Receitas</h1>     
 
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="content">
+    <div class="row m-top-10">
       <table v-if="this.receitas !== null" class="table-data">
         <thead>
           <tr>
@@ -161,6 +161,7 @@ export default {
 </script>
 
 <style scoped>
+  @import '@/styles/content.css';
   @import '@/styles/table-data.css';
 
   .header-page {

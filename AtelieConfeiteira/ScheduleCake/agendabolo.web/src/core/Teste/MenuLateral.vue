@@ -48,7 +48,7 @@ export default {
   width: 35px;
   transition: width 0.3s;
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   background: var(--side-bar-background-color);
   
 }

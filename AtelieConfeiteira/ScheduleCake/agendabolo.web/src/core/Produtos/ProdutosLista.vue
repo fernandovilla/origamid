@@ -1,5 +1,5 @@
 <template>
-  <span class="wrap">
+  <span class="wrap-column content">
     <div class="header-page">
       <h1>Home > Produtos</h1>
       <div class="header-items">
@@ -10,7 +10,7 @@
       </div>      
     </div>
 
-    <div class="content">      
+    <div class="row m-top-10">      
         <table v-if="this.produtos !== null" class="table-data">
           <thead>
             <tr>

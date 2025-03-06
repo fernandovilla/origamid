@@ -8,7 +8,7 @@
 import ButtonLarge from '@/components/Button/ButtonLarge.vue';
 
 export default {
-  name: 'button-large-print',
+  name: 'button-print',
   components: { ButtonLarge }  
 }
 </script>

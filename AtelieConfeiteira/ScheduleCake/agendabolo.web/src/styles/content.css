@@ -1,13 +1,53 @@
+@import '@/styles/root.css';
 
-
-.wrap {
+.wrap-column {
   display: flex;
   flex-direction: column;
+  padding: 0px;
+  margin: 0px;  
+}
+
+.wrap-row {
+  display: flex;
+  flex-direction: row;
+  padding: 0px;
+  margin: 0px;
+}
+
+.main-page {
+  display: flex;   
+}
+
+.content-page {
+  position: relative;  
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--top-bar-height) - 7px);
+}
+
+.content {
+  position: relative;  
+  overflow-y: auto;  
+  max-height: 100%;
+  padding: 10px;
+}
+
+.fixed-footer {       
+  position: sticky;
+  bottom: 0px;
+  margin: 0px;
+  height: auto;
+  width: 100%;
 }
 
 @media screen and (max-width: 500px) {
   .content {
     display: flex;
     flex-direction: column;
+  }
+
+  .content-page {
+    margin-left: 30px;
   }
 }

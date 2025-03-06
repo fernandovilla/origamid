@@ -1,9 +1,9 @@
 <template>
-  <button>
-    <span class="icon">
+  <button class="btn btn-large">
+    <span class="btn-large-icon">
       <slot></slot>
     </span>    
-    <p>{{label}}</p>
+    <span class="btn-large-label">{{label}}</span>
   </button>
 </template>
 
@@ -16,30 +16,44 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
-  button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-color-white);
-    font-size: 14px;
-    /* background: none; */
+  .btn-large {
+    display: flex;    
+    flex-direction: row;
+    align-items: center;    
     border: none;
     cursor: pointer;
-    /* line-height: 30px; */
-    width: 74px;
-    height: 68px;
-  }
- 
-  .icon {    
-    font-size: 32px;
-    margin: 0;
-    margin-right: 3px;     
-    vertical-align: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: fit-content;
+    max-height: 36px;
+    padding: 0px 20px;    
   }
 
+  .btn-large .btn-large-label {
+    font-size: 1.100em;
+    padding-left: 10px;
+  }
+ 
+  .btn-large .btn-large-icon {    
+    font-size: 24px;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  @media screen and (max-width: 960px) {
+
+    .btn-large {
+      width: 32px;
+      height: 32px;
+    }
+
+    .btn-large .btn-large-label {
+      display:none;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    
+
+  }  
 </style>

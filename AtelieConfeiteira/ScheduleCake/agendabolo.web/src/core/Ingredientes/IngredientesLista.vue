@@ -1,5 +1,5 @@
 <template>
-  <span class="wrap">
+  <div class="wrap-column content">
     <div class="header-page">
       <h1>Home > Ingredientes</h1>
       
@@ -21,7 +21,7 @@
       </div>      
     </div>
 
-    <div class="content">      
+    <div class="row m-top-10">      
       <table v-if="this.ingredientes !== null" class="table-data">
         <thead>
           <tr>
@@ -65,7 +65,7 @@
         <h2 v-else class="span5">Não há ingredientes cadastrados. Clique em 'Novo Ingrediente'</h2>
       </div>
     </div>
-  </span>
+  </div>
 </template>
 
 <script>

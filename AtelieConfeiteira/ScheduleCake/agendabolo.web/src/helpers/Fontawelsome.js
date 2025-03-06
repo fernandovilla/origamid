@@ -18,7 +18,8 @@ import {
   faSave,
   faTriangleExclamation,
   faCirclePlus,
-  faBars
+  faBars,
+  faArrowLeft  
 } from '@fortawesome/free-solid-svg-icons';
 
 // import {
@@ -50,7 +51,8 @@ const FontawelsomeLibrary = (app) => {
     faSave,
     faTriangleExclamation,
     faCirclePlus,
-    faBars
+    faBars,
+    faArrowLeft
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

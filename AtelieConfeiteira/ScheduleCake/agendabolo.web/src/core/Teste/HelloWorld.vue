@@ -32,21 +32,21 @@
 
 
     <div class="buttons">
-      <button-large-save />
-      <button-large-print />
+      <button-save />
+      <button-print />
     </div>
 
   </div>
 </template>
 
 <script>
-import ButtonLargeSave from '@/components/Button/ButtonLargeSave.vue'
-import ButtonLargePrint from '@/components/Button/ButtonLargePrint.vue'
+import ButtonSave from '@/components/Button/ButtonSave.vue'
+import ButtonPrint from '@/components/Button/ButtonPrint.vue'
 
 export default {
   name: 'HelloWorld',
   props: { msg: String },
-  components: { ButtonLargeSave, ButtonLargePrint }
+  components: { ButtonSave, ButtonPrint }
 }
 </script>
 

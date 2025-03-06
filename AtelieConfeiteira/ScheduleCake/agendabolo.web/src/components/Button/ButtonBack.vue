@@ -1,6 +1,6 @@
 <template>
-  <button-large class="btn btn-primary" label="Salvar">
-    <font-awesome-icon icon="fa-solid fa-save" />
+  <button-large class="btn btn-large-back" label="Voltar">
+    <font-awesome-icon class="icon" icon="fa-solid fa-arrow-left" />
   </button-large>
 </template>
 
@@ -8,11 +8,7 @@
 import ButtonLarge from '@/components/Button/ButtonLarge.vue';
 
 export default {
-  name: 'button-large-save',
+  name: 'button-back',
   components: { ButtonLarge }  
 }
 </script>
-
-<style>
-
-</style>

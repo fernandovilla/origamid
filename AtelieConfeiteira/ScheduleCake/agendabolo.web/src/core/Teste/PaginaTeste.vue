@@ -27,30 +27,27 @@ export default {
 
 <style scoped>    
 
-
     .body-teste {
-        border: 1px solid blue;
-        overflow-y: scroll;
+        max-height: 100%;
+        overflow-y: auto;
     }
 
     .test-container {
         display: flex;
         flex-direction: row;
-        border: 1px solid lightgray;
-        border-radius: 8px;      
-        max-height: 500px;
+        border: 1px solid lightgray;         
+        max-height: calc(100vh - 120px);
+        height: calc(100vh - 120px);
+        margin: 10px;
+        /*height: auto;*/
     }
 
     .menu-lateral-teste {
-        
     }
-
-    
 
     .content-teste {
         flex: 1;
         padding: 10px;
-
     }
 
 </style>

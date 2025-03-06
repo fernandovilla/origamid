@@ -1,145 +1,144 @@
 <template>
-  <div class="container-fluid">    
-    <section class="header-page">
+  <div class="wrap-column">    
+    <div class="header-page fixed-header">
       <h1>{{PageTitle}}</h1>    
       <span v-if="receita.id > 0" class="header-page-id">Id: {{receita.id}}</span>  
-    </section>        
+      <div class="btn-bar">          
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+          <button-save @click.prevent="salvarReceita" />
+          <button-back to="/receitas" @click.prevent="retornar" />          
+      </div>  
+    </div>        
 
-    <form class="container-fluid">
+    <div class="container-fluid content">
+      <form class="container-fluid">
 
-      <div class="row">
-        <!-- Grupo: DADOS DA RECEITA -->
-        <div class="col-12">          
-          <div class="group dados-receita">
-            <h2 class="title">Dados da Receita</h2>    
-            <div class="content">
-              <div class="row">
-                <div class="input-group col-12">
-                  <label for="nome">Nome</label>
-                  <input-base type="text" id="nome" required v-model="receita.nome" maxlength="100" />        
+        <div class="row">
+          <!-- Grupo: DADOS DA RECEITA -->
+          <div class="col-12">          
+            <div class="group dados-receita">
+              <h2 class="title">Dados da Receita</h2>    
+              <div class="content">
+                <div class="row">
+                  <div class="input-group col-12">
+                    <label for="nome">Nome</label>
+                    <input-base type="text" id="nome" required v-model="receita.nome" maxlength="100" />        
+                  </div>
+                  <div class="col-12">
+                    <div class="input-group">
+                      <label for="descricao">Descrição</label>
+                      <input-area id="descricao" :rows=2 v-model="receita.descricao" maxlength="100" />                   
+                    </div>
+                  </div>
+                  
+                  <div class="input-group col-3 col-md-12">
+                    <label for="pesoreferencia">Peso Referência (gramas)</label>
+                    <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
+                  </div>
+
+                  <div class="input-group col-3 col-md-12">
+                    <label for="status">Status</label>
+                    <select-status id="status" v-model="receita.status" :selected="receita.status" required />      
+                  </div>
                 </div>
+              </div>    
+            </div>
+          </div>
+        </div>
+
+        <div class="row m-top-10">
+          <!-- Grupo: INGREDIENTES -->
+          <div class="col-12">
+            <div class="group ingredientes">
+              <h2 class="title">
+                Ingredientes
+                <div class="buttons">
+                  <button-small-add @click.prevent="adicionaIngrediente" label="" />
+                  <span style="margin-left: 5px">|</span>
+                  <button-small-print @click.prevent="imprimirIngredientes" label="" />
+                </div>
+              </h2>      
+
+              <div class="content">
+                <div class="row">
+                  <table class="ingredientes table-data">              
+                    <thead>
+                      <th class="col-item">Item</th>
+                      <th class="col-ingrediente">Ingrediente</th>
+                      <th class="col-percent">%</th>
+                      <th class="col-peso">Peso Ref</th>
+                      <!-- <th class="col-custo">Custo</th> -->
+                      <th class="col-acoes"></th>
+                    </thead>
+
+                    <tbody>                  
+                      <tr v-for="(item, index) in this.ingredientes" :key="index">
+                        <td class="col-item">{{index+1}}</td>
+                        <td class="col-ingrediente">{{item.nome}} </td>
+                        <td class="col-percent editable">
+                          <input-number type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                        </td>
+                        <td class="col-peso">{{pesoCalculado(item)}}g</td>
+                        <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
+                        <td class="body-actions col-acoes">                        
+                          <button-small-up @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
+                          <button-small-down @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
+                          <button-small-delete @click.prevent="removeIngrediente(index)" tabindex="-1" />
+                        </td>
+                      </tr>                    
+                    </tbody>
+
+                    <tfoot>
+                      <tr>
+                        <td class="col-item"></td>
+                        <td class="col-ingrediente"></td>
+                        <td class="col-percent">{{this.totalPercent}}%</td>
+                        <td class="col-peso">{{this.totalPeso}}g</td>
+                        <!-- <td class="col-custo">{{this.totalCusto}}</td> -->
+                        <td class="col-acoes"></td>
+                      </tr>
+                    </tfoot>
+                  </table>  
+                </div>
+              </div>
+
+            </div>
+          </div> 
+        </div>
+        
+        <div class="row m-top-10">
+          <div class="col-12" >
+            <div class="group preparo">
+              <h2 class="title">Preparo</h2>
+              <div class="content">
+                <div class="col-12">
+                    <div class="input-group">
+                      <label for="preparo">Etapas do Preparo</label>
+                      <input-area id="preparo" :rows="10" v-model="receita.preparo" :upperCase=false maxlength="500" />                   
+                    </div>
+                  </div>
+              </div>
+            </div>        
+          </div>              
+        </div>
+
+        <div class="row m-top-10">
+          <div class="col-12">
+            <div class="group observacao">
+              <h2 class="title">Observações</h2>
+              <div class="content">
                 <div class="col-12">
                   <div class="input-group">
-                    <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows=2 v-model="receita.descricao" maxlength="100" />                   
-                  </div>
+                      <label for="obs">Observações sobre a receita</label>
+                      <input-area id="obs" :rows="5" v-model="receita.observacao" :upperCase=false maxlength="500" />                   
+                    </div>
                 </div>
-                
-                <div class="input-group col-3 col-md-12">
-                  <label for="pesoreferencia">Peso Referência (gramas)</label>
-                  <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
-                </div>
-
-                <div class="input-group col-3 col-md-12">
-                  <label for="status">Status</label>
-                  <select-status id="status" v-model="receita.status" :selected="receita.status" required />      
-                </div>
-              </div>
-            </div>    
-          </div>
-        </div>
-      </div>
-
-      <div class="row m-top-10">
-        <!-- Grupo: INGREDIENTES -->
-        <div class="col-12">
-          <div class="group ingredientes">
-            <h2 class="title">
-              Ingredientes
-              <div class="buttons">
-                <button-small-add @click.prevent="adicionaIngrediente" label="" />
-                <span style="margin-left: 5px">|</span>
-                <button-small-print @click.prevent="imprimirIngredientes" label="" />
-              </div>
-            </h2>      
-
-            <div class="content">
-              <div class="row">
-                <table class="ingredientes table-data">              
-                  <thead>
-                    <th class="col-item">Item</th>
-                    <th class="col-ingrediente">Ingrediente</th>
-                    <th class="col-percent">%</th>
-                    <th class="col-peso">Peso Ref</th>
-                    <!-- <th class="col-custo">Custo</th> -->
-                    <th class="col-acoes"></th>
-                  </thead>
-
-                  <tbody>                  
-                    <tr v-for="(item, index) in this.ingredientes" :key="index">
-                      <td class="col-item">{{index+1}}</td>
-                      <td class="col-ingrediente">{{item.nome}} </td>
-                      <td class="col-percent editable">
-                        <input-number type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
-                      </td>
-                      <td class="col-peso">{{pesoCalculado(item)}}g</td>
-                      <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
-                      <td class="body-actions col-acoes">                        
-                        <button-small-up @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
-                        <button-small-down @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
-                        <button-small-delete @click.prevent="removeIngrediente(index)" tabindex="-1" />
-                      </td>
-                    </tr>                    
-                  </tbody>
-
-                  <tfoot>
-                    <tr>
-                      <td class="col-item"></td>
-                      <td class="col-ingrediente"></td>
-                      <td class="col-percent">{{this.totalPercent}}%</td>
-                      <td class="col-peso">{{this.totalPeso}}g</td>
-                      <!-- <td class="col-custo">{{this.totalCusto}}</td> -->
-                      <td class="col-acoes"></td>
-                    </tr>
-                  </tfoot>
-                </table>  
-              </div>
-            </div>
-
-          </div>
-        </div> 
-      </div>
-      
-      <div class="row m-top-10">
-        <div class="col-12" >
-          <div class="group preparo">
-            <h2 class="title">Preparo</h2>
-            <div class="content">
-              <div class="col-12">
-                  <div class="input-group">
-                    <label for="preparo">Etapas do Preparo</label>
-                    <input-area id="preparo" :rows="10" v-model="receita.preparo" :upperCase=false maxlength="500" />                   
-                  </div>
-                </div>
-            </div>
-          </div>        
-        </div>              
-      </div>
-
-      <div class="row m-top-10">
-        <div class="col-12">
-          <div class="group observacao">
-            <h2 class="title">Observações</h2>
-            <div class="content">
-              <div class="col-12">
-                <div class="input-group">
-                    <label for="obs">Observações sobre a receita</label>
-                    <input-area id="obs" :rows="5" v-model="receita.observacao" :upperCase=false maxlength="500" />                   
-                  </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>      
+        </div>      
 
-    </form>
-
-    <div class="container-fluid">
-      <div class="row buttons m-top-10">          
-          <button class="btn btn-primary" @click.prevent="salvarReceita">Salvar</button>
-          <router-link to="/receitas" class="btn">Voltar</router-link>        
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-      </div>  
+      </form>
     </div>
 
     <div>
@@ -162,6 +161,8 @@ import ButtonSmallPrint from '@/components/Button/ButtonSmallPrint.vue';
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue';
 import ButtonSmallUp from '@/components/Button/ButtonSmallUp.vue';
 import ButtonSmallDown from '@/components/Button/ButtonSmallDown.vue';
+import ButtonSave from '@/components/Button/ButtonSave.vue';
+import ButtonBack from '@/components/Button/ButtonBack.vue';
 import SelectStatus from '@/components/Select/SelectStatus.vue';
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js';
 import { TextToNumber, NumberToText } from '@/helpers/NumberHelp.js';
@@ -198,6 +199,8 @@ export default {
     ButtonSmallPrint,      
     ButtonSmallUp,
     ButtonSmallDown,
+    ButtonSave,
+    ButtonBack,
     SelecionaIngredienteReceita,
     ButtonSmallDelete    
   },
@@ -405,6 +408,10 @@ export default {
       this.ingredientes = [];
     },
 
+    retornar(){
+      this.$router.push('/receitas');
+    },
+
     async obterReceita(idReceita){
       if (idReceita === undefined || idReceita === 0)
           return;
@@ -461,8 +468,11 @@ export default {
 </script>
 
 <style scoped>    
-    @import '@/styles/group.css';
-    @import '@/styles/table-data.css';
+  @import '@/styles/content.css';
+  @import '@/styles/group.css';
+  @import '@/styles/table-data.css';  
+  @import '@/styles/buttons.css';
+  @import '@/styles/pages.css';
 
     .table-data {
       border: none;      
@@ -526,6 +536,7 @@ export default {
     .ingredientes .col-peso {
       width: 10%;
     }
+    
     .ingredientes .col-custo {
       width: 10%;
     }
@@ -535,7 +546,7 @@ export default {
       font-size: 1rem;
       font-weight: 600;
       color: tomato;
-      margin-left: 50px;      
+      margin-right: 50px;      
     }
 
     @media screen and (max-width: 960px) {
