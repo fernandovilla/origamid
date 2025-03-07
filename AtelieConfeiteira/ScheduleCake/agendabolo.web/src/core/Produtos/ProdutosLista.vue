@@ -1,12 +1,23 @@
 <template>
-  <span class="wrap-column content">
+  <div class="wrap-column content">
     <div class="header-page">
       <h1>Home > Produtos</h1>
       <div class="header-items">
-        <add-button to="produto">Novo Produto</add-button>      
+        <add-button to="produto" class="col-md-12">Novo Produto</add-button>      
+
         <div class="header-search">
           <input-search class="input-search" placeHolder="Busca de Produtos" @onChengeSearchText="onChengeSearchText" />
-        </div>                
+        </div>    
+        
+        <div class="input-group col-md-12">
+          <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterStatus" >
+            <option value="0">Ativos</option>
+            <option value="1">Bloqueados</option>
+            <option value="2">Excluídos</option>
+            <option value="todos">Todos</option>
+          </select>
+        </div>
+
       </div>      
     </div>
 
@@ -43,7 +54,7 @@
         </table>
     </div>
 
-  </span>
+  </div>
 
 </template>
 
@@ -64,7 +75,8 @@ export default {
       totalRegistros: 0,
       itemsByPage: 15,
       currentPage: 1,
-      textSearching: ''
+      textSearching: '',
+      filterStatus: 0
     };
   },
   components: {
@@ -101,11 +113,12 @@ export default {
       this.$router.push({ name: "produto-edicao", params: { id: produto.id } });
     },
     async deletarProduto(produto){
-      const result = await produtosAPIService.deletarProduto(produto.id);
+      const result = await produtosAPIService.deletar(produto.id);
+
       if (result) {
-          const i = this.insumos.indexOf(produto);
-          this.produto.splice(i, 1);
-          alert("Produto excluído");
+          //const i = this.insumos.indexOf(produto);
+          //this.produto.splice(i, 1);
+          produto.status = 2;          
       }
     },
     descricaoStatus(status) {
@@ -151,12 +164,24 @@ export default {
   }
 
   .header-search .input-search {
-    width: 60%;
+    width: 100%; 
   }
 
-  .content {
-    overflow: auto;
+  .header-ativos {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
+
+  .header-ativos input {
+    padding: 0;
+    margin: 0;
+    width: 30px;
+  }
+
+  /*.content {
+    overflow: auto;
+  }*/
 
   .table-data .head-nome {
     text-align: left;
@@ -174,12 +199,30 @@ export default {
     font-weight: normal;
   }
 
-  .table-data .body-nome a:hover {
+  .table-data .body-nome .nomeIngrediente:hover {
     font-weight: bold;
+  }
+
+  .table-data .body-nome .marcaIngrediente {
+    font-weight:100;
+    margin-left: 5px;
+    font-size: 0.875em;
   }
 
   .pagination {
     margin: 10px auto;
+  }
+
+  .filter-status {
+    border: 1px solid var(--border-color-light);
+    border-radius: 25px;    
+    padding: 0px 15px;
+    outline: none;
+    text-transform: uppercase;
+    font-family: 'Poppins', Helvetica, sans-serif;
+    font-size: 0.853rem;
+    text-align: left;
+    height: 100%;
   }
 
   @media screen and (max-width: 960px) {
@@ -187,11 +230,17 @@ export default {
       display: block;
     }
 
-    .header-search .input-search {
+    .input-search {
       width: 100%;
-      height: 40px;
-      margin-top: 20px;
+      height: 30px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .filter-status {
+      width: 100%;
+      height: 30px;    
+      margin: 0px;
     }
   }
-
 </style>

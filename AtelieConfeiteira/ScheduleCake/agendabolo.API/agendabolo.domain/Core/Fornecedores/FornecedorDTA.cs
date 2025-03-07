@@ -15,8 +15,6 @@ namespace Agendabolo.Core.Fornecedores
         [Column("id")]
         public int Id { get; set; }
         [Column("nome")]
-
-
         public string Nome { get; set; }
         [Column("status")]
         public StatusCadastro Status { get; set; }

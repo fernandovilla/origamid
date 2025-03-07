@@ -1,10 +1,11 @@
 import { api } from '../../services/serviceAPI.js';
 import LogErro from '../../helpers/LogErro.js';
 
-export const produtosAPIService = {
-  async obterProdutosBusca() {
+
+export const fornecedorAPIService = {
+  async listar() {
     try {
-      const response = await api.get(`/produtos`);
+      const response = await api.get(`/fornecedores`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -12,13 +13,13 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando produtos busca');
+      LogErro(error, 'Ocorreu erro selecionando fornecedores');
     }
   },
 
-  async obterProdutoPorNome(nome) {
+  async listarSkip(skip, take) {
     try {
-      const response = await api.get(`/produto/buscapornome/${nome}`);
+      const response = await api.get(`/fornecedores?skip=${skip}&take=${take}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -26,13 +27,13 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando produtos');
+      LogErro(error, 'Ocorreu erro selecionando fornecedores');
     }
   },
 
-  async obterProduto(id) {
+  async selecionarPorId(id) {
     try {
-      const response = await api.get(`/produtos/${id}`);
+      const response = await api.get(`/fornecedores/${id}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -40,13 +41,13 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando produto');
+      LogErro(error, 'Ocorreu erro selecionando fornecedores');
     }
   },
 
-  async incluirProduto(produto) {
+  async incluir(fornecedor) {
     try {
-      const response = await api.post('/produtos', produto);
+      const response = await api.post('/fornecedores', fornecedor);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -54,13 +55,13 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro incluindo produto');
+      LogErro(error, 'Ocorreu erro incluindo fornecedor');
     }
   },
 
-  async atualizarProduto(produto) {
+  async atualizar(fornecedor) {
     try {
-      const response = await api.put('/produtos', produto);
+      const response = await api.put('/fornecedores', fornecedor);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -68,13 +69,13 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro atualizando produtos');
+      LogErro(error, 'Ocorreu erro atualizando fornecedor');
     }
   },
 
   async deletar(id) {
     try {
-      const response = await api.delete(`/produtos/${id}`);
+      const response = await api.delete(`/fornecedores/${id}`);
 
       if (response.statusText === 'OK') {
         return true;
@@ -82,7 +83,7 @@ export const produtosAPIService = {
         return null;
       }
     } catch (error) {
-      LogErro(error, 'Ocorreu erro deletando produto');
+      LogErro(error, 'Ocorreu erro deletando fornecedor');
     }
   },
 };

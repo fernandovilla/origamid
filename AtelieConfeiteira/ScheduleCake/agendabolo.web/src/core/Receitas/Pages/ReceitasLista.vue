@@ -40,7 +40,7 @@
             </td>
             <td class="body-actions">              
               <action-edit-button @click="editItem(item.id)" />
-              <action-delete-button @click="deleteItem(item.id)" />
+              <action-delete-button @click="deleteItem(item)" />
             </td>          
           </tr>
         </tbody>
@@ -144,12 +144,22 @@ export default {
     editItem(id){      
       this.$router.push({ name: "receita-edicao", params: { id } });
     },
-    deleteItem(id){
-      console.log("Delete", id);
+
+    async deleteItem(receita){
+      const result = await receitasAPIService.deletar(receita.id);
+
+      if (result) {
+          //const i = this.receitas.indexOf(receita);
+          //this.receitas.splice(i, 1);
+          receita.status = 2;
+          this.filtrarItens();
+      }
     },
+
     statusCadastro(value){
       return status_cadastro_description(value);
     },
+
     nomeLongo(text){
       return texto_contracao(text, 50);
     }

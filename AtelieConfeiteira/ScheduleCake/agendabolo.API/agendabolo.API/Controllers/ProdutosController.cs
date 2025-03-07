@@ -12,36 +12,9 @@ namespace Agendabolo.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ProdutosController : ControllerBase
+    public class ProdutosController : BaseController<ProdutoRequest, int>
     {
         private readonly ProdutoService _service = new ProdutoService();
-
-
-        [HttpGet("ListaBusca")]
-        public IActionResult ListarProdutosBusca()
-        {
-            try
-            {
-                var produtos = _service.Get()
-                    .OrderBy(i => i.Nome)
-                    .Select(i => new ProdutoBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status })
-                    .ToList();
-
-                if (produtos != null && produtos.Any())
-                    return Ok(new
-                    {
-                        total = _service.GetTotal(),
-                        data = produtos
-                    });
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErro.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
 
         [HttpGet("ListaBusca2")]
         public IEnumerable<ProdutoBuscaResponse> ListarProdutosBusca2()
@@ -63,33 +36,6 @@ namespace Agendabolo.Controllers
                 return null;
             }
         }
-
-
-        [HttpGet("{id}")]
-        public IActionResult SelectById(int id)
-        {
-            try
-            {
-                var produto = _service.GetByID(id);
-
-                //Calcular custo receita/item
-
-                if (produto != null)
-                    return Ok(new
-                    {
-                        total = 1,
-                        data = ProdutoRequest.ParseFromDTA(produto)
-                    }); ;
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErro.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
-
 
         [HttpGet("Min/{id}")]
         public IActionResult SelectById_Minino(int id)
@@ -115,9 +61,84 @@ namespace Agendabolo.Controllers
         }
 
 
-        [HttpPut]
-        [HttpPost]
-        public IActionResult Salvar(ProdutoRequest produto)
+        public override IActionResult Delete(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Invalid id");
+
+                var produto = _service.GetByID(id);
+
+                if (produto != null)
+                {
+                    produto.Status = Core.StatusCadastro.Excluido;
+                    _service.Save(produto);
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult ListarBusca()
+        {
+            try
+            {
+                var produtos = _service.Get()
+                    .OrderBy(i => i.Nome)
+                    .Select(i => new ProdutoBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status })
+                    .ToList();
+
+                if (produtos != null && produtos.Any())
+                    return Ok(new
+                    {
+                        total = _service.GetTotal(),
+                        data = produtos
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult SelecionarPorId(int id)
+        {
+            try
+            {
+                var produto = _service.GetByID(id);
+
+                //Calcular custo receita/item
+
+                if (produto != null)
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = ProdutoRequest.ParseFromDTA(produto)
+                    }); ;
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult Salvar(ProdutoRequest produto)
         {
             try
             {

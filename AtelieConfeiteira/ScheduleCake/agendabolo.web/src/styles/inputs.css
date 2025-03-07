@@ -77,3 +77,11 @@
 option {
   line-height: 20px;
 }
+
+@media screen and (max-width: 960px) {
+  .input-group {
+    padding-left: 0px;
+    padding-right: 0px;
+    
+  }  
+}

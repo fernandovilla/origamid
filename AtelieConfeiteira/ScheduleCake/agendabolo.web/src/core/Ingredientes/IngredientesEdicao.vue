@@ -12,9 +12,10 @@
 
     <div class="container-fluid ingredient-content content">
       
+      <!-- Dados do Ingrediente -->
       <form class="container-fluid">
         <div class="row">
-          <div class="col-12 col-md-12">    
+          <div class="col-12">    
             <div class="group dados-ingrediente ">
               <h2 class="title">Dados do Ingrediente</h2>                
               <div class="container-fluid">    
@@ -189,10 +190,6 @@
         </div>          
       </div>    
 
-    </div>
-
-    <div class="fixed-footer">
-      
     </div>
   </div>
 </template>
@@ -408,10 +405,10 @@ export default {
   @import '@/styles/pages.css';  
     
 
-  .buttons {
+  /*.buttons {
     display: flex;
     margin-top: 10px;
-  }
+  }*/
 
   .incluido {
     align-self: center;

@@ -9,38 +9,9 @@ namespace Agendabolo.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ReceitasController : ControllerBase
+    public class ReceitasController : BaseController<ReceitaRequest, int>
     {
         private readonly ReceitaService _service = new ReceitaService();
-
-
-        [HttpGet("ListaBusca")]
-        public IActionResult ListaBusca()
-        {
-            try
-            {
-                var total = _service.GetTotal();
-
-                var receitas = _service.Get()
-                    .OrderBy(i => i.Nome)
-                    .Select(i => new ReceitaBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status });                   
-
-                if (receitas != null && receitas.Any())
-                    return Ok(new
-                    {
-                        total,
-                        data = receitas
-                    });
-
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErro.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
-
 
         [HttpGet("Listar")]
         public IActionResult Listar([FromQuery] int skip = 0, [FromQuery] int take = 20)
@@ -66,30 +37,6 @@ namespace Agendabolo.Controllers
                     });
 
                 return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErro.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
-
-
-        [HttpGet("{id}")]
-        public IActionResult SelectByrId(int id)
-        {
-            try
-            {
-                var receita = _service.GetByID(id);
-
-                if (receita != null)
-                    return Ok(new
-                    {
-                        total = 1,
-                        data = ReceitaRequest.Parse(receita)
-                    });
-
-                return NotFound("Receita not found");
             }
             catch (Exception ex)
             {
@@ -127,9 +74,83 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpPut]
-        [HttpPost]
-        public IActionResult Salvar(ReceitaRequest receita)
+        public override IActionResult Delete(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Invalid id");
+
+                var receita = _service.GetByID(id);
+
+                if (receita != null)
+                {
+                    receita.Status = Core.StatusCadastro.Excluido;
+                    _service.Save(receita);
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult ListarBusca()
+        {
+            try
+            {
+                var total = _service.GetTotal();
+
+                var receitas = _service.Get()
+                    .OrderBy(i => i.Nome)
+                    .Select(i => new ReceitaBuscaResponse { Id = i.Id, Nome = i.Nome, Status = i.Status });
+
+                if (receitas != null && receitas.Any())
+                    return Ok(new
+                    {
+                        total,
+                        data = receitas
+                    });
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult SelecionarPorId(int id)
+        {
+            try
+            {
+                var receita = _service.GetByID(id);
+
+                if (receita != null)
+                    return Ok(new
+                    {
+                        total = 1,
+                        data = ReceitaRequest.Parse(receita)
+                    });
+
+                return NotFound("Receita not found");
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public override IActionResult Salvar(ReceitaRequest receita)
         {
             try
             {
@@ -156,7 +177,7 @@ namespace Agendabolo.Controllers
             }
         }
 
-        
+
         //public IActionResult Alterar(ReceitaRequest receita)
         //{
         //    try

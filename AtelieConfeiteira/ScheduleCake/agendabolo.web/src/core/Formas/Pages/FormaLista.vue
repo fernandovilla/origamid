@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="header-page">
-      <h1>Home > Formas</h1>
+      <h1>Home > Formas - EM DESENVOLVIMENTO</h1>
       <div class="header-page__contents">
         <add-button to="forma">Nova Forma</add-button>
         <div class="header-page__search">

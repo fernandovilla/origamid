@@ -170,11 +170,14 @@ export default {
     },
 
     async deletarIngrediente(ingrediente){
-      const result = await ingredientesAPIService.deletarInsumo(ingrediente.id);
+      
+      const result = await ingredientesAPIService.deletar(ingrediente.id);
+
       if (result) {
-          const i = this.insumos.indexOf(ingrediente);
-          this.ingrediente.splice(i, 1);
-          alert("Ingrediente excluído");
+          //const i = this.ingredientes.indexOf(ingrediente);
+          //this.ingredientes.splice(i, 1);
+          ingrediente.status = 2;
+          this.filtrarItens();
       }
     },
 
@@ -207,105 +210,113 @@ export default {
 <style scoped>
   @import '@/styles/table-data.css';
 
-  .header-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+.header-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.header-page h1 {
+  margin-bottom: 10px;
+}
+
+.header-page button {
+  margin-left: 0px;
+}
+
+.header-items {
+  display: flex;
+  width: 100%;
+}
+
+.header-items .header-search {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.header-search .input-search {
+  width: 100%; 
+}
+
+.header-ativos {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-ativos input {
+  padding: 0;
+  margin: 0;
+  width: 30px;
+}
+
+/*.content {
+  overflow: auto;
+}*/
+
+.table-data .head-nome {
+  text-align: left;
+  padding-left: 10px;    
+}
+
+.table-data .body-nome {
+  text-align: left;
+  padding-left: 10px;
+  font-weight: 600;          
+}
+
+.table-data .body-nome a {
+  color: var(--text-color-dark);
+  font-weight: normal;
+}
+
+.table-data .body-nome .nomeIngrediente:hover {
+  font-weight: bold;
+}
+
+.table-data .body-nome .marcaIngrediente {
+  font-weight:100;
+  margin-left: 5px;
+  font-size: 0.875em;
+}
+
+.pagination {
+  margin: 10px auto;
+}
+
+.filter-status {
+  border: 1px solid var(--border-color-light);
+  border-radius: 25px;    
+  padding: 0px 15px;
+  outline: none;
+  text-transform: uppercase;
+  font-family: 'Poppins', Helvetica, sans-serif;
+  font-size: 0.853rem;
+  text-align: left;  
+  height: 100%;
+}
+
+
+
+@media screen and (max-width: 960px) {
+  .header-items {
+    display: block;
   }
 
-  .header-page h1 {
+  .input-search {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 
-  .header-page button {
-    margin-left: 0px;
-  }
-
-  .header-items {
-    display: flex;
-    width: 100%;
-  }
-
-  .header-items .header-search {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .header-search .input-search {
-    width: 100%; 
-  }
-
-  .header-ativos {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-
-  .header-ativos input {
-    padding: 0;
-    margin: 0;
-    width: 30px;
-  }
-
-  /*.content {
-    overflow: auto;
-  }*/
-
-  .table-data .head-nome {
-    text-align: left;
-    padding-left: 10px;    
-  }
-
-  .table-data .body-nome {
-    text-align: left;
-    padding-left: 10px;
-    font-weight: 600;          
-  }
-
-  .table-data .body-nome a {
-    color: var(--text-color-dark);
-    font-weight: normal;
-  }
-
-  .table-data .body-nome .nomeIngrediente:hover {
-    font-weight: bold;
-  }
-
-  .table-data .body-nome .marcaIngrediente {
-    font-weight:100;
-    margin-left: 5px;
-    font-size: 0.875em;
-  }
-
-  .pagination {
-    margin: 10px auto;
-  }
-
   .filter-status {
-    border: 1px solid var(--border-color-light);
-    border-radius: 25px;    
-    padding: 0px 15px;
-    outline: none;
-    text-transform: uppercase;
-    font-family: 'Poppins', Helvetica, sans-serif;
-    font-size: 0.853rem;
-    text-align: left;
+    width: 100%;
+    height: 30px;    
+    margin: 0px;
   }
-  
-
-
-  @media screen and (max-width: 960px) {
-    .header-items {
-      display: block;
-    }
-
-    .header-search .input-search {
-      width: 100%;
-      height: 40px;
-      margin-top: 20px;
-    }
-  }
+}
   
 </style>

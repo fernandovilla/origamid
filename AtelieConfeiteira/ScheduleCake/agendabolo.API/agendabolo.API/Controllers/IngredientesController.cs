@@ -133,12 +133,19 @@ namespace Agendabolo.Controllers
                 if (id <= 0)
                     return BadRequest("Invalid id");
 
-                var ok = _service.Delete(id);
+                var ingrediente = _service.GetByID(id);
 
-                if (ok)
+                if (ingrediente != null)
+                {
+                    ingrediente.Status = StatusCadastro.Excluido;
+                    _service.Save(ingrediente);
+
                     return Ok();
+                }
                 else
+                {
                     return BadRequest();
+                }
             }
             catch (Exception ex)
             {
@@ -153,7 +160,7 @@ namespace Agendabolo.Controllers
             {
                 var ingredientes = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .Select(i => new IngredienteBuscaResponse { Id = i.Id, Nome = i.Nome, EstoqueTotal = i.EstoqueTotal, Marca = i.Marca,  Status = (int)i.Status })
+                    .Select(i => new IngredienteBuscaResponse { Id = i.Id, Nome = i.Nome, EstoqueTotal = i.EstoqueTotal, Marca = i.Marca, Status = (int)i.Status })
                     .ToList();
 
                 if (ingredientes != null && ingredientes.Any())

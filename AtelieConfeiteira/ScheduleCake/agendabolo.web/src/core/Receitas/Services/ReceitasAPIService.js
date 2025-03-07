@@ -73,4 +73,18 @@ export const receitasAPIService = {
       LogErro(error, 'Ocorreu erro alterando receita');
     }
   },
+
+  async deletar(receitaId) {
+    try {
+      const response = await api.delete(`/receitas/${receitaId}`);
+
+      if (response.statusText === 'OK') {
+        return true;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro deletando receita');
+    }
+  }
 };

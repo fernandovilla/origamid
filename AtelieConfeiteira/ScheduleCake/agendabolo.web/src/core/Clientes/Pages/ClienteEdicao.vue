@@ -98,7 +98,7 @@ import SelectStatus from '@/components/Select/SelectStatus.vue'
 
 
 export default {
-  name: 'edicao-cliente',
+  name: 'cliente-edicao',
 
   data() { return {
     cliente: { id: 0, nome: '' },

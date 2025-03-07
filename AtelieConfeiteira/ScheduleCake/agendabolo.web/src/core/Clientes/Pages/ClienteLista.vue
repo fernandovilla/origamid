@@ -1,7 +1,7 @@
 <template>
   <span class="wrap">
     <div class="header-page">
-      <h1>Home > Clientes</h1>
+      <h1>Home > Clientes - EM DESENVOLVIMENTO</h1>
       <div class="header-items">
         <add-button to="cliente">Novo Cliente</add-button>      
         <div class="header-search">
@@ -56,7 +56,7 @@ import AddButton from '@/components/Button/AddButton.vue';
 import InputSearch from '@/components/Input/InputSearch.vue';
 
 export default {
-  name: 'lista-clientes',
+  name: 'cliente-lista',
   data() { return {
     clientes: [],
     totalRegistros: 0,

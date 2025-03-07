@@ -33,6 +33,25 @@ const fabricantesRoutes = [
   },
 ];
 
+const fornecedoresRoutes = [
+  {
+    path: '/fornecedores',
+    name: 'fornecedores',
+    component: () => import('@/core/Fornecedores/FornecedorLista.vue'),
+  }, 
+  {
+    path: '/fornecedor',
+    name: 'fornecedor',
+    component: () => import('@/core/Fornecedores/FornecedorEdicao.vue'),
+  },
+  {
+    path: '/fornecedor/:id',
+    name: 'fornecedor-edicao',
+    component: () => import('@/core/Fornecedores/FornecedorEdicao.vue'),
+    props: true,
+  }
+];
+
 const ingredientesRoutes = [
   {
     path: '/ingredientes',
@@ -60,7 +79,8 @@ const ingredientesRoutes = [
     path: '/entradaIngredientes',
     name: 'entrada-ingredientes',
     component: () => import('@/core/Entradas/Pages/EntradaIngredientes.vue'),
-  },
+  }
+
 ];
 
 const receitasRoutes = [
@@ -99,23 +119,28 @@ const produtosRoutes = [
     component: () => import('@/core/Produtos/ProdutoEdicao.vue'),
     props: true,
   },
+  {
+    path: '/ajustePrecos',
+    name: 'ajuste-precos',
+    component: () => import('@/core/Produtos/AjustePrecos.vue'),
+  }
 ];
 
 const clientesRoutes = [
   {
     path: '/clientes',
     name: 'clientes',
-    component: () => import('@/core/Clientes/Pages/ListaClientes.vue'),
+    component: () => import('@/core/Clientes/Pages/ClienteLista.vue'),
   },
   {
     path: '/cliente',
     name: 'cliente',
-    component: () => import('@/core/Clientes/Pages/EdicaoCliente.vue'),
+    component: () => import('@/core/Clientes/Pages/ClienteEdicao.vue'),
   },
   {
     path: '/cliente/:id',
-    name: 'edicao-cliente',
-    component: () => import('@/core/Clientes/Pages/EdicaoCliente.vue'),
+    name: 'cliente-edicao',
+    component: () => import('@/core/Clientes/Pages/ClienteEdicao.vue'),
     props: true,
   },
 ];
@@ -138,6 +163,20 @@ const formasRoutes = [
     props: true,
   },
 ];
+
+const embalagensRoutes = [
+  {
+    path:'/embalagens',
+    name: 'embalagens',
+    component: () => import('@/core/Embalagens/EmbalagemLista.vue')
+  },
+  {
+    path: '/embalagem/:id',
+    name: 'embalagem-edicao',
+    component: () => import('@/core/Embalagens/EmbalagemEdicao.vue'),
+    props: true
+  }
+]
 
 const teste = [
   {
@@ -170,11 +209,13 @@ const teste = [
 const routes = [
   ...defaultRoutes,
   ...fabricantesRoutes,
+  ...fornecedoresRoutes,
   ...ingredientesRoutes,
   ...receitasRoutes,
   ...produtosRoutes,
   ...clientesRoutes,
   ...formasRoutes,
+  ...embalagensRoutes,
   ...teste
 ];
 

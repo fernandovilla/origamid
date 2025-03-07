@@ -8,16 +8,19 @@
       <p class="title">MENU</p>
       <ul>      
         <side-bar-item display="Home" router="/" googleIcon="home" src_alt="home" />            
-        <side-bar-item display="Clientes" router="/clientes" googleIcon="group" src_alt="clientes" />      
+        
         <side-bar-item display="Agenda de Produção" router="/" googleIcon="calendar_clock" src_alt="clientes" />      
         <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false :expansible="true" @expanded="onExpandedCadastros">
           <ul class="subitem" :class="expandedCadastros ? 'shown' : 'hidden'">
+            <side-bar-item subitem="true" display="Clientes" router="/clientes" googleIcon="group" src_alt="clientes" />      
+            <hr>
             <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />                        
             <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
             <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
-            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                    
-            <side-bar-item subitem=true display="Embalagens" googleIcon="featured_seasonal_and_gifts" router="/embalagens"  />                    
-            <hr>      
+            <side-bar-item subitem=true display="Fornecedores" googleIcon="trolley" router="/fornecedores"  />                        
+            <side-bar-item subitem=true display="Embalagens" googleIcon="featured_seasonal_and_gifts" router="/embalagens"  />                                
+            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                                
+            <hr>                   
             <side-bar-item subitem=true display="Ajuste de Preços" googleIcon="attach_money" router="/ajustePrecos"  />                          
           </ul>
         </side-bar-item>      
