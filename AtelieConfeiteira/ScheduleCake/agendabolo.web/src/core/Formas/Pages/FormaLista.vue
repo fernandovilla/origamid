@@ -20,7 +20,8 @@ import InputSearch from '@/components/Input/InputSearch.vue';
 export default {
   name: 'forma-lista',
   data(){ return {
-
+    formas: null,
+    formasSource: null
   }},
   components: {
     AddButton, InputSearch

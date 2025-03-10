@@ -7,8 +7,6 @@ import {
   faPenToSquare,
   faPlus,
   faTrash,
-  faBackwardStep,
-  faForwardStep,
   faCaretRight,
   faCaretLeft,
   faCircleXmark,
@@ -19,7 +17,11 @@ import {
   faTriangleExclamation,
   faCirclePlus,
   faBars,
-  faArrowLeft  
+  faArrowLeft,
+  faBackward,
+  faBackwardStep,
+  faForward,
+  faForwardStep
 } from '@fortawesome/free-solid-svg-icons';
 
 // import {
@@ -38,7 +40,9 @@ const FontawelsomeLibrary = (app) => {
     faPenToSquare,
     faTrash,
     faPlus,
+    faBackward,
     faBackwardStep,
+    faForward,
     faForwardStep,
     faCaretRight,
     faCaretLeft,

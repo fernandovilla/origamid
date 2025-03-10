@@ -40,7 +40,7 @@
               </router-link>                 
               
             </td>
-            <td class="col-estoque">
+            <td class="body-estoque">
               <a href="#">{{ this.estoqueText(ingrediente.estoqueTotal) }}</a>              
             </td>
             <td class="body-status">
@@ -259,12 +259,15 @@ export default {
 .table-data .head-nome {
   text-align: left;
   padding-left: 10px;    
+  width: 55%;
 }
 
 .table-data .body-nome {
+  white-space: nowrap;
   text-align: left;
   padding-left: 10px;
-  font-weight: 600;          
+  font-weight: 600;   
+  width: 55%;       
 }
 
 .table-data .body-nome a {

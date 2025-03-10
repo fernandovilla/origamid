@@ -50,4 +50,8 @@
   .content-page {
     margin-left: 30px;
   }
+
+  .content {
+    padding-bottom: 21px;
+  }
 }

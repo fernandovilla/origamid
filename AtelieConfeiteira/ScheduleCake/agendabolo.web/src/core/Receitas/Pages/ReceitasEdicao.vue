@@ -5,7 +5,7 @@
       <span v-if="receita.id > 0" class="header-page-id">Id: {{receita.id}}</span>  
       <div class="btn-bar">          
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-save @click.prevent="salvarReceita" />
+          <button-save @click.prevent="salvar" :disabled="saving" />
           <button-back to="/receitas" @click.prevent="retornar" />          
       </div>  
     </div>        
@@ -185,7 +185,8 @@ export default {
       ingredientesExcluidos: [],
       mensagem: '',
       menssagemSucesso: '',      
-      selecaoIngredienteShow: false,           
+      selecaoIngredienteShow: false,      
+      saving: false     
     }
   }, 
   props: ['id'],
@@ -429,7 +430,10 @@ export default {
         }
     },
     
-    async salvarReceita(){
+    async salvar(){
+
+      this.saving = true;
+
       var inclusao =  this.receita.id == 0;
 
       const payload = this.obterReceitaRequest();
@@ -443,6 +447,8 @@ export default {
       } else {
         //erro na alteração da receita...
       }
+
+      this.saving = false;
     },
 
     mostrarMensagemSucesso(text){

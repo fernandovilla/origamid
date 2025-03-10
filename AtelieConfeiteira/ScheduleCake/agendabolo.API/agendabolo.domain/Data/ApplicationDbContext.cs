@@ -20,7 +20,8 @@ namespace Agendabolo.Data
         public DbSet<Core.Produtos.ProdutoReceitaDTA> ProdutosReceitas { get; set; }
         public DbSet<Core.Clientes.ClienteDTA> Clientes { get; set; }
         public DbSet<Core.Formas.FormaDTA> Formas { get; set; }
-        
+        public DbSet<Core.Fornecedores.FornecedorDTA> Fornecedores { get; set; }
+
 
 
         public ApplicationDbContext(string connectionString)
@@ -68,14 +69,14 @@ namespace Agendabolo.Data
                 .WithOne(i => i.Ingredente)
                 .HasForeignKey(i => i.IdIngrediente);
 
-                                
+
             #endregion
 
             #region [Receitas]
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasKey(i => new { i.IdReceita, i.IdIngrediente });
 
-            
+
             modelBuilder.Entity<Core.Receitas.ReceitaIngredienteDTA>()
                 .HasOne<Core.Receitas.ReceitaDTA>(r => r.Receita)
                 .WithMany(i => i.Ingredientes)

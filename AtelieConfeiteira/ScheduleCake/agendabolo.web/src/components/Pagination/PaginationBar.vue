@@ -1,11 +1,19 @@
 <template>
   <nav aria-label="Navegação de páginas" class="pagination-bar">
     <ul>
-      <li @click="changePage(1)">First</li>
-      <li @click="changePage(this.currentPage-1)">Previous</li>
+      <li @click="changePage(1)">
+        <font-awesome-icon icon="fa-solid fa-backward" class="icon" />
+      </li>
+      <li @click="changePage(this.currentPage-1)">
+        <font-awesome-icon icon="fa-solid fa-backward-step" class="icon" />
+      </li>
       <li v-for="page in pages" :key="page" @click="changePage(page)" class="pageNumber" :class="{ active: page ===  this.currentPage}">{{ page }}</li>
-      <li @click="changePage(this.currentPage+1)">Next</li>
-      <li @click="changePage(this.totalPages)">Last</li>
+      <li @click="changePage(this.currentPage+1)">
+        <font-awesome-icon icon="fa-solid fa-forward-step" class="icon" />
+      </li>
+      <li @click="changePage(this.totalPages)">
+        <font-awesome-icon icon="fa-solid fa-forward" class="icon" />
+      </li>
     </ul>
   </nav>
 </template>
@@ -80,11 +88,11 @@ export default {
     border-bottom: 1px solid var(--border-color-light);
     border-right:  1px solid var(--border-color-light);
     cursor: pointer;
+    width: 30px;
   }
 
   .pagination-bar ul li.pageNumber{
     width: 30px;
-    max-width: 30px;
   }
 
   .pagination-bar ul li.active {
@@ -108,8 +116,7 @@ export default {
   .pagination-bar ul li:first-child {
     border: none;
     border: 1px solid var(--border-color-light);
-    border-radius: 7px 0px 0px 7px;
-    width: 100px;
+    border-radius: 7px 0px 0px 7px;   
     padding: 5px 0px;
   }
 
@@ -118,7 +125,6 @@ export default {
     border: 1px solid var(--border-color-light);
     border-left: none;
     border-radius: 0px 7px 7px 0px;
-    width: 100px;
     padding: 5px 0px;
   }
 </style>

@@ -6,7 +6,7 @@
                 <add-button to="fornecedor" class="col-md-12">Novo Fornecedor</add-button>      
 
                 <div class="header-search">
-                    <input-search class="input-search" placeHolder="Busca de Fornecedores" @onChengeSearchText="onChengeSearchText" />
+                    <input-search class="input-search" placeHolder="Busca de Fornecedores" @onChangeSearchText="onChangeSearchText" />
                 </div>                
 
                 <div class="input-group col-md-12">
@@ -32,7 +32,7 @@
             <tbody>
                 <tr v-for="(fornecedor, index) in fornecedores" :key="index">
                 <td class="body-nome">
-                    <router-link :to="{name: 'fornecedor-edicao', params: {id: fornecedor.id}}" >{{nomeLongo(fornecedor.nome)}}</router-link>                
+                    <router-link :to="{name: 'fornecedor-edicao', params: {id: fornecedor.id}}">{{nomeLongo(fornecedor.nome)}}</router-link>                
                 </td>
                 <td class="body-status">
                     {{this.descricaoStatus(fornecedor.status)}}
@@ -51,6 +51,11 @@
                 </td>          
             </tfoot>
             </table>
+          
+            <div v-if="this.fornecedores === null">
+              <h2 v-if="this.carregando" class="span5">Carregando Fornecedores. Aguarde...</h2>
+              <h2 v-else class="span5">Não há fornecedores cadastrados. Clique em 'Novo Fornecedor'</h2>
+            </div>
         </div>
 
 
@@ -65,50 +70,94 @@ import PaginationBar from '@/components/Pagination/PaginationBar.vue';
 import ActionEditButton from '@/components/Button/ActionEditButton.vue';
 import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import { status_cadastro_description, texto_contracao } from '@/helpers/TextHelpers.js';
+import { fornecedorAPIService } from './FornecedorAPIService';
 
 export default {
     name: 'fornecedores-lista',
     data(){ return {
-        fornecedores: [],
-        totalPages: 0,
-        totalRegistros: 0,
-        itemsByPage: 15,
-        filterStatus: 0
+      fornecedores: null,
+      fornecedoresSource: null,        
+      totalPages: 0,
+      totalRegistros: 0,
+      itemsByPage: 15,
+      filterStatus: 0,
+      textSearching: '',
+      carregando: false,
     }},
 
     components: { AddButton, InputSearch, PaginationBar, ActionEditButton, ActionDeleteButton },
 
+    watch: {
+      filterStatus() {
+        this.filtrarItens();
+      },
+      textSearching() {
+        this.filtrarItens();      
+      },
+    },
+
     methods: {
-        onChengeSearchText(){
+      onChangeSearchText(text){
+        this.textSearching = text.trim().toUpperCase();
+      },
 
-        },
+      onChangePage() {
 
-        onChangePage() {
+      },
 
-        },
+      filtrarItens(skip){
+        this.fornecedores = this.fornecedoresSource.filter(item => {
+          const matchesQuery = item.nome.toLowerCase().includes(this.textSearching.toLowerCase());
+          const matchesFilter = this.filterStatus === 'todos' || item.status === parseInt(this.filterStatus);                
+          return matchesQuery && matchesFilter;
+        });     
 
-        editarFornecedor(fornecedor){
-            console.log(fornecedor);
-        },
+        this.totalRegistros = this.fornecedores.length;     
+        this.totalPages = this.totalRegistros / this.itemsByPage;      
+      
+        if (skip !== undefined && skip > 0) {
+          this.fornecedores = this.fornecedores.slice(skip, skip + this.itemsByPage);    
+        } else {
+          this.fornecedores = this.fornecedores.slice(0, this.itemsByPage);    
+        }
+      },
 
-        deletarFornecedor(fornecedor){
-            console.log(fornecedor);
-        },
+      editarFornecedor(fornecedor){
+        this.$router.push({ name: "fornecedor-edicao", params: { id: fornecedor.id } });
+      },
 
-        async obterListaFornecedoresInicial(){
-            //conecta com o servidor para baixar a lista...
-        },
+      async deletarFornecedor(fornecedor){
+        var result = await fornecedorAPIService.deletar(fornecedor.id);
 
-        descricaoStatus(status) {
-            return status_cadastro_description(status);
-        },  
+        if (result) {
+          fornecedor.status = 2;
+          this.filtrarItens();
+        }
+      },
 
-        nomeLongo(nome) { 
-            return texto_contracao(nome);
-        },
+      async obterListaFornecedoresInicial(){
+        this.carregando = true;
+
+        var result = await fornecedorAPIService.listar();
+
+        if (result != null) {
+          this.fornecedoresSource = result.data;
+          this.filtrarItens();
+        }
+
+        this.carregando = false;
+      },
+
+      descricaoStatus(status) {
+        return status_cadastro_description(status);
+      },  
+
+      nomeLongo(nome) { 
+        return texto_contracao(nome);
+      },
     },
     created() {
-        this.obterListaFornecedoresInicial();
+      this.obterListaFornecedoresInicial();
     }
 }
 

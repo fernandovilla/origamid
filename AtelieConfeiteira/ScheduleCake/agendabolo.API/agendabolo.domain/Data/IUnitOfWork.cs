@@ -1,4 +1,6 @@
 ﻿using Agendabolo.Core.Fabricantes;
+using Agendabolo.Core.Formas;
+using Agendabolo.Core.Fornecedores;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
@@ -18,6 +20,8 @@ namespace Agendabolo.Data
         IProdutoRepository ProdutoRepository { get; }
         IUnidadeMedidaRepository UnidadeMedidaRepository { get; }
         IEstoqueRepository EstoqueRepository { get; }
+        IFormaRepository FormaRepository { get; }
+        IFornecedorRepository FornecedorRepository { get; }
 
         void Save();
     }

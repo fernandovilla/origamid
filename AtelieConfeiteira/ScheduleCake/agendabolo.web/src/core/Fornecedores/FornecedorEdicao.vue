@@ -2,10 +2,10 @@
     <div class="wrap-column">    
         <div class="header-page fixed-header">
             <h1>{{PageTitle}}</h1>    
-            <span v-if="fornecedor.id > 0" class="header-page-id">Id: {{ingrediente.id}}</span>  
+            <span v-if="fornecedor.id > 0" class="header-page-id">Id: {{fornecedor.id}}</span>  
             <div class="btn-bar">
                 <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
-                <button-save @click.prevent="salvarFornecedor" />
+                <button-save @click.prevent="salvar" :disabled="saving"  />
                 <button-back  @click.prevent="retornar" />
             </div>
         </div>   
@@ -19,14 +19,31 @@
                             <div class="container-fluid">    
 
                                 <div class="row">              
-                                    <div class="input-group col-12">
+                                    <div class="input-group col-8 col-md-12">
                                         <label for="nome">Nome</label>
                                         <input-base type="text" id="nome" required v-model="fornecedor.nome" maxlength="100" />        
                                     </div>              
+
+                                    <div class="input-group col-4 col-md-12">
+                                        <label for="cnpj">CNPJ</label>
+                                        <input-base id="nome" v-model="fornecedor.cnpj" maxlength="20" />
+                                    </div>
+
+                                    <div class="input-group col-6 col-md-12">
+                                        <label for="contato">Contato</label>
+                                        <input-base id="contato" v-model="fornecedor.contato" maxlength="100" />
+                                    </div>
+
+                                    <div class="input-group col-6 col-md-12">
+                                        <label for="telefone">Telefone</label>
+                                        <input-base id="telefone" v-model="fornecedor.telefone" maxlength="100" />
+                                    </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-group col-3 col-sm-12">
+                                    
+
+                                    <div class="input-group col-3 col-md-12">
                                         <label for="status">Status</label>
                                         <select-status id="status" v-model="fornecedor.status" :selected="fornecedor.status" required />      
                                     </div>
@@ -53,20 +70,30 @@ import SelectStatus from '@/components/Select/SelectStatus.vue';
 export default {
     name:'fornecedor-edicao',
     data() {
-        return {
+        return {        
             fornecedor: {
                 id: 0,
                 nome: '',
+                cnpj: '',
+                contato: '',
+                telefone: '',
                 status: 0
-            }
+            },
+            mensagem: '',
+            menssagemSucesso: false,
+            saving: false
         }
     },
+
+    props: ['id'],
+
     components: {ButtonSave, ButtonBack, InputBase, SelectStatus},
+
     computed: {
       PageTitle(){
         if (this.fornecedor.id === undefined || this.fornecedor.id === 0)
           return 'Novo Fornecedor';
-
+          
         return 'Edição Fornecedor';
       },
     },
@@ -79,16 +106,21 @@ export default {
 
 
         async salvar(){
+            this.saving = true;
+
             if (this.fornecedor.id === 0){
                 await this.incluir();
             } else {
                 await this.alterar();
             }
+
+            this.saving = false;
         },  
 
         async incluir() {
-            var fornecedorRequest = this.getFornecedorPayload();
-            const response = await fornecedorAPIService.incluir(fornecedorRequest);
+            var fornecedorPayload = this.getFornecedorPayload();
+
+            const response = await fornecedorAPIService.incluir(fornecedorPayload);
 
             if (response !== null){
                 this.fornecedor = response;
@@ -110,17 +142,19 @@ export default {
         },
 
         async obterFornecedor(idFornecedor){
+
             if (idFornecedor === undefined || idFornecedor === 0)
-            return;
+                return;
 
             this.fornecedor = { id: idFornecedor };
             const response = await fornecedorAPIService.selecionarPorId(idFornecedor);
 
             if (response !== undefined){
+                console.log("Forn:", response.data);
                 this.fornecedor = response.data;
             } else {
                 this.retornar();
-            }
+            }  
         },
 
         getFornecedorPayload(){
@@ -130,11 +164,28 @@ export default {
             var payload = {
                 id: itemId,
                 nome: this.fornecedor.nome,
+                cnpj: this.fornecedor.cnpj,
+                contato: this.fornecedor.contato,
+                telefone: this.fornecedor.telefone,
                 status: this.fornecedor.status,               
             };
 
             return payload;
         },
+
+        mostrarMensagemSucesso(text){
+            this.mensagem = text;
+            this.menssagemSucesso = true;
+
+            setTimeout(() => {
+            this.menssagemSucesso = false;
+            this.mensagem = '';
+            }, 3000);
+        }
+    },
+
+    created(){
+        this.obterFornecedor(this.id);
     }
 }
 

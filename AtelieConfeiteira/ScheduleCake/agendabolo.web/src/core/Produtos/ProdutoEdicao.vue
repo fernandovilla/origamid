@@ -5,7 +5,7 @@
       <span v-if="id > 0" class="header-page-id">ID: {{id}}</span>  
       <div class="btn-bar">          
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-save @click.prevent="salvarProduto" />
+          <button-save @click.prevent="salvar" :disabled="saving" />
           <button-back @click.prevent="retornar" />
       </div>  
     </div>   
@@ -271,13 +271,14 @@ export default {
         precoVendaVarejo: 0.00,        
         minimoAtacado: 0.00,
         status: 0,
-        receitas: []
+        receitas: [],
       },
       custoItemReceira:[],
       receitasExcluidas: [],
       selecaoNovaReceitaShow: false,
       mensagem: '',
       menssagemSucesso: '',      
+      saving: false,
     }
   },
   props:['id'],
@@ -481,7 +482,10 @@ export default {
       this.$router.push('/produtos');
     },
 
-    async salvarProduto(){
+    async salvar(){
+
+      this.saving = true;
+
       var inclusao = (this.produto.id == 0);
 
       const payload = this.obterProdutoRequest();
@@ -503,6 +507,8 @@ export default {
       } else {
         //erro na alteração da receita...
       }
+
+      this.saving = false;
     },
 
     obterProdutoRequest(){

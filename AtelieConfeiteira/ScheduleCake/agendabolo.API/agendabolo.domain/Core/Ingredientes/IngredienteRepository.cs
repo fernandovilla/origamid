@@ -1,6 +1,4 @@
-﻿using Agendabolo.Core.Produtos;
-using Agendabolo.Core.Receitas;
-using Agendabolo.Data;
+﻿using Agendabolo.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,7 +15,7 @@ namespace Agendabolo.Core.Ingredientes
 
         public override IEnumerable<IngredienteDTA> Get(Expression<Func<IngredienteDTA, bool>> filter = null)
         {
-            System.Linq.IQueryable<IngredienteDTA> ingredientes = _dbset;
+            IQueryable<IngredienteDTA> ingredientes = _dbset;
 
             if (filter != null)
                 ingredientes = ingredientes.Where(filter);

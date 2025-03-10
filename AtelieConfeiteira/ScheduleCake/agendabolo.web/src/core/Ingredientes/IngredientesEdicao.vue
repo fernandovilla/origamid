@@ -5,7 +5,7 @@
       <span v-if="ingrediente.id > 0" class="header-page-id">Id: {{ingrediente.id}}</span>  
       <div class="btn-bar">
         <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
-        <button-save @click.prevent="salvarIngrediente" />
+        <button-save @click.prevent="salvar" :disabled="saving" />
         <button-back  @click.prevent="retornar" />
       </div>
     </div>   
@@ -225,6 +225,7 @@ export default {
         mensagem: '',
         menssagemSucesso: false,
         precoCustoOriginal: 0,
+        saving: false
       } 
     }, 
 
@@ -255,7 +256,9 @@ export default {
         this.$router.push('/ingredientes');
       },
 
-      async salvarIngrediente(){
+      async salvar(){
+
+        this.saving = true;
 
         if (this.ingrediente.id === 0){
           await this.incluirIngrediente();
@@ -263,6 +266,7 @@ export default {
           await this.alterarIngrediente();
         }
 
+        this.saving = false;
       },  
 
       async incluirIngrediente() {

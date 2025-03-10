@@ -5,11 +5,45 @@
       <h1>Entrada Ingredientes - EM DESENVOLVIMENTO</h1>    
     </div>       
 
-    <div class="row entrada-items">
+    <div class="row content">
+      <div>
+        <p>Fornecedor</p>
+        <p>Data Entrada</p>
+        <p>Numero NF</p>
+      </div>
+    </div>
+
+    <div class="row content entrada-adicionais">      
+        <div class="input-group col-1">
+          <label for="dataEntrada">Data Entrada</label>
+          <input-date v-model="dataEntrada" name="dataEntrada" />        
+        </div>
+
+        <div class="input-group col-1">
+          <label for="valorFrete">Valor Frete</label>
+          <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
+        </div>
+
+        <div class="frete col-2">        
+          <input type="checkbox" name="calculaFrete" v-model="distribuiFrete" />
+          <label for="calculaFrete">Distribuir frete</label>
+        </div>      
+    </div>
+
+    <div class="row content entrada-items">
+      <div class="row">
+        <div class="content">
+          <span>Produto... </span>
+          <button>Buscar</button>
+          <button>Adicionar</button>
+          <button>Cadastrar</button>
+        </div>
+      </div>
+
       <table class="table-data">
         <thead>
           <tr>
-            <th class="col-actions"></th>
+            
             <th class="col-ingrediente">Ingrediente</th>
             <th class="col-unidade-medida">Unidade Medida</th>
             <th class="col-estoque">Estoque</th>
@@ -20,13 +54,11 @@
             <th class="col-lote">Lote</th>
             <th class="col-data-fabricacao">Data Fabricação</th>
             <th class="col-data-validade">Data Validade</th>
+            <th class="col-actions"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in itensEntrada" :key="index">
-            <td class="col-actions">
-              <button-small-delete @click.prevent="removeItem(index)" label="" tabindex="-1" />
-            </td>
+          <tr v-for="(item, index) in itensEntrada" :key="index">            
             <td class="col-ingrediente">{{ item.ingredienteNome }}</td>
             <td class="col-unidade-medida">{{ item.ingredienteUnidadeMedida }}</td>
             <td class="col-estoque">{{ item.ingredienteEstoque.toFixed(3) }}</td>
@@ -51,6 +83,9 @@
             <td class="col-data-validade editable">
               <input-date v-model="item.dataValidade" />
             </td>
+            <td class="col-actions">
+              <button-small-delete @click.prevent="removeItem(index)" label="" tabindex="-1" />
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -71,23 +106,7 @@
       </table>
     </div>
 
-    <div class="row entrada-adicionais">
-      
-      <div class="input-group col-1">
-        <label for="dataEntrada">Data Entrada</label>
-        <input-date v-model="dataEntrada" name="dataEntrada" />        
-      </div>
-
-      <div class="input-group col-1">
-        <label for="valorFrete">Valor Frete</label>
-        <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
-      </div>
-
-      <div class="frete col-2">        
-        <input type="checkbox" name="calculaFrete" v-model="distribuiFrete" />
-        <label for="calculaFrete">Distribuir Frete</label>
-      </div>      
-    </div>
+    
 
 
   </div>

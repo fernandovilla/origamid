@@ -52,7 +52,11 @@
           </td>          
         </tfoot>
       </table>
-      <h2 v-else class="span5">Não há receitas cadastradss. Clique em 'Nova Receita'</h2>
+
+      <div v-if="this.receitas === null">
+          <h2 v-if="this.carregando" class="span5">Carregando receitas. Aguarde...</h2>
+          <h2 v-else class="span5">Não há receitas cadastradas. Clique em 'Nova Receita'</h2>
+        </div>
     </div>
   </span>
 </template>
@@ -78,7 +82,8 @@ export default {
       totalPages: 0,
       itemsByPage: 15,
       currentPage: 1,
-      textSearching: ''
+      textSearching: '',
+      carregando: true,
     }
   },
   components: {
@@ -133,12 +138,16 @@ export default {
     },
 
     async obterListaReceitas(skip, take){    
+      this.carregando = true;
+
       const result = await receitasAPIService.list(skip, take);
 
       if (result != null) {          
         this.receitasSource = result.data;           
         this.filtrarItens();
       }
+
+      this.carregando = false;
     },
 
     editItem(id){      

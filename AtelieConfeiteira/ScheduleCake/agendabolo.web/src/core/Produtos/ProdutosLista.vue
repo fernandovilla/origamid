@@ -6,7 +6,7 @@
         <add-button to="produto" class="col-md-12">Novo Produto</add-button>      
 
         <div class="header-search">
-          <input-search class="input-search" placeHolder="Busca de Produtos" @onChengeSearchText="onChengeSearchText" />
+          <input-search class="input-search" placeHolder="Busca de Produtos" @onChangeSearchText="onChangeSearchText" />
         </div>    
         
         <div class="input-group col-md-12">
@@ -52,6 +52,10 @@
             </td>          
           </tfoot>
         </table>
+        <div v-if="this.produtos === null">
+          <h2 v-if="this.carregando" class="span5">Carregando produtos. Aguarde...</h2>
+          <h2 v-else class="span5">Não há produtos cadastrados. Clique em 'Novo Produto'</h2>
+        </div>
     </div>
 
   </div>
@@ -71,14 +75,27 @@ export default {
   name: 'produtos-lista',
   data() {
     return {
-      produtos: [],
+      produtos: null,
+      produtosSource: null,
+      totalPages: 0,
       totalRegistros: 0,
       itemsByPage: 15,
       currentPage: 1,
       textSearching: '',
-      filterStatus: 0
+      filterStatus: 0,
+      carregando: true
     };
   },
+
+  watch: {
+      filterStatus() {
+        this.filtrarItens();
+      },
+      textSearching() {
+        this.filtrarItens();      
+      },
+    },
+
   components: {
     AddButton,
     InputSearch,
@@ -86,12 +103,15 @@ export default {
     ActionEditButton,
     ActionDeleteButton
   },
+
   computed: {
-    totalPages() {
+    /*totalPages() {
       var pages = this.totalRegistros / this.itemsByPage;
       return pages.toFixed(0);
     }
+      */
   },
+
   methods: {
     async obterListaProdutosInicial(){
       this.currentPage = 1;
@@ -99,31 +119,57 @@ export default {
     },
 
     async obterListaProdutos(){
+
+      this.carregando = true;
+
       var result = await produtosAPIService.obterProdutosBusca();
             
       if (result != null) {          
-          this.totalRegistros = result.total;          
-          this.produtos = result.data;
+        this.produtosSource = result.data;
+        this.filtrarItens();
       }
+
+      this.carregando = false;
     },
-    onChengeSearchText(){
-      console.log('search text changing...');
+
+    onChangeSearchText(text){
+      this.textSearching = text.trim().toUpperCase();
     },
+
     editarProduto(produto){
       this.$router.push({ name: "produto-edicao", params: { id: produto.id } });
     },
+
     async deletarProduto(produto){
       const result = await produtosAPIService.deletar(produto.id);
 
-      if (result) {
-          //const i = this.insumos.indexOf(produto);
-          //this.produto.splice(i, 1);
+      if (result) {          
           produto.status = 2;          
+          this.filtrarItens();
       }
     },
+
+    filtrarItens(skip){
+      this.produtos = this.produtosSource.filter(item => {
+        const matchesQuery = item.nome.toLowerCase().includes(this.textSearching.toLowerCase());
+        const matchesFilter = this.filterStatus === 'todos' || item.status === parseInt(this.filterStatus);                
+        return matchesQuery && matchesFilter;
+      });     
+
+      this.totalRegistros = this.produtos.length;     
+      this.totalPages = this.totalRegistros / this.itemsByPage;      
+    
+      if (skip !== undefined && skip > 0) {
+        this.produtos = this.produtos.slice(skip, skip + this.itemsByPage);    
+      } else {
+        this.produtos = this.produtos.slice(0, this.itemsByPage);    
+      }
+    },
+
     descricaoStatus(status) {
         return status_cadastro_description(status);
     },    
+
     nomeLongo(nome) { 
       return texto_contracao(nome);
     },

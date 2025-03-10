@@ -41,9 +41,20 @@
   border-spacing: 0;
   /* background: #f6f7f7;     */
   background: var(--background-color-body);
-  overflow: auto;
-  display: block;
+  
+  display: flex;
+  flex:1  ;
+  flex-wrap: wrap;
+  overflow: auto;  
+  max-height: calc(100vh - 246px);  
 }
+
+@media screen and (max-width: 960px) {
+  .table-data tbody {
+    max-height: calc(100vh - 335px);  
+  }
+}
+
 
 .table-data tbody tr {
   display: table;

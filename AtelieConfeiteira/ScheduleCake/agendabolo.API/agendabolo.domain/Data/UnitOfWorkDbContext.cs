@@ -1,11 +1,13 @@
 ﻿using Agendabolo.Core.Clientes;
 using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Formas;
+using Agendabolo.Core.Fornecedores;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
 using Agendabolo.Utils;
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Agendabolo.Data
 {
@@ -20,6 +22,8 @@ namespace Agendabolo.Data
         private IUnidadeMedidaRepository _unidadeMedidaRepositorys;
         private IEstoqueRepository _estoqueRepository;
         private IFormaRepository _formaRepository;
+        private IFornecedorRepository _fornecedorRepository;
+        
 
         public UnitOfWorkDbContext()
             : this(UnitOfWorkDbContext.GetConnectionString())
@@ -78,18 +82,22 @@ namespace Agendabolo.Data
             get => _formaRepository ?? new FormaRepository(_context);
         }
 
+        public IFornecedorRepository FornecedorRepository
+        {
+            get => _fornecedorRepository ?? new FornecedorRepository(_context);
+        }
 
-        IIngredienteRepository IUnitOfWork.IngredienteRepository => throw new NotImplementedException();
 
-        IFabricanteRepository IUnitOfWork.FabricanteRepository => throw new NotImplementedException();
+        IIngredienteRepository IUnitOfWork.IngredienteRepository => this.IngredienteRepository;
+        IFabricanteRepository IUnitOfWork.FabricanteRepository => this.FabricanteRepository;
+        IReceitaRepository IUnitOfWork.ReceitaRepository => this.ReceitaRepository;
+        IProdutoRepository IUnitOfWork.ProdutoRepository => this.ProdutoRepository;
+        IUnidadeMedidaRepository IUnitOfWork.UnidadeMedidaRepository => this.UnidadeMedidaRepository;
+        IEstoqueRepository IUnitOfWork.EstoqueRepository => this.EstoqueRepository;
+        IFormaRepository IUnitOfWork.FormaRepository => this.FormaRepository;
+        IFornecedorRepository IUnitOfWork.FornecedorRepository => this.FornecedorRepository;
 
-        IReceitaRepository IUnitOfWork.ReceitaRepository => throw new NotImplementedException();
-
-        IProdutoRepository IUnitOfWork.ProdutoRepository => throw new NotImplementedException();
-
-        IUnidadeMedidaRepository IUnitOfWork.UnidadeMedidaRepository => throw new NotImplementedException();
-
-        IEstoqueRepository IUnitOfWork.EstoqueRepository => throw new NotImplementedException();
+        
 
         public void Save()
         {
