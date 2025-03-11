@@ -1,9 +1,20 @@
 <template>
 
-  <div class="container-fluid">    
-    <div class="row">
-      <h1>Entrada Ingredientes - EM DESENVOLVIMENTO</h1>    
-    </div>       
+  <div class="wrap-column">            
+    <div class="header-page fixed-header">
+      <h1>Entrada de Mercadorias</h1>    
+      <!--
+      <div class="btn-bar">          
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+          <button-save @click.prevent="salvar" :disabled="saving" />
+          <button-back @click.prevent="retornar" />
+      </div>  
+      -->      
+    </div>   
+
+    <div class="container-fluid content dados-nf-content ">      
+        
+    </div>
 
     <div class="row content">
       <div>
@@ -12,6 +23,8 @@
         <p>Numero NF</p>
       </div>
     </div>
+
+    
 
     <div class="row content entrada-adicionais">      
         <div class="input-group col-1">
@@ -223,7 +236,11 @@ export default {
 </script>
 
 <style scoped>
-  @import '@/styles/table-data.css';
+  @import '@/styles/content.css';
+  @import '@/styles/group.css';
+  @import '@/styles/table-data.css';  
+  @import '@/styles/buttons.css';
+  @import '@/styles/pages.css';
 
   .table-data {
     border: none;      

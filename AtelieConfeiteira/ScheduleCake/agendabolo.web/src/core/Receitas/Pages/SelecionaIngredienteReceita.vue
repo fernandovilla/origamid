@@ -13,7 +13,7 @@
                   tabindex="0"
                   :options="ingredientesToSearch" 
                   :selectedOption="ingredienteSelecionadoOption"
-                  :showOptions="5"
+                  :showOptions="10"
                   :totalOptions="totalIngredientes"
                   :dropDownList=false
                   @selectedOptionChanged="selectedOptionChanged" 

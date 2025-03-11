@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div ref="content" class="content" >
+    <div ref="content" class="content-search" >
       <div class="search">
         <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />
         <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"          
@@ -450,8 +450,7 @@ export default {
   }
 
 
-
-  .select .content {
+  .select .content-search {
     display: none;
     background: var(--background-color-white);
     width: 100%;
@@ -460,7 +459,8 @@ export default {
     padding: 5px 10px;
   }
 
-  .select.active .content {
+
+  .select.active .content-search {
     display: block;
     z-index: 1;
     position: absolute;
@@ -495,6 +495,8 @@ export default {
   }
 
 
+  
+
   .content .options {
     margin-top: 10px;
     padding-right: 2px;
@@ -512,6 +514,8 @@ export default {
     background: #ccc;
     border-radius: 15px;
   }
+
+  
 
 
   li {
