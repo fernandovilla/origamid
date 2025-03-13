@@ -156,6 +156,10 @@ export default {
       }
     },
 
+    onCleaningOptions(){
+      this.$emit('cleaningOptions');
+    },
+
     onSearchingOptionsEvent(textToSearch){
       var arg = { 
         message: '', 
@@ -198,10 +202,12 @@ export default {
     selectHandleFocus(){
       this.$refs.select.addEventListener('keydown', this.selectHandleKeyDown);
     },
+
     selectHandleClick(){      
       this.activeListItems();      
       this.$refs.select.removeEventListener('keydown', this.selectHandleKeyDown)
     },
+
     selectHandleKeyDown(e){
       if (!this.isActive){
         if (e.keyCode === 13){
@@ -213,6 +219,7 @@ export default {
         }
       }
     },
+
     handleKeyUpSearch(){
       const valueSearch = this.textSearchValue.toUpperCase().trim();
 
@@ -228,9 +235,14 @@ export default {
         }, 100);
         
       } else {
-        this.optionsSearch = this.options;
+        if (valueSearch.trim() === '') {
+          this.onCleaningOptions();
+        } else {
+          this.optionsSearch = this.options;
+        }
       }
     },
+
     handleKeyDownSearch(e){
       switch (e.keyCode) {
         case 34:
@@ -279,19 +291,23 @@ export default {
         return false;
       } 
     },
+
     selectedClassName(index){
       return this.liIndex === index;
     },
+
     removeSelected(element){
       if (element !== undefined) {
         element.classList.remove('selected');
       }
     },
+
     addSelected(element){
       if (element !== undefined) {
         element.classList.add('selected');
       }
     },
+
     scrollToSelected(direction, forced) {
 
       if (this.liSelected !== undefined) {
@@ -334,6 +350,7 @@ export default {
         }
       }
     },
+
     moveItem(direction){
 
       var liOptions = this.$refs.options.children;
@@ -375,6 +392,7 @@ export default {
         this.scrollToSelected(direction);
       }, 5);
     },
+
     selectItem(){
       var option = this.optionsSearch[this.liIndex];
 
@@ -384,9 +402,11 @@ export default {
         this.$emit('selectedOptionChanged', option);
       }
     },
+
     updateName(option){            
         this.selectedOptionDisplay = option.display;        
     },
+
     moveToSelectedOtion(){
 
       if (this.optionsSearch === null || this.selectedOption === null)
@@ -455,17 +475,22 @@ export default {
     background: var(--background-color-white);
     width: 100%;
     border: 1px solid var(--border-color-light);
-    border-radius: 8px;
-    padding: 5px 10px;
+    border-radius: 0px 0px 5px 5px;
+    padding: 5px;
   }
 
 
   .select.active .content-search {
     display: block;
-    z-index: 1;
+    z-index: 1000;
     position: absolute;
     /* float: right; */
-    top: 34px;
+    top: 26px;
+    
+  }
+
+  .select.active .content-search .options {
+    overflow-y: auto;
   }
 
   .select.active .select-btn .icon {
@@ -491,9 +516,9 @@ export default {
 
   .search input:focus {
     background: var(--background-color-light);
-    border-radius: 4px;
+    border-radius: 5px;
   }
-
+  
 
   
 
@@ -515,19 +540,18 @@ export default {
     border-radius: 15px;
   }
 
-  
-
-
   li {
     border-radius: 5px;
     list-style: none;
     padding: 5px;
+    margin-top: 1px;
   }
 
   li:hover,
   li.selected {
     background: #ddd;
     cursor: pointer;
+    
   }
 
   li.selected {
