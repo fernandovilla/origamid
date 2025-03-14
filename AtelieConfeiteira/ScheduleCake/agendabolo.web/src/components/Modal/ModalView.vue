@@ -1,9 +1,9 @@
 <template>
-  <span class="modal" ref="modal" :class="{active: isActive}">
-    <span class="modal-content" ref="modalContent">
+  <div class="modal" ref="modal" :class="{active: isActive}" @click.self="isActive = false">
+    <div class="modal-content" ref="modalContent">
       <slot></slot>
-    </span>    
-  </span>
+    </div>    
+  </div>
 </template>
 
 <script>
@@ -20,6 +20,7 @@ export default {
       default: false
     }
   },
+
   watch: {
     isActive(){
       if (this.isActive){
@@ -28,62 +29,23 @@ export default {
         this.$emit('closing');
       }
     },
-    active() {      
-      if (this.active){
-        document.addEventListener("click", this.documentHandleClick);
-      } else {        
-        document.removeEventListener("click", this.documentHandleClick);
-      }
 
+    active() {      
       setTimeout(() => {
         this.isActive = this.active;  
-      }, 80);
-      
+      }, 80);      
     }
   },
-  methods: {
-    documentHandleClick(e){
-
-      if (!this.isActive)
-        return;
-
-      var spanModal = this.$refs.modalContent.getBoundingClientRect();
-
-      if (!this.clickInside(spanModal, e)) {
-        this.isActive = false;
-      }      
-    },
-
-    clickInside(elementRect, clickPos){
-      if (elementRect === null || elementRect === undefined || clickPos === null || clickPos === undefined) {
-        return false;
-      } 
-
-      try{
-        if (
-          clickPos.clientX >= elementRect.left &&
-          clickPos.clientX <= elementRect.right &&
-          clickPos.clientY >= elementRect.top &&
-          clickPos.clientY <= elementRect.bottom
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      } catch {
-        return false;
-      } 
-    },
-  }
 }
 </script>
 
 <style scoped>
   .modal {
     display: none;
-    position: absolute;
-    background: rgba(0,0,0,0.8);
-    top: 500;
+    position: fixed;
+    z-index: 9999;
+    background: rgba(0,0,0,0.65);
+    top: 0;
     right: 0;
     width: 100vw;
     height: 100vh;          
@@ -92,14 +54,18 @@ export default {
   .modal.active {
     display: flex;
     justify-content: center;
-    align-items: center;    
-    top: 0;
-    z-index: 1000;
+
+    border: 1px solid 0;
   }
+
 
   .modal-content {            
     display: flex;
     justify-content: center;
+
+    position: fixed;
+    top: calc(50% - 100px);
+
     align-content: center;    
     height: fit-content;
     width: fit-content;

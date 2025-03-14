@@ -45,6 +45,20 @@ export const fornecedorAPIService = {
     }
   },
 
+  async selecionarPorNome(nome) {
+    try {
+      const response = await api.get(`/fornecedores/selecionarpornome/${nome}`);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando fornecedores');
+    }
+  },
+
   async incluir(fornecedor) {
     try {
       const response = await api.post('/fornecedores', fornecedor);

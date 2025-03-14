@@ -24,7 +24,7 @@ export default {
   @import '@/styles/default-style.css';
 
   .side-bar {
-    z-index: 2000;
+    z-index: 1000;
   }
   
   

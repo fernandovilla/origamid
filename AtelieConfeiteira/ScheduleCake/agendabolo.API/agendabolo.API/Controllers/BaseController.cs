@@ -9,7 +9,8 @@ namespace Agendabolo.Controllers
         IActionResult ListarBusca();
         IActionResult SelecionarPorId(TId id);
         IActionResult Salvar(TEntityRequest entity);
-        IActionResult Delete(TId id);        
+        IActionResult Delete(TId id);
+        //IActionResult Busca(string key);
     }
 
     [ApiController]

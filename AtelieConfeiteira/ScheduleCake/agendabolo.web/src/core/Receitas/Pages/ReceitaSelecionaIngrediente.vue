@@ -1,11 +1,14 @@
 <template> 
-  <modal-form :formActive="localFormShow" title="Selecione o ingrediente para a receita" :onClosing="closingForm">        
-    <div class="card container">            
+  <modal-form :formActive="localFormShow" :onClosing="closingForm" >        
+    <div class="card container" >            
       <div class="row">
-        <busca-ingrediente class="col" :selectedItem="ingredienteSelecionado" />         
+        <div class="input-group col-12" >
+          <label for="buscaIngrediente">Seleciona o ingrediente para a receita</label>
+          <ingrediente-select-search id="buscaIngrediente" @selectedOption="onSelectedOption" />
+        </div>
       </div>
 
-      <div class="row">
+      <div class="row">       
         <p>{{ingredienteSelecionado}}</p>
       </div>
       
@@ -21,7 +24,7 @@
 
 <script>
 import ModalForm from '@/components/ModalForm.vue';
-import BuscaIngrediente from '@/components/BuscaIngrediente.vue';
+import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch.vue';
 
 export default {
   name: 'receita-seleciona-ingrediente',
@@ -45,7 +48,7 @@ export default {
     }
   },
   components: {
-    ModalForm, BuscaIngrediente
+    ModalForm, IngredienteSelectSearch
   },
   watch: {
     formShow(){
@@ -60,10 +63,17 @@ export default {
         this.onClosingForm();
       }
     },    
+
+    onSelectedOption(item){
+      console.log("Selecionou o item", item);
+      this.ingredienteSelecionado = item;
+    },
   },  
 }
 </script>
 
 <style>
+
+
 
 </style>

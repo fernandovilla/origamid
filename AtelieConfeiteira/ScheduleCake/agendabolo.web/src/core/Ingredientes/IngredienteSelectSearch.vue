@@ -1,11 +1,9 @@
 <template>    
     <select-search
         :options="ingredientesComputed" 
-        :showOptions="10"
-        :selectedOption="itemSelected"
+        :showOptions="10"        
         :totalOptions="totalItens"
-        :dropDownList=false 
-        @selectedOptionChanged="itemSelected"
+        :dropDownList=false         
         @searchingOptions="onSearchingOptions"
         @cleaningOptions="onCleaningOptions" />    
 </template>
@@ -15,11 +13,11 @@ import SelectSearch from '@/components/Select/SelectSearch.vue'
 import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIService.js'
 
 export default {
-    name: 'ingredienes-select-search',
+    name: 'ingrediente-select-search',
     data() { 
         return {
-        totalItens: 0,
-        ingredientes: null,      
+            totalItens: 0,
+            ingredientes: null,      
         }
     }, 
 
@@ -36,15 +34,26 @@ export default {
     },
 
     methods: {
-        itemToOption(item){
-            if (item === null || item === undefined)
-                return null;
+
+    itemToOption(item){
+        if (item === null || item === undefined)
+            return null;
 
         return {
             display: item.nome,
             value: item,
             html: this.itemToHtml(item)
         }
+    },
+
+    itemToHtml(item){
+        return `<div">
+                <p>${item.nome}</p>
+                <div style="display: flex; justify-content: space-between; padding: 0px 5px;">
+                    <span style="font-size: 11px">${item.marca}</span>
+                    <span style="font-size: 11px">R$ ${item.precoCustoQuilo}</span>
+                </div>
+                </div>`;
     },
 
     async onCleaningOptions(){
@@ -64,22 +73,12 @@ export default {
         }
     },    
 
-    itemToHtml(item){
-        return `<div">
-                <p>${item.nome}</p>
-                <div style="display: flex; justify-content: space-between; padding: 0px 5px;">
-                    <span style="font-size: 11px">${item.marca}</span>
-                    <span style="font-size: 11px">R$ ${item.precoCustoQuilo}</span>
-                </div>
-                </div>`;
+    /*
+    async onSelectedOption(item){
+        this.$emit('selectedOption', item);
     },
-
-    itemSelected(item){
-        console.log("Item selecionado", item);
-    }
-
+    */
   }
-
 }
 
 </script>

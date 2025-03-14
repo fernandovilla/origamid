@@ -1,64 +1,45 @@
 <template>
-  <div class="container">
-   
-    <modal-form :formActive="formShow" title="Ingrediente" @showing="showingForm" @closing="closingForm">        
-      <div class="card">            
+    <modal-form class="modal" :formActive="formShow" title="Ingrediente" @showing="showingForm" @closing="closingForm">        
 
-        <div class="container">
+      <div class="card">
+        
+        <div class="container-fluid">
           <div class="row">
             <div class="col12 col-sm-12">
               <div class="input-group">
                 <label for="buscaIngrediente">Selecione o ingrediente</label>
-                <select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'"                   
-                  tabindex="0"
-                  :options="ingredientesToSearch" 
-                  :selectedOption="ingredienteSelecionadoOption"
-                  :showOptions="10"
-                  :totalOptions="totalIngredientes"
-                  :dropDownList=false
-                  @selectedOptionChanged="selectedOptionChanged" 
-                  @searchingOptions="onSearchingOptions" />
+                <ingrediente-select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'" @selectedOption="selectedOptionChanged" />
               </div>
             </div>
           </div>
 
-          <div class="row">
-            <span class="content" ref="contentData">
-              <div>
-                <div class="input-group col6">
-                  <label for="porcao">Porção (%)</label>
-                  <input-number id="porcao" placeholder='0,00' decimalCases=2 v-model="porcaoIngrediente" />
-                </div>
+          <div class="row">                          
+              <div class="input-group col-6">
+                <label for="porcao">Porção (%)</label>
+                <input-number id="porcao" ref="porcao" placeholder='0,00' decimalCases=2 v-model="porcaoIngrediente" />
+              </div>
 
-                <div class="input-group col6">
-                  <label for="custo">Custo Kg</label>
-                  <input-number id="custo" placeholder='0,00' decimalCases=2 v-model="custoIngrediente" disabled />
-                </div>            
-              </div> 
-            </span>       
+              <div class="input-group col-6">
+                <label for="custo">Custo Kg</label>
+                <input-number id="custo" placeholder='0,00' decimalCases=2 v-model="custoIngrediente" disabled />
+              </div>                        
           </div>
 
-          <div class="row">
-            <div class="buttons" >
-              <button v-if="ingredienteSelecionado !== null" class="btn btn-primary" @click.prevent="confirmarIngrediente" >Confirma</button>            
-            </div>     
-          </div>
-          
-        </div>
+          <div class="row m-top-10 m-bottom-10 m-left-5">
+              <button :disabled="ingredienteSelecionado === null" class="btn btn-primary" @click.prevent="confirmarIngrediente" >Adicionar</button>            
+          </div>       
+        </div>   
         
            
       </div>    
-    </modal-form>
-  </div>
+    </modal-form>  
 </template>
 
 <script>
   import ModalForm from '@/components/Modal/ModalForm.vue'
   import InputNumber from '@/components/Input/InputNumber.vue'
-  import SelectSearch from '@/components/Select/SelectSearch.vue'
-  import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIService.js'
-  import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
-  //import ReceitaIngrediente from '@/core/Receitas/Domain/ReceitaIngrediente.js'
+  import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch.vue'
+  import { TextToNumber }  from '@/helpers/NumberHelp.js'  
   import Ingrediente from '@/core/Ingredientes/Ingrediente.js'
   
 export default {
@@ -83,95 +64,52 @@ export default {
   components: {
     ModalForm,
     InputNumber,
-    SelectSearch
+    IngredienteSelectSearch
   },
-  computed: {
-    ingredienteSelecionadoOption() {
-      if (this.ingredienteSelecionado !== null) {
-        return this.parseIngredienteToOption(this.ingredienteSelecionado);
-      } else {
-        return null;
-      }
-    },
-    ingredientesToSearch(){
-      if (this.ingredientes !== null){
-        return this.ingredientes.map(item => this.parseIngredienteToOption(item));
-      } else {
-        return null;
-      }
-    },
-  },
+  
   watch: {
     ingredienteSelecionado(){
-      this.custoIngrediente = this.ingredienteSelecionado.precoCusto;     
+      this.custoIngrediente = this.ingredienteSelecionado.precoCustoQuilo;     
     },
+    
     porcaoIngrediente(){
       this.custoPorcao = this.custoIngrediente * TextToNumber(this.porcaoIngrediente);
     },
+
     show() {
       if (this.show){
         this.showForm();
       }
     }
   },
+
   methods: {
     showForm() {            
       this.$emit('showing');
       this.formShow = true;
     },
+
     showingForm(){
       var x = this.$el.querySelector('#buscaIngrediente');
       x.focus();
     },
+
     closingForm(){
       this.$emit('closing');
       this.formShow = false;      
     },    
+
     selectedOptionChanged(item){
       this.ingredienteSelecionado = item.value;      
-      this.$refs.contentData.querySelector('#porcao').focus();
+      this.$el.querySelector('#porcao').focus();
     },
-    async onSearchingOptions(arg){      
-
-      const result = await ingredientesAPIService.obterIngredientesPorNome(arg.textToSearch);
-
-      if (result != null) {                     
-          this.ingredientes = result.data;        
-          this.totalIngredientes = result.total;
-      } else {
-        this.ingredientes = [];
-        this.totalIngredientes = 0;
-      }
-    },    
-    parseIngredienteToOption(ingrediente){
-
-      if (ingrediente === null || ingrediente === undefined)
-        return null;
-
-      return {
-          display: ingrediente.nome,
-          value: ingrediente,
-          html: this.ingredientesHtml(ingrediente)
-        }
-    },    
-    ingredientesHtml(item){
-
-      console.log("PrecoCusto", item);
-
-      return '' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;">\n' +
-        ` <p>${item.nome}</p>\n` +
-        ' <div style="display:flex;flex-direction:column;align-items:flex-end">\n' +
-        `   <span>R$ ${NumberToText(item.precoCustoQuilo.toFixed(2))}</span>` +
-        ' </div>' +
-        '</div>'
-    },
+    
+    
     confirmarIngrediente(){      
       var newIngrediente = new Ingrediente(
         this.ingredienteSelecionado.id,
         this.ingredienteSelecionado.nome, 
-        this.ingredienteSelecionado.precoCusto,
-        this.ingredienteSelecionado.quantidadeEmbalagem, 
+        this.ingredienteSelecionado.precoCustoQuilo,        
         this.ingredienteSelecionado.status
       );
 
@@ -179,7 +117,7 @@ export default {
         idIngrediente: this.ingredienteSelecionado.id,
         nome: this.ingredienteSelecionado.nome,        
         percentual: TextToNumber(this.porcaoIngrediente),
-        precoCusto: TextToNumber(this.ingredienteSelecionado.precoCusto),
+        precoCusto: TextToNumber(this.ingredienteSelecionado.precoCustoQuilo),
         ordem: 0,
         Ingrediente: newIngrediente,
       };
@@ -193,43 +131,21 @@ export default {
 </script>
 
 <style scoped>  
+  
+
   .card {
-    width: 500px;
-    height: 250px;
+    width: 500px;    
     background: var(--background-color-light);
-    border-radius: 7px;    
+    border-radius: 7px;        
   }
-
+  
   @media screen and (max-width: 960px) {
-    .card {
-      width: 100%;
-    }
-  }
 
-  .content-option {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    border-bottom: 1px solid var(--border-color-light);
     
-  }
 
-  .content-option .display {
-    font-size: 16px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-  }
-
-  .content-option .values {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  .buttons {
-    padding-top: 10px;
-    padding-left: 5px;
+    .card {
+      width: 80vw;
+    }
   }
 
 </style>

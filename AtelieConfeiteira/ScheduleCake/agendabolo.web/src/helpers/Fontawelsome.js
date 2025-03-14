@@ -21,7 +21,8 @@ import {
   faBackward,
   faBackwardStep,
   faForward,
-  faForwardStep
+  faForwardStep,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons';
 
 // import {
@@ -56,7 +57,8 @@ const FontawelsomeLibrary = (app) => {
     faTriangleExclamation,
     faCirclePlus,
     faBars,
-    faArrowLeft
+    faArrowLeft,
+    faSearch
   );
 
   app.component('font-awesome-icon', FontAwesomeIcon);

@@ -46,10 +46,12 @@ export default {
     handleClickIcon() {
       this.closeForm();
     },
+    
     closeForm(){
       this.isActive = false;
       this.$emit('closing');
     },
+
     onClosingModal(){
       this.closeForm();
     }
@@ -64,16 +66,25 @@ export default {
     border-radius: 7px;
     height: fit-content;
     width: fit-content;
-    padding: 5px;
+    position: absolute;
+    top: 10;
   }
 
   .head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    padding: 0px 7px;
     border-bottom: 1px solid var(--border-color-light);
-    height: 50px;
+    height: 32px;
+    margin: 0px;
+    background: var(--background-color-light);
+    border-radius: 7px 7px 0px 0px;
+  }
+
+  .head-title {
+    font-size: 12px;
+    color: var(--text-color-dark);
   }
 
   .head .icon {
@@ -92,9 +103,9 @@ export default {
   .body {
     height: fit-content;
     width: fit-content;
+    padding: 10px;
+    margin: 0px;    
   }
 
-
-  
 
 </style>

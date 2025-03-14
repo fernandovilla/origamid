@@ -160,7 +160,12 @@ namespace Agendabolo.Controllers
             {
                 var ingredientes = _service.Get()
                     .OrderBy(i => i.Nome)
-                    .Select(i => new IngredienteBuscaResponse { Id = i.Id, Nome = i.Nome, EstoqueTotal = i.EstoqueTotal, Marca = i.Marca, Status = (int)i.Status })
+                    .Select(i => new IngredienteBuscaResponse { 
+                        Id = i.Id, 
+                        Nome = i.Nome, 
+                        EstoqueTotal = i.EstoqueTotal, 
+                        Marca = i.Marca, 
+                        Status = (int)i.Status })
                     .ToList();
 
                 if (ingredientes != null && ingredientes.Any())
@@ -171,7 +176,6 @@ namespace Agendabolo.Controllers
                     });
 
                 return NoContent();
-
             }
             catch (Exception ex)
             {
@@ -215,6 +219,37 @@ namespace Agendabolo.Controllers
             {
                 var ingredientes = _service.Get()
                     .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastro.Normal)
+                    .OrderBy(i => i.Nome)
+                    .ToList();
+
+                if (ingredientes != null && ingredientes.Any())
+                    return Ok(new
+                    {
+                        total = _service.GetTotal(),
+                        data = ingredientes
+                    });
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("Buscar/{key}")]
+        public IActionResult BuscarKey(string key)
+        {
+            try
+            {
+                var ingredientes = _service.Get()
+                    .Where(i => (
+                        i.Nome.ToUpper().Contains(key.ToUpper()) ||
+                        i.Id.ToString() == key.ToUpper() ||
+                        i.Embalagens.Where(e => e.EAN.Equals(key)).Any()) &&
+                        i.Status == StatusCadastro.Normal)
                     .OrderBy(i => i.Nome)
                     .ToList();
 

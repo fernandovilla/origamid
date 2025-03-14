@@ -10,7 +10,7 @@
 
     <div ref="content" class="content-search" >
       <div class="search">
-        <font-awesome-icon icon="fa-sharp fa-solid fa-search" class="icon" />
+        <font-awesome-icon icon="fa-solid fa-search" class="icon" />
         <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"          
             v-model="textSearchValue"
             @keyup="handleKeyUpSearch"
@@ -156,23 +156,7 @@ export default {
       }
     },
 
-    onCleaningOptions(){
-      this.$emit('cleaningOptions');
-    },
-
-    onSearchingOptionsEvent(textToSearch){
-      var arg = { 
-        message: '', 
-        textToSearch: textToSearch,
-        totalOptions: (this.options === null ? 0 : this.options.length)
-      };
-
-      this.$emit('searchingOptions', arg)
-
-      if (arg.message !== '') {
-        this.messageNoItems = arg.message;
-      }
-    },
+    
 
     documentHandleClick(event){
       if (!this.isActive)
@@ -399,7 +383,27 @@ export default {
       if (option !== null && option !== undefined){        
         this.activeListItems();
         this.updateName(option);
-        this.$emit('selectedOptionChanged', option);
+        this.$emit('selectedOption', option);
+        this.textSearchValue = '';
+        this.optionsSearch = null;
+      }
+    },
+
+    onCleaningOptions(){
+      this.$emit('cleaningOptions');
+    },
+
+    onSearchingOptionsEvent(textToSearch){
+      var arg = { 
+        message: '', 
+        textToSearch: textToSearch,
+        totalOptions: (this.options === null ? 0 : this.options.length)
+      };
+
+      this.$emit('searchingOptions', arg)
+
+      if (arg.message !== '') {
+        this.messageNoItems = arg.message;
       }
     },
 

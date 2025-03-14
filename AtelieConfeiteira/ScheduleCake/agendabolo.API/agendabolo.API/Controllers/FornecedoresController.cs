@@ -114,5 +114,32 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpGet("SelecionarPorNome/{nome}")]
+        public IActionResult SelecionarPorNome(string nome)
+        {
+            try
+            {
+                var fornecedores = _service.Get()
+                    .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastro.Normal)
+                    .OrderBy(i => i.Nome)
+                    .ToList();
+
+                if (fornecedores != null && fornecedores.Any())
+                    return Ok(new
+                    {
+                        total = _service.GetTotal(),
+                        data = fornecedores
+                    });
+
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                LogDeErro.Default.Write(ex);
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }
