@@ -12,8 +12,31 @@
       -->      
     </div>   
 
+
+
     <div class="container-fluid content dados-nf-content ">      
-      
+      <div class="row">
+        <div class="input-group col-6 col-md-12">
+          <label for="fornecedor">Fornecedor</label>
+          <fornecedor-select-search id="fornecedor" @selectedOption="fornecedorSelecionado" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group col-3 col-md-12">
+          <label for="numero-nf">Número NF</label>
+          <input-number id="numero-nf" maxlength="9" :decimalCases="0" />
+        </div>
+
+        <div class="input-group col-3 col-md-12">
+          <label for="data-entrada">Data Entrada</label>
+          <input-date id="data-entrada" />
+        </div>
+
+      </div>
+
+
+
     </div>
 
     <div class="row content">
@@ -130,6 +153,7 @@ import InputBase from '@/components/Input/InputBase.vue';
 import InputNumber from '@/components/Input/InputNumber.vue';
 import InputDate from '@/components/Input/InputDate.vue';
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue';
+import FornecedorSelectSearch from '@/core/Fornecedores/FornecedorSelectSearch.vue';
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
 
 
@@ -147,7 +171,8 @@ export default {
     InputBase,
     InputNumber,
     InputDate,    
-    ButtonSmallDelete
+    ButtonSmallDelete,
+    FornecedorSelectSearch
   },
 
   watch: {

@@ -27,8 +27,8 @@
 }
 
 .content {
-  position: relative;  
-  overflow-y: auto;  
+  position: relative;
+  overflow-y: visible;
   max-height: 100%;
   padding: 10px;
 }
