@@ -452,7 +452,7 @@ export default {
     border-top: 1px solid var(--border-color-input-focus);  
     border-right: 1px solid var(--border-color-input-focus);  
     border-bottom: 1px solid var(--border-color-input-focus);
-    color: var(--text-color-dark);
+    color: var(--text-color-dark);    
   }
 
   .select-btn {
@@ -465,6 +465,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0px 5px;
+    background-color: var(--background-color-white);
   }
 
   .select-btn.select-group i {

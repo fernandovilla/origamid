@@ -34,27 +34,12 @@
         </div>
 
       </div>
-
-
-
     </div>
 
-    <div class="row content">
-      <div>
-        <p>Fornecedor</p>
-        <p>Data Entrada</p>
-        <p>Numero NF</p>
-      </div>
-    </div>
 
     
 
-    <div class="row content entrada-adicionais">      
-        <div class="input-group col-1">
-          <label for="dataEntrada">Data Entrada</label>
-          <input-date v-model="dataEntrada" name="dataEntrada" />        
-        </div>
-
+    <div class="row content entrada-adicionais">              
         <div class="input-group col-1">
           <label for="valorFrete">Valor Frete</label>
           <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
