@@ -108,5 +108,10 @@ namespace Agendabolo.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+
+        public override IActionResult Buscar(string texto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

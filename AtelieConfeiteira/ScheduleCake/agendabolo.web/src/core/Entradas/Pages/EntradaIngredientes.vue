@@ -14,53 +14,74 @@
 
 
 
-    <div class="container-fluid content dados-nf-content ">      
+    <div class="container-fluid content">      
       <div class="row">
-        <div class="input-group col-6 col-md-12">
+        <div class="input-group col-8 col-md-12">
           <label for="fornecedor">Fornecedor</label>
-          <fornecedor-select-search id="fornecedor" @selectedOption="fornecedorSelecionado" />
+          <fornecedor-select-search id="fornecedor" @selectedOption="onFornecedorSelecionado" ref="buscaFornecedor"/>
         </div>
       </div>
 
       <div class="row">
         <div class="input-group col-3 col-md-12">
-          <label for="numero-nf">Número NF</label>
-          <input-number id="numero-nf" maxlength="9" :decimalCases="0" />
+          <label for="numeronf">Número NF</label>
+          <input-number id="numeronf" ref="numeronf" maxlength="9" :decimalCases="0" />
         </div>
 
         <div class="input-group col-3 col-md-12">
           <label for="data-entrada">Data Entrada</label>
-          <input-date id="data-entrada" />
+          <input-date id="data-entrada"  />
         </div>
 
       </div>
-    </div>
 
-
-    
-
-    <div class="row content entrada-adicionais">              
-        <div class="input-group col-1">
+      <div class="row">              
+        <div class="input-group col-3 col-md-12">
           <label for="valorFrete">Valor Frete</label>
-          <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete" />        
+          <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete"  />        
         </div>
 
-        <div class="frete col-2">        
-          <input type="checkbox" name="calculaFrete" v-model="distribuiFrete" />
-          <label for="calculaFrete">Distribuir frete</label>
+        <div class="frete col-3 col-md-12">        
+          <input type="checkbox" name="calculaFrete" v-model="distribuiFrete"  />
+          <label for="calculaFrete">Distribuir frete proporcionalmente</label>
         </div>      
     </div>
 
-    <div class="row content entrada-items">
-      <div class="row">
-        <div class="content">
-          <span>Produto... </span>
-          <button>Buscar</button>
-          <button>Adicionar</button>
-          <button>Cadastrar</button>
+    </div>
+    
+    <div class="container-fluid content">
+      <div class="row ingredente-add">
+        <div class="input-group col-6 col-md-12">
+          <label for="ingrediente">Mercadoria</label>
+          <ingrediente-select-search id="ingrediente" @selectedOption="onIngredienteSelecionado" ref="buscaIngrediente"  />
         </div>
+
+        <div class="input-group col-2 col-md-12">
+          <label for="quantidade">Qtde (Kg)</label>
+          <input-number id="quantidade" ref="quantidadeItem" :decimal-cases="3" v-model="quantidadeItem"  />
+        </div>
+
+        <div class="input-group col-2 col-md-12">
+          <label for="precoPago">Preço Pago</label>
+          <input-number id="precoPago" ref="precoPagoItem" :decimal-cases="2" v-model="precoPagoItem" />
+        </div>
+
+        <button-large @click="onAdicionaIngrediente">
+          <font-awesome-icon icon="fa-solid fa-circle-plus" />
+        </button-large>
       </div>
 
+      <div class="row">
+        <button-small>
+          <font-awesome-icon icon="fa-solid fa-add" />
+          Cadastrar ingrediente
+        </button-small>
+      </div>
+    </div>  
+    
+
+    <div class="row content entrada-items">
+      
       <table class="table-data">
         <thead>
           <tr>
@@ -139,7 +160,11 @@ import InputNumber from '@/components/Input/InputNumber.vue';
 import InputDate from '@/components/Input/InputDate.vue';
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue';
 import FornecedorSelectSearch from '@/core/Fornecedores/FornecedorSelectSearch.vue';
+import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch.vue';
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
+import ButtonLarge from '@/components/Button/ButtonLarge.vue';
+import ButtonSmall from '@/components/Button/ButtonSmall.vue';
+
 
 
 export default {
@@ -149,15 +174,22 @@ export default {
       itensEntrada: [],
       distribuiFrete: true,
       valorFrete: 0,
-      dataEntrada: new Date().toJSON().slice(0, 10)
+      dataEntrada: new Date().toJSON().slice(0, 10),
+      fornecedorSelecionado: null,
+      ingredienteSelecionado: null,
+      quantidadeItem: 0,
+      precoPagoItem: 0.00,
   }},
 
   components: {
     InputBase,
     InputNumber,
     InputDate,    
+    ButtonLarge,
+    ButtonSmall,
     ButtonSmallDelete,
-    FornecedorSelectSearch
+    FornecedorSelectSearch,
+    IngredienteSelectSearch
   },
 
   watch: {
@@ -181,6 +213,50 @@ export default {
 
   methods: {
     
+    onAdicionaIngrediente(){
+
+      if (this.ingredienteSelecionado === null){
+        this.focusRefs('buscaIngrediente');
+        return;
+      }
+
+      if (this.quantidadeItem === 0){
+        this.focusRefs('quantidadeItem');
+        return;
+      }
+
+      if (this.precoPagoItem === 0.00){
+        this.focusRefs('precoPagoItem');
+        return;
+      }
+      
+
+      this.AdicionarItem(this.ingredienteSelecionado, this.quantidadeItem, this.precoPagoItem);
+      
+      this.ingredienteSelecionado = null;
+      this.quantidadeItem = 0;
+      this.precoPagoItem = 0.00;
+      this.$refs.buscaIngrediente.clear();
+      this.focusRefs('buscaIngrediente');
+    },
+
+    onFornecedorSelecionado(item){
+      this.fornecedorSelecionado = item;
+      this.focusRefs('numeronf');
+    },
+
+    onIngredienteSelecionado(item){
+      this.ingredienteSelecionado = item.value;
+      this.focusRefs('quantidadeItem');
+      
+    },
+
+    focusRefs(refElement){
+      this.$nextTick(() => {
+        this.$refs[refElement].focus();
+      });
+    },
+
     totalItem(item){
 
       this.distribuirFrete();
@@ -206,6 +282,23 @@ export default {
 
     removeItem(index){
       this.itensEntrada.splice(index,1);
+    },
+
+    AdicionarItem(ingrediente, quantidade, precoUnitario) {      
+      this.itensEntrada.push({
+        ingredienteId: ingrediente.id,
+        ingredienteNome: ingrediente.nome,
+        ingredienteUnidadeMedida: ingrediente.unidadeMedida,
+        ingredienteEstoque: ingrediente.estoqueTotal,
+        quant: quantidade,
+        precoUnitario: precoUnitario,
+        frete: 0.00,
+        total: 0.00,
+        lote: '',
+        dataFabricacao: new Date().toJSON().slice(0,10),
+        dataValidade: new Date().toJSON().slice(0,10),
+      });
+
     },
 
 
@@ -240,7 +333,7 @@ export default {
 
   },
   created(){
-    this.createFakeItens();
+    //this.createFakeItens();
   }
 }
 </script>
@@ -306,17 +399,29 @@ export default {
     width: 8%;
   }
 
-  .entrada-adicionais .frete
+  .frete
   {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     font-size: 0.950em;
     padding-top: 20px;
+    /*border: 1px solid red;*/
   }
 
-  .entrada-adicionais .frete input {
+  .frete input {
     width: 20px;
+  }
+
+  .ingredente-add {
+    display: flex;
+    align-items: center;
+  }
+
+  @media screen and (max-width: 500px) {
+    .frete {
+      padding-top: 0px;
+    }
   }
 
 </style>

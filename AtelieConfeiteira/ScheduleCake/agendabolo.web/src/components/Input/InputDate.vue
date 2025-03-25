@@ -1,11 +1,11 @@
 <template>
   <input-base 
+    ref="inputBase"
     type="date"    
     v-model="dateValue"
     min="1800-01-01"   
     pattern="'\d{2}-\d{2}-\d{2}'"
     placeHolder="dd/mm/yy"
-    @keypress="handleKeyPress" 
     @change="handleChange" 
     @focus="handleFocus" 
     @focusout="handleFocusOut" />  
@@ -43,6 +43,8 @@ export default {
       event.target.select();     
     },
 
+    
+
     handleFocusOut() {
 
       if (this.isDate(this.dateValue)){
@@ -76,7 +78,14 @@ export default {
       }
 
       return false;
+    },
+
+    focus(){
+      this.$nextTick(() => {
+        this.$refs.inputBase.focus();
+      });
     }
+
   },
 
   created() {

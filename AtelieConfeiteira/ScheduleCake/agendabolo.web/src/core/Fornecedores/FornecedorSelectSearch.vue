@@ -1,8 +1,8 @@
 <template>
       <select-search
+        ref="selectSearch"
         :options="fornecedoresComputed" 
-        :showOptions="10"
-        
+        :showOptions="10"        
         :totalOptions="totalItens"
         :dropDownList=false 
         @selectedOption="onSelectedOption"        
@@ -54,6 +54,10 @@ export default {
             return `<div"><p>${item.nome}</p></div>`;
         },
 
+        onSelectedOption(){
+            this.$emit('selectedOption', this.fornecedores);
+        },
+
         async onCleaningOptions(){
             this.fornecedores = null;
             this.totalItens = 0;
@@ -70,6 +74,12 @@ export default {
                 this.totalItens = 0;
             }
         },    
+
+        focus(){
+            this.$nextTick(() => {
+                this.$refs.selectSearch.focus();
+            })
+        }
     }    
 }
 

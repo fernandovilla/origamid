@@ -212,13 +212,15 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("SelecionarPorNome/{nome}")]
-        public IActionResult SelecionarPorNome(string nome)
+        public override IActionResult Buscar(string texto)
         {
             try
             {
                 var ingredientes = _service.Get()
-                    .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastro.Normal)
+                    .Where(i => i.Status == StatusCadastro.Normal && (
+                        i.Nome.ToUpper().StartsWith(texto.ToUpper())  ||
+                        i.Id.ToString().Equals(texto) ||
+                        i.Embalagens.Where(e => e.EAN.Equals(texto)).Any()))
                     .OrderBy(i => i.Nome)
                     .ToList();
 

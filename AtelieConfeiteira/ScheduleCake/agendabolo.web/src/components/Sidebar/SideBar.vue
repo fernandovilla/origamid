@@ -109,6 +109,7 @@ export default {
     background: transparent;
     color: white;
     fill: green;
+    z-index: 9999;
   } 
 
   .sidebar {

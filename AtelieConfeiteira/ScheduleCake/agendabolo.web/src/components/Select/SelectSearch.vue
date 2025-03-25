@@ -1,5 +1,5 @@
 <template>
-  <div ref="select" class="select" :class="{ active: isActive }" tabindex="-1" @focus="selectHandleFocus">
+  <div ref="select" class="select" :class="{ active: isActive }" tabindex="0" @focus="selectHandleFocus">
 
     <div ref="select-btn" class="select-btn" @click="selectHandleClick">
       <div class="input-select">
@@ -11,17 +11,24 @@
     <div ref="content" class="content-search" >
       <div class="search">
         <font-awesome-icon icon="fa-solid fa-search" class="icon" />
-        <input-base :focused="searchFocus" ref="textSearch" id="textSearch" :placeholder="placeholder"          
+        <input-base 
+            ref="textSearch"
+            id="textSearch" 
             v-model="textSearchValue"
+            autofocus
+            :focused="searchFocus"             
+            :placeholder="placeholder"                      
+            :tabindex="tabindex" 
             @keyup="handleKeyUpSearch"
-            @keydown="handleKeyDownSearch" />
+            @keydown="handleKeyDownSearch"                                    
+            @blur="isActive = false" />
       </div>
 
-      <span>
+      <div>
         <ul v-if="haItensListados" class="options" ref="options" :style="{ maxHeight: `${this.showOptions * 30}px` }" >
           <li v-for="(option, index) in optionsSearch" class="options-item" :class="{selected: selectedClassName(index)}" :key="index" @click="handleClickLI(index, option)">
             <div v-if="option.html">
-              <span v-html="option.html"></span>
+              <span v-html="option.html" ></span>
             </div>
             <div v-else>
               <span>{{option.display}}</span>
@@ -29,7 +36,7 @@
           </li>
         </ul>
         <p v-else class="no-itens">{{this.messageNoItems}}</p>
-      </span>
+      </div>
     </div>
 
   </div>
@@ -81,6 +88,11 @@ export default {
     charToSearch: {
       type: Number,
       default: 3
+    },
+    tabindex: {
+        type: Number,
+        required: false,
+        default: 1
     }
   },
   computed:{
@@ -131,6 +143,7 @@ export default {
     }
   },
   methods: {
+
     activeListItems(){
       this.isActive = !this.isActive;
       this.searchFocus = this.isActive;
@@ -177,18 +190,24 @@ export default {
         }
       }
     },
-    handleClickLI(index, option){
+
+    handleClickLI(index, option) {
       this.liIndex = index;
       this.selectItem();
       this.$emit('clickOption', option);
     },
 
-    selectHandleFocus(){
-      this.$refs.select.addEventListener('keydown', this.selectHandleKeyDown);
+    selectHandleFocus(){      
+
+      this.$nextTick(() => {
+        this.activeListItems();  
+      });
+            
     },
 
-    selectHandleClick(){      
-      this.activeListItems();      
+    
+    selectHandleClick(){            
+      //this.activeListItems();      
       this.$refs.select.removeEventListener('keydown', this.selectHandleKeyDown)
     },
 
@@ -205,6 +224,7 @@ export default {
     },
 
     handleKeyUpSearch(){
+
       const valueSearch = this.textSearchValue.toUpperCase().trim();
 
       if (valueSearch.length >= 1 && this.dropDownList) {
@@ -228,6 +248,12 @@ export default {
     },
 
     handleKeyDownSearch(e){
+
+      if (e.keyCode === 9){
+        this.activeListItems();
+        return;
+      }
+
       switch (e.keyCode) {
         case 34:
         case 40:
@@ -423,7 +449,20 @@ export default {
           this.scrollToSelected('down');
         }
       });
-    }    
+    },    
+
+    clear(){
+      this.selectedOptionDisplay = '';
+      this.textSearchValue = '';
+      this.optionsSearch = null;
+    },
+
+    focus(){
+      this.$nextTick(() => {
+        this.isActive = true;
+        this.$refs.textSearch.focus();
+      });
+    }
   },
   created(){
     //document.addEventListener("click", this.documentHandleClick);

@@ -1,12 +1,13 @@
 <template>
   <div>
     <img src="@/assets/search.svg" alt="buscar">
-    <input-base type="text" id="search" :placeHolder="placeHolder" @input="onChangeText" />
+    <input-base ref="inputBase" type="text" id="search" :placeHolder="placeHolder" @input="onChangeText" />
   </div>  
 </template>
 
 <script>
 import InputBase from './InputBase.vue'
+
 
 export default {
   name: 'input-search',  
@@ -25,6 +26,11 @@ export default {
     },
     onChangeText(event){
       this.$emit('onChangeSearchText', event.target.value);
+    },
+    focus(){
+      this.$nextTick(() => {
+        this.$refs.inputBase.focus();
+      });
     }
   }
 }

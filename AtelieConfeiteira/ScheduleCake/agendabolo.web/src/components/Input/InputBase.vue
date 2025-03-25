@@ -26,11 +26,16 @@ export default {
     focused: {
       type: Boolean,
       default: false
-    }
+    },
   },
   methods: {
     updateValue(event){
       this.$emit('update:modelValue', event.target.value.toUpperCase());
+    },
+    focus(){
+      this.$nextTick(() => {
+        this.$refs.inputText.focus();
+      });
     }
   },
   watch: {

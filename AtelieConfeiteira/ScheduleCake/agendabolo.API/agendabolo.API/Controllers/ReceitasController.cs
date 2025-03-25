@@ -177,6 +177,11 @@ namespace Agendabolo.Controllers
             }
         }
 
+        public override IActionResult Buscar(string texto)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //public IActionResult Alterar(ReceitaRequest receita)
         //{

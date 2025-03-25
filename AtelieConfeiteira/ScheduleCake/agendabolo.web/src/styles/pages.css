@@ -21,11 +21,19 @@
   .fixed-header {
     position: sticky;
     top: 0px;
-    z-index: 1000;
+    z-index: 10;
     width: 100%;        
     height: auto;
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.180);
     display: flex;
     padding: 10px;
     margin: 0px;    
+  }
+
+  .fixed-footer {       
+    position: sticky;
+    bottom: 0px;
+    margin: 0px;
+    height: auto;
+    width: 100%;
   }

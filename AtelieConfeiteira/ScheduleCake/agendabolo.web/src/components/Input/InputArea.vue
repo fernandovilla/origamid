@@ -1,5 +1,5 @@
 <template>
-  <textarea :cols="cols" :rows="rows" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }"/>
+  <textarea ref="inputBase" :cols="cols" :rows="rows" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }"/>
 </template>
 
 <script>
@@ -27,6 +27,11 @@ export default {
   methods: {
     updateValue(event){
       this.$emit('update:modelValue', event.target.value);
+    },
+    focus(){
+      this.$nextTick(() => {
+        this.$refs.inputBase.focus();
+      });
     }
   }
 }

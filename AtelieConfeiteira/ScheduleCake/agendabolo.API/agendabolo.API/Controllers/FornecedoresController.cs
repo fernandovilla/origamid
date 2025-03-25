@@ -13,6 +13,11 @@ namespace Agendabolo.Controllers
     {
         private readonly FornecedorService _service = new FornecedorService();
 
+        public override IActionResult Buscar(string texto)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IActionResult Delete(int id)
         {
             try

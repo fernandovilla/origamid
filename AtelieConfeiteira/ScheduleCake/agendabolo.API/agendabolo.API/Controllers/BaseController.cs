@@ -31,6 +31,9 @@ namespace Agendabolo.Controllers
 
         [HttpPost]
         [HttpPut]        
-        public abstract IActionResult Salvar(TEntityRequest entity);        
+        public abstract IActionResult Salvar(TEntityRequest entity);
+
+        [HttpGet("Busca/{texto}")]
+        public abstract IActionResult Buscar(string texto);
     }
 }

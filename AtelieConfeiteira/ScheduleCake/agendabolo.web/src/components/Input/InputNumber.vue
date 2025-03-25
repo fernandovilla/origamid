@@ -3,6 +3,7 @@
       id="inputNumber"  
       type="text"       
       v-model.lazy="numericValue"
+      ref="inputBase"
       @keypress="handleKeyPress" 
       @change="handleChange" 
       @focus="handleFocus" 
@@ -31,7 +32,7 @@ export default {
     modelValue: { type: Number, default: 0.00 },
     decimalCases: { type: Number, default: 2 },
     allowNegative: { type: Boolean, default: false},
-    allowAsterisk: { type: Boolean, default: false}
+    allowAsterisk: { type: Boolean, default: false},
   },
 
   computed: {
@@ -127,6 +128,12 @@ export default {
       event.target.value = this.numericValue;
       this.$emit('update:modelValue', this.numericValue);    
       this.focusNow = false;
+    },
+
+    focus(){
+      this.$nextTick(() => {
+        this.$refs.inputBase.focus();
+      });
     }
   },
   created() {

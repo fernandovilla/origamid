@@ -12,6 +12,11 @@ namespace Agendabolo.Controllers
     {
         private readonly FormaService _service = new FormaService();
 
+        public override IActionResult Buscar(string texto)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IActionResult Delete(int id)
         {
             try

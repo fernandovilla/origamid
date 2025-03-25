@@ -12,6 +12,11 @@ namespace Agendabolo.Controllers
     {
         private readonly UnidadeMedidaService _service = new UnidadeMedidaService();
 
+        public override IActionResult Buscar(string texto)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IActionResult Delete(int id)
         {
             try
