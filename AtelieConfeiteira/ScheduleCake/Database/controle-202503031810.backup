@@ -1,0 +1,328 @@
+-- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+--
+-- Host: localhost    Database: controle
+-- ------------------------------------------------------
+-- Server version	8.0.40
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `embalagensingredientes`
+--
+
+DROP TABLE IF EXISTS `embalagensingredientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `embalagensingredientes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idingrediente` int DEFAULT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
+  `ean` varchar(20) DEFAULT NULL,
+  `idunidademedida` int NOT NULL,
+  `quantidade` decimal(18,4) DEFAULT NULL,
+  `tipoembalagem` tinyint DEFAULT NULL,
+  `preco` decimal(18,4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idunidademedida` (`idunidademedida`),
+  CONSTRAINT `embalagensingredientes_ibfk_1` FOREIGN KEY (`idunidademedida`) REFERENCES `unidadesmedidas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `embalagensingredientes`
+--
+
+LOCK TABLES `embalagensingredientes` WRITE;
+/*!40000 ALTER TABLE `embalagensingredientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `embalagensingredientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estoqueingredientes`
+--
+
+DROP TABLE IF EXISTS `estoqueingredientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `estoqueingredientes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idingrediente` int NOT NULL,
+  `idfornecedor` int DEFAULT NULL,
+  `lote` varchar(30) DEFAULT NULL,
+  `quantidade` decimal(18,4) DEFAULT NULL,
+  `datafabricacao` timestamp NULL DEFAULT NULL,
+  `datavalidade` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idingrediente` (`idingrediente`),
+  KEY `idfornecedor` (`idfornecedor`),
+  CONSTRAINT `estoqueingredientes_ibfk_1` FOREIGN KEY (`idingrediente`) REFERENCES `ingredientes` (`id`),
+  CONSTRAINT `estoqueingredientes_ibfk_2` FOREIGN KEY (`idfornecedor`) REFERENCES `fornecedores` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estoqueingredientes`
+--
+
+LOCK TABLES `estoqueingredientes` WRITE;
+/*!40000 ALTER TABLE `estoqueingredientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `estoqueingredientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fabricantes`
+--
+
+DROP TABLE IF EXISTS `fabricantes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fabricantes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  `descricao` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fabricantes`
+--
+
+LOCK TABLES `fabricantes` WRITE;
+/*!40000 ALTER TABLE `fabricantes` DISABLE KEYS */;
+INSERT INTO `fabricantes` VALUES (2,'FABRICANTE TESTE XXX',1,'FABRICANTE TESTE XXX'),(3,'FABRICANTE QUICANTE',3,'FABRICANTE QUICANTE'),(14,'FABICANTE TESTE 123',1,'XAXAXAXAXA'),(16,'DONA BENTA TIPO1',1,'DONA BENTA FORNECEDOR DE TRIGO'),(17,'NORCAL',1,'FORNECE CHANTILI'),(26,'FORNECEDOR QUE INCLUI AGORA',3,'FORNECEDOR QUE INCLUI AGORA'),(27,'ZEBRA',1,'ZEBRA');
+/*!40000 ALTER TABLE `fabricantes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fornecedores`
+--
+
+DROP TABLE IF EXISTS `fornecedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `fornecedores` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `status` tinyint NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fornecedores`
+--
+
+LOCK TABLES `fornecedores` WRITE;
+/*!40000 ALTER TABLE `fornecedores` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fornecedores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ingredientes`
+--
+
+DROP TABLE IF EXISTS `ingredientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ingredientes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `status` tinyint NOT NULL,
+  `precocustomedio` decimal(18,4) DEFAULT NULL,
+  `dataultimoprecocusto` datetime DEFAULT NULL,
+  `precocustoquilo` decimal(18,4) DEFAULT NULL,
+  `marca` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=339 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ingredientes`
+--
+
+LOCK TABLES `ingredientes` WRITE;
+/*!40000 ALTER TABLE `ingredientes` DISABLE KEYS */;
+INSERT INTO `ingredientes` VALUES (335,'ACABAXI',0,14.9700,'2025-02-24 17:03:15',15.0000,NULL),(336,'ABOBORA MADURA',0,4.9500,'2025-02-24 17:03:31',4.9900,NULL),(337,'ACAUCAR CONFEITEIRO',0,11.4700,'2025-02-24 17:04:10',11.3500,'ARCOLOR'),(338,'ACUCAR CONFEITEIRO',0,8.1500,'2025-02-24 17:04:57',7.1900,'GLACUCAR');
+/*!40000 ALTER TABLE `ingredientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `produtos`
+--
+
+DROP TABLE IF EXISTS `produtos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `produtos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  `descricao` varchar(500) DEFAULT NULL,
+  `observacoes` varchar(500) DEFAULT NULL,
+  `finalizacao` varchar(1000) DEFAULT NULL,
+  `pesoreferencia` decimal(18,4) DEFAULT NULL,
+  `tempopreparo` int DEFAULT NULL,
+  `margempreparo` decimal(18,4) DEFAULT NULL,
+  `customaodeobra` decimal(18,4) DEFAULT NULL,
+  `custoembalagem` decimal(18,4) DEFAULT NULL,
+  `margemvendavarejo` decimal(18,4) DEFAULT NULL,
+  `precovendavarejo` decimal(18,4) DEFAULT NULL,
+  `margemvendaatacado` decimal(18,4) DEFAULT NULL,
+  `precovendaatacado` decimal(18,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produtos`
+--
+
+LOCK TABLES `produtos` WRITE;
+/*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
+INSERT INTO `produtos` VALUES (2,'DOCE DE ABOBORA 300G',0,'','','',300.0000,0,25.0000,15.0000,0.4500,40.0000,27.9900,25.0000,24.9900);
+/*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `produtosreceitas`
+--
+
+DROP TABLE IF EXISTS `produtosreceitas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `produtosreceitas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idproduto` int DEFAULT NULL,
+  `idreceita` int DEFAULT NULL,
+  `percentual` decimal(18,4) DEFAULT NULL,
+  `ordem` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idproduto` (`idproduto`),
+  KEY `idreceita` (`idreceita`),
+  CONSTRAINT `produtosreceitas_ibfk_1` FOREIGN KEY (`idproduto`) REFERENCES `produtos` (`id`),
+  CONSTRAINT `produtosreceitas_ibfk_2` FOREIGN KEY (`idreceita`) REFERENCES `receitas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `produtosreceitas`
+--
+
+LOCK TABLES `produtosreceitas` WRITE;
+/*!40000 ALTER TABLE `produtosreceitas` DISABLE KEYS */;
+INSERT INTO `produtosreceitas` VALUES (6,2,10,100.0000,1);
+/*!40000 ALTER TABLE `produtosreceitas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `receitas`
+--
+
+DROP TABLE IF EXISTS `receitas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `receitas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) DEFAULT NULL,
+  `descricao` varchar(500) DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '1',
+  `preparo` longtext,
+  `tempoPreparo` int DEFAULT '0',
+  `observacao` longtext,
+  `pesoreferencia` decimal(18,4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `receitas`
+--
+
+LOCK TABLES `receitas` WRITE;
+/*!40000 ALTER TABLE `receitas` DISABLE KEYS */;
+INSERT INTO `receitas` VALUES (10,'DOCE ABOBORA','',0,'',0,NULL,1000.0000);
+/*!40000 ALTER TABLE `receitas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `receitasingredientes`
+--
+
+DROP TABLE IF EXISTS `receitasingredientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `receitasingredientes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `idReceita` int NOT NULL,
+  `idIngrediente` int NOT NULL,
+  `percentual` float NOT NULL,
+  `ordem` int DEFAULT NULL,
+  `status` tinyint DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_receita` (`idReceita`),
+  KEY `fk_ingrediente` (`idIngrediente`),
+  CONSTRAINT `fk_ingrediente` FOREIGN KEY (`idIngrediente`) REFERENCES `ingredientes` (`id`),
+  CONSTRAINT `fk_receita` FOREIGN KEY (`idReceita`) REFERENCES `receitas` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `receitasingredientes`
+--
+
+LOCK TABLES `receitasingredientes` WRITE;
+/*!40000 ALTER TABLE `receitasingredientes` DISABLE KEYS */;
+INSERT INTO `receitasingredientes` VALUES (53,10,336,51.82,1,0),(54,10,338,48.18,2,0);
+/*!40000 ALTER TABLE `receitasingredientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `unidadesmedidas`
+--
+
+DROP TABLE IF EXISTS `unidadesmedidas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `unidadesmedidas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(100) DEFAULT NULL,
+  `abreviada` varchar(3) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `unidadesmedidas`
+--
+
+LOCK TABLES `unidadesmedidas` WRITE;
+/*!40000 ALTER TABLE `unidadesmedidas` DISABLE KEYS */;
+INSERT INTO `unidadesmedidas` VALUES (1,'Unitario','UN'),(2,'Caixa','CX'),(3,'Fardo','FAR'),(4,'Galão','GAL'),(5,'Lata','LAT'),(6,'Litro','LT'),(7,'Balde','BD'),(8,'Palete','PLT');
+/*!40000 ALTER TABLE `unidadesmedidas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'controle'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-03-03 18:10:53

@@ -9,7 +9,7 @@
             <li><router-link to="lista">Lista</router-link></li>
             <li><router-link to="teste">Teste</router-link></li>
             <li><router-link to="footer-fixo">Footer Fixo</router-link></li>
-            <li><a href="#">Teste #3</a></li>
+            <li><router-link to="teste-form">Form</router-link></li>
             <li><a href="#">Teste #4</a></li>
             <li><a href="#">Teste #5</a></li>
             

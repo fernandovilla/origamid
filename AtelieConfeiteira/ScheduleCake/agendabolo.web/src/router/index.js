@@ -38,7 +38,7 @@ const fornecedoresRoutes = [
     path: '/fornecedores',
     name: 'fornecedores',
     component: () => import('@/core/Fornecedores/FornecedorLista.vue'),
-  }, 
+  },
   {
     path: '/fornecedor',
     name: 'fornecedor',
@@ -49,7 +49,7 @@ const fornecedoresRoutes = [
     name: 'fornecedor-edicao',
     component: () => import('@/core/Fornecedores/FornecedorEdicao.vue'),
     props: true,
-  }
+  },
 ];
 
 const ingredientesRoutes = [
@@ -79,8 +79,7 @@ const ingredientesRoutes = [
     path: '/entradaIngredientes',
     name: 'entrada-ingredientes',
     component: () => import('@/core/Entradas/Pages/EntradaIngredientes.vue'),
-  }
-
+  },
 ];
 
 const receitasRoutes = [
@@ -123,7 +122,7 @@ const produtosRoutes = [
     path: '/ajustePrecos',
     name: 'ajuste-precos',
     component: () => import('@/core/Produtos/AjustePrecos.vue'),
-  }
+  },
 ];
 
 const clientesRoutes = [
@@ -166,45 +165,48 @@ const formasRoutes = [
 
 const embalagensRoutes = [
   {
-    path:'/embalagens',
+    path: '/embalagens',
     name: 'embalagens',
-    component: () => import('@/core/Embalagens/EmbalagemLista.vue')
+    component: () => import('@/core/Embalagens/EmbalagemLista.vue'),
   },
   {
     path: '/embalagem/:id',
     name: 'embalagem-edicao',
     component: () => import('@/core/Embalagens/EmbalagemEdicao.vue'),
-    props: true
-  }
-]
+    props: true,
+  },
+];
 
 const teste = [
   {
-    path:'/teste',
-    name:'teste',
+    path: '/teste',
+    name: 'teste',
     component: () => import('@/core/Teste/PaginaTeste.vue'),
     children: [
       {
         default: true,
-        path: '/home',        
-        name: 'home',        
-        component: () => import('@/core/Teste/HelloWorld.vue')
+        path: '/home',
+        name: 'home',
+        component: () => import('@/core/Teste/HelloWorld.vue'),
       },
       {
         path: '/lista',
-        name:'lista',
-        component: () => import('@/core/Teste/Lista.vue')
+        name: 'lista',
+        component: () => import('@/core/Teste/Lista.vue'),
       },
       {
         path: '/footer-fixo',
         name: 'footer-fixo',
-        component: () => import('@/core/Teste/FooterFixo.vue')
-      }
-
-    ]
-  }  
-]
-
+        component: () => import('@/core/Teste/FooterFixo.vue'),
+      },
+      {
+        path: '/teste-form',
+        name: 'teste-form',
+        component: () => import('@/core/Teste/TesteForm.vue'),
+      },
+    ],
+  },
+];
 
 const routes = [
   ...defaultRoutes,
@@ -216,7 +218,7 @@ const routes = [
   ...clientesRoutes,
   ...formasRoutes,
   ...embalagensRoutes,
-  ...teste
+  ...teste,
 ];
 
 const router = createRouter({

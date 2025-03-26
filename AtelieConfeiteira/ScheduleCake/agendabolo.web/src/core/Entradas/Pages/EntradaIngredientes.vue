@@ -247,8 +247,7 @@ export default {
 
     onIngredienteSelecionado(item){
       this.ingredienteSelecionado = item.value;
-      this.focusRefs('quantidadeItem');
-      
+      this.focusRefs('quantidadeItem');      
     },
 
     focusRefs(refElement){
