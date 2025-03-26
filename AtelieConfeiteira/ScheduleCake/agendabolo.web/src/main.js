@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import FontawelsomeLibrary from '@/helpers/Fontawelsome.js';
+import FocusTrap from 'primevue/focustrap'
 
 // import PrimeVue from 'primevue/config';
 // import 'primeicons/primeicons.css';
@@ -14,6 +15,7 @@ import FontawelsomeLibrary from '@/helpers/Fontawelsome.js';
 const appGlobal = createApp(App);
 appGlobal.use(router);
 appGlobal.use(store);
+appGlobal.directive('focustrap', FocusTrap);
 
 // appGlobal.use(PrimeVue);
 // appGlobal.component('Card', Card);

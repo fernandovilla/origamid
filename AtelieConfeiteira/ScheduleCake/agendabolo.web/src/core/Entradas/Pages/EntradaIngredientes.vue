@@ -2,153 +2,154 @@
 
   <div class="wrap-column">            
     <div class="header-page fixed-header">
-      <h1>Entrada de Mercadorias</h1>    
-      <!--
-      <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-save @click.prevent="salvar" :disabled="saving" />
-          <button-back @click.prevent="retornar" />
-      </div>  
-      -->      
+      <h1>Entrada de Mercadorias</h1>           
     </div>   
 
+    <div v-focustrap class="content">
 
-
-    <div class="container-fluid content">      
-      <div class="row">
-        <div class="input-group col-8 col-md-12">
-          <label for="fornecedor">Fornecedor</label>
-          <fornecedor-select-search id="fornecedor" @selectedOption="onFornecedorSelecionado" ref="buscaFornecedor"/>
+      <!-- DADOS DA NOTA FISCAL -->
+      <div class="container-fluid">      
+        <div class="row">
+          <div class="input-group col-9 col-md-12">
+            <label for="fornecedor">Fornecedor</label>
+            <fornecedor-select-search id="fornecedor" @selectedOption="onFornecedorSelecionado" ref="buscaFornecedor" placeholder="Informe o nome do fornecedor para localizá-lo"/>
+          </div>
         </div>
+
+        <div class="row">
+          <div class="input-group col-3 col-md-12">
+            <label for="numeronf">Número NF</label>
+            <input-number id="numeronf" ref="numeronf" maxlength="9" :decimalCases="0" />
+          </div>
+
+          <div class="input-group col-3 col-md-12">
+            <label for="data-emissao">Data Emissão</label>
+            <input-date id="data-emissao"  />
+          </div>
+
+          <div class="input-group col-3 col-md-12">
+            <label for="data-entrada">Data Entrada</label>
+            <input-date id="data-entrada"  />
+          </div>
+
+        </div>
+
+        <div class="row">              
+          <div class="input-group col-3 col-md-12">
+            <label for="valorFrete">Valor Frete</label>
+            <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete"  />        
+          </div>
+
+          <div class="frete col-3 col-md-12">        
+            <input type="checkbox" name="calculaFrete" v-model="distribuiFrete"  />
+            <label for="calculaFrete">Distribuir frete proporcionalmente</label>
+          </div>      
+        </div>
+
       </div>
-
-      <div class="row">
-        <div class="input-group col-3 col-md-12">
-          <label for="numeronf">Número NF</label>
-          <input-number id="numeronf" ref="numeronf" maxlength="9" :decimalCases="0" />
-        </div>
-
-        <div class="input-group col-3 col-md-12">
-          <label for="data-entrada">Data Entrada</label>
-          <input-date id="data-entrada"  />
-        </div>
-
-      </div>
-
-      <div class="row">              
-        <div class="input-group col-3 col-md-12">
-          <label for="valorFrete">Valor Frete</label>
-          <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete"  />        
-        </div>
-
-        <div class="frete col-3 col-md-12">        
-          <input type="checkbox" name="calculaFrete" v-model="distribuiFrete"  />
-          <label for="calculaFrete">Distribuir frete proporcionalmente</label>
-        </div>      
-    </div>
-
-    </div>
-    
-    <div class="container-fluid content">
-      <div class="row ingredente-add">
-        <div class="input-group col-6 col-md-12">
-          <label for="ingrediente">Mercadoria</label>
-          <ingrediente-select-search id="ingrediente" @selectedOption="onIngredienteSelecionado" ref="buscaIngrediente"  />
-        </div>
-
-        <div class="input-group col-2 col-md-12">
-          <label for="quantidade">Qtde (Kg)</label>
-          <input-number id="quantidade" ref="quantidadeItem" :decimal-cases="3" v-model="quantidadeItem"  />
-        </div>
-
-        <div class="input-group col-2 col-md-12">
-          <label for="precoPago">Preço Pago</label>
-          <input-number id="precoPago" ref="precoPagoItem" :decimal-cases="2" v-model="precoPagoItem" />
-        </div>
-
-        <button-large @click="onAdicionaIngrediente">
-          <font-awesome-icon icon="fa-solid fa-circle-plus" />
-        </button-large>
-      </div>
-
-      <div class="row">
-        <button-small>
-          <font-awesome-icon icon="fa-solid fa-add" />
-          Cadastrar ingrediente
-        </button-small>
-      </div>
-    </div>  
-    
-
-    <div class="row content entrada-items">
       
-      <table class="table-data">
-        <thead>
-          <tr>
-            
-            <th class="col-ingrediente">Ingrediente</th>
-            <th class="col-unidade-medida">Unidade Medida</th>
-            <th class="col-estoque">Estoque</th>
-            <th class="col-quantidade">Quantidade</th>
-            <th class="col-preco-unitario">Preço Unitario</th>          
-            <th class="col-frete">Frete</th>          
-            <th class="col-total">Total</th>          
-            <th class="col-lote">Lote</th>
-            <th class="col-data-fabricacao">Data Fabricação</th>
-            <th class="col-data-validade">Data Validade</th>
-            <th class="col-actions"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in itensEntrada" :key="index">            
-            <td class="col-ingrediente">{{ item.ingredienteNome }}</td>
-            <td class="col-unidade-medida">{{ item.ingredienteUnidadeMedida }}</td>
-            <td class="col-estoque">{{ item.ingredienteEstoque.toFixed(3) }}</td>
-            <td class="col-quantidade editable">
-              <input-number v-model="item.quant" :decimalCases=3 />
-            </td>
-            <td class="col-preco-unitario editable">
-              <input-number v-model="item.precoUnitario" :decimalCases=2 />
-            </td>
-            <td class="col-frete editable">
-              <input-number v-model="item.frete" :decimalCases=2 :disabled="distribuiFrete"/>
-            </td>
-            <td class="col-total editable">
-              <input-number :value="totalItem(item)" :decimalCases=2 disabled />
-            </td>          
-            <td class="col-lote editable">
-              <input-base v-model="item.lote" />
-            </td>
-            <td class="col-data-fabricacao editable">
-              <input-date v-model="item.dataFabricacao" />
-            </td>
-            <td class="col-data-validade editable">
-              <input-date v-model="item.dataValidade" />
-            </td>
-            <td class="col-actions">
-              <button-small-delete @click.prevent="removeItem(index)" label="" tabindex="-1" />
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td class="col-actions"></td>
-            <td class="col-ingrediente"></td>
-            <td class="col-unidade-medida"></td>
-            <td class="col-estoque"></td>
-            <td class="col-quantidade editable"></td>
-            <td class="col-preco-unitario editable"></td>
-            <td class="col-frete editable"></td>
-            <td class="col-total editable">{{ this.totalItens }}            </td>          
-            <td class="col-lote editable"></td>
-            <td class="col-data-fabricacao editable"></td>
-            <td class="col-data-validade editable"></td>
-          </tr>
-        </tfoot>        
-      </table>
+      <!-- INCLUSÃO DE MERCADORIAS -->
+      <div class="container-fluid">
+        <div class="row ingredente-add">
+          <div class="input-group col-5 col-md-12">
+            <label for="ingrediente">Mercadoria</label>
+            <ingrediente-select-search id="ingrediente" @selectedOption="onIngredienteSelecionado" ref="buscaIngrediente" placeholder="Informe o código, ean ou nome do ingrediente"  />
+          </div>
+
+          <div class="input-group col-2 col-md-12">
+            <label for="quantidade">Qtde (Kg)</label>
+            <input-number id="quantidade" ref="quantidadeItem" :decimal-cases="3" v-model="quantidadeItem"  />
+          </div>
+
+          <div class="input-group col-2 col-md-12">
+            <label for="precoUnitario">Preço Unitário</label>
+            <input-number id="precoUnitario" ref="precoUnitarioItem" :decimal-cases="2" v-model="precoUnitarioItem" />
+          </div>
+
+          <button-small-add @click="onAdicionaIngrediente" label="Adicionar" />        
+        </div>
+
+        <div class="row">
+          <button-small-add label="Cadastrar ingrediente" />           
+        </div>
+      </div>  
+      
+      <!-- TABLE DE MERCADORIAS DA ENTRADA -->
+      <div class="row entrada-items">
+        
+        <table class="table-data">
+          <thead>
+            <tr>              
+              <th class="col-ingrediente">Ingrediente</th>
+              <th class="col-unidade-medida">Unidade Medida</th>
+              <th class="col-estoque">Estoque</th>
+              <th class="col-quantidade">Quantidade</th>
+              <th class="col-preco-unitario">Preço Unitario</th>          
+              <th class="col-frete">Frete</th>          
+              <th class="col-total">Total</th>          
+              <th class="col-lote">Lote</th>
+              <th class="col-data-fabricacao">Data Fabricação</th>
+              <th class="col-data-validade">Data Validade</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in itensEntrada" :key="index">            
+              <td class="col-ingrediente">{{ item.ingredienteNome }}</td>
+              <td class="col-unidade-medida">{{ item.ingredienteUnidadeMedida }}</td>
+              <td class="col-estoque">{{ item.ingredienteEstoque.toFixed(3) }}</td>
+              <td class="col-quantidade editable">
+                <input-number v-model="item.quant" :decimalCases=3 />
+              </td>
+              <td class="col-preco-unitario editable">
+                <input-number v-model="item.precoUnitario" :decimalCases=2 />
+              </td>
+              <td class="col-frete editable">
+                <input-number v-model="item.frete" :decimalCases=2 :disabled="distribuiFrete"/>
+              </td>
+              <td class="col-total editable">
+                <input-number :value="totalItem(item)" :decimalCases=2 disabled />
+              </td>          
+              <td class="col-lote editable">
+                <input-base v-model="item.lote" />
+              </td>
+              <td class="col-data-fabricacao editable">
+                <input-date v-model="item.dataFabricacao" />
+              </td>
+              <td class="col-data-validade editable">
+                <input-date v-model="item.dataValidade" />
+              </td>
+              <td class="col-actions">
+                <button-small-delete @click.prevent="removeItem(index)" label="" tabindex="-1" />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td class="col-actions"></td>
+              <td class="col-ingrediente"></td>
+              <td class="col-unidade-medida"></td>
+              <td class="col-estoque"></td>
+              <td class="col-quantidade editable"></td>
+              <td class="col-preco-unitario editable"></td>
+              <td class="col-frete editable"></td>
+              <td class="col-total editable">{{ this.totalItens }}            </td>          
+              <td class="col-lote editable"></td>
+              <td class="col-data-fabricacao editable"></td>
+              <td class="col-data-validade editable"></td>
+            </tr>
+          </tfoot>        
+        </table>
+      </div>
+
+      <div class="btn-bar">          
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+          <button-large @click.prevent="salvar" :disabled="saving"  label="finalizar entrada" />
+          <button-large @click.prevent="retornar" label="voltar" />
+      </div>  
+
     </div>
 
-    
 
 
   </div>
@@ -163,7 +164,7 @@ import FornecedorSelectSearch from '@/core/Fornecedores/FornecedorSelectSearch.v
 import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch.vue';
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
 import ButtonLarge from '@/components/Button/ButtonLarge.vue';
-import ButtonSmall from '@/components/Button/ButtonSmall.vue';
+import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
 
 
 
@@ -178,7 +179,7 @@ export default {
       fornecedorSelecionado: null,
       ingredienteSelecionado: null,
       quantidadeItem: 0,
-      precoPagoItem: 0.00,
+      precoUnitarioItem: 0.00,
   }},
 
   components: {
@@ -186,7 +187,7 @@ export default {
     InputNumber,
     InputDate,    
     ButtonLarge,
-    ButtonSmall,
+    ButtonSmallAdd,
     ButtonSmallDelete,
     FornecedorSelectSearch,
     IngredienteSelectSearch
@@ -225,17 +226,17 @@ export default {
         return;
       }
 
-      if (this.precoPagoItem === 0.00){
-        this.focusRefs('precoPagoItem');
+      if (this.precoUnitarioItem === 0.00){
+        this.focusRefs('precoUnitarioItem');
         return;
       }
       
 
-      this.AdicionarItem(this.ingredienteSelecionado, this.quantidadeItem, this.precoPagoItem);
+      this.AdicionarItem(this.ingredienteSelecionado, this.quantidadeItem, this.precoUnitarioItem);
       
       this.ingredienteSelecionado = null;
       this.quantidadeItem = 0;
-      this.precoPagoItem = 0.00;
+      this.precoUnitarioItem = 0.00;
       this.$refs.buscaIngrediente.clear();
       this.focusRefs('buscaIngrediente');
     },

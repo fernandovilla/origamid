@@ -1,6 +1,6 @@
 <template>
-  <div >
-    <form-manager class="form-edit"  @keydown="handleKeyDown" ref="formedit">
+  <div v-focustrap>
+    <form class="form-edit"  @keydown="handleKeyDown" ref="formedit">
       <div class="row">
         <div class="input-group col-6">
           <label for="codigo">Codigo</label>
@@ -23,18 +23,14 @@
         </div>
 
       </div>
-    </form-manager>
+    </form>
   </div>
 </template>
 
 <script>
-import FormManager from './FormManager.vue';
 
 export default {
   
-
-  components: [FormManager],
-
   methods: {
     handleKeyDown(event){
       console.log(event.key);
@@ -53,7 +49,5 @@ export default {
 </script>
 
 <style scoped >
-  .form-edit {
-    border: 1px solid lime;
-  }
+  
 </style>

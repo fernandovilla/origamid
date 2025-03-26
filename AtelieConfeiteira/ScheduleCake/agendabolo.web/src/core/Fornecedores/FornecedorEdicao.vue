@@ -3,14 +3,10 @@
         <div class="header-page fixed-header">
             <h1>{{PageTitle}}</h1>    
             <span v-if="fornecedor.id > 0" class="header-page-id">Id: {{fornecedor.id}}</span>  
-            <div class="btn-bar">
-                <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
-                <button-save @click.prevent="salvar" :disabled="saving"  />
-                <button-back  @click.prevent="retornar" />
-            </div>
+            
         </div>   
 
-        <div class="container-fluid content fornecedor-content">
+        <div v-focustrap class="container-fluid content fornecedor-content">
             <form class="container-fluid">
                 <div class="row">
                     <div class="col-12">    
@@ -55,6 +51,12 @@
                 </div>
 
             </form> 
+
+            <div class="btn-bar">
+                <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
+                <button-save @click.prevent="salvar" :disabled="saving"  />
+                <button-back  @click.prevent="retornar" />
+            </div>
         </div>  
 
     </div>

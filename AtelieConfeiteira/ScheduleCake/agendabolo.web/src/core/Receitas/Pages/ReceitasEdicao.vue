@@ -3,14 +3,10 @@
     <div class="header-page fixed-header">
       <h1>{{PageTitle}}</h1>    
       <span v-if="receita.id > 0" class="header-page-id">Id: {{receita.id}}</span>  
-      <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-save @click.prevent="salvar" :disabled="saving" />
-          <button-back to="/receitas" @click.prevent="retornar" />          
-      </div>  
+      
     </div>        
 
-    <div class="container-fluid content">
+    <div v-focustrap class="container-fluid content">
       <form class="container-fluid">
 
         <div class="row">
@@ -53,9 +49,9 @@
               <h2 class="title">
                 Ingredientes
                 <div class="buttons">
-                  <button-small-add @click.prevent="adicionaIngrediente" label="" />
+                  <button-small-add @click.prevent="adicionaIngrediente" label="adicionar ingrediente" />
                   <span style="margin-left: 5px">|</span>
-                  <button-small-print @click.prevent="imprimirIngredientes" label="" />
+                  <button-small-print @click.prevent="imprimirIngredientes" label="imprimir" />
                 </div>
               </h2>      
 
@@ -139,7 +135,16 @@
         </div>      
 
       </form>
+
+      <div class="btn-bar">          
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+          <button-save @click.prevent="salvar" :disabled="saving" />
+          <button-back to="/receitas" @click.prevent="retornar" />          
+      </div>  
     </div>
+
+    
+
 
     <div>
       <seleciona-ingrediente-receita :show="selecaoIngredienteShow" 

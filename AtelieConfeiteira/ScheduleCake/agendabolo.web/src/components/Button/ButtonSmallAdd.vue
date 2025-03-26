@@ -14,3 +14,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+  .btn {
+    font-size: 0.80em;
+  }
+
+</style>

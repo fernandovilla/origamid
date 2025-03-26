@@ -26,33 +26,24 @@ export default {
     cursor: pointer;
     width: fit-content;
     max-height: 36px;
-    padding: 0px 20px;    
+    padding: 5px 15px;    
   }
 
   .btn-large .btn-large-label {
     font-size: 1.100em;
-    padding-left: 10px;
+    padding-left: 5px;
   }
  
   .btn-large .btn-large-icon {    
-    font-size: 24px;
+    font-size: 14px;
     margin: 0px;
     padding: 0px;
   }
 
   @media screen and (max-width: 960px) {
 
-    .btn-large {
-      width: 32px;
-      height: 32px;
-    }
-
-    .btn-large .btn-large-label {
-      display:none;
-      padding: 0px;
-      margin: 0px;
-    }
-
+    
+    
     
 
   }  

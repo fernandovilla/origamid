@@ -18,7 +18,6 @@
             autofocus
             :focused="searchFocus"             
             :placeholder="placeholder"                      
-            :tabindex="tabindex" 
             @keyup="handleKeyUpSearch"
             @keydown="handleKeyDownSearch"                                    
             @blur="isActive = false" />
@@ -88,11 +87,6 @@ export default {
     charToSearch: {
       type: Number,
       default: 3
-    },
-    tabindex: {
-        type: Number,
-        required: false,
-        default: 1
     }
   },
   computed:{
@@ -102,7 +96,7 @@ export default {
       }
       else if (this.selectedOption !== null) {
         return this.selectedOption.display;
-      } 
+      }      
       else {
         return "Selecione..."
       }

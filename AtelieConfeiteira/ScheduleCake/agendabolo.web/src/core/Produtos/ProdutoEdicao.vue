@@ -3,14 +3,10 @@
     <div class="header-page fixed-header">
       <h1>{{pageTitle}}</h1>    
       <span v-if="id > 0" class="header-page-id">ID: {{id}}</span>  
-      <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-save @click.prevent="salvar" :disabled="saving" />
-          <button-back @click.prevent="retornar" />
-      </div>  
+      
     </div>   
 
-    <div class="container-fluid produto-content content">      
+    <div v-focustrap class="container-fluid produto-content content">      
       <form class="container-fluid">        
         <!-- Grupo: Dados do Produto -->
         <div class="row">          
@@ -83,7 +79,7 @@
               <h2 class="title">
                 Receitas
                 <div class="buttons">
-                  <button-small-add @click.prevent="adicionarReceita" label="" />
+                  <button-small-add @click.prevent="adicionarReceita" label="Adicionar Receita" />
                 </div>
               </h2>
               
@@ -218,6 +214,13 @@
             
         </div>
       </form>
+
+
+      <div class="btn-bar">          
+          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+          <button-save @click.prevent="salvar" :disabled="saving" />
+          <button-back @click.prevent="retornar" />
+      </div>  
     </div>
 
     
