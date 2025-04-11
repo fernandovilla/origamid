@@ -1,29 +1,25 @@
 <template>
   <div class="hello">
+    <Toast />
+
     <h1>{{ msg }}</h1>
     
-    <Toast />
-    <button @click="testar" >Toast</button>
+    
+    <button @click="show()" >Toast</button>
 
   </div>
 </template>
 
-<script>
+<script setup>
 import { useToast } from "primevue/usetoast";
+
 const toast = useToast();
 
 
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
-  methods: {
-    testar() {
-      toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
-    }
-  }
+const show = () => {        
+  toast.add({ severity: 'info', summary: 'Info', detail: 'Message Content', life: 3000 });
 }
+  
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
