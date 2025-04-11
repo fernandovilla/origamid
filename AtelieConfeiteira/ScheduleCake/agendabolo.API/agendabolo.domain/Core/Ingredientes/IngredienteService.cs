@@ -54,7 +54,7 @@ namespace Agendabolo.Core.Ingredientes
                     else
                         repository.Update(ingrediente);
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return (true, ingrediente);
@@ -74,7 +74,7 @@ namespace Agendabolo.Core.Ingredientes
                 using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.IngredienteRepository.Delete(id);
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return true;

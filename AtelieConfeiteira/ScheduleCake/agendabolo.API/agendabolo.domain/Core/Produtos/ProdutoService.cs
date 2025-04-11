@@ -20,7 +20,7 @@ namespace Agendabolo.Core.Produtos
                 using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.ProdutoRepository.Delete(id);
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return true;
@@ -92,7 +92,7 @@ namespace Agendabolo.Core.Produtos
                         repository.Update(produto);
                     }
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return (true, produto);

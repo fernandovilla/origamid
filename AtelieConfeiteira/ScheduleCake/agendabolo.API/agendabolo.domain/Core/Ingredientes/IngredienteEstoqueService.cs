@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public class EstoqueService : IServiceBase<EstoqueDTA, int>
+    public class IngredienteEstoqueService : IServiceBase<IngredienteEstoqueDTA, int>
     {
         public bool Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<EstoqueDTA> Get()
+        public IEnumerable<IngredienteEstoqueDTA> Get()
         {
             throw new NotImplementedException();
         }
 
-        public EstoqueDTA GetByID(int id)
+        public IngredienteEstoqueDTA GetByID(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<EstoqueDTA> GetByIdProduto(int idProduto)
+        public IEnumerable<IngredienteEstoqueDTA> GetByIdProduto(int idProduto)
         {
             throw new NotImplementedException();
         }
@@ -38,7 +38,7 @@ namespace Agendabolo.Core.Ingredientes
             throw new NotImplementedException();
         }
 
-        public (bool, EstoqueDTA) Save(EstoqueDTA estoque)
+        public (bool, IngredienteEstoqueDTA) Save(IngredienteEstoqueDTA estoque)
         {
             throw new NotImplementedException();
         }

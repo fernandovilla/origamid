@@ -44,7 +44,7 @@ namespace Agendabolo.Core.Ingredientes
                 .ToList();
 
             var embalagensAtuais = _context.IngredientesEmbalagens
-                .Where(i => i.IdIngrediente == ingrediente.Id)
+                .Where(i => i.IngredienteId == ingrediente.Id)
                 .Select(i => (IngredienteEmbalagemDTA)i)
                 .ToList();
 

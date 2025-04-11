@@ -17,7 +17,7 @@ namespace Agendabolo.Core.Fabricantes
                 using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.FabricanteRepository.Delete(id);
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return true;
@@ -76,7 +76,7 @@ namespace Agendabolo.Core.Fabricantes
                     else
                         repository.Update(fabricante);
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return (true, fabricante);

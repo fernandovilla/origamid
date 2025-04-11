@@ -17,7 +17,7 @@ namespace Agendabolo.Core.Formas
                 using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.FormaRepository.Delete(id);
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return true;
@@ -76,7 +76,7 @@ namespace Agendabolo.Core.Formas
                     else
                         repository.Update(forma);
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return (true, forma);

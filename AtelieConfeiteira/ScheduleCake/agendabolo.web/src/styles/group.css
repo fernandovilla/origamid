@@ -2,10 +2,13 @@
   border: 1px solid var(--border-color-light);
   background: var(--background-color-white);
   border-radius: 5px;
-  padding: 10px 10px;
+  margin: 0px;
+  padding: 10px;  
   display: flex;
   flex-direction: column;  
-  height: 100%;
+  /*position: relative !important;*/
+  overflow-y: none;
+  /*height: 100%;*/
 }
 
 .group .title {
@@ -28,7 +31,8 @@
 .group .body {
   height: auto;
   width: auto;
-  overflow-y: scroll;
+  overflow-y: none;
+  /*background-color: lime;*/
 }
 
 .group .title .buttons {

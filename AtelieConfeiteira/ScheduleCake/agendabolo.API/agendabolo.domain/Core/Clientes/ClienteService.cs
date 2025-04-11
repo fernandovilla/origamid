@@ -17,7 +17,7 @@ namespace Agendabolo.Core.Clientes
             using (var unit = new UnitOfWorkDbContext())
             {
                 unit.ClienteRepository.Delete(id);
-                unit.Save();
+                unit.SaveChanges();
 
                 return true;
             }
@@ -56,7 +56,7 @@ namespace Agendabolo.Core.Clientes
                     else
                         repository.Update(cliente);
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 result = true;

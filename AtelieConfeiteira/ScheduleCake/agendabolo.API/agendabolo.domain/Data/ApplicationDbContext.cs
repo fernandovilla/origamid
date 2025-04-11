@@ -13,7 +13,7 @@ namespace Agendabolo.Data
         public DbSet<Core.Ingredientes.UnidadeMedidaDTA> UnidadesMedidas { get; set; }
         public DbSet<Core.Ingredientes.IngredienteDTA> Ingredientes { get; set; }
         public DbSet<Core.Ingredientes.IngredienteEmbalagemDTA> IngredientesEmbalagens { get; set; }
-        public DbSet<Core.Ingredientes.EstoqueDTA> Estoque { get; set; }
+        public DbSet<Core.Historicos.HistoricoEntradaDTA> Estoque { get; set; }
         public DbSet<Core.Receitas.ReceitaDTA> Receitas { get; set; }
         public DbSet<Core.Receitas.ReceitaIngredienteDTA> IngredientesReceitas { get; set; }
         public DbSet<Core.Produtos.ProdutoDTA> Produtos { get; set; }
@@ -21,6 +21,10 @@ namespace Agendabolo.Data
         public DbSet<Core.Clientes.ClienteDTA> Clientes { get; set; }
         public DbSet<Core.Formas.FormaDTA> Formas { get; set; }
         public DbSet<Core.Fornecedores.FornecedorDTA> Fornecedores { get; set; }
+        public DbSet<Core.Historicos.HistoricoDTA> Historicos { get; set; }
+        public DbSet<Core.Historicos.HistoricoEntradaDTA> HistoricoEntradaDTAs { get; set; }
+        public DbSet<Core.Historicos.HistoricoEntradaItemDTA> HistoricoEntradasItens { get; set; }
+        public DbSet<Core.Historicos.HistoricoEntradaItemLoteDTA> HistoricoEntradasItemLotes { get; set; }
 
 
 
@@ -62,12 +66,17 @@ namespace Agendabolo.Data
             modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
                 .HasMany(i => i.Estoque)
                 .WithOne(i => i.Ingrediente)
-                .HasForeignKey(i => i.IdIngrediente);
+                .HasForeignKey(i => i.IngredienteId);
 
             modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
                 .HasMany(i => i.Embalagens)
                 .WithOne(i => i.Ingredente)
-                .HasForeignKey(i => i.IdIngrediente);
+                .HasForeignKey(i => i.IngredienteId);
+
+            modelBuilder.Entity<Core.Ingredientes.IngredienteEstoqueDTA>()
+                .HasOne(i => i.Fornecedor)
+                .WithMany(f => f.Estoques)
+                .HasForeignKey(i => i.FornecedorId);
 
 
             #endregion
@@ -114,6 +123,23 @@ namespace Agendabolo.Data
             #endregion
 
             #region [Formas]
+            #endregion
+
+            #region [Históricos]
+            modelBuilder.Entity<Core.Historicos.HistoricoEntradaDTA>()
+                .HasOne(i => i.Historico);
+
+            modelBuilder.Entity<Core.Historicos.HistoricoEntradaDTA>()
+                .HasMany(i => i.Itens)
+                .WithOne(l => l.Entrada)
+                .HasForeignKey(e => e.EntradaId)
+                .IsRequired();
+
+            modelBuilder.Entity<Core.Historicos.HistoricoEntradaItemDTA>()
+                .HasMany(i => i.Lotes)
+                .WithOne(i => i.Item)
+                .HasForeignKey(e => e.IdEntradaItem);
+
             #endregion
         }
     }

@@ -40,7 +40,7 @@
             <input-number v-model="valorFrete" :decimalCases=2 :disabled="!distribuiFrete"  />        
           </div>
 
-          <div class="frete col-3 col-md-12">        
+          <div class="frete col-6 col-md-12">        
             <input type="checkbox" name="calculaFrete" v-model="distribuiFrete"  />
             <label for="calculaFrete">Distribuir frete proporcionalmente</label>
           </div>      
@@ -48,34 +48,47 @@
 
       </div>
       
+      
       <!-- INCLUSÃO DE MERCADORIAS -->
-      <div class="container-fluid">
-        <div class="row ingredente-add">
-          <div class="input-group col-5 col-md-12">
-            <label for="ingrediente">Mercadoria</label>
-            <ingrediente-select-search id="ingrediente" @selectedOption="onIngredienteSelecionado" ref="buscaIngrediente" placeholder="Informe o código, ean ou nome do ingrediente"  />
+      <div class="group mercadorias">
+        <h2 class="title">Mercadorias</h2>                 
+        <div class="body">
+          <div class="row ingredente-add">
+            <div class="input-group col-6 col-md-12">
+              <label for="ingrediente">Mercadoria</label>
+              <ingrediente-select-search id="ingrediente" @selectedOption="onIngredienteSelecionado" ref="buscaIngrediente" placeholder="Informe o código, ean ou nome do ingrediente"  />
+            </div>
+
+            <div class="input-group col-2 col-md-12">
+              <label for="quantidade">Qtde (Kg)</label>
+              <input-number id="quantidade" ref="quantidadeItem" :decimal-cases="3" v-model="quantidadeItem"  />
+            </div>
+
+            <div class="input-group col-2 col-md-12">
+              <label for="precoUnitario">Preço Unitário</label>
+              <input-number id="precoUnitario" ref="precoUnitarioItem" :decimal-cases="2" v-model="precoUnitarioItem" />
+            </div>
+
+            <div class="button-add">
+              <button-small-add @click="onAdicionaIngrediente" label="Adicionar" />        
+            </div>
           </div>
 
-          <div class="input-group col-2 col-md-12">
-            <label for="quantidade">Qtde (Kg)</label>
-            <input-number id="quantidade" ref="quantidadeItem" :decimal-cases="3" v-model="quantidadeItem"  />
+          <div class="row">
+            <button-small-add label="Cadastrar ingrediente" />           
           </div>
+        </div>  
+          
+        
+      </div>
+      
 
-          <div class="input-group col-2 col-md-12">
-            <label for="precoUnitario">Preço Unitário</label>
-            <input-number id="precoUnitario" ref="precoUnitarioItem" :decimal-cases="2" v-model="precoUnitarioItem" />
-          </div>
-
-          <button-small-add @click="onAdicionaIngrediente" label="Adicionar" />        
-        </div>
-
-        <div class="row">
-          <button-small-add label="Cadastrar ingrediente" />           
-        </div>
-      </div>  
+      <!-- INCLUSÃO DE MERCADORIAS -->
+      
+      
       
       <!-- TABLE DE MERCADORIAS DA ENTRADA -->
-      <div class="row entrada-items">
+      <div class="row entrada-items m-top-10">
         
         <table class="table-data">
           <thead>
@@ -126,17 +139,18 @@
           </tbody>
           <tfoot>
             <tr>
-              <td class="col-actions"></td>
+              
               <td class="col-ingrediente"></td>
               <td class="col-unidade-medida"></td>
               <td class="col-estoque"></td>
               <td class="col-quantidade editable"></td>
               <td class="col-preco-unitario editable"></td>
               <td class="col-frete editable"></td>
-              <td class="col-total editable">{{ this.totalItens }}            </td>          
+              <td class="col-total editable">R$ {{ this.totalItens }}            </td>          
               <td class="col-lote editable"></td>
               <td class="col-data-fabricacao editable"></td>
               <td class="col-data-validade editable"></td>
+              <td class="col-actions"></td>
             </tr>
           </tfoot>        
         </table>
@@ -144,7 +158,7 @@
 
       <div class="btn-bar">          
           <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
-          <button-large @click.prevent="salvar" :disabled="saving"  label="finalizar entrada" />
+          <button-large @click.prevent="finalizarEntrada" :disabled="saving"  label="finalizar entrada" />
           <button-large @click.prevent="retornar" label="voltar" />
       </div>  
 
@@ -165,6 +179,7 @@ import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
 import ButtonLarge from '@/components/Button/ButtonLarge.vue';
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
+
 
 
 
@@ -208,7 +223,10 @@ export default {
 
   computed: {
     totalItens() {
-      return this.itensEntrada.reduce((acum, item) => acum + TextToNumber(item.total), 0);
+      if (this.itensEntrada.length === 0)
+        return (0.00).toFixed(2);
+
+      return this.itensEntrada.reduce((acum, item) => acum + TextToNumber(item.total), 0).toFixed(2);
     }
   },
 
@@ -232,7 +250,7 @@ export default {
       }
       
 
-      this.AdicionarItem(this.ingredienteSelecionado, this.quantidadeItem, this.precoUnitarioItem);
+      this.adicionarItem(this.ingredienteSelecionado, this.quantidadeItem, this.precoUnitarioItem);
       
       this.ingredienteSelecionado = null;
       this.quantidadeItem = 0;
@@ -261,7 +279,10 @@ export default {
 
       this.distribuirFrete();
 
-      var total = (TextToNumber(item.quant) * TextToNumber(item.precoUnitario)) + TextToNumber(item.frete);      
+      var total = (TextToNumber(item.quant) * TextToNumber(item.precoUnitario)) + TextToNumber(item.frete); 
+
+      item.total = total.toFixed(2)
+
       return NumberToText(total.toFixed(2));      
     },
 
@@ -284,7 +305,7 @@ export default {
       this.itensEntrada.splice(index,1);
     },
 
-    AdicionarItem(ingrediente, quantidade, precoUnitario) {      
+    adicionarItem(ingrediente, quantidade, precoUnitario) {      
       this.itensEntrada.push({
         ingredienteId: ingrediente.id,
         ingredienteNome: ingrediente.nome,
@@ -299,6 +320,22 @@ export default {
         dataValidade: new Date().toJSON().slice(0,10),
       });
 
+    },
+
+
+    finalizarEntrada(){
+      this.saving = true;
+      this.menssagemSucesso = false;
+
+      
+      //success('OK', 'Entrada de mercadorias finalizada com sucesso!');
+      //Toast.success('Sucesso','Entrada de mercadorias finalizada com sucesso!');
+
+      setTimeout(() => {
+        this.saving = false;
+        this.menssagemSucesso = true;
+        this.mensagem = 'Entrada de mercadorias finalizada com sucesso!';
+      }, 2000);
     },
 
 
@@ -339,11 +376,12 @@ export default {
 </script>
 
 <style scoped>
-  @import '@/styles/content.css';
-  @import '@/styles/group.css';
+
+  @import '@/styles/content.css';  
   @import '@/styles/table-data.css';  
   @import '@/styles/buttons.css';
   @import '@/styles/pages.css';
+  @import '@/styles/group.css';
 
   .table-data {
     border: none;      
@@ -406,7 +444,6 @@ export default {
     align-items: center;
     font-size: 0.950em;
     padding-top: 20px;
-    /*border: 1px solid red;*/
   }
 
   .frete input {
@@ -423,5 +460,14 @@ export default {
       padding-top: 0px;
     }
   }
+
+  .mercadorias {
+    margin-top: 20px !important;
+  }
+
+  .button-add {
+    margin-top: 15px;
+  }
+  
 
 </style>

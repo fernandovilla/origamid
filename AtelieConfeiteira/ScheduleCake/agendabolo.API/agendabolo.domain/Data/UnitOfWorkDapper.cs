@@ -1,6 +1,7 @@
 ﻿using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Formas;
 using Agendabolo.Core.Fornecedores;
+using Agendabolo.Core.Historicos;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
@@ -27,11 +28,13 @@ namespace Agendabolo.Data
         
         public IUnidadeMedidaRepository UnidadeMedidaRepository => throw new NotImplementedException();
 
-        public IEstoqueRepository EstoqueRepository => throw new NotImplementedException();
+        public IIngredienteEstoqueRepository EstoqueRepository => throw new NotImplementedException();
 
         public IFormaRepository FormaRepository => throw new NotImplementedException();
 
         public IFornecedorRepository FornecedorRepository => throw new NotImplementedException();
+
+        public IHistoricoEntradaRepository HistoricoEntradaRepository => throw new NotImplementedException();
     }
 
     partial class UnitOfWorkDapper

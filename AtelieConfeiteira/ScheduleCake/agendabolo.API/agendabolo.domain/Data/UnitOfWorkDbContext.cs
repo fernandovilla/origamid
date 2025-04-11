@@ -2,6 +2,7 @@
 using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Formas;
 using Agendabolo.Core.Fornecedores;
+using Agendabolo.Core.Historicos;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Core.Receitas;
@@ -20,10 +21,10 @@ namespace Agendabolo.Data
         private IProdutoRepository _produtoRepository;
         private IClienteRepository _clienteRepository;
         private IUnidadeMedidaRepository _unidadeMedidaRepositorys;
-        private IEstoqueRepository _estoqueRepository;
+        private IIngredienteEstoqueRepository _estoqueRepository;
         private IFormaRepository _formaRepository;
         private IFornecedorRepository _fornecedorRepository;
-        
+        private IHistoricoEntradaRepository _historicoEntradaRepository;
 
         public UnitOfWorkDbContext()
             : this(UnitOfWorkDbContext.GetConnectionString())
@@ -71,7 +72,7 @@ namespace Agendabolo.Data
             get => _unidadeMedidaRepositorys ?? new UnidadeMedidaRepository(_context);
         }
 
-        public IEstoqueRepository EstoqueRepository
+        public IIngredienteEstoqueRepository EstoqueRepository
         {
             get => _estoqueRepository   ?? new IngredienteEstoqueRepository(_context);
         }
@@ -87,19 +88,25 @@ namespace Agendabolo.Data
             get => _fornecedorRepository ?? new FornecedorRepository(_context);
         }
 
+        public IHistoricoEntradaRepository HistoricoEntradaRepository
+        {
+            get => _historicoEntradaRepository ?? new HistoricoEntradaRepository(_context);
+        }
+
 
         IIngredienteRepository IUnitOfWork.IngredienteRepository => this.IngredienteRepository;
         IFabricanteRepository IUnitOfWork.FabricanteRepository => this.FabricanteRepository;
         IReceitaRepository IUnitOfWork.ReceitaRepository => this.ReceitaRepository;
         IProdutoRepository IUnitOfWork.ProdutoRepository => this.ProdutoRepository;
         IUnidadeMedidaRepository IUnitOfWork.UnidadeMedidaRepository => this.UnidadeMedidaRepository;
-        IEstoqueRepository IUnitOfWork.EstoqueRepository => this.EstoqueRepository;
+        IIngredienteEstoqueRepository IUnitOfWork.EstoqueRepository => this.EstoqueRepository;
         IFormaRepository IUnitOfWork.FormaRepository => this.FormaRepository;
         IFornecedorRepository IUnitOfWork.FornecedorRepository => this.FornecedorRepository;
+        IHistoricoEntradaRepository IUnitOfWork.HistoricoEntradaRepository => this.HistoricoEntradaRepository;
 
         
 
-        public void Save()
+        public void SaveChanges()
         {
             _context.SaveChanges();
         }

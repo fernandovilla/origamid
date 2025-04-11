@@ -16,7 +16,7 @@ namespace Agendabolo.Core.Receitas
                 using (var unit = new UnitOfWorkDbContext())
                 {
                     unit.ReceitaRepository.Delete(id);
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
                 return true;
@@ -75,7 +75,7 @@ namespace Agendabolo.Core.Receitas
                     else
                         repository.Update(receita);
 
-                    unit.Save();
+                    unit.SaveChanges();
                 }
 
 

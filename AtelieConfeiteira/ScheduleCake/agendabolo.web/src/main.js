@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import FontawelsomeLibrary from '@/helpers/Fontawelsome.js';
 import FocusTrap from 'primevue/focustrap'
+import ToastService from 'primevue/toastservice';
 
 // import PrimeVue from 'primevue/config';
 // import 'primeicons/primeicons.css';
@@ -15,6 +16,7 @@ import FocusTrap from 'primevue/focustrap'
 const appGlobal = createApp(App);
 appGlobal.use(router);
 appGlobal.use(store);
+appGlobal.use(ToastService);
 appGlobal.directive('focustrap', FocusTrap);
 
 // appGlobal.use(PrimeVue);

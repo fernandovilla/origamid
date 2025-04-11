@@ -518,13 +518,11 @@ export default {
   }
 
 
-  .select.active .content-search {
-    display: block;
-    z-index: 1000;
+  .select.active .content-search {    
     position: absolute;
-    /* float: right; */
-    top: 26px;
-    
+    z-index: 9000;    
+    display: block;
+    top: 26px;        
   }
 
   .select.active .content-search .options {

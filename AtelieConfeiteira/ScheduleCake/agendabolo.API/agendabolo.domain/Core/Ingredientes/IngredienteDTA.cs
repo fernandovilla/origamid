@@ -40,7 +40,7 @@ namespace Agendabolo.Core.Ingredientes
 
         public ICollection<IngredienteEmbalagemDTA> Embalagens { get; set; }
 
-        public ICollection<EstoqueDTA> Estoque { get; set; }
+        public ICollection<IngredienteEstoqueDTA> Estoque { get; set; }
         
     }
 }

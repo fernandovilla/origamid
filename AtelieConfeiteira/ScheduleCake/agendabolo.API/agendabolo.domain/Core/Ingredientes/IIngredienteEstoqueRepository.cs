@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Ingredientes
 {
-    public interface IEstoqueRepository: IGenericRepository<EstoqueDTA, int>
+    public interface IIngredienteEstoqueRepository : IGenericRepository<IngredienteEstoqueDTA, int>
     {
     }
 }
