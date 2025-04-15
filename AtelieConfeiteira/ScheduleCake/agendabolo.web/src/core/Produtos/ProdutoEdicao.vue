@@ -217,7 +217,6 @@
 
 
       <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
           <button-save @click.prevent="salvar" :disabled="saving" />
           <button-back @click.prevent="retornar" />
       </div>  

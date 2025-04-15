@@ -189,8 +189,7 @@
         </div>          
       </div>    
 
-      <div class="btn-bar">
-        <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
+      <div class="btn-bar">            
         <button-save @click.prevent="salvar" :disabled="saving" />
         <button-back  @click.prevent="retornar" />
       </div>
@@ -211,6 +210,7 @@ import { ingredientesAPIService } from '@/core/Ingredientes/IngredientesAPIServi
 import ButtonSmallDelete from '@/components/Button/ButtonSmallDelete.vue'
 import { TextToNumber } from '@/helpers/NumberHelp'
 import { DateTimeToTextShort, GetCurrentDateTimeZone } from '@/helpers/DateTimeHelp'
+import { Success, Error } from '@/helpers/Toast.js';
 
 export default {
     name: "ingrediente-edicao",
@@ -228,7 +228,6 @@ export default {
         embalagens: [],
         unidadeMedida: null,
         mensagem: '',
-        menssagemSucesso: false,
         precoCustoOriginal: 0,
         saving: false
       } 
@@ -281,10 +280,10 @@ export default {
         const response = await ingredientesAPIService.incluir(ingredienteRequest);
        
         if (response !== null){
-          this.ingrediente = response;
-          this.mostrarMensagemSucesso("Ingrediente incluído com sucesso")
+          this.ingrediente = response;         
+          Success('Ingrediente incluído com sucesso!');
         } else {
-          //erro na inclusão do ingrediente...
+          Error('Erro ao incluir ingrediente');
         }
       },
 
@@ -295,9 +294,9 @@ export default {
         var response = await ingredientesAPIService.atualizar(ingredienteRequest);
         
         if (response !== null){      
-          this.mostrarMensagemSucesso("Ingrediente atualizado com sucesso")
+          Success('Ingrediente atualizado com sucesso');
         } else {
-          //erro na atualização do Ingrediente...
+          Error('Erro ao atuailzar ingrediente');
         }
       },
 

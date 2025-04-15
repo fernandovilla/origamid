@@ -26,7 +26,6 @@
       <button v-if="fabricanteModel.id === 0" class="btn btn-primary" @click.prevent="incluirFabricante">Incluir</button>
       <button v-else class="btn btn-primary" @click.prevent="alterarFabricante">Alterar</button>
       <router-link to="/fabricantes" class="btn btn-normal">Voltar</router-link>
-      <span v-if="menssagemSucesso" class="incluido row6 span3">{{mensagem}}</span>
     </div>
 
   </div>
@@ -35,6 +34,7 @@
 <script>
 import SelectStatus from '@/components/Select/SelectStatus.vue'
 import { fabricanteAPIService } from '@/core/Fabricantes/Services/FabricanteAPIService.js';
+import { Success, Error } from '@/helpers/Toast.js';
 
 export default {
   name: 'fabricante-edicao',  
@@ -46,8 +46,6 @@ export default {
         descricao: '',
         status: 1
       },
-      menssagemSucesso: false,
-      mensagem: ''
     }   
   },
   props: ['id'],
@@ -69,9 +67,9 @@ export default {
        
       if (response !== null){
         this.fabricanteModel = response;
-        this.mostrarMensagemSucesso("Fabricante incluído com sucesso")
+        Success("Fabricante cadastrado com sucesso");
       } else {
-        //erro na inclusão do fabricante...
+        Error("Ocorreu erro ao cadastrar fabricante");
       }
     },
 
@@ -79,9 +77,9 @@ export default {
       const response = await fabricanteAPIService.atualizarFabricante(this.fabricante);
 
       if (response !== null){      
-        this.mostrarMensagemSucesso("Fabricante atualizado com sucesso")
+        Success("Fabricante atualizado com sucesso")
       } else {
-        //erro na atualização do Fabricante
+        Error("Ocorreu erro ao atualizar fabricante")
       }
     },
 

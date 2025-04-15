@@ -19,17 +19,17 @@
         <div class="row">
           <div class="input-group col-3 col-md-12">
             <label for="numeronf">Número NF</label>
-            <input-number id="numeronf" ref="numeronf" maxlength="9" :decimalCases="0" />
+            <input-number id="numeronf" ref="numeronf" maxlength="9" :decimalCases="0" v-model="numeronf" />
           </div>
 
           <div class="input-group col-3 col-md-12">
             <label for="data-emissao">Data Emissão</label>
-            <input-date id="data-emissao"  />
+            <input-date id="data-emissao" v-model="dataEmissao" />
           </div>
 
           <div class="input-group col-3 col-md-12">
             <label for="data-entrada">Data Entrada</label>
-            <input-date id="data-entrada"  />
+            <input-date id="data-entrada" v-model="dataEntrada"  />
           </div>
 
         </div>
@@ -179,6 +179,8 @@ import IngredienteSelectSearch from '@/core/Ingredientes/IngredienteSelectSearch
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp.js'
 import ButtonLarge from '@/components/Button/ButtonLarge.vue';
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
+import { Warming, Loading, Update } from '@/helpers/Toast.js';
+import { entradaAPIService } from '@/core/Entradas/EntradaAPIService.js';
 
 
 
@@ -190,6 +192,8 @@ export default {
       itensEntrada: [],
       distribuiFrete: true,
       valorFrete: 0,
+      numeronf: 0,
+      dataEmissao: new Date().toJSON().slice(0, 10),
       dataEntrada: new Date().toJSON().slice(0, 10),
       fornecedorSelecionado: null,
       ingredienteSelecionado: null,
@@ -323,19 +327,86 @@ export default {
     },
 
 
-    finalizarEntrada(){
+    async finalizarEntrada(){
+
+      if (this.fornecedorSelecionado === null){
+        Warming('Nenhum fornecedor informado');
+        this.focusRefs('buscaFornecedor');
+        return;
+      }
+
+      if (this.numeronf === 0) {
+        Warming('Número da NF não informado');
+        this.focusRefs('numeronf');
+        return;
+      }
+
+      if (this.itensEntrada.length === 0) {
+        Warming('Nenhuma mercadoria informada');
+        this.focusRefs('buscaIngrediente');
+        return;
+      }
+
       this.saving = true;
-      this.menssagemSucesso = false;
+
+      var loadingId = Loading('Finalizando entrada. Aguarde...');
 
       
-      //success('OK', 'Entrada de mercadorias finalizada com sucesso!');
-      //Toast.success('Sucesso','Entrada de mercadorias finalizada com sucesso!');
+      var payload = this.getEntradaPayload();
 
-      setTimeout(() => {
-        this.saving = false;
-        this.menssagemSucesso = true;
-        this.mensagem = 'Entrada de mercadorias finalizada com sucesso!';
-      }, 2000);
+      console.log('Payload:', JSON.stringify(payload));
+
+      var response = await entradaAPIService.salvar(payload);
+
+      console.log('Response:', response);
+           
+      if (response !== null && response.statusText === 'OK') {
+        
+        console.log("SUCESSO");
+        setTimeout(() => {
+          Update(loadingId, 'Entrada finalizada com sucesso', 'success', true);
+        }, 2000);
+        
+      } else {
+        console.log("ERRO");
+        setTimeout(() => {
+          Update(loadingId, 'Ocorreu erro ao realizar entrada', 'error');
+        }, 2000);        
+      }
+      
+            
+      //Success('Entrada realizada com sucesso');      
+    },
+
+    getEntradaPayload(){
+
+      var itensEntradaPayload = this.itensEntrada.map((item) => ({            
+            idingrediente: item.ingredienteId,
+            quantidade: item.quantidade,
+            estoqueAntes: 0,
+            precoCustoQuiloBruto: 0.00,
+            precoCustoQuiloLiquido: 0.00,
+            desconto: 0.00,
+            frete: 0.00,
+            lote: 'ABC',
+            dataFabricacao: '2025-04-15',
+            dataValidade: '2025-04-15'
+          }));
+
+
+      console.log("ID Fornecedor: ", this.fornecedorSelecionado.id);
+
+      var entradaPayload = {
+        idfornecedor: this.fornecedorSelecionado.id,
+        numeronf: this.numeronf,
+        dataemissao: this.dataEmissao,
+        dataentrada: this.dataEntrada,
+        frete: 0.00,
+        distribuiufretenositens: true,
+        itens: itensEntradaPayload
+      }
+
+      return entradaPayload;
     },
 
 

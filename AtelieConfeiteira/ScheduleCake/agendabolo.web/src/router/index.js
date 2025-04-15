@@ -78,7 +78,7 @@ const ingredientesRoutes = [
   {
     path: '/entradaIngredientes',
     name: 'entrada-ingredientes',
-    component: () => import('@/core/Entradas/Pages/EntradaIngredientes.vue'),
+    component: () => import('@/core/Entradas/EntradaIngredientes.vue'),
   },
 ];
 

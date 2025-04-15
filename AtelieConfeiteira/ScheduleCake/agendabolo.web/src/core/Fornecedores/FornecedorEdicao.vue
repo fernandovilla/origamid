@@ -53,7 +53,6 @@
             </form> 
 
             <div class="btn-bar">
-                <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>              
                 <button-save @click.prevent="salvar" :disabled="saving"  />
                 <button-back  @click.prevent="retornar" />
             </div>
@@ -68,6 +67,7 @@ import ButtonSave from '@/components/Button/ButtonSave.vue';
 import ButtonBack from '@/components/Button/ButtonBack.vue'
 import InputBase from '@/components/Input/InputBase.vue';
 import SelectStatus from '@/components/Select/SelectStatus.vue';
+import { Success, Error } from '@/helpers/Toast.js';
 
 export default {
     name:'fornecedor-edicao',
@@ -81,8 +81,6 @@ export default {
                 telefone: '',
                 status: 0
             },
-            mensagem: '',
-            menssagemSucesso: false,
             saving: false
         }
     },
@@ -126,9 +124,9 @@ export default {
 
             if (response !== null){
                 this.fornecedor = response;
-                this.mostrarMensagemSucesso("Fornecedor incluído com sucesso")
+                Success("Fornecedor cadastrado com sucesso")
             } else {
-                //erro na inclusão do foenecedor
+                Error("Ocorreu erro ao cadastrar fornecedor");
             }
         },
 
@@ -137,9 +135,9 @@ export default {
             var response = await fornecedorAPIService.atualizar(fornecedorRequest);
 
             if (response !== null){      
-                this.mostrarMensagemSucesso("Fornecedor atualizado com sucesso")
+                Success("Fornecedor atualizado com sucesso");
             } else {
-                //erro na atualização do fornecedor...
+                Error("Ocorreu erro ao atualizar fornecedor");
             }
         },
 

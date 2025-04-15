@@ -7,7 +7,7 @@ using System;
 
 namespace Agendabolo.Controllers
 {
-    public class EntradaController : BaseController<EntradaRequest, int>
+    public class EntradasController : BaseController<EntradaRequest, int>
     {
         private readonly EntradaService _service = new EntradaService();
 
@@ -32,13 +32,14 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var entradaDTA = EntradaRequest.ToDTA(entradaRequest);
+                    /*var entradaDTA = EntradaRequest.ToDTA(entradaRequest);
 
                     (bool ok, EntradaDTA result) = _service.Save(entradaDTA);
 
                     if (ok)
                         return Ok(result);
                     else
+                    */
                         return BadRequest();
                 }
                 else

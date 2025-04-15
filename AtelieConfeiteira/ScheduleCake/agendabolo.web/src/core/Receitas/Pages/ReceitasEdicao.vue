@@ -137,7 +137,6 @@
       </form>
 
       <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
           <button-save @click.prevent="salvar" :disabled="saving" />
           <button-back to="/receitas" @click.prevent="retornar" />          
       </div>  
@@ -175,6 +174,7 @@ import { move_item, sort_object } from '@/helpers/ArrayHelp.js';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { PrintReceita }  from '../Services/PrintReceita.js'
+import { Success, Error } from '@/helpers/Toast.js';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -189,7 +189,6 @@ export default {
       ingredientes: [],
       ingredientesExcluidos: [],
       mensagem: '',
-      menssagemSucesso: '',      
       selecaoIngredienteShow: false,      
       saving: false     
     }
@@ -446,11 +445,11 @@ export default {
       
       if (response !== null){
         if (inclusao)
-          this.mostrarMensagemSucesso("Receita cadastrada com sucesso")
+          Success("Receita cadastrada com sucesso");
         else
-          this.mostrarMensagemSucesso("Receita atualizada com sucesso")
+          Success("Receita atualizada com sucesso")
       } else {
-        //erro na alteração da receita...
+        Error("Ocorreu erro na alteração da receita");
       }
 
       this.saving = false;
