@@ -354,24 +354,20 @@ export default {
       
       var payload = this.getEntradaPayload();
 
-      console.log('Payload:', JSON.stringify(payload));
-
       var response = await entradaAPIService.salvar(payload);
-
-      console.log('Response:', response);
-           
-      if (response !== null && response.statusText === 'OK') {
-        
-        console.log("SUCESSO");
-        setTimeout(() => {
+      
+      if (response !== undefined && response.statusText === 'OK') { 
+        if (response.statusText === 'OK') {        
+          console.log("SUCESSO");          
           Update(loadingId, 'Entrada finalizada com sucesso', 'success', true);
-        }, 2000);
+        } else {
+          console.log("ERRO #1");          
+          Update(loadingId, 'Ocorreu erro ao realizar entrada', 'error');
+        }
         
       } else {
-        console.log("ERRO");
-        setTimeout(() => {
-          Update(loadingId, 'Ocorreu erro ao realizar entrada', 'error');
-        }, 2000);        
+        console.log("ERRO #2");
+        Update(loadingId, 'Ocorreu erro ao realizar entrada', 'error');
       }
       
             
@@ -382,26 +378,23 @@ export default {
 
       var itensEntradaPayload = this.itensEntrada.map((item) => ({            
             idingrediente: item.ingredienteId,
-            quantidade: item.quantidade,
+            quantidade: TextToNumber(item.quant),
             estoqueAntes: 0,
-            precoCustoQuiloBruto: 0.00,
-            precoCustoQuiloLiquido: 0.00,
+            precoCustoQuiloBruto: TextToNumber(item.precoUnitario),
+            precoCustoQuiloLiquido: TextToNumber(item.total) / TextToNumber(item.quant),
             desconto: 0.00,
-            frete: 0.00,
-            lote: 'ABC',
-            dataFabricacao: '2025-04-15',
-            dataValidade: '2025-04-15'
+            frete: TextToNumber(item.frete),
+            lote: item.lote,
+            dataFabricacao: item.dataFabricacao,
+            dataValidade: item.dataValidade
           }));
 
-
-      console.log("ID Fornecedor: ", this.fornecedorSelecionado.id);
-
       var entradaPayload = {
-        idfornecedor: this.fornecedorSelecionado.id,
+        idfornecedor: this.fornecedorSelecionado.value.id,
         numeronf: this.numeronf,
         dataemissao: this.dataEmissao,
         dataentrada: this.dataEntrada,
-        frete: 0.00,
+        frete: TextToNumber(this.valorFrete),
         distribuiufretenositens: true,
         itens: itensEntradaPayload
       }

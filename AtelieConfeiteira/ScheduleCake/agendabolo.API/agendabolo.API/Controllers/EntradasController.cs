@@ -38,9 +38,11 @@ namespace Agendabolo.Controllers
 
                     if (ok)
                         return Ok(result);
-                    else
-                    */
+                    else                    
                         return BadRequest();
+                    */
+
+                    return Ok();
                 }
                 else
                 {

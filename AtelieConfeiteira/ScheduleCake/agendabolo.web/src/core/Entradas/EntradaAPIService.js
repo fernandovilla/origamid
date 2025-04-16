@@ -7,10 +7,10 @@ export const entradaAPIService = {
         try {
           const response = await api.post('/entradas', entradaPayload);
     
-          if (response.statusText === 'OK') {
-            return { statusText: response.Text, data: response.data};
+          if (response.status === 200) {
+            return { statusText: 'OK', data: response.data};
           } else {
-            return null;
+            return { statusText: response.statusText, data: null};
           }
         } catch (error) {
           LogErro(error, 'Ocorreu erro realizando entrada');
