@@ -75,7 +75,8 @@ namespace Agendabolo.Core.Entradas
 
 
 
-                // Inclusão do Histórico                
+                // Inclusão do Histórico - OK
+                // Inclusão de Itens Histórico - VERIFICAR COMO FAZER
                 var historicoEntrada = new HistoricoEntradaDTA();
                 historicoEntrada.Fornecedor = entrada.Fornecedor;
                 historicoEntrada.NumeroNF = entrada.NumeroNF;

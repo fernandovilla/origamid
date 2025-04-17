@@ -32,17 +32,14 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    /*var entradaDTA = EntradaRequest.ToDTA(entradaRequest);
+                    var entradaDTA = EntradaRequest.ToDTA(entradaRequest);
 
                     (bool ok, EntradaDTA result) = _service.Save(entradaDTA);
 
                     if (ok)
                         return Ok(result);
                     else                    
-                        return BadRequest();
-                    */
-
-                    return Ok();
+                        return BadRequest();                    
                 }
                 else
                 {

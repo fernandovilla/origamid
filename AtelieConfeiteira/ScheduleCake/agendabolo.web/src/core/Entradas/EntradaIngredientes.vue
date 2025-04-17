@@ -403,35 +403,6 @@ export default {
     },
 
 
-    createFakeItens(){
-      this.itensEntrada = [
-        { ingredienteId: 1, 
-          ingredienteNome: 'FARINHA DE TRIGO',
-          ingredienteUnidadeMedida: 'Quilograma (KG)',
-          ingredienteEstoque: 3.000,
-          quant: 0,
-          precoUnitario: 0.00,
-          frete: 0.00,
-          total: 0.00,
-          lote: '',
-          dataFabricacao: 0,
-          dataValidade: new Date().toJSON().slice(0,10),
-        },
-        { ingredienteId: 2, 
-          ingredienteNome: 'AMIDO DE MILHO',
-          ingredienteUnidadeMedida: 'Quilograma (KG)',
-          ingredienteEstoque: 0.500,
-          quant: 0,
-          precoUnitario: 0.00,
-          frete: 0.00,
-          total: 0.00,
-          lote: '',
-          dataFabricacao: new Date().toJSON().slice(0,10),
-          dataValidade: new Date().toJSON().slice(0,10),
-        },
-      ]
-    }
-
   },
   created(){
     //this.createFakeItens();
