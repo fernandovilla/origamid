@@ -36,7 +36,11 @@
             <td class="body-nome">
               <router-link :to="{name: 'ingrediente-edicao', params: {id: ingrediente.id}}" >
                 <p class="nomeIngrediente">{{nomeLongo(ingrediente.nome)}}</p>                
-                <p class="marcaIngrediente">Marca: {{ ingrediente.marca }}</p>
+                <div class="ingredienteInfo">
+                  <p class="tipoIngrediente">Tipo: {{ tipoIngrediente(ingrediente.tipo) }}</p>
+                  <p v-if="ingrediente.marca !== ''" class="marcaIngrediente">Marca: {{ ingrediente.marca }}</p>
+                </div>
+                
               </router-link>                 
               
             </td>
@@ -200,6 +204,15 @@ export default {
         else
             return nome;
     },
+
+    tipoIngrediente(tipo) {
+      switch (tipo) {
+        case 0:
+          return "Insumo";
+        case 1:
+          return "Embalagem";
+      }
+    }
   },
   created() {
     this.obterListaIngredientesInicial();
@@ -279,7 +292,18 @@ export default {
   font-weight: bold;
 }
 
-.table-data .body-nome .marcaIngrediente {
+.table-data .body-nome .ingredienteInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.table-data .body-nome .tipoIngrediente {
+  width: 150px;
+}
+
+.table-data .body-nome .marcaIngrediente, 
+.table-data .body-nome .tipoIngrediente {
   font-weight:100;
   margin-left: 5px;
   font-size: 0.875em;

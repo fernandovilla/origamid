@@ -14,6 +14,7 @@ namespace Agendabolo.Core.Ingredientes
         public decimal PrecoCustoMedio { get; set; }
         public DateTime DataUltimoPrecoCusto { get; set; }
         public int Status { get; set; }
+        public int Tipo { get; set; }
         public double EstoqueTotal { get; set; }
         public IEnumerable<IngredienteEmbalagemRequest> Embalagens { get; set; }
     }
@@ -34,6 +35,7 @@ namespace Agendabolo.Core.Ingredientes
                 PrecoCustoMedio = ingrediente.PrecoCustoMedio,
                 DataUltimoPrecoCusto = ingrediente.DataUltimoPrecoCusto,
                 Status = (int)ingrediente.Status,
+                Tipo = (int)ingrediente.Tipo
                 //EstoqueTotal = ingrediente.Estoque != null ? ingrediente.Estoque.Sum(i => i.Quantidade) : 0,
                 //Embalagens = ingrediente?.Embalagens.Select(i => IngredienteEmbalagemRequest.Parse(i)).ToList()
             };
@@ -53,6 +55,7 @@ namespace Agendabolo.Core.Ingredientes
                 PrecoCustoMedio = entity.PrecoCustoMedio,
                 DataUltimoPrecoCusto = entity.DataUltimoPrecoCusto,
                 Status = (StatusCadastro)entity.Status,
+                Tipo = (TipoIngrediente)entity.Tipo,
                 Embalagens = entity.Embalagens?.Select(i => IngredienteEmbalagemRequest.ToDTA(i)).ToList()
             };
         }

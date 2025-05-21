@@ -32,6 +32,9 @@ namespace Agendabolo.Core.Ingredientes
         [Column("dataultimoprecocusto")]
         public DateTime DataUltimoPrecoCusto { get; set; }
 
+        [Column("tipo")]
+        public TipoIngrediente Tipo { get; set; }
+
         public double EstoqueTotal => Estoque != null ? Estoque.Sum(i => i.Quantidade) : 0;
 
 

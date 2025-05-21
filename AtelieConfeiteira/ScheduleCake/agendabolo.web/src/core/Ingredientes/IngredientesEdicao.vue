@@ -25,11 +25,17 @@
                 </div>  
                 
                 <div class="row">
-                  <div class="input-group col-7 col-md-12">
+                  <div class="input-group col-4 col-md-12">
                     <label for="marca">Marca</label>
                     <input-base type="text" id="marca" required v-model="ingrediente.marca" maxlength="100" />        
                   </div>
+
+                  <div class="input-group col-3 col-sm-12">
+                    <label for="status">Tipo</label>
+                    <select-tipo-ingrediente id="tipo" v-model="ingrediente.tipo" :selected="ingrediente.tipo" required />      
+                  </div>
                 </div>
+
 
                 <div class="row">
                   <div class="input-group col-3 col-sm-12">
@@ -203,6 +209,7 @@ import InputBase from '@/components/Input/InputBase.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
 import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
+import SelectTipoIngrediente from '@/components/Select/SelectTipoIngrediente.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue'
 import ButtonSave from '@/components/Button/ButtonSave.vue';
 import ButtonBack from '@/components/Button/ButtonBack.vue'
@@ -223,7 +230,8 @@ export default {
           precoCustoQuilo: 0.00,
           precoCustoMedio: 0.00,
           dataUltimoPrecoCusto: undefined,
-          status: 0
+          status: 0,
+          tipo: 0
         },        
         embalagens: [],
         unidadeMedida: null,
@@ -235,7 +243,7 @@ export default {
 
     props: ['id'],
 
-    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, ButtonSave, ButtonBack, SelectUnidadeMedida, ButtonSmallDelete },
+    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, ButtonSave, ButtonBack, SelectUnidadeMedida, SelectTipoIngrediente, ButtonSmallDelete },
 
     computed: {
       PageTitle(){
@@ -353,6 +361,7 @@ export default {
           precoCustoMedio: TextToNumber(this.ingrediente.precoCustoMedio),
           dataUltimoPrecoCusto: dataPrecoCusto,
           status: this.ingrediente.status,
+          tipo: this.ingrediente.tipo,
           estoqueTotal: 0,
           embalagens: embalagensRequest
         };

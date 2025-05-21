@@ -165,8 +165,9 @@ namespace Agendabolo.Controllers
                         Nome = i.Nome, 
                         EstoqueTotal = i.EstoqueTotal, 
                         Marca = i.Marca, 
-                        Status = (int)i.Status })
-                    .ToList();
+                        Status = (int)i.Status,
+                        Tipo = (int)i.Tipo
+                    }).ToList();
 
                 if (ingredientes != null && ingredientes.Any())
                     return Ok(new
