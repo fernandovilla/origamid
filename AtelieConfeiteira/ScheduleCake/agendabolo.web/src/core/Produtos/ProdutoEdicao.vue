@@ -337,7 +337,7 @@ export default {
     },
 
     margemPrecoCalculadaAtacado(){
-      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / TextToNumber(this.custoTotalProduto())) - 1) * 100;
+      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / this.custoTotalProduto()) - 1) * 100;
       return NumberToText(margem.toFixed(2));
     },
 

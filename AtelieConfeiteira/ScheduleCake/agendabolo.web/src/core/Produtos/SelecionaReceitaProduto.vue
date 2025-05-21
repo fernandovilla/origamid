@@ -1,10 +1,8 @@
-<template>
-  <div class="container">
-   
-   <modal-form :formActive="formShow" title="Receita" @showing="showingForm" @closing="closingForm">        
+<template>   
+   <modal-form class="modal" :formActive="formShow" title="Receita" @showing="showingForm" @closing="closingForm">        
      <div class="card">            
 
-       <div class="container">
+       <div class="container-fluid">
          <div class="row">
            <div class="col12 col-sm-12">
              <div class="input-group">
@@ -12,12 +10,12 @@
                <select-search id="buscaReceita" :placeholder="'Digite o nome da receita'"                   
                  tabindex="0"
                  :options="receitasToSearch" 
-                 :selectedOption="receitaSelecionadaOption"
                  :showOptions="5"
                  :totalOptions="totalReceitas"
                  :dropDownList=false
-                 @selectedOptionChanged="selectedOptionChanged" 
-                 @searchingOptions="onSearchingOptions" />
+                 @selectedOption="selectedOptionChanged"
+                 @searchingOptions="onSearchingOptions"
+                 @cleaningOptions="onCleaningOptions" />
              </div>
            </div>
          </div>
@@ -40,14 +38,13 @@
 
          <div class="row">
            <div class="buttons" >
-             <button v-if="receitaSelecionada !== null" class="btn btn-primary" @click.prevent="confirmarReceita" >Confirma</button>            
+             <button class="btn btn-primary" @click.prevent="confirmarReceita" :disabled="receitaSelecionada === null">Confirma</button>            
            </div>     
          </div>         
        </div>
        
      </div>    
    </modal-form>
- </div>
 </template>
 
 <script>
@@ -141,6 +138,12 @@ export default {
         this.totalReceitas = 0;
       }
     },
+
+    async onCleaningOptions(){
+      this.receitas = null;
+      this.totalReceitas = 0;
+    },
+
     async confirmarReceita() {
       
       var result = await receitasAPIService.getById(this.receitaSelecionada.id);
@@ -183,7 +186,7 @@ export default {
 <style scoped>
   .card {
     width: 500px;
-    height: 250px;
+    /*height: 250px;*/
     background: var(--background-color-light);
     border-radius: 7px;    
   }

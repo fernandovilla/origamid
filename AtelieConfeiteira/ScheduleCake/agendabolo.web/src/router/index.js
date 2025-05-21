@@ -2,10 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const defaultRoutes = [
   {
+    path: '',
+    name: 'homeBase',
+    component: () => import('../core/Dashboard/Pages/DashboardView.vue'),
+  },
+  {
     path: '/',
     name: 'home',
     component: () => import('../core/Dashboard/Pages/DashboardView.vue'),
-  },
+  },  
   {
     path: '/about',
     name: 'about',
