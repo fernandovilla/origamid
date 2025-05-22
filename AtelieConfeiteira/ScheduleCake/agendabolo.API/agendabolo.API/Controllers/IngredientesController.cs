@@ -213,15 +213,29 @@ namespace Agendabolo.Controllers
             }
         }
 
+        [HttpGet("Busca/{texto}")]
         public override IActionResult Buscar(string texto)
+        {
+            return Buscar(-1, texto);
+        }
+
+        [HttpGet("Busca/{tipo}/{texto}")]
+        public IActionResult Buscar(int tipo, string texto)
         {
             try
             {
                 var ingredientes = _service.Get()
-                    .Where(i => i.Status == StatusCadastro.Normal && (
-                        i.Nome.ToUpper().StartsWith(texto.ToUpper())  ||
-                        i.Id.ToString().Equals(texto) ||
-                        i.Embalagens.Where(e => e.EAN.Equals(texto)).Any()))
+                    .Where(i => i.Status == StatusCadastro.Normal &&
+                        (
+                            i.Nome.ToUpper().StartsWith(texto.ToUpper()) ||
+                            i.Id.ToString().Equals(texto) ||
+                            i.Embalagens.Where(e => e.EAN.Equals(texto)).Any())
+                        );
+
+                if (tipo > 0)
+                    ingredientes = ingredientes.Where(i => i.Tipo == (TipoIngrediente)tipo);
+
+                ingredientes = ingredientes
                     .OrderBy(i => i.Nome)
                     .ToList();
 
@@ -242,7 +256,7 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("Buscar/{key}")]
+        [HttpGet("BuscaKey/{key}")]
         public IActionResult BuscarKey(string key)
         {
             try

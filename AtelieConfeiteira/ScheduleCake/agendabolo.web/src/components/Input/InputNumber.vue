@@ -28,6 +28,15 @@ export default {
     InputBase
   }, 
 
+  actions: {
+    setValue(value) {
+      this.internalValue = value;
+    },
+    getValue() {
+      return this.internalValue;
+    }
+  },
+  
   props: {
     modelValue: { type: Number, default: 0.00 },
     decimalCases: { type: Number, default: 2 },

@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
 
 export const api = {
   get(endpoint) {
+    console.log(urlAPI, endpoint);
     return axiosInstance.get(endpoint);
   },
   post(endpoint, body) {

@@ -8,7 +8,7 @@
             <div class="col12 col-sm-12">
               <div class="input-group">
                 <label for="buscaIngrediente">Selecione o ingrediente</label>
-                <ingrediente-select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'" @selectedOption="selectedOptionChanged" />
+                <ingrediente-select-search id="buscaIngrediente" :placeholder="'Digite o nome do ingrediente'" @selectedOption="selectedOptionChanged" :tipo="1" />
               </div>
             </div>
           </div>

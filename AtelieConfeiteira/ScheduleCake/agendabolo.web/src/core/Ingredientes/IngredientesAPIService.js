@@ -17,53 +17,13 @@ export const ingredientesAPIService = {
     }
   },
 
-  async obterIngredientes(skip, take) {
-    try {
-      const response = await api.get(`/ingredientes?skip=${skip}&take=${take}`);
-
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando ingredientes');
-    }
-  },
-
   async buscar(texto){
-    try {
-      const response = await api.get(`/ingredientes/busca/${texto}`);
-
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando ingredientes');
-    }
+    return await this.buscarComTipo(-1, texto);
   },
 
-  async obterIngredientesPorNome(nome) {
+  async buscarComTipo(tipo, texto) {
     try {
-      const response = await api.get(`/ingredientes/selecionarpornome/${nome}`);
-
-      if (response.statusText === 'OK') {
-        return response.data;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      LogErro(error, 'Ocorreu erro selecionando ingredientes');
-    }
-  },
-
-  async obterIngredientesPorNomeSkip(nome, skip, take) {
-    try {
-      const response = await api.get(
-        `/ingredientes/BuscaPorNomeSkip?nome=${nome}&skip=${skip}&take=${take}`,
-      );
+      const response = await api.get(`/ingredientes/busca/${tipo}/${texto}`);
 
       if (response.statusText === 'OK') {
         return response.data;
@@ -144,4 +104,54 @@ export const ingredientesAPIService = {
       LogErro(error, 'Ocorreu erro selecionando unidade medida');
     }
   },
+
+
+  /*>>>>>  OBSOLETOS <<<<<<
+
+  async obterIngredientesPorNome(nome) {
+    try {
+      const response = await api.get(`/ingredientes/selecionarpornome/${nome}`);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+
+  async obterIngredientes(skip, take) {
+    try {
+      const response = await api.get(`/ingredientes?skip=${skip}&take=${take}`);
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+  
+  async obterIngredientesPorNomeSkip(nome, skip, take) {
+    try {
+      const response = await api.get(
+        `/ingredientes/BuscaPorNomeSkip?nome=${nome}&skip=${skip}&take=${take}`,
+      );
+
+      if (response.statusText === 'OK') {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      LogErro(error, 'Ocorreu erro selecionando ingredientes');
+    }
+  },
+
+  
+  */
 };

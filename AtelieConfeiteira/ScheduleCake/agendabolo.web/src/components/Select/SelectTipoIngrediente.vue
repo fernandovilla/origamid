@@ -1,9 +1,9 @@
 <template>
-<span >   
+  <span >   
     <select name="status" v-model="selectedValue">
       <option disabled>Selecione</option>
-      <option value="0">Insumo</option>
-      <option value="1">Embalagem</option>
+      <option value="1">Insumo</option>
+      <option value="2">Embalagem</option>  
     </select>
   </span>
 </template>
@@ -15,7 +15,7 @@ export default {
     name:'select-tipo-ingrediente',
     data(){
         return {
-        selectedValue: ''
+          selectedValue: 1    //default
         }
     },
     props: ['selected'],
@@ -29,7 +29,7 @@ export default {
     },    
     created(){
         this.selectedValue = this.selected;
-    }
+    },
 }
 </script>
 <style scoped>
@@ -37,4 +37,5 @@ export default {
         display: flex;
         flex-direction: column;
     }
+
 </style>

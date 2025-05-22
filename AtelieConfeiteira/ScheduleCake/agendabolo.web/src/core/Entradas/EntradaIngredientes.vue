@@ -156,8 +156,7 @@
         </table>
       </div>
 
-      <div class="btn-bar">          
-          <span v-if="menssagemSucesso" class="incluido">{{mensagem}}</span>      
+      <div class="btn-bar">                    
           <button-large @click.prevent="finalizarEntrada" :disabled="saving"  label="finalizar entrada" />
           <button-large @click.prevent="retornar" label="voltar" />
       </div>  
@@ -199,6 +198,7 @@ export default {
       ingredienteSelecionado: null,
       quantidadeItem: 0,
       precoUnitarioItem: 0.00,
+      saving: false,
   }},
 
   components: {
@@ -310,13 +310,15 @@ export default {
     },
 
     adicionarItem(ingrediente, quantidade, precoUnitario) {      
+      
+
       this.itensEntrada.push({
         ingredienteId: ingrediente.id,
         ingredienteNome: ingrediente.nome,
         ingredienteUnidadeMedida: ingrediente.unidadeMedida,
         ingredienteEstoque: ingrediente.estoqueTotal,
-        quant: quantidade,
-        precoUnitario: precoUnitario,
+        quant: TextToNumber(quantidade),
+        precoUnitario: TextToNumber(precoUnitario),
         frete: 0.00,
         total: 0.00,
         lote: '',
@@ -401,6 +403,10 @@ export default {
 
       return entradaPayload;
     },
+
+    retornar(){
+      this.$router.push('/');
+    }
 
 
   },

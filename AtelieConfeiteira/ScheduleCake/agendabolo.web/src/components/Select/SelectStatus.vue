@@ -19,6 +19,7 @@ export default {
       selectedValue: ''
     }
   },
+  props: ['selected'],
   methods: {
     getStatusDescription(value) {
       return status_cadastro_description(value);
@@ -31,8 +32,7 @@ export default {
     selected(){
       this.selectedValue = this.selected;
     }
-  },
-  props: ['selected'],
+  },  
   created(){
     this.selectedValue = this.selected;
   }

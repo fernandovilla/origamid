@@ -8,7 +8,8 @@ namespace Agendabolo.Core.Ingredientes
 {
     public enum TipoIngrediente
     {
-        Insumo = 0,
-        Embalagem = 1
+        Nenhum = 0,
+        Insumo = 1,
+        Embalagem = 2
     }
 }

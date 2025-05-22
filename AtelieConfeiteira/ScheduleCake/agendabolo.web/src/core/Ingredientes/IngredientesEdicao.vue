@@ -20,7 +20,7 @@
                 <div class="row">              
                   <div class="input-group col-7 col-md-12">
                     <label for="nome">Nome</label>
-                    <input-base type="text" id="nome" required v-model="ingrediente.nome" maxlength="100" />        
+                    <input-base type="text" id="nome" required v-model="ingrediente.nome" maxlength="100" />                            
                   </div>              
                 </div>  
                 
@@ -31,7 +31,7 @@
                   </div>
 
                   <div class="input-group col-3 col-sm-12">
-                    <label for="status">Tipo</label>
+                    <label for="tipo">Tipo</label>
                     <select-tipo-ingrediente id="tipo" v-model="ingrediente.tipo" :selected="ingrediente.tipo" required />      
                   </div>
                 </div>
@@ -53,8 +53,6 @@
                     <label for="precoCusto">Preço Custo Médio</label>
                     <input-number id="precoCustoMedio" placeholder='0,00' v-model="ingrediente.precoCustoMedio" :decimalCases=2 />
                   </div>
-
-                  
                 </div>
 
                 <div class="row">
@@ -231,7 +229,7 @@ export default {
           precoCustoMedio: 0.00,
           dataUltimoPrecoCusto: undefined,
           status: 0,
-          tipo: 0
+          tipo: 1,  //default: Insumo
         },        
         embalagens: [],
         unidadeMedida: null,
@@ -316,7 +314,7 @@ export default {
 
         const response = await ingredientesAPIService.selecionarPorId(idIngrediente);
 
-        if (response !== undefined){
+        if (response !== undefined){          
           this.ingrediente = response.data;
 
           this.precoCustoOriginal = this.ingrediente.precoCusto;
