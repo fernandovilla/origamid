@@ -30,7 +30,7 @@ namespace Agendabolo.Core.Ingredientes
             {
                 using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.IngredienteRepository.GetByID(id);
+                    return unit.IngredienteRepository.Get(id);
                 }
             }
             catch (Exception ex)

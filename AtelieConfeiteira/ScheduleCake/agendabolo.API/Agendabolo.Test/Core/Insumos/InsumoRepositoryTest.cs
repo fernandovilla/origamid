@@ -24,7 +24,7 @@ namespace Agendabolo.Test.Core.Insumos
             {
                 var repository = unit.IngredienteRepository;
 
-                var insumo = repository.GetByID(3);
+                var insumo = repository.Get(3);
 
                 Assert.NotNull(insumo);
             }

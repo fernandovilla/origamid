@@ -16,11 +16,11 @@ namespace Agendabolo.Core.Ingredientes
             return new IngredienteEmbalagemRequest
             {
                 Id = entity.Id,
-                IngredienteId = entity.IngredienteId,
+                IdIngrediente = entity.IdIngrediente,
                 Descricao = entity.Descricao,
                 Preco = entity.Preco,
                 EAN = entity.EAN,
-                UnidadeMedidaId = entity.UnidadeMedidaId,
+                IdUnidadeMedida = entity.IdUnidadeMedida,
                 Quantidade = entity.Quantidade,
                 TipoEmbalagem = entity.TipoEmbalagem
             };
@@ -31,11 +31,11 @@ namespace Agendabolo.Core.Ingredientes
             return new IngredienteEmbalagemDTA
             {
                 Id = entity.Id,
-                IngredienteId = entity.IngredienteId,
+                IdIngrediente = entity.IdIngrediente,
                 Descricao = entity.Descricao,
                 Preco = entity.Preco,
                 EAN = entity.EAN,
-                UnidadeMedidaId = entity.UnidadeMedidaId,
+                IdUnidadeMedida = entity.IdUnidadeMedida,
                 Quantidade = entity.Quantidade,
                 TipoEmbalagem = entity.TipoEmbalagem
             };
@@ -56,10 +56,10 @@ namespace Agendabolo.Core.Ingredientes
         {
             var results = new List<ValidationResult>();
 
-            if (this.IngredienteId == 0)
+            if (this.IdIngrediente == 0)
                 results.Add(new ValidationResult("ID Ingrediente é inválido", new string[] { nameof(IngredienteEmbalagemRequest.Id) }));
 
-            if (this.UnidadeMedidaId == 0)
+            if (this.IdUnidadeMedida == 0)
                 results.Add(new ValidationResult("ID Unidade Medida é inválido", new string[] { nameof(IngredienteEmbalagemRequest.Id) }));
 
             return results;

@@ -26,7 +26,7 @@ namespace Agendabolo.Core.Receitas
             return query.AsEnumerable();
         }
 
-        public override ReceitaDTA GetByID(int id)
+        public override ReceitaDTA Get(int id)
         {
             IQueryable<ReceitaDTA> receitas = _dbset;
 

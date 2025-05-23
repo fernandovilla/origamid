@@ -9,7 +9,7 @@ namespace Agendabolo.GenericRepository
 {
     public interface IGenericRepository<TEntity, TKey> where TEntity: class {
 
-        TEntity GetByID(TKey id);
+        TEntity Get(TKey id);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null);
         void Delete(TKey id);
         void Delete(TEntity entity);

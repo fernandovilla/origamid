@@ -26,7 +26,7 @@ namespace Agendabolo.Core.Fornecedores
             return fornecedores.OrderBy(i => i.Nome);
         }
 
-        public FornecedorDTA GetByID(int id)
+        public FornecedorDTA Get(int id)
         {
             return this.Get(i => i.Id == id)
                 .FirstOrDefault();

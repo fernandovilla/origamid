@@ -32,7 +32,7 @@ namespace Agendabolo.Core.Clientes
         public ClienteDTA GetByID(int id)
         {
             using(var unit = new UnitOfWorkDbContext())
-                return unit.ClienteRepository.GetByID(id);
+                return unit.ClienteRepository.Get(id);
         }
 
         public int GetTotal()

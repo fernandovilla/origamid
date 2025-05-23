@@ -52,7 +52,7 @@ namespace Agendabolo.Core.Fabricantes
             {
                 using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.FabricanteRepository.GetByID(id);
+                    return unit.FabricanteRepository.Get(id);
                 }
             }
             catch (Exception ex)

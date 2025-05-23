@@ -44,7 +44,7 @@ namespace Agendabolo.Core.Formas
             {
                 using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.FormaRepository.GetByID(id);
+                    return unit.FormaRepository.Get(id);
                 }
             }
             catch (Exception ex)

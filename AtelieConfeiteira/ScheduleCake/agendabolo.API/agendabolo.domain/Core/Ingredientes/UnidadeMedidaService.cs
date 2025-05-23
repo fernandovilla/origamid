@@ -50,7 +50,7 @@ namespace Agendabolo.Core.Ingredientes
             try
             {
                 using (var unit = new UnitOfWorkDbContext())
-                    return unit.UnidadeMedidaRepository.GetByID(id);
+                    return unit.UnidadeMedidaRepository.Get(id);
             }
             catch (Exception ex)
             {

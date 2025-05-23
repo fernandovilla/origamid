@@ -45,7 +45,7 @@ namespace Agendabolo.Core.Produtos
             try
             {
                 using (var unit = new UnitOfWorkDbContext())
-                    return unit.ProdutoRepository.GetByID(id); ;
+                    return unit.ProdutoRepository.Get(id); ;
             }
             catch (Exception ex)
             {

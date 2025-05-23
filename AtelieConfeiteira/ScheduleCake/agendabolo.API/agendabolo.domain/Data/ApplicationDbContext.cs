@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 
 
@@ -7,6 +8,8 @@ namespace Agendabolo.Data
     public class ApplicationDbContext : DbContext
     {
         private readonly string _connectionString;
+
+        public IDbConnection Connection => this.Database.GetDbConnection();
 
         //Classe de configuração
         public DbSet<Core.Fabricantes.FabricanteDTA> Fabricantes { get; set; }
@@ -71,7 +74,7 @@ namespace Agendabolo.Data
             modelBuilder.Entity<Core.Ingredientes.IngredienteDTA>()
                 .HasMany(i => i.Embalagens)
                 .WithOne(i => i.Ingredente)
-                .HasForeignKey(i => i.IngredienteId);
+                .HasForeignKey(i => i.IdIngrediente);
 
             modelBuilder.Entity<Core.Ingredientes.IngredienteEstoqueDTA>()
                 .HasOne(i => i.Fornecedor)

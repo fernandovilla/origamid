@@ -45,7 +45,7 @@ namespace Agendabolo.Core.Entradas
                     IngredienteDTA ingrediente = null;
                     if (!itensCache.ContainsKey(idIngrediente))
                     {
-                        ingrediente = ingredientesRepository.GetByID(idIngrediente);
+                        ingrediente = ingredientesRepository.Get(idIngrediente);
                         itensCache.Add(idIngrediente, ingrediente);
                     }
                     else

@@ -41,7 +41,7 @@ namespace Agendabolo.Core.Ingredientes
         [JsonIgnore]
         public ICollection<Receitas.ReceitaIngredienteDTA> Receitas { get; set; }
 
-        public ICollection<IngredienteEmbalagemDTA> Embalagens { get; set; }
+        public IEnumerable<IngredienteEmbalagemDTA> Embalagens { get; set; }
 
         public ICollection<IngredienteEstoqueDTA> Estoque { get; set; }
         

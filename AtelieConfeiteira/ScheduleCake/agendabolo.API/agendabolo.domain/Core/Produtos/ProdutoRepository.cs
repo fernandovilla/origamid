@@ -40,7 +40,7 @@ namespace Agendabolo.Core.Produtos
             return _context.Produtos;
         }
 
-        public ProdutoDTA GetByID(int id)
+        public ProdutoDTA Get(int id)
         {
             var prod = _context.Produtos
                 .Where(i => i.Id == id)
@@ -55,7 +55,7 @@ namespace Agendabolo.Core.Produtos
 
         public ProdutoDTA GetByID_Min(int id)
         {
-            return GetByID(id);
+            return Get(id);
         }
 
         public void Update(ProdutoDTA produto)

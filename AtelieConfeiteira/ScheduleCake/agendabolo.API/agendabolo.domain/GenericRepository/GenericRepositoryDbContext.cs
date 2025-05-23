@@ -1,4 +1,5 @@
 ﻿using Agendabolo.Data;
+using Dapper.Contrib.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Agendabolo.GenericRepository
         {
             if (id == null) throw new ArgumentNullException("Invalid id");
 
-            var entity = GetByID(id);
+            var entity = Get(id);
 
             if (entity == null) throw new KeyNotFoundException("Entity not found");
 
@@ -38,6 +39,21 @@ namespace Agendabolo.GenericRepository
             _dbset.Remove(entity);
         }
 
+        
+
+        public virtual TEntity Get(TKey id)
+        {
+            if (id == null)
+                throw new ArgumentNullException("Invalid id");
+
+            return _context.Connection.Get<TEntity>(id);
+        }
+
+        public virtual IEnumerable<TEntity> Get()
+        {
+            return _context.Connection.GetAll<TEntity>();
+        }
+
         public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = _dbset;
@@ -48,14 +64,6 @@ namespace Agendabolo.GenericRepository
             }
 
             return query.AsEnumerable();
-        }
-
-        public virtual TEntity GetByID(TKey id)
-        {
-            if (id == null)
-                throw new ArgumentNullException("Invalid id");
-
-            return _dbset.Find(id);
         }
 
         public virtual void Insert(TEntity entity)

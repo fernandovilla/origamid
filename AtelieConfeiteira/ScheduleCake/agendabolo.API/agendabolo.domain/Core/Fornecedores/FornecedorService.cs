@@ -43,7 +43,7 @@ namespace Agendabolo.Core.Fornecedores
             {
                 using (var unit = new UnitOfWorkDbContext())
                 {
-                    return unit.FornecedorRepository.GetByID(id);
+                    return unit.FornecedorRepository.Get(id);
                 }
             }
             catch (Exception ex)

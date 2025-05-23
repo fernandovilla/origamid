@@ -1,4 +1,5 @@
 ﻿using Agendabolo.Data;
+using Dapper.Contrib.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,29 +14,20 @@ namespace Agendabolo.Core.Ingredientes
             : base(context)
         { }
 
-        public override IEnumerable<IngredienteDTA> Get(Expression<Func<IngredienteDTA, bool>> filter = null)
+        public override IngredienteDTA Get(int id)
         {
-            IQueryable<IngredienteDTA> ingredientes = _dbset;
+            var ingrediente = base.Get(id);
 
-            if (filter != null)
-                ingredientes = ingredientes.Where(filter);
+            if (ingrediente != null) {
+                ingrediente.Embalagens = _context.Connection.GetAll<IngredienteEmbalagemDTA>()
+                    .Where(i => i.IdIngrediente == id);
+            }
 
-            var i = ingredientes
-                .Include(i => i.Estoque)
-                .Include(i => i.Embalagens.OrderBy(i => i.Quantidade))
-                .OrderBy(i => i.Nome);
-
-            return i;
-        }
-
-        public override IngredienteDTA GetByID(int id)
-        {
-            return this.Get(i => i.Id == id)
-                .FirstOrDefault();
+            return ingrediente;
         }
 
         public override void Update(IngredienteDTA ingrediente)
-        {
+        {            
             if (ingrediente == null)
                 throw new ArgumentNullException(nameof(ingrediente), "Ingrediente inválido");
 
@@ -44,7 +36,7 @@ namespace Agendabolo.Core.Ingredientes
                 .ToList();
 
             var embalagensAtuais = _context.IngredientesEmbalagens
-                .Where(i => i.IngredienteId == ingrediente.Id)
+                .Where(i => i.IdIngrediente == ingrediente.Id)
                 .Select(i => (IngredienteEmbalagemDTA)i)
                 .ToList();
 

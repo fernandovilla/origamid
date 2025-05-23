@@ -25,7 +25,7 @@ namespace Agendabolo.Core.Ingredientes
         public int Id { get; set; }
 
         [Column("idingrediente")]
-        public int IngredienteId { get; set; }
+        public int IdIngrediente { get; set; }
 
         [Column("descricao")]
         public string Descricao { get; set; }
@@ -37,7 +37,7 @@ namespace Agendabolo.Core.Ingredientes
         public string EAN { get; set; }
 
         [Column("idunidademedida")]
-        public int UnidadeMedidaId { get; set; }
+        public int IdUnidadeMedida { get; set; }
 
         [Column("quantidade")]
         public double Quantidade { get; set; }
