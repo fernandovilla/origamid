@@ -10,6 +10,7 @@ namespace Agendabolo.Data
         private readonly string _connectionString;
 
         public IDbConnection Connection => this.Database.GetDbConnection();
+        public IDbTransaction Transaction => (IDbTransaction)this.Database.CurrentTransaction;
 
         //Classe de configuração
         public DbSet<Core.Fabricantes.FabricanteDTA> Fabricantes { get; set; }
@@ -135,7 +136,7 @@ namespace Agendabolo.Data
             modelBuilder.Entity<Core.Historicos.HistoricoEntradaDTA>()
                 .HasMany(i => i.Itens)
                 .WithOne(l => l.Entrada)
-                .HasForeignKey(e => e.EntradaId)
+                .HasForeignKey(e => e.IdEntrada)
                 .IsRequired();
 
             modelBuilder.Entity<Core.Historicos.HistoricoEntradaItemDTA>()

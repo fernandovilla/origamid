@@ -44,8 +44,6 @@ export default {
             if (item === null || item === undefined)
                 return null;
 
-            console.log(item);
-
             return {
                 display: item.nome,
                 value: item,

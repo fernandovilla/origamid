@@ -1,18 +1,16 @@
 ﻿using Agendabolo.Core.Fornecedores;
+using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using dapper = Dapper.Contrib.Extensions;
 
 namespace Agendabolo.Core.Historicos
 {
-    [Table("historicoentrada")]
+    [dapper.Table("historicoentrada")]
     public class HistoricoEntradaDTA
     {
-        [Column("id"), Key]
+        [Column("id"), dapper.Key]
         public int ID { get; set; }
 
         [Column("idhistorico")]

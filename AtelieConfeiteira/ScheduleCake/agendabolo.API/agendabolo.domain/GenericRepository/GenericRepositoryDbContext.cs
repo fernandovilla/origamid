@@ -46,17 +46,20 @@ namespace Agendabolo.GenericRepository
             if (id == null)
                 throw new ArgumentNullException("Invalid id");
 
-            return _context.Connection.Get<TEntity>(id);
+            return _context.Connection.Get<TEntity>(id, _context.Transaction);
         }
 
         public virtual IEnumerable<TEntity> Get()
         {
-            return _context.Connection.GetAll<TEntity>();
+            return _context.Connection.GetAll<TEntity>(_context.Transaction);
         }
 
         public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> query = _dbset;
+
+            //_context.Connection.GetAll<TEntity>(_context.Transaction)
+            //    .Where(filter);
 
             if (filter != null)
             {
@@ -68,10 +71,12 @@ namespace Agendabolo.GenericRepository
 
         public virtual void Insert(TEntity entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException("Invalid entity");
+            //if (entity == null)
+            //    throw new ArgumentNullException("Invalid entity");
 
-            _dbset.Attach(entity);
+            //_dbset.Attach(entity);
+
+            _context.Connection.Insert<TEntity>(entity, _context.Transaction);
         }
 
         public virtual void Update(TEntity entity)

@@ -224,7 +224,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var ingredientes = _service.Get()
+                var ingredientes = _service.GetWithEmbalagens()
                     .Where(i => i.Status == StatusCadastro.Normal &&
                         (
                             i.Nome.ToUpper().StartsWith(texto.ToUpper()) ||

@@ -1,26 +1,21 @@
-﻿using Agendabolo.Core.Entradas;
-using Agendabolo.Core.Ingredientes;
-using System;
+﻿using Agendabolo.Core.Ingredientes;
+using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Historicos
 {
-    [Table("historicoentradasitens")]
+    [Dapper.Contrib.Extensions.Table("historicoentradasitens")]
     public class HistoricoEntradaItemDTA
     {
         [Column("id"), Key]
         public int Id { get; set; }
 
-        [Column("idhistoricoentrada")]
-        public int EntradaId { get; set; }
+        [Column("identrada")]
+        public int IdEntrada { get; set; }
 
         [Column("idingrediente")]
-        public int IngredienteId { get; set; }
+        public int IdIngrediente { get; set; }
 
         [Column("quantidade")]
         public double Quantidade { get; set; }

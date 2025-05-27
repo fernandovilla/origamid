@@ -268,6 +268,8 @@ export default {
 
       async salvar(){
 
+        console.log("Salvar #1")
+
         this.saving = true;
 
         if (this.ingrediente.id === 0){
@@ -280,10 +282,15 @@ export default {
       },  
 
       async incluirIngrediente() {
+        console.log("incluirIngrediente - #1")
 
         var ingredienteRequest = this.getIngredienteRequest();
+        
+        console.log("incluirIngrediente - #2", JSON.stringify(ingredienteRequest));
 
         const response = await ingredientesAPIService.incluir(ingredienteRequest);
+
+        console.log("incluirIngrediente - #3")
        
         if (response !== null){
           this.ingrediente = response;         

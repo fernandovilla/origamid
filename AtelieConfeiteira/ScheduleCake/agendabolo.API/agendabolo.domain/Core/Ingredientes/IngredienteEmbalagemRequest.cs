@@ -56,7 +56,7 @@ namespace Agendabolo.Core.Ingredientes
         {
             var results = new List<ValidationResult>();
 
-            if (this.IdIngrediente == 0)
+            if (this.IdIngrediente == 0 && this.Id > 0)
                 results.Add(new ValidationResult("ID Ingrediente é inválido", new string[] { nameof(IngredienteEmbalagemRequest.Id) }));
 
             if (this.IdUnidadeMedida == 0)

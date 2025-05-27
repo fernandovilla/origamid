@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using dapper = Dapper.Contrib.Extensions;
 
 namespace Agendabolo.Core.Historicos
 {
@@ -13,10 +14,10 @@ namespace Agendabolo.Core.Historicos
         EntradaMercadorias = 0,
     }
 
-    [Table("historico")]
+    [dapper.Table("historico")]
     public class HistoricoDTA
     {
-        [Column("id"), Key]
+        [dapper.Key, Column("id"), ]
         public int Id { get; set; }
 
         [Column("dataoperacao")]
@@ -26,6 +27,6 @@ namespace Agendabolo.Core.Historicos
         public TipoOperacaoHistoricoEnum TipoOperacao { get; set; }
 
         [Column("idusuario")]
-        public int IdUsuario { get; set; }
+        public int? IdUsuario { get; set; }
     }
 }

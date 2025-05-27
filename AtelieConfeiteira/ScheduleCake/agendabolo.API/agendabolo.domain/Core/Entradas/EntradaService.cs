@@ -1,6 +1,7 @@
 ﻿using Agendabolo.Core.Historicos;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Data;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace Agendabolo.Core.Entradas
                 {                    
                     return new HistoricoEntradaItemDTA
                     {
-                        IngredienteId = item.IdIngrediente,
+                        IdIngrediente = item.IdIngrediente,
                         Quantidade = item.Quantidade,
                         PrecoCustoQuiloAntes = getIngrediente(item.IdIngrediente).PrecoCustoQuilo,
                         PrecoCustoQuiloBruto = item.PrecoCustoQuiloBruto,
@@ -78,13 +79,17 @@ namespace Agendabolo.Core.Entradas
                 // Inclusão do Histórico - OK
                 // Inclusão de Itens Histórico - VERIFICAR COMO FAZER
                 var historicoEntrada = new HistoricoEntradaDTA();
-                historicoEntrada.Fornecedor = entrada.Fornecedor;
+                historicoEntrada.Historico = new HistoricoDTA();
+                historicoEntrada.Historico.DataOperacao = DateTime.Now;
+                historicoEntrada.Historico.TipoOperacao = TipoOperacaoHistoricoEnum.EntradaMercadorias;
+
+                historicoEntrada.IdFornecedor = entrada.IdFornecedor;
                 historicoEntrada.NumeroNF = entrada.NumeroNF;
                 historicoEntrada.DataEntrada = entrada.DataEntrada;
                 historicoEntrada.DataEmissao = entrada.DataEmissao;
                 historicoEntrada.ValorFrete = entrada.Frete;
                 historicoEntrada.DistribuiuFreteNosItens = entrada.DistribuiuFreteNosItens;
-                historicoEntrada.Itens = entrada.Itens.Select(i => parseItemHistorico(i));
+                historicoEntrada.Itens = entrada.Itens.Select(i => parseItemHistorico(i));                
                 unit.HistoricoEntradaRepository.Insert(historicoEntrada);
 
 

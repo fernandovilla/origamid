@@ -208,8 +208,10 @@ export default {
     tipoIngrediente(tipo) {
       switch (tipo) {
         case 0:
-          return "Insumo";
+          return "Não classificado";
         case 1:
+          return "Insumo";
+        case 2:
           return "Embalagem";
       }
     }

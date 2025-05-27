@@ -356,6 +356,7 @@ export default {
       
       var payload = this.getEntradaPayload();
 
+
       var response = await entradaAPIService.salvar(payload);
       
       if (response !== undefined && response.statusText === 'OK') { 
@@ -380,6 +381,7 @@ export default {
 
       var itensEntradaPayload = this.itensEntrada.map((item) => ({            
             idingrediente: item.ingredienteId,
+            idfornecedor: this.fornecedorSelecionado.Id,
             quantidade: TextToNumber(item.quant),
             estoqueAntes: 0,
             precoCustoQuiloBruto: TextToNumber(item.precoUnitario),
