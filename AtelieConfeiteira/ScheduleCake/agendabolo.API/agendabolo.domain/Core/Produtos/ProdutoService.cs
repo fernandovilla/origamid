@@ -17,9 +17,9 @@ namespace Agendabolo.Core.Produtos
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.ProdutoRepository.Delete(id);
+                    unit.GetProdutoRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -36,16 +36,20 @@ namespace Agendabolo.Core.Produtos
 
         public IEnumerable<ProdutoDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.ProdutoRepository.Get().ToList();
+            using (var unit = new UnitOfWork())
+            {
+                return unit.GetProdutoRepository.Get().ToList();
+
+                //Todo: selecionar receitas e itens das receitas
+            }
         }
 
         public ProdutoDTA GetByID(int id)
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
-                    return unit.ProdutoRepository.Get(id); ;
+                using (var unit = new UnitOfWork())
+                    return unit.GetProdutoRepository.Get(id); ;
             }
             catch (Exception ex)
             {
@@ -59,8 +63,8 @@ namespace Agendabolo.Core.Produtos
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
-                    return unit.ProdutoRepository.GetByID_Min(id); ;
+                using (var unit = new UnitOfWork())
+                    return unit.GetProdutoRepository.GetByID_Min(id); ;
             }
             catch (Exception ex)
             {
@@ -72,26 +76,23 @@ namespace Agendabolo.Core.Produtos
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.ProdutoRepository.Count();
+            using (var unit = new UnitOfWork())
+                return unit.GetProdutoRepository.Count();
         }
 
         public (bool, ProdutoDTA) Save(ProdutoDTA produto)
         {
             try
             {
-                using(var unit = new UnitOfWorkDbContext())
+                using(var unit = new UnitOfWork())
                 {
-                    var repository = unit.ProdutoRepository;
+                    var repository = unit.GetProdutoRepository;
 
-                    if (produto.Id == 0)
-                    {
-                        repository.Insert(produto);
-                    } else
-                    {
-                        repository.Update(produto);
-                    }
-
+                    if (produto.Id == 0)                    
+                        this.InsertProduto(unit, produto);
+                    else
+                        this.UpdateProduto(unit, produto);
+                    
                     unit.SaveChanges();
                 }
 
@@ -103,6 +104,15 @@ namespace Agendabolo.Core.Produtos
             }
 
             return (false, produto);
+        }
+
+        private void InsertProduto(IUnitOfWork unit, ProdutoDTA produto)
+        {
+            //Todo: Produto.Incluir() - incluir o produto
+        }
+
+        private void UpdateProduto(IUnitOfWork unit, ProdutoDTA produto) { 
+            // Todo: Produto.Update() - atualiza o produto e receitas...
         }
     }
 }

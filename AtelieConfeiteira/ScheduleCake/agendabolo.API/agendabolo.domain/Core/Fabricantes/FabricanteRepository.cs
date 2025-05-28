@@ -11,7 +11,7 @@ namespace Agendabolo.Core.Fabricantes
 {
     public class FabricanteRepository : GenericRepository.GenericRepositoryDbContext<FabricanteDTA, int>, IFabricanteRepository
     {
-        public FabricanteRepository(ApplicationDbContext context) : base(context)
+        public FabricanteRepository(IDatabase database) : base(database)
         { }
     }
 }

@@ -10,31 +10,34 @@ namespace Agendabolo.Core.Ingredientes
     {
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.IngredienteRepository.Count();
+                return unit.GetIngredienteRepository.Count();
             }
         }
 
         public IEnumerable<IngredienteDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.IngredienteRepository.Get().ToList();
+            using (var unit = new UnitOfWork())
+                return unit.GetIngredienteRepository.Get().ToList();
         }
 
         public IEnumerable<IngredienteDTA> GetWithEmbalagens()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.IngredienteRepository.GetWithEmbalagens().ToList();
+            using (var unit = new UnitOfWork())
+            {
+                var prods = unit.GetIngredienteRepository.GetWithEmbalagens().ToList();
+                return prods;
+            }
         }
         
         public IngredienteDTA GetByID(int id)
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    return unit.IngredienteRepository.Get(id);
+                    return unit.GetIngredienteRepository.Get(id);
                 }
             }
             catch (Exception ex)
@@ -49,9 +52,9 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.IngredienteRepository;
+                    var repository = unit.GetIngredienteRepository;
 
                     if (ingrediente.Id == 0)
                         repository.Insert(ingrediente);
@@ -75,9 +78,9 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.IngredienteRepository.Delete(id);
+                    unit.GetIngredienteRepository.Delete(id);
                     unit.SaveChanges();
                 }
 

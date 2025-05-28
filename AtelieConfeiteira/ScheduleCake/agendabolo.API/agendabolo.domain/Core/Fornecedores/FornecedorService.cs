@@ -13,9 +13,9 @@ namespace Agendabolo.Core.Fornecedores
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.FornecedorRepository.Delete(id);
+                    unit.GetFornecedorRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -31,9 +31,9 @@ namespace Agendabolo.Core.Fornecedores
 
         public IEnumerable<FornecedorDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.FornecedorRepository.Get().ToList();
+                return unit.GetFornecedorRepository.Get().ToList();
             }
         }
 
@@ -41,9 +41,9 @@ namespace Agendabolo.Core.Fornecedores
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    return unit.FornecedorRepository.Get(id);
+                    return unit.GetFornecedorRepository.Get(id);
                 }
             }
             catch (Exception ex)
@@ -56,9 +56,9 @@ namespace Agendabolo.Core.Fornecedores
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.FornecedorRepository.Count();
+                return unit.GetFornecedorRepository.Count();
             }
         }
 
@@ -66,9 +66,9 @@ namespace Agendabolo.Core.Fornecedores
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.FornecedorRepository;
+                    var repository = unit.GetFornecedorRepository;
 
                     if (fornecedor.Id == 0)
                         repository.Insert(fornecedor);

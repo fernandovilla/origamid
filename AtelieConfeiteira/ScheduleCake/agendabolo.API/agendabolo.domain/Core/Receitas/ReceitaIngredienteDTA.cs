@@ -1,17 +1,19 @@
 ﻿using Agendabolo.Core.Ingredientes;
+using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using dapper = Dapper.Contrib.Extensions;
 
 namespace Agendabolo.Core.Receitas
 {
-    [Table("receitasingredientes")]
+    [dapper.Table("receitasingredientes")]
     public partial class ReceitaIngredienteDTA
     {                
-        [Key]
+        [dapper.Key]
         [Column("id")]
         public int Id { get; set; }
 
@@ -45,8 +47,13 @@ namespace Agendabolo.Core.Receitas
             this.Ingrediente = ingrediente;
         }
 
+        [Computed]
         public ReceitaDTA Receita { get; set; }
+
+        [Computed]
         public IngredienteDTA Ingrediente { get; set; }
+
+        [Computed]
         public string Nome => Ingrediente?.Nome;
     }
 

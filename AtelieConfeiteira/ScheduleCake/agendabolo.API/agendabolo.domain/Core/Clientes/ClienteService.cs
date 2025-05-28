@@ -14,9 +14,9 @@ namespace Agendabolo.Core.Clientes
     {
         public bool Delete(int id)
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                unit.ClienteRepository.Delete(id);
+                unit.GetClienteRepository.Delete(id);
                 unit.SaveChanges();
 
                 return true;
@@ -25,20 +25,20 @@ namespace Agendabolo.Core.Clientes
 
         public IEnumerable<ClienteDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.ClienteRepository.Get().ToList();
+            using (var unit = new UnitOfWork())
+                return unit.GetClienteRepository.Get().ToList();
         }
 
         public ClienteDTA GetByID(int id)
         {
-            using(var unit = new UnitOfWorkDbContext())
-                return unit.ClienteRepository.Get(id);
+            using(var unit = new UnitOfWork())
+                return unit.GetClienteRepository.Get(id);
         }
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
-                return unit.ClienteRepository.Count();
+            using (var unit = new UnitOfWork())
+                return unit.GetClienteRepository.Count();
         }
 
         public (bool, ClienteDTA) Save(ClienteDTA cliente)
@@ -47,9 +47,9 @@ namespace Agendabolo.Core.Clientes
 
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.ClienteRepository;
+                    var repository = unit.GetClienteRepository;
 
                     if (cliente.Id == 0)
                         repository.Insert(cliente);

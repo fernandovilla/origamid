@@ -14,9 +14,9 @@ namespace Agendabolo.Core.Formas
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.FormaRepository.Delete(id);
+                    unit.GetFormaRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -32,9 +32,9 @@ namespace Agendabolo.Core.Formas
 
         public IEnumerable<FormaDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.FormaRepository.Get().ToList();
+                return unit.GetFormaRepository.Get().ToList();
             }
         }
 
@@ -42,9 +42,9 @@ namespace Agendabolo.Core.Formas
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    return unit.FormaRepository.Get(id);
+                    return unit.GetFormaRepository.Get(id);
                 }
             }
             catch (Exception ex)
@@ -57,9 +57,9 @@ namespace Agendabolo.Core.Formas
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.FormaRepository.Count();
+                return unit.GetFormaRepository.Count();
             }
         }
 
@@ -67,9 +67,9 @@ namespace Agendabolo.Core.Formas
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.FormaRepository;
+                    var repository = unit.GetFormaRepository;
 
                     if (forma.Id == 0)
                         repository.Insert(forma);

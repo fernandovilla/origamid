@@ -35,9 +35,9 @@ namespace Agendabolo.Core.Entradas
 
         public (bool, EntradaDTA) Save(EntradaDTA entrada)
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                var ingredientesRepository = unit.IngredienteRepository;
+                var ingredientesRepository = unit.GetIngredienteRepository;
                 var itensCache = new Dictionary<int, IngredienteDTA>();
 
 
@@ -90,7 +90,7 @@ namespace Agendabolo.Core.Entradas
                 historicoEntrada.ValorFrete = entrada.Frete;
                 historicoEntrada.DistribuiuFreteNosItens = entrada.DistribuiuFreteNosItens;
                 historicoEntrada.Itens = entrada.Itens.Select(i => parseItemHistorico(i));                
-                unit.HistoricoEntradaRepository.Insert(historicoEntrada);
+                unit.GetHistoricoEntradaRepository.Insert(historicoEntrada);
 
 
                 foreach (var item in entrada.Itens)
@@ -106,7 +106,7 @@ namespace Agendabolo.Core.Entradas
                         estoque.DataFabricacao = lote.DataFabricacao;
                         estoque.DataValidade = lote.DataValidade;
 
-                        unit.EstoqueRepository.Insert(estoque);
+                        unit.GetEstoqueRepository.Insert(estoque);
                     }
 
                     // Atualização de preço custo do ingrediente

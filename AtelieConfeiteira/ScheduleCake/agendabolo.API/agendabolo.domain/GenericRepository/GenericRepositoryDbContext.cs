@@ -1,6 +1,5 @@
 ﻿using Agendabolo.Data;
 using Dapper.Contrib.Extensions;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,35 +9,25 @@ namespace Agendabolo.GenericRepository
 {
     public class GenericRepositoryDbContext<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        protected ApplicationDbContext _context;
-        protected DbSet<TEntity> _dbset => _context.Set<TEntity>();
+        protected readonly IDatabaseContext _database;
 
-        public GenericRepositoryDbContext(ApplicationDbContext context)
+        public GenericRepositoryDbContext(IDatabaseContext database)
         {
-            _context = context;
+            this._database = database;
         }
 
         public virtual void Delete(TKey id)
         {
-            if (id == null) throw new ArgumentNullException("Invalid id");
-
             var entity = Get(id);
 
-            if (entity == null) throw new KeyNotFoundException("Entity not found");
-
-            this.Delete(entity);
+            if (entity != null) 
+                Delete(entity);
         }
 
         public virtual void Delete(TEntity entity)
         {
-            if (entity == null) throw new ArgumentNullException("Invalid entity");
-
-            if (_context.Entry(entity).State == EntityState.Detached)
-                _dbset.Attach(entity);
-
-            _dbset.Remove(entity);
+            _database.Connection.Delete<TEntity>(entity, _database.Transaction);
         }
-
         
 
         public virtual TEntity Get(TKey id)
@@ -46,37 +35,27 @@ namespace Agendabolo.GenericRepository
             if (id == null)
                 throw new ArgumentNullException("Invalid id");
 
-            return _context.Connection.Get<TEntity>(id, _context.Transaction);
+            return _database.Connection.Get<TEntity>(id, _database.Transaction);
         }
 
         public virtual IEnumerable<TEntity> Get()
         {
-            return _context.Connection.GetAll<TEntity>(_context.Transaction);
+            return _database.Connection.GetAll<TEntity>(_database.Transaction);
         }
 
         public virtual IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter = null)
         {
-            IQueryable<TEntity> query = _dbset;
-
-            //_context.Connection.GetAll<TEntity>(_context.Transaction)
-            //    .Where(filter);
+            IQueryable<TEntity> query = _database.Connection.GetAll<TEntity>(_database.Transaction).AsQueryable();
 
             if (filter != null)
-            {
                 query = query.Where(filter);
-            }
 
             return query.AsEnumerable();
         }
 
         public virtual void Insert(TEntity entity)
         {
-            //if (entity == null)
-            //    throw new ArgumentNullException("Invalid entity");
-
-            //_dbset.Attach(entity);
-
-            _context.Connection.Insert<TEntity>(entity, _context.Transaction);
+            _database.Connection.Insert<TEntity>(entity, _database.Transaction);
         }
 
         public virtual void Update(TEntity entity)
@@ -84,14 +63,12 @@ namespace Agendabolo.GenericRepository
             if (entity == null)
                 throw new ArgumentNullException("Invalid entity");
 
-            _dbset.Attach(entity);
-
-            _context.Entry(entity).State = EntityState.Modified;
+            _database.Connection.Update<TEntity>(entity, _database.Transaction);
         }
 
         public int Count()
         {
-            return _dbset.Count();
+            return _database.Connection.GetAll<TEntity>(_database.Transaction).Count();
         }
     }
 }

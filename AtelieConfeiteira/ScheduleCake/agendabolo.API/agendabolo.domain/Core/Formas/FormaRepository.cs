@@ -10,10 +10,9 @@ namespace Agendabolo.Core.Formas
 {
     public class FormaRepository : GenericRepository.GenericRepositoryDbContext<FormaDTA, int>, IFormaRepository
     {
-        public FormaRepository(ApplicationDbContext context) 
-            : base(context)
-        {
-        }
+        public FormaRepository(IDatabaseContext database)
+            : base(database)
+        { }
     }
 
 

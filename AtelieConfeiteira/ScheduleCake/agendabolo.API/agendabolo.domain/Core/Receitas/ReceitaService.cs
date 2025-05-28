@@ -1,7 +1,9 @@
 ﻿using Agendabolo.Core.LogDeErros;
 using Agendabolo.Data;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -13,9 +15,9 @@ namespace Agendabolo.Core.Receitas
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.ReceitaRepository.Delete(id);
+                    unit.GetReceitaRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -31,9 +33,9 @@ namespace Agendabolo.Core.Receitas
 
         public IEnumerable<ReceitaDTA> Get()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.ReceitaRepository.Get().ToList();
+                return unit.GetReceitaRepository.Get().ToList();
             }
         }
 
@@ -41,9 +43,15 @@ namespace Agendabolo.Core.Receitas
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    return unit.ReceitaRepository.Get(id);                    
+                    var receita = unit.GetReceitaRepository.Get(id);
+
+                    var ingredienteRepository = unit.GetIngredienteRepository;
+                    foreach (var item in receita.Ingredientes)
+                        item.Ingrediente = ingredienteRepository.Get(item.IdIngrediente);
+
+                    return receita;
                 }
             }
             catch (Exception ex)
@@ -56,19 +64,17 @@ namespace Agendabolo.Core.Receitas
 
         public int GetTotal()
         {
-            using(var unit = new UnitOfWorkDbContext())
-            {
-                return unit.ReceitaRepository.Count();
-            }
+            using(var unit = new UnitOfWork())
+                return unit.GetReceitaRepository.Count();
         }
 
         public (bool, ReceitaDTA) Save(ReceitaDTA receita)
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.ReceitaRepository;
+                    var repository = unit.GetReceitaRepository;
 
                     if (receita.Id == 0)
                         repository.Insert(receita);

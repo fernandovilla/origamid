@@ -68,7 +68,7 @@ namespace Agendabolo.Core.Receitas
                 Status = (int)receita.Status,
                 PesoReferencia =(int)Math.Round(receita.PesoReferencia,0),
                 Observacao = receita.Observacao,
-                TempoPreparo = receita.TempoPreparoTicks,
+                TempoPreparo = receita.TempoPreparo,
                 Ingredientes = getItens(receita.Ingredientes)
             };
 

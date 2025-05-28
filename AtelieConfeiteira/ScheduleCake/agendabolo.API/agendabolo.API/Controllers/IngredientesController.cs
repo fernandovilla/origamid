@@ -1,15 +1,10 @@
 ﻿using Agendabolo.Core;
-using Agendabolo.Core.Clientes;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.LogDeErros;
-using Agendabolo.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Controllers
 {

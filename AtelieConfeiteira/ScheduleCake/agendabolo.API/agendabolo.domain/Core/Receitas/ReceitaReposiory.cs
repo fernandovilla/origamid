@@ -11,30 +11,26 @@ namespace Agendabolo.Core.Receitas
 {
     public class ReceitaReposiory : GenericRepository.GenericRepositoryDbContext<ReceitaDTA, int>, IReceitaRepository
     {
-        public ReceitaReposiory(ApplicationDbContext context)
-            : base(context)
+        public ReceitaReposiory(IDatabaseContext database)
+            : base(database)
         { }
 
 
-        public override IEnumerable<ReceitaDTA> Get(Expression<Func<ReceitaDTA, bool>> filter = null)
-        {
-            IQueryable<ReceitaDTA> query = _dbset;
-
-            if (filter != null)
-                query = query.Where(filter);
-
-            return query.AsEnumerable();
-        }
+        
 
         public override ReceitaDTA Get(int id)
         {
-            IQueryable<ReceitaDTA> receitas = _dbset;
+            var receita = base.Get(id);
 
-            return receitas
-                .Where(r => r.Id == id)
-                .Include(rec => rec.Ingredientes.OrderBy(i => i.Ordem))
-                .ThenInclude(i => i.Ingrediente)
-                .FirstOrDefault();
+            receita.Ingredientes = SelectIngredientes(id).ToList();
+
+            return receita;
+        }
+
+        private IEnumerable<ReceitaIngredienteDTA> SelectIngredientes(int receitaId)
+        {
+            string sql = $"SELECT * FROM ReceitasIngredientes WHERE idReceita = {receitaId} ORDER BY ordem;";
+            return _database.Query<ReceitaIngredienteDTA>(sql);
         }
 
         public override void Update(ReceitaDTA receita)
@@ -42,46 +38,50 @@ namespace Agendabolo.Core.Receitas
             if (receita == null)
                 throw new ArgumentNullException("Receita inválida");
 
-            var ingredientesEditados = receita.Ingredientes
-                .Select(i => (ReceitaIngredienteDTA)i)
-                .OrderBy(i => i.Id)
-                .ToList();
+            base.Update(receita);
 
-            var ingredientesAtuais = _context.IngredientesReceitas
-                .Where(i => i.IdReceita == receita.Id)
-                .ToList();
-
-            if (ingredientesAtuais != null)
-                ingredientesAtuais.ForEach(i => _context.Entry(i).State = EntityState.Detached);
+            //Todo: Concluir atualização de receitas
+            var currentIngredientes = SelectIngredientes(receita.Id).ToList();
 
 
-            _context.Entry(receita).State = EntityState.Modified;
+            // Ingredientes excluídos
+            var removed = currentIngredientes.Except(receita.Ingredientes, new ReceitaIngredienteComparer());
+            foreach (var ingrediente in removed)
+                RemoveItem(ingrediente);
 
-            //Receitas incluídas 
-            var ingredientesAdded = ingredientesEditados.Where(i => i.Id == 0);
-            if (ingredientesAdded != null)
-                ingredientesAdded.ToList().ForEach(i => _context.Entry(i).State = EntityState.Added);
+            // Ingredientes atualizados
+            var updated = receita.Ingredientes.Where(i => i.Id > 0);
+            foreach(var ingrediente in updated)
+                UpdateItem(ingrediente);
 
-
-            //Remove receitas excluídas
-            var ingredientesRemoves = ingredientesAtuais.Except(ingredientesEditados, new ReceitaIngredienteComparer());
-            foreach (var ingredienteDeleted in ingredientesRemoves)
-                _context.IngredientesReceitas.Remove(ingredienteDeleted);
-
-
-            //Atualiza receitas editadas
-            var ingredientesUpdated = ingredientesEditados.Where(i => i.Id > 0).Intersect(ingredientesAtuais, new ReceitaIngredienteComparer());
-            if (ingredientesUpdated != null)
-                ingredientesUpdated.ToList().ForEach(i => _context.Entry(i).State = EntityState.Modified);
-
+            // Ingredientes incluídos
+            var added = receita.Ingredientes.Where(i => i.Id ==  0);
+            foreach (var ingrediente in added)
+                InsertItem(ingrediente);
 
         }
 
 
+
+
+        public void RemoveItem(ReceitaIngredienteDTA ingredienteReceita)
+        {
+            _database.Delete<ReceitaIngredienteDTA>(ingredienteReceita);
+        }
+
+        public void UpdateItem(ReceitaIngredienteDTA ingredienteReceita)
+        {
+            _database.Update<ReceitaIngredienteDTA>(ingredienteReceita);
+        }
+
+        public void InsertItem(ReceitaIngredienteDTA ingredientereceita)
+        {
+            _database.Insert<ReceitaIngredienteDTA>(ingredientereceita);
+        }
+
         public void RemoveItems(IEnumerable<ReceitaIngredienteDTA> ingredientesReceita)
         {
-            foreach (var item in ingredientesReceita)
-                _context.IngredientesReceitas.Remove(item);
+            throw new NotImplementedException();
         }
     }
 }

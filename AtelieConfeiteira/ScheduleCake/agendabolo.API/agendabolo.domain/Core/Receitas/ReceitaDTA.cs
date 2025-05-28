@@ -1,4 +1,5 @@
 ﻿using Agendabolo.Core.Ingredientes;
+using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,13 +8,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
+using dapper = Dapper.Contrib.Extensions;
 
 namespace Agendabolo.Core.Receitas
 {
-    [Table("receitas")]
+    [dapper.Table("receitas")]
     public partial class ReceitaDTA
     {
-        [Key]
+        [dapper.Key]
         [Column("id")]
         public int Id { get; set; }
 
@@ -33,14 +35,16 @@ namespace Agendabolo.Core.Receitas
         public string Preparo { get; set; }
 
         [Column("tempopreparo")]
-        public long TempoPreparoTicks { get; set; }
-
-        public TimeSpan TempoPreparo => new TimeSpan(this.TempoPreparoTicks);
+        public long TempoPreparo { get; set; }
 
         [Column("observacao")]
         public string Observacao { get; set; }
 
-        public List<ReceitaIngredienteDTA> Ingredientes { get; set; }
+        [dapper.Computed]
+        public TimeSpan TempoPreparoCalc => new TimeSpan(this.TempoPreparo);
+
+        [dapper.Computed]
+        public IEnumerable<ReceitaIngredienteDTA> Ingredientes { get; set; }
     }
 
     [DebuggerDisplay("{Id} | {Nome} | {Status}")]
@@ -81,7 +85,7 @@ namespace Agendabolo.Core.Receitas
             return novaReceita;
         }
 
+        [Computed]
         public IEnumerable<Produtos.ProdutoReceitaDTA> ProdutosReceita { get; set; }
-
     }
 }

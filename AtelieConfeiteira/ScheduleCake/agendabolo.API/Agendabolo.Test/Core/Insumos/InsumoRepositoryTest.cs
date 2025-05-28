@@ -9,20 +9,18 @@ using Xunit;
 namespace Agendabolo.Test.Core.Insumos
 {
     public class InsumoRepositoryTest: IClassFixture<ApplicationDbContextFixture>
-    {
-        private ApplicationDbContextFixture ctxFixture;
-
-        public InsumoRepositoryTest(ApplicationDbContextFixture _ctxFixture)
+    {        
+        public InsumoRepositoryTest(IDatabaseContext database)
         {
-            this.ctxFixture = _ctxFixture;
+            
         }
 
         [Fact]
         public void GetByID()
         {
-            using(var unit = new UnitOfWorkDbContext(ctxFixture.Context))
+            using(var unit = new UnitOfWork())
             {
-                var repository = unit.IngredienteRepository;
+                var repository = unit.GetIngredienteRepository;
 
                 var insumo = repository.Get(3);
 
@@ -41,9 +39,9 @@ namespace Agendabolo.Test.Core.Insumos
             };
 
             int affected = 0;
-            using (var unit = new UnitOfWorkDbContext(ctxFixture.Context))
+            using (var unit = new UnitOfWork())
             {
-                unit.IngredienteRepository.Insert(insumo);
+                unit.GetIngredienteRepository.Insert(insumo);
                 //affected = unit.Save();
             }
 

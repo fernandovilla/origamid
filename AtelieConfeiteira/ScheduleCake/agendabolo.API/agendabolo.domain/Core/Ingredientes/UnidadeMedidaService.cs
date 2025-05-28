@@ -14,9 +14,9 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.UnidadeMedidaRepository.Delete(id);
+                    unit.GetUnidadeMedidaRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -34,8 +34,8 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
-                    return unit.UnidadeMedidaRepository.Get().ToList();
+                using (var unit = new UnitOfWork())
+                    return unit.GetUnidadeMedidaRepository.Get().ToList();
             }
             catch (Exception ex)
             {
@@ -49,8 +49,8 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
-                    return unit.UnidadeMedidaRepository.Get(id);
+                using (var unit = new UnitOfWork())
+                    return unit.GetUnidadeMedidaRepository.Get(id);
             }
             catch (Exception ex)
             {
@@ -64,8 +64,8 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
-                    return unit.UnidadeMedidaRepository.Count();
+                using (var unit = new UnitOfWork())
+                    return unit.GetUnidadeMedidaRepository.Count();
             }
             catch (Exception ex)
             {
@@ -79,12 +79,12 @@ namespace Agendabolo.Core.Ingredientes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
                     if (unidadeMedida.Id == 0)
-                        unit.UnidadeMedidaRepository.Insert(unidadeMedida);
+                        unit.GetUnidadeMedidaRepository.Insert(unidadeMedida);
                     else
-                        unit.UnidadeMedidaRepository.Update(unidadeMedida);
+                        unit.GetUnidadeMedidaRepository.Update(unidadeMedida);
 
                     unit.SaveChanges();
                 }

@@ -9,8 +9,8 @@ namespace Agendabolo.Core.Ingredientes
 {
     public class UnidadeMedidaRepository : GenericRepository.GenericRepositoryDbContext<UnidadeMedidaDTA, int>, IUnidadeMedidaRepository
     {
-        public UnidadeMedidaRepository(ApplicationDbContext context) 
-            : base(context)
+        public UnidadeMedidaRepository(IDatabaseContext database) 
+            : base(database)
         { }
     }
 }

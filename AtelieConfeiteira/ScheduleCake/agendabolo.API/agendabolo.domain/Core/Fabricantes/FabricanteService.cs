@@ -14,9 +14,9 @@ namespace Agendabolo.Core.Fabricantes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    unit.FabricanteRepository.Delete(id);
+                    unit.GetFabricanteRepository.Delete(id);
                     unit.SaveChanges();
                 }
 
@@ -32,17 +32,17 @@ namespace Agendabolo.Core.Fabricantes
 
         public int GetTotal()
         {
-            using (var unit = new UnitOfWorkDbContext())
+            using (var unit = new UnitOfWork())
             {
-                return unit.FabricanteRepository.Count();
+                return unit.GetFabricanteRepository.Count();
             }
         }
 
         public IEnumerable<FabricanteDTA> Get()
         {
-            using(var unit = new UnitOfWorkDbContext())
+            using(var unit = new UnitOfWork())
             {
-                return unit.FabricanteRepository.Get();
+                return unit.GetFabricanteRepository.Get();
             }
         }
 
@@ -50,9 +50,9 @@ namespace Agendabolo.Core.Fabricantes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    return unit.FabricanteRepository.Get(id);
+                    return unit.GetFabricanteRepository.Get(id);
                 }
             }
             catch (Exception ex)
@@ -67,9 +67,9 @@ namespace Agendabolo.Core.Fabricantes
         {
             try
             {
-                using (var unit = new UnitOfWorkDbContext())
+                using (var unit = new UnitOfWork())
                 {
-                    var repository = unit.FabricanteRepository;
+                    var repository = unit.GetFabricanteRepository;
 
                     if (fabricante.Id == 0)
                         repository.Insert(fabricante);

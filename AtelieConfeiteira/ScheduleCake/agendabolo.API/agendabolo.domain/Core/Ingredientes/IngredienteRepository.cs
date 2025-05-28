@@ -1,7 +1,4 @@
 ﻿using Agendabolo.Data;
-using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,32 +6,34 @@ namespace Agendabolo.Core.Ingredientes
 {
     public class IngredienteRepository : GenericRepository.GenericRepositoryDbContext<IngredienteDTA, int>, IIngredienteRepository
     {
-        public IngredienteRepository(ApplicationDbContext context)
-            : base(context)
+        public IngredienteRepository(IDatabaseContext database)
+            : base(database)
         { }
 
         public override IngredienteDTA Get(int id)
         {
-            var ingrediente = base.Get(id);
+            var ingrediente = _database.Get<IngredienteDTA>(id);
 
             if (ingrediente != null)
-                ingrediente.Embalagens = SelectEmbalagens(id);
+                ingrediente.Embalagens = SelectEmbalagens(id).ToList();
 
             return ingrediente;
         }
 
         public IEnumerable<IngredienteDTA> GetWithEmbalagens()
-        {            
-            foreach(var i in base.Get())
+        {
+            var ingreidentes = _database.GetAll<IngredienteDTA>();
+
+            foreach (var i in ingreidentes)
             {
-                i.Embalagens = SelectEmbalagens(i.Id);
+                i.Embalagens = SelectEmbalagens(i.Id).ToList();
                 yield return i;
             }
         }
 
         public override void Insert(IngredienteDTA ingrediente)
         {
-            var ingredienteId = (int)_context.Connection.Insert<IngredienteDTA>(ingrediente, _context.Transaction);
+            var ingredienteId = (int)_database.Insert<IngredienteDTA>(ingrediente);
 
             foreach (var embalagem in ingrediente.Embalagens)
             {
@@ -45,7 +44,7 @@ namespace Agendabolo.Core.Ingredientes
         
         public override void Update(IngredienteDTA ingrediente)
         {
-            _context.Connection.Update<IngredienteDTA>(ingrediente, _context.Transaction);
+            _database.Update<IngredienteDTA>(ingrediente) ;
 
             var embalagensAtuais = SelectEmbalagens(ingrediente.Id);
 
@@ -66,50 +65,13 @@ namespace Agendabolo.Core.Ingredientes
                 emb.IdIngrediente = ingrediente.Id;
                 InsertEmbalagem(emb);
             }
-
-
-
-
-            //if (ingrediente == null)
-            //    throw new ArgumentNullException(nameof(ingrediente), "Ingrediente inválido");
-
-            //var embalagensEditadas = ingrediente.Embalagens
-            //    .Select(i => (IngredienteEmbalagemDTA)i)
-            //    .ToList();
-
-            //var embalagensAtuais = _context.IngredientesEmbalagens
-            //    .Where(i => i.IdIngrediente == ingrediente.Id)
-            //    .Select(i => (IngredienteEmbalagemDTA)i)
-            //    .ToList();
-
-            //_context.Entry(ingrediente).State = EntityState.Modified;
-
-
-            //if (embalagensAtuais != null)
-            //    embalagensAtuais.ForEach(i => _context.Entry(i).State = EntityState.Detached);
-
-            //// Embalagens incluídas 
-            //var embalagensAdded = embalagensEditadas.Where(i => i.Id == 0);
-            //if (embalagensAdded != null)
-            //    embalagensAdded.ToList().ForEach(i => _context.Entry(i).State = EntityState.Added);
-
-            //// Embalagens excluídas
-            //var embalagensRemoved = embalagensAtuais.Except(embalagensEditadas, new IngredienteEmbalagemDTA());
-            //if (embalagensRemoved != null)
-            //    embalagensRemoved.ToList().ForEach(i => _context.IngredientesEmbalagens.Remove(i));
-
-            //// Embalagens editadas
-            //var embalagensUpdated = embalagensEditadas.Where(i => i.Id > 0).Intersect(embalagensAtuais, new IngredienteEmbalagemDTA());
-            //if (embalagensUpdated != null)
-            //    embalagensUpdated.ToList().ForEach(i => _context.Entry(i).State = EntityState.Modified);
-
         }
 
 
         private IEnumerable<IngredienteEmbalagemDTA> SelectEmbalagens(int ingredienteId)
         {
             var sql = $"SELECT * FROM EmbalagensIngredientes WHERE IdIngrediente = {ingredienteId};";
-            return _context.Connection.Query<IngredienteEmbalagemDTA>(sql);
+            return _database.Query<IngredienteEmbalagemDTA>(sql, null);
         }
 
         private void InsertEmbalagem(IngredienteEmbalagemDTA embalagem)
@@ -117,7 +79,7 @@ namespace Agendabolo.Core.Ingredientes
             string sql =
                 "INSERT INTO embalagensingredientes (idingrediente, descricao, ean, idunidademedida, quantidade, tipoembalagem, preco) VALUES (" +
                 "@idingrediente, @descricao, @ean, @idunidademedida, @quantidade, @tipoembalagem, @preco);";
-            _context.Connection.Execute(sql, embalagem, _context.Transaction);
+            _database.Execute(sql, embalagem);
         }
 
         private void UpdateEmbalagens(IngredienteEmbalagemDTA embalagem)
@@ -130,12 +92,12 @@ namespace Agendabolo.Core.Ingredientes
                 $"tipoembalagem = @{nameof(IngredienteEmbalagemDTA.TipoEmbalagem)}, " +
                 $"preco = @{nameof(IngredienteEmbalagemDTA.Preco)} " +
                 $"WHERE id = @{nameof(IngredienteEmbalagemDTA.Id)};";
-            _context.Connection.Execute(sql, embalagem, _context.Transaction);
+            _database.Execute(sql, embalagem);
         }
 
         private void DeleteEmbalagem(IngredienteEmbalagemDTA embalagem)
         {
-            _context.Connection.Delete<IngredienteEmbalagemDTA>(embalagem, _context.Transaction);
+            _database.Delete<IngredienteEmbalagemDTA>(embalagem);
         }
     }
 

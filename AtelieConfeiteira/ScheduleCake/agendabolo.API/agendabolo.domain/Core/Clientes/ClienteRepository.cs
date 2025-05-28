@@ -11,8 +11,8 @@ namespace Agendabolo.Core.Clientes
 {
     public class ClienteRepository : GenericRepositoryDbContext<ClienteDTA, int>, IClienteRepository
     {
-        public ClienteRepository(ApplicationDbContext context)
-            : base(context)
+        public ClienteRepository(IDatabaseContext database)
+            : base(database)
         { }
     }
 }

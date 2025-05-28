@@ -12,6 +12,13 @@ namespace Agendabolo.Data
 {
     public class MySQLDatabase : Database
     {
+        private string connectionString;
+
+        public MySQLDatabase(string connectionString)
+        {
+            this.connectionString = connectionString;
+        }
+
         public override IDbCommand CreateCommand(string queryCommand)
         {
             var command = ((MySqlConnection)_connection).CreateCommand();
@@ -33,8 +40,13 @@ namespace Agendabolo.Data
 
         protected override string GetConnectionString()
         {
-            var settings = AppSettings.Default;
-            return settings.ConnectionStrings.DefaultConnection;
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                var settings = AppSettings.Default;
+                this.connectionString = settings.ConnectionStrings.DefaultConnection;
+            }
+
+            return this.connectionString;
         }
     }
 }
