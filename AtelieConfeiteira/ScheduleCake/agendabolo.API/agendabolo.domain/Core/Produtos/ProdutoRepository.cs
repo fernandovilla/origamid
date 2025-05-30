@@ -1,19 +1,9 @@
 ﻿using Agendabolo.Data;
 using Agendabolo.GenericRepository;
-using Dapper;
-using Dapper.Contrib.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
@@ -24,10 +14,27 @@ namespace Agendabolo.Core.Produtos
             : base (database)
         { }
 
+
+        public override ProdutoDTA Get(int id)
+        {
+            var produto = base.Get(id);
+
+            produto.Receitas = GetReceitas(id).ToList();
+
+            return produto;
+        }
+
+        private IEnumerable<ProdutoReceitaDTA> GetReceitas(int produtoId)
+        {
+            string sql = $"SELECT * FROM ProdutosReceitas WHERE idproduto = {produtoId} ORDER BY ordem;";
+            return _database.Query<ProdutoReceitaDTA>(sql);
+        }
+
         public ProdutoDTA GetByID_Min(int id)
         {
             return Get(id);
         }
+
 
         public void Update(ProdutoDTA produto)
         {

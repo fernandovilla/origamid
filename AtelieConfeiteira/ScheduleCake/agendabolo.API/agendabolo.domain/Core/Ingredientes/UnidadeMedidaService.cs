@@ -45,7 +45,7 @@ namespace Agendabolo.Core.Ingredientes
             return null;
         }
 
-        public UnidadeMedidaDTA GetByID(int id)
+        public UnidadeMedidaDTA Get(int id)
         {
             try
             {

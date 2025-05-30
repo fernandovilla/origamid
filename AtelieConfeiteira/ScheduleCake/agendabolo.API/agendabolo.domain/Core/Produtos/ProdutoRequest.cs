@@ -11,6 +11,7 @@ namespace Agendabolo.Core.Produtos
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+        public int Tipo { get; set; }
         public string Descricao { get; set; }
         public string Observacoes { get; set; }
         public int Status { get; set; }
@@ -51,6 +52,7 @@ namespace Agendabolo.Core.Produtos
             {
                 Id = produto.Id,
                 Nome = produto.Nome,
+                Tipo = (int)produto.Tipo,
                 Descricao = produto.Descricao,
                 Observacoes = produto.Observacoes,
                 PesoReferencia = produto.PesoReferencia,
@@ -107,6 +109,8 @@ namespace Agendabolo.Core.Produtos
             var novoProduto = new ProdutoDTA();
             novoProduto.Id = produtoRequest.Id;
             novoProduto.Nome = produtoRequest.Nome;
+
+            novoProduto.Tipo = (TipoProduto)produtoRequest.Tipo;
             novoProduto.Descricao = produtoRequest.Descricao;
             novoProduto.Observacoes = produtoRequest.Observacoes;
             novoProduto.Status = (StatusCadastro)produtoRequest.Status;

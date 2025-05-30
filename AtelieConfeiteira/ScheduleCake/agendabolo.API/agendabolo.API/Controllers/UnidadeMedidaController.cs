@@ -74,7 +74,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var unidadeMedida = _service
-                    .GetByID(id);
+                    .Get(id);
 
                 if (unidadeMedida != null)
                     return Ok(new

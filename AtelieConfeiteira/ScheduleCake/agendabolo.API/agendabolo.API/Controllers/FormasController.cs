@@ -94,7 +94,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var forma = _service
-                    .GetByID(id);
+                    .Get(id);
 
                 if (forma != null)
                     return Ok(new

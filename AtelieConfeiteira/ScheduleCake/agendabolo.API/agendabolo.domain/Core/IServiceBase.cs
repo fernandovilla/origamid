@@ -8,7 +8,7 @@ namespace Agendabolo.Core
     {
         int GetTotal();
         IEnumerable<TEntity> Get();
-        TEntity GetByID(TKey id);
+        TEntity Get(TKey id);
         (bool, TEntity) Save(TEntity entity);
         bool Delete(TKey id);
     }

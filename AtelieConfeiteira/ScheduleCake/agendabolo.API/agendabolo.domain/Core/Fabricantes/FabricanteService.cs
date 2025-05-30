@@ -46,7 +46,7 @@ namespace Agendabolo.Core.Fabricantes
             }
         }
 
-        public FabricanteDTA GetByID(int id)
+        public FabricanteDTA Get(int id)
         {
             try
             {

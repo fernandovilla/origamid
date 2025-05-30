@@ -2,6 +2,7 @@
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Core.LogDeErros;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System;
 using System.Linq;
 using System.Net;
@@ -128,7 +129,7 @@ namespace Agendabolo.Controllers
                 if (id <= 0)
                     return BadRequest("Invalid id");
 
-                var ingrediente = _service.GetByID(id);
+                var ingrediente = _service.Get(id);
 
                 if (ingrediente != null)
                 {
@@ -144,7 +145,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, $"Ocorreu erro deletando ingreidnte - Id: {id}");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -175,7 +176,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, "Ocorreu erro listando ingredientes");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -203,7 +204,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, "Ocorreu erro listando ingredientes ativos");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -246,7 +247,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, $"Ocorreu erro buscando ingredientes - tipo: {tipo}, texto: {texto}");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -277,7 +278,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, $"Ocorreu erro buscando ingredientes - Key: {key}");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -287,7 +288,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var ingrediente = _service
-                    .GetByID(id);
+                    .Get(id);
 
                 if (ingrediente != null)
                     return Ok(new
@@ -300,7 +301,7 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, $"Ocorreu erro buscando ingredientes - Id: {id}");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
@@ -327,15 +328,9 @@ namespace Agendabolo.Controllers
             }
             catch (Exception ex)
             {
-                LogDeErro.Default.Write(ex);
+                Log.Error(ex, $"Ocorreu erro salvando ingrediente");
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
-        }
-
-        [HttpGet("Teste")]
-        public IActionResult Teste()
-        {
-            return Ok("TESTE OK");
         }
     }
 }

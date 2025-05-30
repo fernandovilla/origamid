@@ -81,7 +81,7 @@ namespace Agendabolo.Controllers
                 if (id <= 0)
                     return BadRequest("Invalid id");
 
-                var receita = _service.GetByID(id);
+                var receita = _service.Get(id);
 
                 if (receita != null)
                 {
@@ -132,7 +132,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var receita = _service.GetByID(id);
+                var receita = _service.Get(id);
 
                 if (receita != null)
                     return Ok(new

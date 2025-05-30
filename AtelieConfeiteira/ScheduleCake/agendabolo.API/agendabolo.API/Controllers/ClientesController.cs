@@ -64,7 +64,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var cliente = _service.GetByID(id);
+                var cliente = _service.Get(id);
 
                 if (cliente != null)
                     return Ok(new
@@ -93,7 +93,7 @@ namespace Agendabolo.Controllers
                     (bool ok, ClienteDTA result) = _service.Save(clienteDTA);
 
                     if (ok)
-                        return Ok(ClienteRequest.ParseFromDTA(_service.GetByID(result.Id)));
+                        return Ok(ClienteRequest.ParseFromDTA(_service.Get(result.Id)));
                     else
                         return BadRequest();
                 }

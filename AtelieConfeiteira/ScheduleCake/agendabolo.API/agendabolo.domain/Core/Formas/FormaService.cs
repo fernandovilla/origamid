@@ -38,7 +38,7 @@ namespace Agendabolo.Core.Formas
             }
         }
 
-        public FormaDTA GetByID(int id)
+        public FormaDTA Get(int id)
         {
             try
             {

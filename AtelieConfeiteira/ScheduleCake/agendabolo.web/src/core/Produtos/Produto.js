@@ -14,6 +14,8 @@ export default class Produto {
 
   static CalcularPrecoCustoReceita(receita, pesoReferencia) {
     
+    console.log(receita, pesoReferencia);
+
     if (receita === undefined || receita === null) return 0;
 
     if (receita.ingredientes === undefined || receita.ingredientes === null)

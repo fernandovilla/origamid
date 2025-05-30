@@ -54,7 +54,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var fabricante = _service.GetByID(id);
+                var fabricante = _service.Get(id);
 
                 if (fabricante != null)
                     return Ok(fabricante);

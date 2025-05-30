@@ -1,11 +1,7 @@
-﻿using Agendabolo.Core.LogDeErros;
-using Agendabolo.Data;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
@@ -39,7 +35,7 @@ namespace Agendabolo.Core.Receitas
             }
         }
 
-        public ReceitaDTA GetByID(int id)
+        public ReceitaDTA Get(int id)
         {
             try
             {

@@ -29,7 +29,7 @@ namespace Agendabolo.Core.Clientes
                 return unit.GetClienteRepository.Get().ToList();
         }
 
-        public ClienteDTA GetByID(int id)
+        public ClienteDTA Get(int id)
         {
             using(var unit = new UnitOfWork())
                 return unit.GetClienteRepository.Get(id);

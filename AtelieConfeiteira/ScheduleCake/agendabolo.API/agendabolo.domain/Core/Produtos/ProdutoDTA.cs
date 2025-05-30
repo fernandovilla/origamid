@@ -10,6 +10,13 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Produtos
 {
+    public enum TipoProduto
+    {
+        Produzido = 1,
+        Revenda = 2
+    }
+
+
     [Table("produtos")]
     [DebuggerDisplay("{Id} | {Nome} | {Status}")]
     public class ProdutoDTA
@@ -21,6 +28,9 @@ namespace Agendabolo.Core.Produtos
 
         [Column("nome")]
         public string Nome { get; set; }
+
+        [Column("tipo")]
+        public TipoProduto Tipo { get; set; }
 
         [Column("status")]
         public StatusCadastro Status { get; set; }

@@ -25,20 +25,15 @@ namespace Agendabolo.Core.Ingredientes
         public IEnumerable<IngredienteDTA> GetWithEmbalagens()
         {
             using (var unit = new UnitOfWork())
-            {
-                var prods = unit.GetIngredienteRepository.GetWithEmbalagens().ToList();
-                return prods;
-            }
+                return unit.GetIngredienteRepository.GetWithEmbalagens().ToList();
         }
         
-        public IngredienteDTA GetByID(int id)
+        public IngredienteDTA Get(int id)
         {
             try
             {
                 using (var unit = new UnitOfWork())
-                {
                     return unit.GetIngredienteRepository.Get(id);
-                }
             }
             catch (Exception ex)
             {

@@ -1,13 +1,9 @@
 ﻿using Agendabolo.Core.Historicos;
 using Agendabolo.Core.Ingredientes;
 using Agendabolo.Data;
-using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Entradas
 {
@@ -23,7 +19,7 @@ namespace Agendabolo.Core.Entradas
             throw new NotImplementedException();
         }
 
-        public EntradaDTA GetByID(int id)
+        public EntradaDTA Get(int id)
         {
             throw new NotImplementedException();
         }

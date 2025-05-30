@@ -1,12 +1,12 @@
-using Agendabolo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Web.Http.Cors;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace Agendabolo
 {
@@ -38,6 +38,10 @@ namespace Agendabolo
             //    });
             //});
 
+            DefineSerilog(services);
+            services.AddSerilog(Log.Logger);
+
+
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins, policy =>
@@ -55,6 +59,22 @@ namespace Agendabolo
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AgendaBolo API", Version = "v1" });
             });
+
+            
+
+        }
+
+        private void DefineSerilog(IServiceCollection services)
+        {
+            var outputTemplate = "[{Timestamp:dd-MM-yyyy HH:mm:ss} [{Level}] {Message} {NewLine} {Exception}";
+            var config = new LoggerConfiguration();
+            config.WriteTo.Console(outputTemplate: outputTemplate);
+            config.WriteTo.File(path: "logs/log-.txt", rollingInterval: RollingInterval.Day, outputTemplate: outputTemplate);
+            config.MinimumLevel.Information();
+            config.Enrich.FromLogContext();
+            Log.Logger = config.CreateLogger();
+
+            Log.Information("Serilog set configuration");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

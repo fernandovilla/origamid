@@ -37,7 +37,7 @@ namespace Agendabolo.Core.Fornecedores
             }
         }
 
-        public FornecedorDTA GetByID(int id)
+        public FornecedorDTA Get(int id)
         {
             try
             {

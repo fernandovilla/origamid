@@ -18,7 +18,7 @@ namespace Agendabolo.Core.Ingredientes
             throw new NotImplementedException();
         }
 
-        public IngredienteEstoqueDTA GetByID(int id)
+        public IngredienteEstoqueDTA Get(int id)
         {
             throw new NotImplementedException();
         }

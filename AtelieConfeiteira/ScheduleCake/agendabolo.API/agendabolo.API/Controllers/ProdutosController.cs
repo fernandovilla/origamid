@@ -37,28 +37,28 @@ namespace Agendabolo.Controllers
             }
         }
 
-        [HttpGet("Min/{id}")]
-        public IActionResult SelectById_Minino(int id)
-        {
-            try
-            {
-                var produto = _service.GetByID_Min(id);
+        //[HttpGet("Min/{id}")]
+        //public IActionResult SelectById_Minino(int id)
+        //{
+        //    try
+        //    {
+        //        var produto = _service.GetByID_Min(id);
 
-                if (produto != null)
-                    return Ok(new
-                    {
-                        total = 1,
-                        data = ProdutoRequest.ParseFromDTA(produto)
-                    }); ;
+        //        if (produto != null)
+        //            return Ok(new
+        //            {
+        //                total = 1,
+        //                data = ProdutoRequest.ParseFromDTA(produto)
+        //            }); ;
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                LogDeErro.Default.Write(ex);
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-        }
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogDeErro.Default.Write(ex);
+        //        return StatusCode((int)HttpStatusCode.InternalServerError);
+        //    }
+        //}
 
 
         public override IActionResult Delete(int id)
@@ -68,7 +68,7 @@ namespace Agendabolo.Controllers
                 if (id <= 0)
                     return BadRequest("Invalid id");
 
-                var produto = _service.GetByID(id);
+                var produto = _service.Get(id);
 
                 if (produto != null)
                 {
@@ -118,7 +118,7 @@ namespace Agendabolo.Controllers
         {
             try
             {
-                var produto = _service.GetByID(id);
+                var produto = _service.Get(id);
 
                 //Calcular custo receita/item
 
@@ -149,7 +149,7 @@ namespace Agendabolo.Controllers
                     (bool ok, ProdutoDTA result) = _service.Save(produtoDTA);
 
                     if (ok)
-                        return Ok(ProdutoRequest.ParseFromDTA(_service.GetByID(result.Id)));
+                        return Ok(ProdutoRequest.ParseFromDTA(_service.Get(result.Id)));
                     else
                         return BadRequest();
                 }

@@ -1,12 +1,6 @@
 ﻿using Agendabolo.Utils;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agendabolo.Data
 {
@@ -29,8 +23,8 @@ namespace Agendabolo.Data
 
         protected override void ClearPoolConnection(IDbConnection connection)
         {
-            //if (connection is MySqlConnection)
-            //    MySqlConnection.ClearPool((MySqlConnection)connection);
+            if (connection is MySqlConnection)
+                MySqlConnection.ClearPool((MySqlConnection)connection);
         }
 
         protected override IDbConnection CreateConnection(string connectionString)

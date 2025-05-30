@@ -15,12 +15,19 @@
               <h2 class="title">Dados do Produto</h2>                
               <div class="content">        
                 <div class="row">
-
-                  <div class="input-group col-12">
+                  <div class="input-group col-6 col-md-12">
                     <label for="nome">Nome</label>
                     <input-base id="nome" required v-model="produto.nome" maxlength="100" />
                   </div>
-                  
+
+                  <div class="input-group col-3 col-md-12">
+                    <label for="tipo">Tipo</label>
+                    <select-tipo-produto id="tipo" v-model="produto.tipo" :selected="produto.tipo" required />
+                  </div>   
+                </div>
+
+                <div class="row">
+
                   <div class="input-group col-6 col-md-12">
                     <label for="descricao">Descrição</label>
                     <input-area id="descricao" :rows=3 v-model="produto.descricao" maxlength="500" />                   
@@ -42,7 +49,7 @@
         </div>
 
         <!-- Grupo: Preparo -->
-        <div class="row m-top-10">
+        <div v-if="produto.tipo == 1" class="row m-top-10">
           
           <div class="col-12">
             <div class="group preparo">
@@ -72,7 +79,7 @@
 
         </div>
         
-        <div class="row m-top-10">
+        <div v-if="produto.tipo == 1" class="row m-top-10">
           <!-- Grupo: Receitas -->         
           <div class="col-12">
             <div class="group receitas">
@@ -241,6 +248,7 @@ import InputBase from '@/components/Input/InputBase.vue'
 import InputArea from '@/components/Input/InputArea.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
+import SelectTipoProduto  from '@/components/Select/SelectTipoProduto.vue'
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
 import ButtonSave from '@/components/Button/ButtonSave.vue';
 import ButtonBack from '@/components/Button/ButtonBack.vue';
@@ -272,6 +280,7 @@ export default {
         precoVendaAtacado: 0.00,
         precoVendaVarejo: 0.00,        
         minimoAtacado: 0.00,
+        tipo: 1,
         status: 0,
         receitas: [],
       },
@@ -289,6 +298,7 @@ export default {
     InputArea, 
     InputNumber, 
     SelectStatus, 
+    SelectTipoProduto,
     ButtonSmallAdd, 
     ButtonSave,
     ButtonBack,
@@ -414,6 +424,8 @@ export default {
     },
 
     calcularCustoReceita(receita){
+    console.log("calcularCustoReceita()", receita)
+
       return Produto.CalcularPrecoCustoReceita(receita, this.produto.pesoReferencia);
     },
 
@@ -470,8 +482,10 @@ export default {
     async selecionarProdutoEdicao(){
       if (this.id === undefined || this.id === 0) 
         return;
-      
+
       var response = await produtosAPIService.obterProduto(this.id);
+
+      console.log("Produto selecionado: ", response.data);
 
       if (response !== undefined){        
         this.produto = response.data;
@@ -532,6 +546,7 @@ export default {
       var produtoRequest = {
         id: this.produto.id !== undefined ? this.produto.id : 0,
         nome: this.produto.nome,
+        tipo: this.produto.tipo,
         descricao: this.produto.descricao,
         observacoes: this.produto.observacoes,
         status: this.produto.status,
@@ -547,6 +562,8 @@ export default {
         precoVendaAtacado: TextToNumber(this.produto.precoVendaAtacado),
         receitas: receitasRequest
       };
+
+      console.log(produtoRequest);
 
       return produtoRequest;
     },

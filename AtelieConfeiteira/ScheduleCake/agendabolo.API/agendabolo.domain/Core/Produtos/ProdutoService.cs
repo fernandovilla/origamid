@@ -39,17 +39,30 @@ namespace Agendabolo.Core.Produtos
             using (var unit = new UnitOfWork())
             {
                 return unit.GetProdutoRepository.Get().ToList();
-
-                //Todo: selecionar receitas e itens das receitas
             }
         }
 
-        public ProdutoDTA GetByID(int id)
+        public ProdutoDTA Get(int id)
         {
             try
             {
                 using (var unit = new UnitOfWork())
-                    return unit.GetProdutoRepository.Get(id); ;
+                {
+                    var produto = unit.GetProdutoRepository.Get(id);
+
+                    var receitaRepository = unit.GetReceitaRepository;
+                    var ingredienteRepository = unit.GetIngredienteRepository;
+
+                    foreach (var receita in produto.Receitas)
+                    {
+                        receita.Receita = receitaRepository.Get(receita.IdReceita);
+
+                        foreach (var ingrediente in receita.Receita.Ingredientes)
+                            ingrediente.Ingrediente = ingredienteRepository.Get(ingrediente.IdIngrediente);
+                    }
+                   
+                    return produto;
+                }
             }
             catch (Exception ex)
             {

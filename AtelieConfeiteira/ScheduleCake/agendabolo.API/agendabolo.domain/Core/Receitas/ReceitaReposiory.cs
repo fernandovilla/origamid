@@ -1,11 +1,7 @@
-﻿using Agendabolo.Core.Produtos;
-using Agendabolo.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Agendabolo.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace Agendabolo.Core.Receitas
 {
@@ -22,12 +18,12 @@ namespace Agendabolo.Core.Receitas
         {
             var receita = base.Get(id);
 
-            receita.Ingredientes = SelectIngredientes(id).ToList();
+            receita.Ingredientes = GetIngredientes(id).ToList();
 
             return receita;
         }
 
-        private IEnumerable<ReceitaIngredienteDTA> SelectIngredientes(int receitaId)
+        public IEnumerable<ReceitaIngredienteDTA> GetIngredientes(int receitaId)
         {
             string sql = $"SELECT * FROM ReceitasIngredientes WHERE idReceita = {receitaId} ORDER BY ordem;";
             return _database.Query<ReceitaIngredienteDTA>(sql);
@@ -41,7 +37,7 @@ namespace Agendabolo.Core.Receitas
             base.Update(receita);
 
             //Todo: Concluir atualização de receitas
-            var currentIngredientes = SelectIngredientes(receita.Id).ToList();
+            var currentIngredientes = GetIngredientes(receita.Id).ToList();
 
 
             // Ingredientes excluídos
