@@ -18,7 +18,7 @@ namespace Agendabolo.Core.Produtos
         public int PesoReferencia { get; set; }
         public int TempoPreparo { get; set; }
         public string Finalizacao { get; set; }
-
+        public decimal PrecoCusto { get; set; }
         public double MargemPreparo { get; set; }
         public decimal CustoMaoDeObra { get; set; }
         public decimal CustoEmbalagem { get; set; }
@@ -59,6 +59,7 @@ namespace Agendabolo.Core.Produtos
                 TempoPreparo = produto.TempoPreparo,
                 Finalizacao = produto.Finalizacao,
                 MargemPreparo = produto.MargemPreparo,
+                PrecoCusto = produto.PrecoCusto,
                 CustoEmbalagem  = produto.CustoEmbalagem,
                 CustoMaoDeObra = produto.CustoMaoDeObra,
                 MargemVendaVarejo = produto.MargemVendaVarejo,
@@ -119,6 +120,7 @@ namespace Agendabolo.Core.Produtos
             novoProduto.TempoPreparo = produtoRequest.TempoPreparo;
             novoProduto.Finalizacao = produtoRequest.Finalizacao;
 
+            novoProduto.PrecoCusto = produtoRequest.PrecoCusto;
             novoProduto.MargemPreparo = produtoRequest.MargemPreparo;
             novoProduto.CustoMaoDeObra = produtoRequest.CustoMaoDeObra;
             novoProduto.CustoEmbalagem = produtoRequest.CustoEmbalagem;

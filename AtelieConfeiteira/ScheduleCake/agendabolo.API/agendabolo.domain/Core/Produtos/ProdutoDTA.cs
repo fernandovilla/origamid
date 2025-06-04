@@ -1,12 +1,15 @@
 ﻿using Agendabolo.Core.Receitas;
+using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using dapper = Dapper.Contrib.Extensions;
 
 namespace Agendabolo.Core.Produtos
 {
@@ -17,12 +20,12 @@ namespace Agendabolo.Core.Produtos
     }
 
 
-    [Table("produtos")]
+    [dapper.Table("produtos")]
     [DebuggerDisplay("{Id} | {Nome} | {Status}")]
     public class ProdutoDTA
     {
 
-        [Key]
+        [dapper.Key]
         [Column("id")]
         public int Id { get; set; }
 
@@ -46,6 +49,9 @@ namespace Agendabolo.Core.Produtos
 
         [Column("pesoreferencia")]
         public int PesoReferencia { get; set; }
+
+        [Column("precocusto")]
+        public decimal PrecoCusto { get; set; }
 
         [Column("tempopreparo")]
         public int TempoPreparo { get; set; }
@@ -71,6 +77,7 @@ namespace Agendabolo.Core.Produtos
         [Column("precovendaatacado")]
         public decimal PrecoVendaAtacado { get; set; }
 
+        [dapper.Computed]
         public IList<ProdutoReceitaDTA> Receitas { get; set; }
     }
 }

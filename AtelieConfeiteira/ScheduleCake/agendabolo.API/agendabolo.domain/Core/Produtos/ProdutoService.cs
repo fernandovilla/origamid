@@ -53,12 +53,16 @@ namespace Agendabolo.Core.Produtos
                     var receitaRepository = unit.GetReceitaRepository;
                     var ingredienteRepository = unit.GetIngredienteRepository;
 
-                    foreach (var receita in produto.Receitas)
+                    if (produto.Tipo == TipoProduto.Produzido)
                     {
-                        receita.Receita = receitaRepository.Get(receita.IdReceita);
 
-                        foreach (var ingrediente in receita.Receita.Ingredientes)
-                            ingrediente.Ingrediente = ingredienteRepository.Get(ingrediente.IdIngrediente);
+                        foreach (var receita in produto.Receitas)
+                        {
+                            receita.Receita = receitaRepository.Get(receita.IdReceita);
+
+                            foreach (var ingrediente in receita.Receita.Ingredientes)
+                                ingrediente.Ingrediente = ingredienteRepository.Get(ingrediente.IdIngrediente);
+                        }
                     }
                    
                     return produto;
@@ -121,7 +125,9 @@ namespace Agendabolo.Core.Produtos
 
         private void InsertProduto(IUnitOfWork unit, ProdutoDTA produto)
         {
-            //Todo: Produto.Incluir() - incluir o produto
+            var repository = unit.GetProdutoRepository;
+
+            repository.Insert(produto);
         }
 
         private void UpdateProduto(IUnitOfWork unit, ProdutoDTA produto) { 

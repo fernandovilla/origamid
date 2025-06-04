@@ -17,10 +17,10 @@
             <hr>
             <side-bar-item subitem=true display="Ingredientes"  googleIcon="egg" router="/ingredientes"  />                        
             <side-bar-item subitem=true display="Receitas" googleIcon="book" router="/receitas" />
-            <side-bar-item subitem=true display="Produtos" googleIcon="cake" router="/produtos"  />                                
             <side-bar-item subitem=true display="Formas" googleIcon="extension" router="/formas" />
             <side-bar-item subitem=true display="Fornecedores" googleIcon="trolley" router="/fornecedores"  />                        
-            <side-bar-item subitem=true display="Embalagens" googleIcon="featured_seasonal_and_gifts" router="/embalagens"  />                                            
+            <side-bar-item subitem=true display="Embalagens" googleIcon="featured_seasonal_and_gifts" router="/embalagens"  />                                
+            
             <hr>                   
             <side-bar-item subitem=true display="Ajuste de Preços" googleIcon="attach_money" router="/ajustePrecos"  />                          
           </ul>

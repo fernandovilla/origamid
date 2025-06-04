@@ -19,7 +19,10 @@ namespace Agendabolo.Core.Produtos
         {
             var produto = base.Get(id);
 
-            produto.Receitas = GetReceitas(id).ToList();
+            var receitas = GetReceitas(id);
+
+            if (receitas.Any())
+                produto.Receitas = receitas.ToList();
 
             return produto;
         }
@@ -35,7 +38,31 @@ namespace Agendabolo.Core.Produtos
             return Get(id);
         }
 
+        public override void Insert(ProdutoDTA produto)
+        {
+            base.Insert(produto);
 
+            if (produto.Receitas != null)
+            {
+                foreach(var receita in produto.Receitas)
+                    InsertReceita(receita);
+            }
+        }
+
+        public void InsertReceita(ProdutoReceitaDTA receita)
+        {
+            string sql = "INSERT INTO produtosreceitas (idproduto, idreceita, percentual, ordem) values (@idproduto, @idreceita, @percentual, @ordem);";
+            _database.Execute(sql, receita);
+        }
+
+        public void UpdateReceita(ProdutoReceitaDTA receita)
+        {
+            string sql = "UPDATE produtosreceitas SET " +
+                "percentual = @percentual, " +
+                "ordem = @ordem " +
+                "WHERE id = @id;";
+            _database.Execute(sql, receita);
+        }
         public void Update(ProdutoDTA produto)
         {
             if (produto == null)

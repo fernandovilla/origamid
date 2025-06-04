@@ -15,33 +15,35 @@
               <h2 class="title">Dados do Produto</h2>                
               <div class="content">        
                 <div class="row">
-                  <div class="input-group col-6 col-md-12">
+                  <div class="input-group col-7 col-md-12">
                     <label for="nome">Nome</label>
                     <input-base id="nome" required v-model="produto.nome" maxlength="100" />
                   </div>
+
+                  
+                </div>
+
+                <div class="row">
 
                   <div class="input-group col-3 col-md-12">
                     <label for="tipo">Tipo</label>
                     <select-tipo-produto id="tipo" v-model="produto.tipo" :selected="produto.tipo" required />
                   </div>   
-                </div>
-
-                <div class="row">
-
-                  <div class="input-group col-6 col-md-12">
-                    <label for="descricao">Descrição</label>
-                    <input-area id="descricao" :rows=3 v-model="produto.descricao" maxlength="500" />                   
-                  </div>
-
-                  <div class="input-group col-6 col-md-12">
-                    <label for="observacoes">Observações</label>
-                    <input-area id="observacoes" :rows=3 v-model="produto.observacoes" maxlength="500" />                   
-                  </div>
 
                   <div class="input-group col-3 col-md-12">
                     <label for="status">Status</label>
                     <select-status id="status" v-model="produto.status" :selected="produto.status" required />
                   </div>   
+
+                  <div class="input-group col-7 col-md-12">
+                    <label for="observacoes">Observações</label>
+                    <input-area id="observacoes" :rows=3 v-model="produto.observacoes" maxlength="500" />                   
+                  </div>
+
+                  <div v-if="false" class="input-group col-6 col-md-12">
+                    <label for="descricao">Descrição</label>
+                    <input-area id="descricao" :rows=3 v-model="produto.descricao" maxlength="500" />                   
+                  </div>
                 </div>              
               </div>
             </div>
@@ -140,29 +142,29 @@
               <div class="content">
               
                 <div class="row">
-                  <div class="input-group col-3 col-md-12">
+                  <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoReceitas">Matéria Prima (R$)</label>
                     <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="totalCustoReceitasText" />
                   </div>
 
-                  <div class="input-group col-3 col-md-12">
+                  <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="margemPreparo">Preparo (%)</label>
                     <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
                   </div>
 
-                  <div class="input-group col-3 col-md-12">
+                  <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoMaoDeObra">Mão de Obra (R$)</label>
                     <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
                   </div>
 
-                  <div class="input-group col-3 col-md-12">
+                  <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoEmbalagem">Embalagem (R$)</label>
                     <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
                   </div>
 
                   <div class="input-group col-3 col-md-12">
                     <label for="custoTotal">Custo Total (R$)</label>
-                    <input-number id="custoTotal" :decimal-cases=2 disabled v-model="custoTotalProdutoText" />
+                    <input-number id="custoTotal" :decimal-cases=2 :disabled="produto.tipo == 1" v-model="custoTotalProdutoText" />
                   </div>
                 </div>
 
@@ -272,6 +274,7 @@ export default {
         finalizacao: '',
         pesoReferencia: 0,
         tempoPreparo: 0,
+        precocusto: 0.00,
         custoEmbalagem: 0.00,
         custoMaoDeObra: 0.00,
         margemPreparo: 0.00,
@@ -325,7 +328,10 @@ export default {
     },
 
     totalCustoReceitasText(){
-      return NumberToText(Produto.CalcularPrecoCustoReceitas(this.produto).toFixed(2));
+      if (this.produto.tipo == 1)
+        return NumberToText(Produto.CalcularPrecoCustoReceitas(this.produto).toFixed(2));
+      else 
+        return this.produto.precoCusto;
     },        
 
     precoVendaVarejoText(){      
@@ -402,6 +408,9 @@ export default {
     precoVendaAtacadoHandleKeyPress(event){
       if (event.keyCode === 13 && event.target.value === '*'){        
         this.produto.precoVendaAtacado = Produto.CalcularPrecoVendaAtacado(this.produto);
+
+        console.log("precoVendaAtacadoHandleKeyPress");
+
         event.preventDefault();
         return false;
       }
@@ -485,7 +494,7 @@ export default {
 
       var response = await produtosAPIService.obterProduto(this.id);
 
-      console.log("Produto selecionado: ", response.data);
+      console.log(response);
 
       if (response !== undefined){        
         this.produto = response.data;
