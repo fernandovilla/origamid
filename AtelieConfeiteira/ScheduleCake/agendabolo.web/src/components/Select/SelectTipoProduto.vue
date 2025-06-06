@@ -2,8 +2,8 @@
     <span >   
       <select name="status" v-model="selectedValue">
         <option disabled>Selecione</option>
-        <option value="1">Produzido</option>
-        <option value="2">Pronto</option>  
+        <option value="1">Rec</option>
+        <option value="2">Embalagem</option>  
       </select>
     </span>
   </template>

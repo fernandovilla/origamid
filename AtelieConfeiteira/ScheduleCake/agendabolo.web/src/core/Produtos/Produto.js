@@ -12,32 +12,7 @@ export default class Produto {
   pesoReferencia = 1000;
   receitas = [];
 
-  static CalcularPrecoCustoReceita(receita, pesoReferencia) {
-    
-    console.log(receita, pesoReferencia);
-
-    if (receita === undefined || receita === null) return 0;
-
-    if (receita.ingredientes === undefined || receita.ingredientes === null)
-      return 0;
-
-    var custoIngredientesQuilo = receita.ingredientes.reduce(
-      (acumulado, item) => {
-        return TextToNumber(item.precoCustoQuilo) + acumulado;
-      },
-      0,
-    );
-
-    var pesoReceitaNoProduto = this.CalcularPesoProporcionalReceita(
-      receita,
-      pesoReferencia,
-    );
-    var custoReceita = (custoIngredientesQuilo / 1000) * pesoReceitaNoProduto;
-
-    return custoReceita;
-  }
-
-  static CalcularPrecoCustoReceitas(produto) {
+  static CalcularPrecoCustoReceitasProduto(produto) {
     if (produto === null || produto === undefined) return 0;
 
     if (produto.receitas == null || produto.receitas === undefined) return 0;
@@ -52,36 +27,78 @@ export default class Produto {
     return total;
   }
 
-  static CalcularPercentualTotalReceitas(produto) {
-    if (produto.receitas === undefined) return 0;
+  static CalcularPrecoCustoReceita(receita, pesoReferencia) {
+    
+    if (receita === undefined || receita === null) 
+      return 0;
 
-    var total = produto.receitas.reduce((acumulado, receita) => {
-      return acumulado + TextToNumber(receita.percentual);
-    }, 0);
-    return total;
+    if (!Array.isArray(receita.ingredientes) || receita.ingredientes === undefined || receita.ingredientes === null)
+      return 0;
+
+    var custoIngredientesQuilo = receita.ingredientes.reduce(
+      (acumulado, item) => {
+        return TextToNumber(item.precoCustoQuilo) + acumulado;
+      }, 0,
+    );
+
+    var pesoReceitaNoProduto = this.CalcularPesoProporcionalReceita(receita, pesoReferencia);
+    var custoReceita = (custoIngredientesQuilo / 1000) * pesoReceitaNoProduto;
+
+    return custoReceita;
   }
 
-  static CalcularPesoTotalReceitas(produto) {
-    if (produto.receitas == null) return 0;
+  static CalcularPrecoCustoReceitas(receitas, pesoReferencia) {
+    
+    if (!Array.isArray(receitas) || receitas === undefined || receitas === null) 
+      return 0;
 
-    var total = produto.receitas.reduce((acumulado, receita) => {
+    var total = receitas.reduce((acumulado, receita) => {
       return (
         acumulado +
-        this.CalcularPesoProporcionalReceita(receita, produto.pesoReferencia)
+        this.CalcularPrecoCustoReceita(receita, pesoReferencia)
       );
     }, 0);
 
     return total;
   }
 
-  static CalcularPesoProporcionalReceita(receita, pesoReferencia) {
-    if (receita === undefined || receita === null) return 0;
 
-    return pesoReferencia * (receita.percentual / 100);
+  static CalcularPercentualTotalReceitas(receitas) {
+    if (!Array.isArray(receitas) || receitas === undefined || receitas === null) 
+      return 0;
+
+    var total = receitas.reduce((acumulado, receita) => {
+      return acumulado + TextToNumber(receita.percentual);
+    }, 0);
+    return total;
   }
 
-  static CalcularPrecoCustoTotalProduto(produto) {
-    var totalReceitas = this.CalcularPrecoCustoReceitas(produto);
+
+  static CalcularPesoTotalReceitas(receitas, pesoReferencia) {
+    if (!Array.isArray(receitas) || receitas === undefined || receitas === null) 
+      return 0;
+
+    var total = receitas.reduce((acumulado, receita) => {
+      return (
+        acumulado +
+        this.CalcularPesoProporcionalReceita(receita, pesoReferencia)
+      );
+    }, 0);
+
+    return total;
+  }
+
+
+  static CalcularPesoProporcionalReceita(receita, pesoReferencia) {
+    if (receita === undefined || receita === null) 
+      return 0;
+
+    return pesoReferencia * (TextToNumber(receita.percentual) / 100);
+  }
+
+  static CalcularPrecoCustoTotalProduto(produto, receitas) {
+    var totalReceitas = this.CalcularPrecoCustoReceitas(receitas, produto.pesoReferencia);
+
     var valorMargemPreparo =
       totalReceitas * (TextToNumber(produto.margemPreparo) / 100);
 
@@ -93,16 +110,16 @@ export default class Produto {
     );
   }
 
-  static CalcularPrecoVendaVarejo(produto) {
-    var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto);
+  static CalcularPrecoVendaVarejo(produto, receitas) {
+    var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto, receitas);
     var valorMargem =
       (totalProdutos * TextToNumber(produto.margemVendaVarejo)) / 100;
 
     return (totalProdutos + valorMargem).toFixed(2);
   }
 
-  static CalcularPrecoVendaAtacado(produto) {
-    var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto);
+  static CalcularPrecoVendaAtacado(produto, receitas) {
+    var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto, receitas);
     var valorMargem =
       (totalProdutos * TextToNumber(produto.margemVendaAtacado)) / 100;
 

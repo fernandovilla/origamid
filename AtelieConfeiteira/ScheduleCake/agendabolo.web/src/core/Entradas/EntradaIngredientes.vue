@@ -381,7 +381,7 @@ export default {
 
       var itensEntradaPayload = this.itensEntrada.map((item) => ({            
             idingrediente: item.ingredienteId,
-            idfornecedor: this.fornecedorSelecionado.Id,
+            idfornecedor: this.fornecedor.Id,
             quantidade: TextToNumber(item.quant),
             estoqueAntes: 0,
             precoCustoQuiloBruto: TextToNumber(item.precoUnitario),

@@ -103,14 +103,14 @@
                     <th class="col-acoes"></th>
                   </thead>
                   <tbody>
-                    <tr v-for="(receita, index) in produto.receitas" :key="index">
+                    <tr v-for="(receita, index) in receitas" :key="index">
                       <td class="col-item">{{index+1}}</td>
                       <td class="col-receita">{{receita.nome}}</td>
                       <td class="col-percent editable">
                         <input-number type="text" v-model="receita.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
                       <td class="col-peso">{{pesoCalculado(receita.percentual)}}g</td>
-                      <td class="col-custo">R$ {{ custoReceitaText(receita)}}</td>
+                      <td class="col-custo">R$ {{ custoReceitaText }}</td>
                       <td class="body-actions col-acoes">
                         <action-up-button @click.prevent="moveReceitaUp(index)" />           
                         <action-down-button @click.prevent="moveReceitaDown(index)" />           
@@ -124,7 +124,7 @@
                       <td class="col-receita"></td>
                       <td class="col-percent">{{ totalPercentualReceitasText }}%</td>
                       <td class="col-peso"> {{ totalPesoReceitasText }}g</td>
-                      <td class="col-custo">R$ {{ totalCustoReceitasText }}</td>
+                      <td class="col-custo">R$ {{ custoReceitasText }}</td>
                       <td class="col-acoes"></td>
                     </tr>
                   </tfoot>
@@ -134,37 +134,36 @@
           </div>
         </div>
 
-        <div class="row m-top-10"  >
+        <div class="row m-top-10"  >          
           <!-- Grupo: Precificação -->
           <div class="col-12">
             <div class="group precos">
               <h2 class="title">Precificação</h2>
-              <div class="content">
-              
+              <div class="content">            
                 <div class="row">
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
-                    <label for="custoReceitas">Matéria Prima (R$)</label>
-                    <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="totalCustoReceitasText" />
+                    <label for="custoReceitas">Custo Receitas (R$)</label>
+                    <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="this.custoReceitas" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="margemPreparo">Preparo (%)</label>
-                    <input-number id="margemPreparo" :decimal-cases=2 v-model="produto.margemPreparo" />
+                    <input-number id="margemPreparo" :decimal-cases=2 v-model="this.margemPreparo" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoMaoDeObra">Mão de Obra (R$)</label>
-                    <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="produto.custoMaoDeObra" />
+                    <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="this.custoMaoDeObra" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoEmbalagem">Embalagem (R$)</label>
-                    <input-number id="custoEmbalagem" :decimal-cases=2 v-model="produto.custoEmbalagem" />
+                    <input-number id="custoEmbalagem" :decimal-cases=2 v-model="this.custoEmbalagem" />
                   </div>
 
-                  <div class="input-group col-3 col-md-12">
+                  <div class="input-group col-3 col-md-12">                    
                     <label for="custoTotal">Custo Total (R$)</label>
-                    <input-number id="custoTotal" :decimal-cases=2 :disabled="produto.tipo == 1" v-model="custoTotalProdutoText" />
+                    <input-number id="custoTotal" :decimal-cases=2 :disabled="produto.tipo == 1" v-model="this.custoTotal" />
                   </div>
                 </div>
 
@@ -259,6 +258,8 @@ import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import Produto from '@/core/Produtos/Produto.js'
 import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
+import { Success, Error } from '@/helpers/Toast.js';
+
 
 
 
@@ -274,7 +275,7 @@ export default {
         finalizacao: '',
         pesoReferencia: 0,
         tempoPreparo: 0,
-        precocusto: 0.00,
+        precoCusto: 0.00,
         custoEmbalagem: 0.00,
         custoMaoDeObra: 0.00,
         margemPreparo: 0.00,
@@ -284,10 +285,15 @@ export default {
         precoVendaVarejo: 0.00,        
         minimoAtacado: 0.00,
         tipo: 1,
-        status: 0,
-        receitas: [],
+        status: 0        
       },
-      custoItemReceira:[],
+      custoReceitas: 0.00,
+      margemPreparo: 0.00,
+      custoEmbalagem: 0.00,
+      custoMaoDeObra: 0.00,
+      custoTotal: 0,
+      custoItemReceira:[],      
+      receitas: [],
       receitasExcluidas: [],
       selecaoNovaReceitaShow: false,
       mensagem: '',
@@ -319,19 +325,18 @@ export default {
           return 'Edição Produto';
     },
 
+    //OK
     totalPercentualReceitasText(){
-      return NumberToText(Produto.CalcularPercentualTotalReceitas(this.produto).toFixed(2));
+      return NumberToText(Produto.CalcularPercentualTotalReceitas(this.receitas).toFixed(2));
     },
 
+    //OK
     totalPesoReceitasText(){
-      return NumberToText(Produto.CalcularPesoTotalReceitas(this.produto).toFixed(2));
+      return NumberToText(Produto.CalcularPesoTotalReceitas(this.receitas, this.produto.pesoReferencia).toFixed(2));
     },
 
-    totalCustoReceitasText(){
-      if (this.produto.tipo == 1)
-        return NumberToText(Produto.CalcularPrecoCustoReceitas(this.produto).toFixed(2));
-      else 
-        return this.produto.precoCusto;
+    custoReceitasText() {
+      return NumberToText(this.custoReceitas);
     },        
 
     precoVendaVarejoText(){      
@@ -343,17 +348,17 @@ export default {
     },
 
     custoTotalProdutoText(){
-      return NumberToText(this.custoTotalProduto().toFixed(2));
+      return NumberToText(this.custoTotal.toFixed(2));
     },
 
     margemPrecoCalculadaVarejo(){
-      var margem = ((this.produto.precoVendaVarejo / this.custoTotalProduto()) - 1) * 100;
+      var margem = ((this.produto.precoVendaVarejo / this.custoTotal) - 1) * 100;
       //return NumberToText(margem.toFixed(2));
       return margem.toFixed(2);
     },
 
     margemPrecoCalculadaAtacado(){
-      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / this.custoTotalProduto()) - 1) * 100;
+      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / this.custoTotal) - 1) * 100;
       return NumberToText(margem.toFixed(2));
     },
 
@@ -398,49 +403,72 @@ export default {
     }
   },
 
-  watch: {
+  watch: {      
     margemVendaAtacado(){
       console.log("mudou margem");
+    },
+
+    receitas: {
+      handler() {
+        if (this.produto.tipo == 1){
+          this.custoReceitas = Produto.CalcularPrecoCustoReceitas(this.receitas, this.produto.pesoReferencia).toFixed(2);        
+        }
+      }, deep: true
+    },
+
+    custoReceitas(){
+      if (this.produto.tipo == 1){        
+        this.calcularCustoTotalProduto();
+      }
+    },
+
+    
+
+    margemPreparo(){
+      this.produto.margemPreparo = this.margemPreparo;
+      this.calcularCustoTotalProduto();
+    },
+
+    custoEmbalagem(){
+      this.produto.custoEmbalagem = this.custoEmbalagem;
+      this.calcularCustoTotalProduto();
+    },
+
+    custoMaoDeObra(){
+      this.produto.custoMaoDeObra = this.custoMaoDeObra;
+      this.calcularCustoTotalProduto();
     }
+
+
   },
 
+
   methods: {
+
+    //OK
     precoVendaAtacadoHandleKeyPress(event){
       if (event.keyCode === 13 && event.target.value === '*'){        
-        this.produto.precoVendaAtacado = Produto.CalcularPrecoVendaAtacado(this.produto);
-
-        console.log("precoVendaAtacadoHandleKeyPress");
+        this.produto.precoVendaAtacado = Produto.CalcularPrecoVendaAtacado(this.produto, this.receitas);
 
         event.preventDefault();
         return false;
       }
     },
 
+    //OK
     precoVendaVarejoHandleKeyPress(event){
       if (event.keyCode === 13 && event.target.value === '*'){
-        this.produto.precoVendaVarejo = Produto.CalcularPrecoVendaVarejo(this.produto);
+        this.produto.precoVendaVarejo = Produto.CalcularPrecoVendaVarejo(this.produto, this.receitas);
         event.preventDefault();
         return false;
       }
     },
 
-    custoReceitaText(receita){
-       return NumberToText(this.calcularCustoReceita(receita).toFixed(2));
+    //OK
+    calcularCustoTotalProduto(){      
+      this.custoTotal = Produto.CalcularPrecoCustoTotalProduto(this.produto, this.receitas);
     },
 
-    custoTotalProduto(){
-      return Produto.CalcularPrecoCustoTotalProduto(this.produto);
-    },
-
-    calcularCustoReceita(receita){
-    console.log("calcularCustoReceita()", receita)
-
-      return Produto.CalcularPrecoCustoReceita(receita, this.produto.pesoReferencia);
-    },
-
-    calcularPesoReferenciaReceita(receita){
-      return this.produto.pesoReferencia * (receita.percentual / 100);
-    },
 
     pesoCalculado(percentual){
       if (percentual === 0 || this.produto.pesoReferencia === 0)
@@ -456,11 +484,11 @@ export default {
     },
 
     removeReceita(index){
-      if (index >= 0 || index < this.produto.receitas.length){
-        if (this.produto.receitas[index].id > 0) {
-          this.receitasExcluidas.push(this.produto.receitas[index]);
+      if (index >= 0 || index < this.receitas.length){
+        if (this.receitas[index].id > 0) {
+          this.receitasExcluidas.push(this.receitas[index]);
         }
-        this.produto.receitas.splice(index, 1);
+        this.receitas.splice(index, 1);
       }
     },
 
@@ -470,11 +498,11 @@ export default {
 
     onReceitaConfirmada(arg){                  
 
-      if (this.produto.receitas === undefined)
-        this.produto.receitas = [];
+      if (this.receitas === undefined)
+        this.receitas = [];
 
       //Converter Receita => ProdutoReceita
-      var prodRec = {
+      var produtoReceita = {
         id: 0,
         nome: arg.nome,
         idProduto: this.produto.id,
@@ -484,7 +512,8 @@ export default {
         order: this.produto.length,
       };
 
-      this.produto.receitas.push(prodRec);
+      //this.receitas.push(prodRec);
+      this.receitas = [...this.receitas, produtoReceita];
     },
 
 
@@ -494,10 +523,13 @@ export default {
 
       var response = await produtosAPIService.obterProduto(this.id);
 
-      console.log(response);
-
-      if (response !== undefined){        
+      if (response !== undefined) {
         this.produto = response.data;
+        this.receitas = this.produto.receitas;
+        this.margemPreparo = this.produto.margemPreparo;
+        this.custoEmbalagem = this.produto.custoEmbalagem;
+        this.custoMaoDeObra = this.produto.custoMaoDeObra;        
+
       } else {
         this.$router.push('/produtos');
       }
@@ -524,14 +556,15 @@ export default {
       if (response !== null){
         if (inclusao) {
           this.produto.id = response.id;
-          this.mostrarMensagemSucesso("Produto cadastrado com sucesso")
+          Success('Produto cadastrado com sucesso');
         }
         else{
-          this.mostrarMensagemSucesso("Produto atualizado com sucesso")
+          Success('Produto atualizado com sucesso');
         }
       } else {
-        //erro na alteração da receita...
+        Error('Erro ao cadastrar produto');
       }
+
 
       this.saving = false;
     },
@@ -540,8 +573,8 @@ export default {
 
       var receitasRequest = [];
 
-      if (this.produto.receitas !== undefined){
-        receitasRequest = this.produto.receitas.map((item, index) => {
+      if (this.receitas !== undefined && this.receitas !== null) {
+        receitasRequest = this.receitas.map((item, index) => {
           return {
             id: item.id !== undefined ? item.id : 0,
             idProduto: this.produto.id !== undefined ? this.produto.id : 0,
@@ -563,6 +596,7 @@ export default {
         tempoPreparo: this.produto.tempoPreparo,
         finalizacao: this.produto.finalizacao,
         margemPreparo: TextToNumber(this.produto.margemPreparo),
+        precoCusto: TextToNumber(this.produto.precoCusto),
         custoMaoDeObra: TextToNumber(this.produto.custoMaoDeObra),
         custoEmbalagem: TextToNumber(this.produto.custoEmbalagem),
         margemVendaVarejo: TextToNumber(this.produto.margemVendaVarejo),
