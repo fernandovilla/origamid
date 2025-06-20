@@ -1,10 +1,11 @@
 <template>
   <div v-focustrap>
-    <form class="form-edit"  @keydown="handleKeyDown" ref="formedit">
+    <!--<form class="form-edit"  @keydown="handleKeyDown" ref="formedit">-->
+    <form class="form-edit" ref="formedit">
       <div class="row">
         <div class="input-group col-6">
-          <label for="codigo">Codigo</label>
-          <input id="codigo" type="text">
+          <label for="codigo">Codigo [{{ valueText }}]</label>
+          <input-text id="codigo" v-model="valueText" />
         </div>
 
         <div class="input-group col-6">
@@ -22,19 +23,37 @@
           <input id="cidade" type="text">
         </div>
 
+        <div class="input-group col-6">
+          <label for="numero">Número [{{ valueNumber }}]</label>
+          <input-teste id="numero" v-model="valueNumber" :min-decimals=2 :max-decimals=2 />
+        </div>
+
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import InputText from '@/components/Input/InputText.vue';
+import InputTeste from '@/components/Input/InputTeste.vue';
 
 export default {
   
+  data() {
+    return {
+      valueText: 'TESTE',
+      valueNumber: 1.99,
+      
+    };
+  },
+
+  components: {
+    InputTeste, InputText
+  },
+
   methods: {
     handleKeyDown(event){
-      console.log(event.key);
-
+      
       if (event.key === 'Tab'){
 
         this.$nextTick(() => {

@@ -120,8 +120,11 @@ export default class Produto {
 
   static CalcularPrecoVendaAtacado(produto, receitas) {
     var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto, receitas);
-    var valorMargem =
-      (totalProdutos * TextToNumber(produto.margemVendaAtacado)) / 100;
+
+    console.log("totalProdutos:", totalProdutos);
+    
+
+    var valorMargem = (totalProdutos * TextToNumber(produto.margemVendaAtacado)) / 100;
 
     return (totalProdutos + valorMargem).toFixed(2);
   }

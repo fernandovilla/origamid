@@ -1,3 +1,5 @@
+<!--https://html.spec.whatwg.org/multipage/input.html#the-step-attribute-->
+
 <template>
   <input ref="inputText" :type="type" :value="modelValue" @input="updateValue" :class="{ upper: upperCase }" :placeholder="this.placeHolder" />
 </template>

@@ -12,7 +12,9 @@
 .input-group > input, 
 .input-group > textarea, 
 .input-group select, 
-.input-group .input-select {
+.input-group .input-select,
+.input-group .p-inputnumber,
+.input-group .p-inputnumber .p-inputtext {
   font-family: 'Poppins', sans-serif;
   font-size: 0.795rem;
   border: 1px solid rgba(0,0,0,0.2);
@@ -23,8 +25,17 @@
   outline: none;
   color: var(--text-color-dark);
   transition: all 0.1s;
-  width: 100%;
+  width: 100%;  
 }
+
+/* Formatação dos campos do PrimeVue*/
+.input-group .p-inputnumber .p-inputtext {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+
 
 .input-group .upper {
   text-transform: uppercase;

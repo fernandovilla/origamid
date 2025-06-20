@@ -184,7 +184,7 @@
 
                   <span class="margemPreco" :class="{ margemMenor: margemAtacadoCalculadaBaixa }">
                     <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemAtacadoCalculadaBaixa" />                  
-                    <span>Margem: {{ this.margemPrecoCalculadaAtacado }} %</span>                                          
+                    <span>Margem: {{ this.margemPrecoAtacadoCalculado }} %</span>                                          
                   </span>
                 </div>
 
@@ -202,10 +202,11 @@
                       :allow-asterisk=true 
                       v-model="produto.precoVendaVarejo" 
                       @keypress="precoVendaVarejoHandleKeyPress"  />                    
-                  </div>                         
+                  </div>    
+
                   <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
                     <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
-                    <span>Margem: {{ this.margemPrecoCalculadaVarejo }} %</span>                                          
+                    <span>Margem: {{ this.margemPrecoVarejoCalculado }} %</span>                                          
                   </span>
                   
                   
@@ -351,19 +352,28 @@ export default {
       return NumberToText(this.custoTotal.toFixed(2));
     },
 
-    margemPrecoCalculadaVarejo(){
-      var margem = ((this.produto.precoVendaVarejo / this.custoTotal) - 1) * 100;
-      //return NumberToText(margem.toFixed(2));
-      return margem.toFixed(2);
+    margemPrecoVarejoCalculado(){
+      if (TextToNumber(this.custoTotal) > 0){
+        var margem = ((this.produto.precoVendaVarejo / this.custoTotal) - 1) * 100;
+        return margem.toFixed(2);
+      } else {
+        return 0.00;
+      }
     },
 
-    margemPrecoCalculadaAtacado(){
-      var margem = ((TextToNumber(this.produto.precoVendaAtacado) / this.custoTotal) - 1) * 100;
-      return NumberToText(margem.toFixed(2));
+    margemPrecoAtacadoCalculado() {      
+      if (this.custoTotal > 0){
+        var margem = ((TextToNumber(this.produto.precoVendaAtacado) / TextToNumber(this.custoTotal)) - 1) * 100;
+        return NumberToText(margem.toFixed(2));
+      } else {
+        return 0.00;
+      }
     },
 
     margemVarejoDivergente(){
-      var margemCalculada = TextToNumber(this.margemPrecoCalculadaVarejo).toFixed(2);
+      //var margemCalculada = TextToNumber(this.margemPrecoVarejoCalculado).toFixed(2);
+      //var margemInformada = TextToNumber(this.produto.margemVendaVarejo).toFixed(2);
+      var margemCalculada = this.margemPrecoVarejoCalculado;
       var margemInformada = TextToNumber(this.produto.margemVendaVarejo).toFixed(2);
 
       if (margemCalculada < margemInformada){

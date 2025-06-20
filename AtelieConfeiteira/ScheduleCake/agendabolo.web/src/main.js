@@ -6,7 +6,8 @@ import FontawelsomeLibrary from '@/helpers/Fontawelsome.js';
 import FocusTrap from 'primevue/focustrap'
 import ToastService from 'primevue/toastservice';
 
-// import PrimeVue from 'primevue/config';
+//import PrimeVue from 'primevue/config';
+//import InputNumber from 'primevue/inputnumber';
 // import 'primeicons/primeicons.css';
 // import InputText from 'primevue/inputtext';
 // import Card from 'primevue/card';
@@ -19,7 +20,8 @@ appGlobal.use(store);
 appGlobal.use(ToastService);
 appGlobal.directive('focustrap', FocusTrap);
 
-// appGlobal.use(PrimeVue);
+//appGlobal.use(PrimeVue);
+//appGlobal.use(InputNumber);
 // appGlobal.component('Card', Card);
 // appGlobal.component('InputText', InputText);
 // appGlobal.component('Sidebar', Sidebar);
