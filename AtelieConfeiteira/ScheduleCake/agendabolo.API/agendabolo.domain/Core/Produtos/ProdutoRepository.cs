@@ -70,8 +70,6 @@ namespace Agendabolo.Core.Produtos
             _database.Delete<ProdutoReceitaDTA>(receita);
         }
 
-        
-
         public void Update(ProdutoDTA produto)
         {
             if (produto == null)
