@@ -17,7 +17,7 @@
                 <div class="row">
                   <div class="input-group col-7 col-md-12">
                     <label for="nome">Nome</label>
-                    <input-base id="nome" required v-model="produto.nome" maxlength="100" />
+                    <input-text id="nome" required v-model="produto.nome" maxlength="100" />
                   </div>
 
                   
@@ -61,12 +61,12 @@
 
                     <div class="input-group col-3 col-md-12">
                       <label for="pesoReferencia">Peso Referência (gramas)</label>
-                      <input-number id="pesoReferencia" :decimal-cases=0 v-model="produto.pesoReferencia" />
+                      <input-number id="pesoReferencia" :decimals=0 v-model="pesoReferencia" />
                     </div>
 
                     <div class="input-group col-3 col-md-12">
                       <label for="tempopreparo">Tempo Preparo (minutos)</label>
-                      <input-number id="tempopreparo" :decimal-cases=0 v-model="produto.tempoPreparo" />
+                      <input-number id="tempopreparo" :decimals=0 v-model="produto.tempoPreparo" />
                     </div>
 
                     <div class="input-group col-12">
@@ -107,10 +107,10 @@
                       <td class="col-item">{{index+1}}</td>
                       <td class="col-receita">{{receita.nome}}</td>
                       <td class="col-percent editable">
-                        <input-number type="text" v-model="receita.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                        <input-number v-model="receita.percentual" :decimals=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                       </td>
                       <td class="col-peso">{{pesoCalculado(receita.percentual)}}g</td>
-                      <td class="col-custo">R$ {{ custoReceitaText }}</td>
+                      <td class="col-custo">R$ {{ calcularCustoReceitaText(receita) }}</td>
                       <td class="body-actions col-acoes">
                         <action-up-button @click.prevent="moveReceitaUp(index)" />           
                         <action-down-button @click.prevent="moveReceitaDown(index)" />           
@@ -124,7 +124,7 @@
                       <td class="col-receita"></td>
                       <td class="col-percent">{{ totalPercentualReceitasText }}%</td>
                       <td class="col-peso"> {{ totalPesoReceitasText }}g</td>
-                      <td class="col-custo">R$ {{ custoReceitasText }}</td>
+                      <td class="col-custo">R$ {{ Number(this.custoReceitas).toFixed(2) }}</td>
                       <td class="col-acoes"></td>
                     </tr>
                   </tfoot>
@@ -143,48 +143,44 @@
                 <div class="row">
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoReceitas">Custo Receitas (R$)</label>
-                    <input-number id="custoReceitas" :decimal-cases=2 disabled v-model="this.custoReceitas" />
+                    <input-number id="custoReceitas" :decimals=2 disabled v-model="this.custoReceitas" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="margemPreparo">Preparo (%)</label>
-                    <input-number id="margemPreparo" :decimal-cases=2 v-model="this.margemPreparo" />
+                    <input-number id="margemPreparo" :decimals=2 v-model="this.margemPreparo" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoMaoDeObra">Mão de Obra (R$)</label>
-                    <input-number id="custoMaoDeObra" :decimal-cases=2 v-model="this.custoMaoDeObra" />
+                    <input-number id="custoMaoDeObra" :decimals=2 v-model="this.custoMaoDeObra" />
                   </div>
 
                   <div v-if="produto.tipo == 1" class="input-group col-3 col-md-12">
                     <label for="custoEmbalagem">Embalagem (R$)</label>
-                    <input-number id="custoEmbalagem" :decimal-cases=2 v-model="this.custoEmbalagem" />
+                    <input-number id="custoEmbalagem" :decimals=2 v-model="this.custoEmbalagem" />
                   </div>
 
                   <div class="input-group col-3 col-md-12">                    
                     <label for="custoTotal">Custo Total (R$)</label>
-                    <input-number id="custoTotal" :decimal-cases=2 :disabled="produto.tipo == 1" v-model="this.custoTotal" />
+                    <input-number id="custoTotal" :decimals=2 :disabled="produto.tipo == 1" v-model="this.custoTotal" />
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="input-group col-3 col-md-12">
                     <label for="margemVendaAtacado">Margem Atacado (%)</label>
-                    <input-number id="margemVendaAtacado" :decimal-cases=2 v-model="produto.margemVendaAtacado" />
+                    <input-number id="margemVendaAtacado" :decimals=2 v-model="produto.margemVendaAtacado" />
                   </div>
                   
                   <div class="input-group col-3 col-md-12">
                     <label for="precoVendaAtacado">Preço Venda Atacado (R$)</label>
-                    <input-number id="precoVendaAtacado"  
-                      :decimal-cases=2 
-                      :allow-asterisk=true 
-                      v-model="produto.precoVendaAtacado" 
-                      @keypress="precoVendaAtacadoHandleKeyPress" />                    
+                    <input-number id="precoVendaAtacado"  :decimals=2 v-model="produto.precoVendaAtacado" @keypress="precoVendaAtacadoHandleKeyPress" />                    
                   </div>
 
-                  <span class="margemPreco" :class="{ margemMenor: margemAtacadoCalculadaBaixa }">
+                  <span class="margem-preco"  :class="{ menor: margemAtacadoCalculadaBaixa }">
                     <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemAtacadoCalculadaBaixa" />                  
-                    <span>Margem: {{ this.margemPrecoAtacadoCalculado }} %</span>                                          
+                    <span>Sugerido: R$ {{precoAtacadoCalculadoSugerido}} | Margem: {{ this.margemPrecoAtacadoCalculado }} %</span>                                          
                   </span>
                 </div>
 
@@ -192,21 +188,17 @@
 
                   <div class="input-group col-3 col-md-12">
                     <label for="margemVendaVarejo">Margem Varejo (%)</label>
-                    <input-number id="margemVendaVarejo" :decimal-cases=2 v-model="produto.margemVendaVarejo" />
+                    <input-number id="margemVendaVarejo" :decimals=2 v-model="produto.margemVendaVarejo" />
                   </div>        
                   
                   <div class="input-group col-3 col-md-12">
                     <label for="precoVendaVarejo">Preço Venda Varejo (R$)</label>
-                    <input-number id="precoVendaVarejo" 
-                      :decimal-cases=2 
-                      :allow-asterisk=true 
-                      v-model="produto.precoVendaVarejo" 
-                      @keypress="precoVendaVarejoHandleKeyPress"  />                    
+                    <input-number id="precoVendaVarejo" :decimals=2 v-model="produto.precoVendaVarejo" @keypress="precoVendaVarejoHandleKeyPress"  />                    
                   </div>    
 
-                  <span class="margemPreco"  :class="{ margemMenor: margemVarejoCalculadaBaixa }">
+                  <span class="margem-preco"  :class="{ menor: margemVarejoCalculadaBaixa }">
                     <font-awesome-icon :icon="['fas', 'triangle-exclamation']" v-if="margemVarejoCalculadaBaixa" />
-                    <span>Margem: {{ this.margemPrecoVarejoCalculado }} %</span>                                          
+                    <span>Sugerido: R$ {{this.precoVarejoCalculadoSugerido}} | Margem: {{ this.margemPrecoVarejoCalculado }} %</span>                                          
                   </span>
                   
                   
@@ -246,7 +238,7 @@
 <script>
 import { produtosAPIService } from '@/core/Produtos/ProdutoAPIService.js'
 import SelecionaReceitaProduto from '@/core/Produtos/SelecionaReceitaProduto.vue'
-import InputBase from '@/components/Input/InputBase.vue'
+import InputText from '@/components/Input/InputText.vue'
 import InputArea from '@/components/Input/InputArea.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
@@ -258,7 +250,7 @@ import ActionDeleteButton from '@/components/Button/ActionDeleteButton.vue';
 import ActionUpButton from '@/components/Button/ActionUpButton.vue';
 import ActionDownButton from '@/components/Button/ActionDownButton.vue';
 import Produto from '@/core/Produtos/Produto.js'
-import { NumberToText, TextToNumber } from '@/helpers/NumberHelp'
+import { NumberToText, } from '@/helpers/NumberHelp'
 import { Success, Error } from '@/helpers/Toast.js';
 
 
@@ -288,6 +280,7 @@ export default {
         tipo: 1,
         status: 0        
       },
+      pesoReferencia: 0,
       custoReceitas: 0.00,
       margemPreparo: 0.00,
       custoEmbalagem: 0.00,
@@ -304,7 +297,7 @@ export default {
   },
   props:['id'],
   components: {
-    InputBase, 
+    InputText, 
     InputArea, 
     InputNumber, 
     SelectStatus, 
@@ -333,7 +326,7 @@ export default {
 
     //OK
     totalPesoReceitasText(){
-      return NumberToText(Produto.CalcularPesoTotalReceitas(this.receitas, this.produto.pesoReferencia).toFixed(2));
+      return NumberToText(Produto.CalcularPesoTotalReceitas(this.receitas, this.produto.pesoReferencia).toFixed(0));
     },
 
     custoReceitasText() {
@@ -352,29 +345,29 @@ export default {
       return NumberToText(this.custoTotal.toFixed(2));
     },
 
-    margemPrecoVarejoCalculado(){
-      if (TextToNumber(this.custoTotal) > 0){
-        var margem = ((this.produto.precoVendaVarejo / this.custoTotal) - 1) * 100;
-        return margem.toFixed(2);
+    precoVarejoCalculadoSugerido() {
+      var valorMargem = this.custoTotal * (this.produto.margemVendaVarejo / 100);
+      var precoSugerido = parseFloat(this.custoTotal) + valorMargem;
+
+      if (precoSugerido > 0){
+        return precoSugerido.toFixed(2);
       } else {
         return 0.00;
       }
     },
 
-    margemPrecoAtacadoCalculado() {      
+    margemPrecoVarejoCalculado(){
       if (this.custoTotal > 0){
-        var margem = ((TextToNumber(this.produto.precoVendaAtacado) / TextToNumber(this.custoTotal)) - 1) * 100;
-        return NumberToText(margem.toFixed(2));
+        var margem = ((this.produto.precoVendaVarejo / this.custoTotal) - 1) * 100;
+        return margem.toFixed(2);
       } else {
-        return 0.00;
+        return 0
       }
     },
 
     margemVarejoDivergente(){
-      //var margemCalculada = TextToNumber(this.margemPrecoVarejoCalculado).toFixed(2);
-      //var margemInformada = TextToNumber(this.produto.margemVendaVarejo).toFixed(2);
       var margemCalculada = this.margemPrecoVarejoCalculado;
-      var margemInformada = TextToNumber(this.produto.margemVendaVarejo).toFixed(2);
+      var margemInformada = this.produto.margemVendaVarejo;
 
       if (margemCalculada < margemInformada){
         return 'menor';
@@ -385,27 +378,47 @@ export default {
       }
     },
 
-    margemAtacadoDivergente(){
-      var margemCalculada = TextToNumber(this.margemPrecoCalculadaAtacado).toFixed(2);
-      var margemInformada = TextToNumber(this.produto.margemVendaAtacado).toFixed(2);
-
-      if (margemCalculada < margemInformada){
-        return 'menor';
-      } else if (margemCalculada > margemInformada){
-        return 'maior';
-      } else {
-        return undefined;
-      }
-    },
-
-    margemVarejoCalculadaBaixa(){
+    margemVarejoCalculadaBaixa(){      
       if (this.margemVarejoDivergente === 'menor')
         return true;
 
       return false;
     },
 
-    margemAtacadoCalculadaBaixa() {
+    precoAtacadoCalculadoSugerido() {
+      var precoSugerido = this.custoTotal + (this.custoTotal * (this.produto.margemVendaAtacado / 100));
+
+      if (precoSugerido > 0){
+        return precoSugerido.toFixed(2);
+      } else {
+        return 0.00;
+      }
+
+    },
+
+    margemPrecoAtacadoCalculado() {      
+      if (this.custoTotal > 0){
+        var margem = ((this.produto.precoVendaAtacado / this.custoTotal) - 1) * 100;
+        return margem.toFixed(2);
+      } else {
+        return 0;
+      }
+    },
+
+    margemAtacadoDivergente(){
+      var margemCalculada = this.margemPrecoAtacadoCalculado;
+      var margemInformada = this.produto.margemVendaAtacado;
+
+      if (margemCalculada < margemInformada){
+        return 'menor';
+      } else if (margemCalculada > margemInformada){
+        return 'maior';
+      } else {
+        return undefined;
+      }
+    },
+
+    margemAtacadoCalculadaBaixa(){
       if (this.margemAtacadoDivergente === 'menor')
         return true;
       
@@ -413,15 +426,12 @@ export default {
     }
   },
 
-  watch: {      
-    margemVendaAtacado(){
-      console.log("mudou margem");
-    },
-
+  watch: {          
     receitas: {
       handler() {
         if (this.produto.tipo == 1){
-          this.custoReceitas = Produto.CalcularPrecoCustoReceitas(this.receitas, this.produto.pesoReferencia).toFixed(2);        
+          //this.custoReceitas = Produto.CalcularPrecoCustoReceitas(this.receitas, this.produto.pesoReferencia).toFixed(2);        
+          this.calcularCustoTotalReceitas()
         }
       }, deep: true
     },
@@ -431,8 +441,6 @@ export default {
         this.calcularCustoTotalProduto();
       }
     },
-
-    
 
     margemPreparo(){
       this.produto.margemPreparo = this.margemPreparo;
@@ -447,16 +455,18 @@ export default {
     custoMaoDeObra(){
       this.produto.custoMaoDeObra = this.custoMaoDeObra;
       this.calcularCustoTotalProduto();
-    }
+    },
 
-
+    pesoReferencia(){      
+      this.produto.pesoReferencia = this.pesoReferencia;
+      this.calcularCustoTotalReceitas();
+    },
   },
 
 
   methods: {
 
-    //OK
-    precoVendaAtacadoHandleKeyPress(event){
+    precoVendaAtacadoHandleKeyPress(event){      
       if (event.keyCode === 13 && event.target.value === '*'){        
         this.produto.precoVendaAtacado = Produto.CalcularPrecoVendaAtacado(this.produto, this.receitas);
 
@@ -465,18 +475,25 @@ export default {
       }
     },
 
-    //OK
     precoVendaVarejoHandleKeyPress(event){
       if (event.keyCode === 13 && event.target.value === '*'){
         this.produto.precoVendaVarejo = Produto.CalcularPrecoVendaVarejo(this.produto, this.receitas);
+
         event.preventDefault();
         return false;
       }
     },
 
-    //OK
     calcularCustoTotalProduto(){      
       this.custoTotal = Produto.CalcularPrecoCustoTotalProduto(this.produto, this.receitas);
+    },
+
+    calcularCustoTotalReceitas(){
+      this.custoReceitas = Produto.CalcularPrecoCustoReceitas(this.receitas, this.produto.pesoReferencia);
+    },
+
+    calcularCustoReceitaText(receita){
+      return Produto.CalcularPrecoCustoReceita(receita, this.produto.pesoReferencia).toFixed(2);
     },
 
 
@@ -484,7 +501,7 @@ export default {
       if (percentual === 0 || this.produto.pesoReferencia === 0)
         return 0;
 
-      var peso = TextToNumber(this.produto.pesoReferencia) * TextToNumber(percentual) / 100;
+      var peso = this.produto.pesoReferencia * (percentual / 100);
 
       return peso.toFixed(0);
     },
@@ -534,8 +551,11 @@ export default {
       var response = await produtosAPIService.obterProduto(this.id);
 
       if (response !== undefined) {
+
         this.produto = response.data;
+        this.pesoReferencia = this.produto.pesoReferencia;
         this.receitas = this.produto.receitas;
+        this.custoTotal = this.produto.precoCusto;
         this.margemPreparo = this.produto.margemPreparo;
         this.custoEmbalagem = this.produto.custoEmbalagem;
         this.custoMaoDeObra = this.produto.custoMaoDeObra;        
@@ -605,18 +625,16 @@ export default {
         pesoReferencia: this.produto.pesoReferencia,
         tempoPreparo: this.produto.tempoPreparo,
         finalizacao: this.produto.finalizacao,
-        margemPreparo: TextToNumber(this.produto.margemPreparo),
-        precoCusto: TextToNumber(this.produto.precoCusto),
-        custoMaoDeObra: TextToNumber(this.produto.custoMaoDeObra),
-        custoEmbalagem: TextToNumber(this.produto.custoEmbalagem),
-        margemVendaVarejo: TextToNumber(this.produto.margemVendaVarejo),
-        precoVendaVarejo: TextToNumber(this.produto.precoVendaVarejo),
-        margemVendaAtacado: TextToNumber(this.produto.margemVendaAtacado),
-        precoVendaAtacado: TextToNumber(this.produto.precoVendaAtacado),
+        margemPreparo: this.produto.margemPreparo,
+        precoCusto: this.custoTotal,
+        custoMaoDeObra: this.produto.custoMaoDeObra,
+        custoEmbalagem: this.produto.custoEmbalagem,
+        margemVendaVarejo: this.produto.margemVendaVarejo,
+        precoVendaVarejo: this.produto.precoVendaVarejo,
+        margemVendaAtacado: this.produto.margemVendaAtacado,
+        precoVendaAtacado: this.produto.precoVendaAtacado,
         receitas: receitasRequest
       };
-
-      console.log(produtoRequest);
 
       return produtoRequest;
     },
@@ -732,16 +750,16 @@ export default {
     font-weight: bold;
   }
 
-  .margemMaior {
+  .margem-preco.maior {
     color: green;
   }
 
-  .margemMenor {
+  .margem-preco.menor {
     color: red;
     font-weight: bold;
   }
 
-  .margemPreco {
+  .margem-preco {
     font-style: italic;
     font-size: 0.857em;
     display: flex;
@@ -762,12 +780,12 @@ export default {
       height: 100%;
     }
 
-    .margemPreco {
+    .margem-preco {
       width: 100%;
       margin-left: 5px;
     }
 
-    .margemPreco span {
+    .margem-preco span {
       width: 100%;
       margin-right: 5px;
       text-align: right;

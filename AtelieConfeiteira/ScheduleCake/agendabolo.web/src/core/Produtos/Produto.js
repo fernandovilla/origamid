@@ -1,4 +1,3 @@
-import { TextToNumber } from '@/helpers/NumberHelp.js';
 
 export default class Produto {
   constructor() {}
@@ -37,7 +36,7 @@ export default class Produto {
 
     var custoIngredientesQuilo = receita.ingredientes.reduce(
       (acumulado, item) => {
-        return TextToNumber(item.precoCustoQuilo) + acumulado;
+        return (item.precoCustoQuilo * item.percentual / 100) + acumulado;
       }, 0,
     );
 
@@ -68,7 +67,7 @@ export default class Produto {
       return 0;
 
     var total = receitas.reduce((acumulado, receita) => {
-      return acumulado + TextToNumber(receita.percentual);
+      return acumulado + receita.percentual;
     }, 0);
     return total;
   }
@@ -93,39 +92,24 @@ export default class Produto {
     if (receita === undefined || receita === null) 
       return 0;
 
-    return pesoReferencia * (TextToNumber(receita.percentual) / 100);
+    return pesoReferencia * (receita.percentual / 100);
   }
 
   static CalcularPrecoCustoTotalProduto(produto, receitas) {
     var totalReceitas = this.CalcularPrecoCustoReceitas(receitas, produto.pesoReferencia);
-
-    var valorMargemPreparo =
-      totalReceitas * (TextToNumber(produto.margemPreparo) / 100);
-
-    return (
-      totalReceitas +
-      valorMargemPreparo +
-      TextToNumber(produto.custoMaoDeObra) +
-      TextToNumber(produto.custoEmbalagem)
-    );
+    var valorMargemPreparo = totalReceitas * (produto.margemPreparo / 100);
+    return totalReceitas + valorMargemPreparo + produto.custoMaoDeObra + produto.custoEmbalagem;
   }
 
   static CalcularPrecoVendaVarejo(produto, receitas) {
     var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto, receitas);
-    var valorMargem =
-      (totalProdutos * TextToNumber(produto.margemVendaVarejo)) / 100;
-
-    return (totalProdutos + valorMargem).toFixed(2);
+    var valorMargem = totalProdutos * (produto.margemVendaVarejo / 100);
+    return totalProdutos + valorMargem;
   }
 
   static CalcularPrecoVendaAtacado(produto, receitas) {
     var totalProdutos = this.CalcularPrecoCustoTotalProduto(produto, receitas);
-
-    console.log("totalProdutos:", totalProdutos);
-    
-
-    var valorMargem = (totalProdutos * TextToNumber(produto.margemVendaAtacado)) / 100;
-
-    return (totalProdutos + valorMargem).toFixed(2);
+    var valorMargem = totalProdutos * (produto.margemVendaAtacado / 100);
+    return totalProdutos + valorMargem;
   }
 }

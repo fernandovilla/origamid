@@ -25,12 +25,12 @@
              <div>
                <div class="input-group col6">
                  <label for="porcao">Porção (%)</label>
-                 <input-number id="porcao" placeholder='0,00' :decimalCases=2 v-model="porcaoReceita" />
+                 <input-number id="porcao" placeholder='0,00' :decimals=2 v-model="porcaoReceita" />
                </div>
 
                <div class="input-group col6">
                  <label for="peso">Peso</label>
-                 <input-number id="peso" :decimalCases=0 v-model="pesoReceitaText" disabled />
+                 <input-number id="peso" :decimals=0 v-model="pesoReceitaText" disabled />
                </div>            
              </div> 
            </span>       
@@ -51,7 +51,6 @@
 import ModalForm from '@/components/Modal/ModalForm.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectSearch from '@/components/Select/SelectSearch.vue'
-import { NumberToText, TextToNumber }  from '@/helpers/NumberHelp.js'
 import { receitasAPIService } from '@/core/Receitas/Services/ReceitasAPIService.js'
 
 export default {
@@ -97,9 +96,9 @@ export default {
     },
     pesoReceitaText() {
       if (this.pesoReferencia !== 0)
-        return NumberToText((this.pesoReferencia * TextToNumber(this.porcaoReceita) / 100).toFixed(0))
+        return this.pesoReferencia * (this.porcaoReceita / 100);
       else
-        return "0,00";
+        return 0.00;
     }
   },
   watch:{
@@ -154,7 +153,7 @@ export default {
           id: result.data.id,
           nome: this.receitaSelecionada.nome,
           ingredientes: result.data.ingredientes,
-          percentual: TextToNumber(this.porcaoReceita),
+          percentual: this.porcaoReceita,
           ordem: 0
         }
 

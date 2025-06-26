@@ -1,5 +1,5 @@
 <template>
-  <InputText id="inputText" v-model="value" @blur="onBlur" :class="{ upper: true }" />  
+    <InputText id="inputText" v-model="value" @input="onInput" />  
 </template>
 
 <script>
@@ -12,17 +12,19 @@ export default {
             value: ''
         };
     },  
-    components: {
-        InputText
-    },
-    methods: {
-        onBlur() {
-            this.$emit('update:modelValue', this.value.toUpperCase());      
+    components: { InputText },    
+    methods: {        
+        onInput(){
+            if (this.value !== undefined && this.value !== null && this.value !== '') {
+                this.value = this.value.toUpperCase();
+            }            
+
+            this.$emit('update:modelValue', this.value);      
         }
+
     },
-    created() {
-        console.log('created', this.modelValue);
-        this.value = this.modelValue;
+    created() {        
+        //this.value = this.modelValue;        
     }    
 }   
 </script>

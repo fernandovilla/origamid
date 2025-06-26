@@ -125,13 +125,12 @@ namespace Agendabolo.Core.Produtos
 
         private void InsertProduto(IUnitOfWork unit, ProdutoDTA produto)
         {
-            var repository = unit.GetProdutoRepository;
-
-            repository.Insert(produto);
+            unit.GetProdutoRepository.Insert(produto);
         }
 
-        private void UpdateProduto(IUnitOfWork unit, ProdutoDTA produto) { 
-            // Todo: Produto.Update() - atualiza o produto e receitas...
+        private void UpdateProduto(IUnitOfWork unit, ProdutoDTA produto) 
+        {
+            unit.GetProdutoRepository.Update(produto);
         }
     }
 }

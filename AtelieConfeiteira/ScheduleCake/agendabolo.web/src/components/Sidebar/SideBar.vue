@@ -8,7 +8,7 @@
       <p class="title">MENU</p>
       <ul>      
         <side-bar-item display="Home" router="/" googleIcon="home" src_alt="home" />            
-        <side-bar-item display="Saídas" router="/saidas" googleIcon="home" src_alt="saidas" />
+        <side-bar-item display="Saídas" router="/" googleIcon="home" src_alt="saidas" />
         
         <side-bar-item display="Agenda de Produção" router="/" googleIcon="calendar_clock" src_alt="clientes" />      
         <side-bar-item display="Cadastros" router="" googleIcon="view_list" src_alt="cadastros" hasSubItem=false :expansible="true" @expanded="onExpandedCadastros">

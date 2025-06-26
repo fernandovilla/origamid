@@ -25,7 +25,7 @@ export default {
       type: Number,
       default: 2
     },
-    maxDecimals: {
+    maxFraction: {
       type: Number,
       default: 2
     },

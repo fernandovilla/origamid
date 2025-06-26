@@ -24,7 +24,7 @@
         </div>
 
         <div class="input-group col-6">
-          <label for="numero">Número [{{ valueNumber }}]</label>
+          <label for="numero">Número [{{ valueNumber }}</label>
           <input-teste id="numero" v-model="valueNumber" :min-decimals=2 :max-decimals=2 />
         </div>
 

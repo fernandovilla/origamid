@@ -18,7 +18,7 @@
                 <div class="row">
                   <div class="input-group col-12">
                     <label for="nome">Nome</label>
-                    <input-base type="text" id="nome" required v-model="receita.nome" maxlength="100" />        
+                    <input-text id="nome" required v-model="receita.nome" maxlength="100" />        
                   </div>
                   <div class="col-12">
                     <div class="input-group">
@@ -29,7 +29,7 @@
                   
                   <div class="input-group col-3 col-md-12">
                     <label for="pesoreferencia">Peso Referência (gramas)</label>
-                    <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimalCases=0 />
+                    <input-number id="pesoreferencia" placeholder='0' v-model="receita.pesoReferencia" :decimals=0 />
                   </div>
 
                   <div class="input-group col-3 col-md-12">
@@ -63,7 +63,7 @@
                       <th class="col-ingrediente">Ingrediente</th>
                       <th class="col-percent">%</th>
                       <th class="col-peso">Peso Ref</th>
-                      <!-- <th class="col-custo">Custo</th> -->
+                      <th class="col-custo">Custo</th>
                       <th class="col-acoes"></th>
                     </thead>
 
@@ -72,10 +72,10 @@
                         <td class="col-item">{{index+1}}</td>
                         <td class="col-ingrediente">{{item.nome}} </td>
                         <td class="col-percent editable">
-                          <input-number type="text" v-model="item.percentual" :decimalCases=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
+                          <input-number type="text" v-model="item.percentual" :decimals=2 @keydown="handleKeyDownRow" :tabindex="index+1" />
                         </td>
-                        <td class="col-peso">{{pesoCalculado(item)}}g</td>
-                        <!-- <td class="col-custo">{{custoItemCalculado(item)}}</td> -->
+                        <td class="col-peso">{{pesoProporcionalCalculado(item).toFixed(2)}}g</td>
+                        <td class="col-custo">{{custoItemCalculado(item)}}</td>
                         <td class="body-actions col-acoes">                        
                           <button-small-up @click.prevent="moveIngredienteUp(index)" tabindex="-1" />           
                           <button-small-down @click.prevent="moveIngredienteDown(index)" tabindex="-1" />           
@@ -90,7 +90,7 @@
                         <td class="col-ingrediente"></td>
                         <td class="col-percent">{{this.totalPercent}}%</td>
                         <td class="col-peso">{{this.totalPeso}}g</td>
-                        <!-- <td class="col-custo">{{this.totalCusto}}</td> -->
+                        <td class="col-custo">{{this.totalCusto}}</td>
                         <td class="col-acoes"></td>
                       </tr>
                     </tfoot>
@@ -157,7 +157,7 @@
 <script>
 import SelecionaIngredienteReceita from '@/core/Receitas/Pages/SelecionaIngredienteReceita.vue';
 import Receita from '@/core/Receitas/Domain/Receita.js';
-import InputBase from '@/components/Input/InputBase.vue';
+import InputText from '@/components/Input/InputText.vue';
 import InputArea from '@/components/Input/InputArea.vue';
 import InputNumber from '@/components/Input/InputNumber.vue';
 import ButtonSmallAdd from '@/components/Button/ButtonSmallAdd.vue';
@@ -196,7 +196,7 @@ export default {
   props: ['id'],
   
   components: { 
-    InputBase, 
+    InputText, 
     InputArea,
     InputNumber,      
     SelectStatus,
@@ -224,10 +224,10 @@ export default {
       {
         const ingredientesArray = this.ingredientes;
         var total = ingredientesArray.reduce((acumulado, item) => {
-          return TextToNumber(item.percentual) + acumulado;
+          return item.percentual + acumulado;
         }, 0);
 
-        return NumberToText(total.toFixed(2));      
+        return total;
       } else {
         return 0;
       }
@@ -237,7 +237,7 @@ export default {
       if (this.ingredientesOk)
       {
         var total = this.ingredientes.reduce((acumulado, item) => {
-          return (TextToNumber(item.percentual) * TextToNumber(this.receita.pesoReferencia) / 100)  + acumulado;
+          return (item.percentual * (this.receita.pesoReferencia / 100))  + acumulado;
         }, 0);
 
         return NumberToText(total.toFixed(0));
@@ -253,7 +253,7 @@ export default {
           return custoItem + acumulado;
         }, 0);
 
-        return NumberToText(total.toFixed(2));
+        return total.toFixed(2);
       } else {
         return "0,00";      
       }
@@ -305,23 +305,22 @@ export default {
     },
     custoItemCalculado(item){
 
-      var p = TextToNumber(item.percentual);
-      var c = TextToNumber(item.precoCusto);      
+      console.log("Calculando custo item", item);
 
-      if (p > 0 && c > 0){
-        var custoItem = (c/100) * this.pesoCalculado(item);
+      if (item.percentual > 0 && item.precoCustoQuilo > 0){
+        var custoItem = (item.precoCustoQuilo / 1000) * this.pesoProporcionalCalculado(item);
         return custoItem.toFixed(2);
       } else {
         return 0.00;
       }
     },
-    pesoCalculado(item){      
-      var perc = TextToNumber(item.percentual);
-      if (perc > 0){        
-          var result = (TextToNumber(this.receita.pesoReferencia) * TextToNumber(perc)) / 100;
-          return result.toFixed(0);        
+
+    pesoProporcionalCalculado(item){      
+      if (item.percentual > 0){        
+          return this.receita.pesoReferencia * (item.percentual / 100);
       }
     },
+
     moveIngredienteUp(index){
       if (index > 0){
 
@@ -333,6 +332,7 @@ export default {
         move_item(this.ingredientes, index, index-1);
       }
     },
+
     moveIngredienteDown(index) {      
       if (index < this.ingredientes.length){
 
@@ -344,6 +344,7 @@ export default {
         move_item(this.ingredientes, index, index+1);
       }  
     },
+
     removeIngrediente(index){
       if (index >= 0 || index < this.ingredientes.length){
         if (this.ingredientes[index].id > 0) {
@@ -352,12 +353,15 @@ export default {
         this.ingredientes.splice(index,1);
       }
     },    
+
     adicionaIngrediente() {
       this.selecaoIngredienteShow = true;
     },
+
     onClosingSelecaoIngrediente() {
       this.selecaoIngredienteShow = false;
     },
+
     onIngredienteConfirmado(arg){
       arg.idReceita = this.receita.id;
       arg.ordem = this.ingredientes.length + 1;

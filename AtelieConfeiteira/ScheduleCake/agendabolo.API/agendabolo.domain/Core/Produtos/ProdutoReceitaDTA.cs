@@ -34,7 +34,7 @@ namespace Agendabolo.Core.Produtos
 
     }
 
-    partial class ProdutoReceitaDTA : IEqualityComparer<ProdutoReceitaDTA>
+    partial class ProdutoReceitaDTA
     {
         public ProdutoReceitaDTA()
         { }
@@ -59,8 +59,11 @@ namespace Agendabolo.Core.Produtos
                 return false;
 
             return this.Id == rec.Id;
-        }
+        }   
+    }
 
+    public class ProdutoReceitaComparer : IEqualityComparer<ProdutoReceitaDTA>
+    {
         public bool Equals(ProdutoReceitaDTA x, ProdutoReceitaDTA y)
         {
             return x.Equals(y);
@@ -74,4 +77,6 @@ namespace Agendabolo.Core.Produtos
             return obj.Id.GetHashCode();
         }
     }
+
+
 }

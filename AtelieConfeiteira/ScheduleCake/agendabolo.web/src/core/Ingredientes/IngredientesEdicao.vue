@@ -20,14 +20,14 @@
                 <div class="row">              
                   <div class="input-group col-7 col-md-12">
                     <label for="nome">Nome</label>
-                    <input-base type="text" id="nome" required v-model="ingrediente.nome" maxlength="100" />                            
+                    <input-text id="nome" required v-model="ingrediente.nome" maxlength="100" />                            
                   </div>              
                 </div>  
                 
                 <div class="row">
                   <div class="input-group col-4 col-md-12">
                     <label for="marca">Marca</label>
-                    <input-base type="text" id="marca" required v-model="ingrediente.marca" maxlength="100" />        
+                    <input-text id="marca" required v-model="ingrediente.marca" maxlength="100" />        
                   </div>
 
                   <div class="input-group col-3 col-sm-12">
@@ -92,16 +92,16 @@
                         <button-small-delete @click.prevent="removerEmbalagem(index)" tabindex="-1" />
                       </td>
                       <td class="col-descricao editable">
-                        <input-base v-model="item.descricao" />
+                        <input-text v-model="item.descricao" />
                       </td>
                       <td class="col-ean editable">
-                        <input-base v-model="item.ean" />
+                        <input-text v-model="item.ean" />
                       </td>
                       <td class="col-preco editable">
-                        <input-number v-model="item.preco" />
+                        <input-number v-model="item.preco" decimals=2 />
                       </td>                    
                       <td class="col-fracionamento editable">
-                        <input-base v-model="item.quantidade" @blur="fracionamentoBlurHandle" />
+                        <input-text v-model="item.quantidade" @blur="fracionamentoBlurHandle" />
                       </td>                    
                       <td class="col-preco editable">
                         R$ {{ custoQuilo(item.preco, item.quantidade) }}
@@ -203,7 +203,7 @@
 </template>
 
 <script>
-import InputBase from '@/components/Input/InputBase.vue'
+import InputText from '@/components/Input/InputText.vue'
 import InputNumber from '@/components/Input/InputNumber.vue'
 import SelectStatus from '@/components/Select/SelectStatus.vue'
 import SelectUnidadeMedida from '@/components/Select/SelectUnidadeMedida.vue'
@@ -241,7 +241,7 @@ export default {
 
     props: ['id'],
 
-    components: { SelectStatus, InputBase, InputNumber, ButtonSmallAdd, ButtonSave, ButtonBack, SelectUnidadeMedida, SelectTipoIngrediente, ButtonSmallDelete },
+    components: { SelectStatus, InputNumber, InputText, ButtonSmallAdd, ButtonSave, ButtonBack, SelectUnidadeMedida, SelectTipoIngrediente, ButtonSmallDelete },
 
     computed: {
       PageTitle(){
