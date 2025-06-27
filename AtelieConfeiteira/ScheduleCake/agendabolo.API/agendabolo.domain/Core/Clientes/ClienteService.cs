@@ -1,4 +1,5 @@
 ﻿using Agendabolo.Core.LogDeErros;
+using Agendabolo.Core.Pessoas;
 using Agendabolo.Core.Produtos;
 using Agendabolo.Data;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Agendabolo.Core.Clientes
 {
-    public class ClienteService : IServiceBase<ClienteDTA, int>
+    public class ClienteService : IServiceBase<PessoaDTA, int>
     {
         public bool Delete(int id)
         {
@@ -23,13 +24,13 @@ namespace Agendabolo.Core.Clientes
             }
         }
 
-        public IEnumerable<ClienteDTA> Get()
+        public IEnumerable<PessoaDTA> Get()
         {
             using (var unit = new UnitOfWork())
                 return unit.GetClienteRepository.Get().ToList();
         }
 
-        public ClienteDTA Get(int id)
+        public PessoaDTA Get(int id)
         {
             using(var unit = new UnitOfWork())
                 return unit.GetClienteRepository.Get(id);
@@ -41,7 +42,7 @@ namespace Agendabolo.Core.Clientes
                 return unit.GetClienteRepository.Count();
         }
 
-        public (bool, ClienteDTA) Save(ClienteDTA cliente)
+        public (bool, PessoaDTA) Save(PessoaDTA cliente)
         {
             var result = false;
 

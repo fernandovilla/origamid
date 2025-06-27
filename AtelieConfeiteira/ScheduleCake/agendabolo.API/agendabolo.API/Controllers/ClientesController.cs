@@ -6,6 +6,7 @@ using System.Net;
 using System;
 using System.Linq;
 using Agendabolo.Core;
+using Agendabolo.Core.Pessoas;
 
 namespace Agendabolo.Controllers
 {    
@@ -40,8 +41,8 @@ namespace Agendabolo.Controllers
             try
             {
                 var clientes = _service.Get()
+                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status, Tipo = (int)i.TipoPessoa })
                     .OrderBy(i => i.Nome)
-                    .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
                     .ToList();
 
                 if (clientes != null && clientes.Any())
@@ -88,9 +89,9 @@ namespace Agendabolo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var clienteDTA = ClienteRequest.ParseToDTA(cliente);
+                    var pessoaDTA = ClienteRequest.ParseToDTA(cliente);
 
-                    (bool ok, ClienteDTA result) = _service.Save(clienteDTA);
+                    (bool ok, PessoaDTA result) = _service.Save(pessoaDTA);
 
                     if (ok)
                         return Ok(ClienteRequest.ParseFromDTA(_service.Get(result.Id)));

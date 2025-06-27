@@ -1,43 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using Agendabolo.Core.Pessoas;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Agendabolo.Core.Clientes
 {
-    public partial class ClienteRequest : ClienteDTA, IValidatableObject
+    public partial class ClienteRequest : PessoaDTA, IValidatableObject
     {
-        public new int Status { get; set; }
     }
 
     partial class ClienteRequest
     {
-        public static ClienteDTA ParseToDTA(ClienteRequest clienteRequest)
+        public static PessoaDTA ParseToDTA(ClienteRequest clienteRequest)
         {
-            return new ClienteDTA()
-            {
-                Id = clienteRequest.Id,
-                Nome = clienteRequest.Nome,
-                Telefone = clienteRequest.Telefone,
-                Celular = clienteRequest.Celular,
-                Instagram = clienteRequest.Instagram,
-                Facebook = clienteRequest.Facebook,
-                Observacoes = clienteRequest.Observacoes,
-                Status = (StatusCadastro)clienteRequest.Status
-            };
+            return (PessoaDTA)clienteRequest;
         }
 
-        public static ClienteRequest ParseFromDTA(ClienteDTA clienteDTA)
+        public static ClienteRequest ParseFromDTA(PessoaDTA clienteDTA)
         {
-            return new ClienteRequest()
-            {
-                Id = clienteDTA.Id,
-                Nome = clienteDTA.Nome,
-                Celular = clienteDTA.Celular,
-                Telefone = clienteDTA.Telefone,
-                Instagram = clienteDTA.Instagram,
-                Facebook = clienteDTA.Facebook,
-                Observacoes = clienteDTA.Observacoes,
-                Status = (int)clienteDTA.Status
-            };
+            return clienteDTA;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -45,7 +25,7 @@ namespace Agendabolo.Core.Clientes
             var results = new List<ValidationResult>();
 
             if (string.IsNullOrEmpty(this.Nome))
-                results.Add(new ValidationResult("Invalid name", new string[] { nameof(ClienteDTA.Nome) }));
+                results.Add(new ValidationResult("Invalid name", new string[] { nameof(ClienteRequest.Nome) }));
 
             return results;
         }

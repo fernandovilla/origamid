@@ -36,7 +36,7 @@ namespace Agendabolo.Core.Produtos
         public TipoProduto Tipo { get; set; }
 
         [Column("status")]
-        public StatusCadastro Status { get; set; }
+        public StatusCadastroEnum Status { get; set; }
 
         [Column("descricao")]
         public string Descricao { get; set; }

@@ -1,4 +1,4 @@
-﻿using Agendabolo.Core.Clientes;
+﻿using Agendabolo.Core.Pessoas;
 using Agendabolo.Core.Fabricantes;
 using Agendabolo.Core.Formas;
 using Agendabolo.Core.Fornecedores;

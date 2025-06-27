@@ -1,6 +1,6 @@
 namespace Agendabolo.Core
 {
-    public enum StatusCadastro
+    public enum StatusCadastroEnum
     {
         Normal = 0,
         Bloqueado = 1,

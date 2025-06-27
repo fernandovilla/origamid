@@ -133,7 +133,7 @@ namespace Agendabolo.Controllers
 
                 if (ingrediente != null)
                 {
-                    ingrediente.Status = StatusCadastro.Excluido;
+                    ingrediente.Status = StatusCadastroEnum.Excluido;
                     _service.Save(ingrediente);
 
                     return Ok();
@@ -187,7 +187,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var ingredientes = _service.Get()
-                    .Where(i => i.Status == StatusCadastro.Normal)
+                    .Where(i => i.Status == StatusCadastroEnum.Normal)
                     .OrderBy(i => i.Nome)
                     .Select(i => new BuscaBaseResponse { Id = i.Id, Nome = i.Nome, Status = (int)i.Status })
                     .ToList();
@@ -221,7 +221,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var ingredientes = _service.GetWithEmbalagens()
-                    .Where(i => i.Status == StatusCadastro.Normal &&
+                    .Where(i => i.Status == StatusCadastroEnum.Normal &&
                         (
                             i.Nome.ToUpper().StartsWith(texto.ToUpper()) ||
                             i.Id.ToString().Equals(texto) ||
@@ -262,7 +262,7 @@ namespace Agendabolo.Controllers
                         i.Nome.ToUpper().Contains(key.ToUpper()) ||
                         i.Id.ToString() == key.ToUpper() ||
                         i.Embalagens.Where(e => e.EAN.Equals(key)).Any()) &&
-                        i.Status == StatusCadastro.Normal)
+                        i.Status == StatusCadastroEnum.Normal)
                     .OrderBy(i => i.Nome)
                     .ToList();
 

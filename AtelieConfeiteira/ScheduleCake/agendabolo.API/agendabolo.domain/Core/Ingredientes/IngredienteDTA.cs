@@ -27,7 +27,7 @@ namespace Agendabolo.Core.Ingredientes
         public decimal PrecoCustoMedio { get; set; }
         
         [Column("status")]
-        public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
+        public StatusCadastroEnum Status { get; set; } = StatusCadastroEnum.Normal;
 
         [Column("dataultimoprecocusto")]
         public DateTime DataUltimoPrecoCusto { get; set; }

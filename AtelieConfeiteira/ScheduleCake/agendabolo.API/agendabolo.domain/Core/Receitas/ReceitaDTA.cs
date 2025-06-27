@@ -29,7 +29,7 @@ namespace Agendabolo.Core.Receitas
         public double PesoReferencia { get; set; }
 
         [Column("status")]
-        public StatusCadastro Status { get; set; }
+        public StatusCadastroEnum Status { get; set; }
 
         [Column("preparo")]
         public string Preparo { get; set; }
@@ -67,7 +67,7 @@ namespace Agendabolo.Core.Receitas
                         IdReceita = idReceita,
                         Percentual = item.Percentual,
                         Ordem = item.Ordem,
-                        Status = (StatusCadastro)item.Status
+                        Status = (StatusCadastroEnum)item.Status
                     };
                 }
             };
@@ -76,7 +76,7 @@ namespace Agendabolo.Core.Receitas
             novaReceita.Id = receita.Id;
             novaReceita.Nome = receita.Nome;
             novaReceita.Descricao = receita.Descricao;
-            novaReceita.Status = (StatusCadastro)receita.Status;
+            novaReceita.Status = (StatusCadastroEnum)receita.Status;
             novaReceita.PesoReferencia = receita.PesoReferencia;
             novaReceita.Preparo = receita.Preparo;
             novaReceita.Observacao = receita.Observacao;

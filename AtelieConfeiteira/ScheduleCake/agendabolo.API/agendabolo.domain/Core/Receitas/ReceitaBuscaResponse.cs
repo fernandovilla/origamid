@@ -10,6 +10,6 @@ namespace Agendabolo.Core.Receitas
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public StatusCadastro Status { get; set; }
+        public StatusCadastroEnum Status { get; set; }
     }
 }

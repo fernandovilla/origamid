@@ -28,7 +28,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var ingredientes = _ingredienteService.GetWithEmbalagens()
-                    .Where(i => i.Status == StatusCadastro.Normal &&
+                    .Where(i => i.Status == StatusCadastroEnum.Normal &&
                         (
                             i.Nome.ToUpper().StartsWith(texto.ToUpper()) ||
                             i.Id.ToString().Equals(texto) ||

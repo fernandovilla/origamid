@@ -30,7 +30,7 @@ namespace Agendabolo.Core.Receitas
         public int Ordem { get; set; }
 
         [Column("status")]
-        public StatusCadastro Status { get; set; } =  StatusCadastro.Normal;
+        public StatusCadastroEnum Status { get; set; } =  StatusCadastroEnum.Normal;
     }
 
 

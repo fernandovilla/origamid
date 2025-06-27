@@ -29,7 +29,7 @@ namespace Agendabolo.Controllers
 
                 if (fornecedor != null)
                 {
-                    fornecedor.Status = StatusCadastro.Excluido;
+                    fornecedor.Status = StatusCadastroEnum.Excluido;
                     _service.Save(fornecedor);
 
                     return Ok();
@@ -126,7 +126,7 @@ namespace Agendabolo.Controllers
             try
             {
                 var fornecedores = _service.Get()
-                    .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastro.Normal)
+                    .Where(i => i.Nome.ToUpper().StartsWith(nome.ToUpper()) && i.Status == StatusCadastroEnum.Normal)
                     .OrderBy(i => i.Nome)
                     .ToList();
 

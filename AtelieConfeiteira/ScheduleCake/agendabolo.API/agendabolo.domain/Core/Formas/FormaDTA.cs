@@ -25,6 +25,6 @@ namespace Agendabolo.Core.Formas
         public double PesoFinal { get; set; } = 0d;
 
         [Column("status")]
-        public StatusCadastro Status { get; set; } = StatusCadastro.Normal;
+        public StatusCadastroEnum Status { get; set; } = StatusCadastroEnum.Normal;
     }
 }

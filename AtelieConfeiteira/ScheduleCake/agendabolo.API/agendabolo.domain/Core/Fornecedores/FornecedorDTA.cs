@@ -30,7 +30,7 @@ namespace Agendabolo.Core.Fornecedores
 
 
         [Column("status")]
-        public StatusCadastro Status { get; set; }
+        public StatusCadastroEnum Status { get; set; }
 
         public IEnumerable<Core.Ingredientes.IngredienteEstoqueDTA> Estoques { get; set; }
     }

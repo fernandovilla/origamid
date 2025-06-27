@@ -27,7 +27,7 @@ namespace Agendabolo.Core.Receitas
             if (string.IsNullOrEmpty(this.Nome))
                 results.Add(new ValidationResult("Invalid name", new string[] { nameof(this.Nome) }));
 
-            if (!Enum.TryParse(typeof(StatusCadastro), Status.ToString(), out object outStatus))
+            if (!Enum.TryParse(typeof(StatusCadastroEnum), Status.ToString(), out object outStatus))
                 results.Add(new ValidationResult("Invalid Status", new string[] { nameof(this.Status) }));
 
             return results;

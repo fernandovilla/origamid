@@ -85,7 +85,7 @@ namespace Agendabolo.Controllers
 
                 if (receita != null)
                 {
-                    receita.Status = Core.StatusCadastro.Excluido;
+                    receita.Status = Core.StatusCadastroEnum.Excluido;
                     _service.Save(receita);
 
                     return Ok();

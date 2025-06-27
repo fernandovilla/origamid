@@ -72,7 +72,7 @@ namespace Agendabolo.Controllers
 
                 if (produto != null)
                 {
-                    produto.Status = Core.StatusCadastro.Excluido;
+                    produto.Status = Core.StatusCadastroEnum.Excluido;
                     _service.Save(produto);
 
                     return Ok();

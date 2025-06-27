@@ -42,7 +42,7 @@ namespace Agendabolo.Core.Fornecedores
                 CNPJ = entity.CNPJ,
                 Contato = entity.Contato,   
                 Telefone = entity.Telefone, 
-                Status = (StatusCadastro)entity.Status
+                Status = (StatusCadastroEnum)entity.Status
             };
         }
 

@@ -54,7 +54,7 @@ namespace Agendabolo.Core.Ingredientes
                 PrecoCustoQuilo = entity.PrecoCustoQuilo,
                 PrecoCustoMedio = entity.PrecoCustoMedio,
                 DataUltimoPrecoCusto = entity.DataUltimoPrecoCusto,
-                Status = (StatusCadastro)entity.Status,
+                Status = (StatusCadastroEnum)entity.Status,
                 Tipo = (TipoIngrediente)entity.Tipo,
                 Embalagens = entity.Embalagens?.Select(i => IngredienteEmbalagemRequest.ToDTA(i)).ToList()
             };
