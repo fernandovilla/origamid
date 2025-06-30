@@ -1,16 +1,27 @@
 <template>
-  <span class="wrap">
+  <span class="wrap-column content">
     <div class="header-page">
-      <h1>Home > Clientes - EM DESENVOLVIMENTO</h1>
-      <div class="header-items">
-        <add-button to="cliente">Novo Cliente</add-button>      
-        <div class="header-search">
-          <input-search class="input-search" placeHolder="Busca de Clientes" @onChengeSearchText="onChengeSearchText" />
-        </div>                
+      <h1>Home > Clientes</h1>
+      
+      <div class="header-items row">
+        <add-button to="cliente" class="col-md-12">Novo Cliente</add-button>
+
+        <div class="header-search col-md-12">
+          <input-search class="input-search col-md-12" placeHolder="Busca de clientes" @onChangeSearchText="onChengeSearchText" />
+        </div>     
+
+        <div class="input-group col-md-12">
+          <select name="filtroStatus" id="filtroStatus" class="filter-status" v-model="filterStatus" >
+            <option value="0">Ativos</option>
+            <option value="1">Bloqueados</option>
+            <option value="2">Excluídos</option>
+            <option value="todos">Todos</option>
+          </select>
+        </div>
       </div>      
     </div>
 
-    <div class="content">      
+    <div class="row m-top-10">      
         <table v-if="this.clientes !== null" class="table-data">
           <thead>
             <tr>
@@ -22,7 +33,7 @@
           <tbody>
             <tr v-for="(cliente, index) in clientes" :key="index">
               <td class="body-nome">
-                <router-link :to="{name: 'edicao-cliente', params: {id: cliente.id}}" >{{nomeLongo(cliente.nome)}}</router-link>                
+                <router-link :to="{name: 'cliente-edicao', params: {id: cliente.id}}" >{{nomeLongo(cliente.nome)}}</router-link>                
               </td>
               <td class="body-status">
                 {{status_text(cliente.status)}}
@@ -62,7 +73,8 @@ export default {
     totalRegistros: 0,
     itemsByPage: 15,
     currentPage: 1,
-    textSearching: ''
+    textSearching: '',
+    filterStatus: '0', // 0 = Ativos, 1 = Bloqueados, 2 = Excluídos, todos = Todos
   }},
 
   components: {
@@ -70,13 +82,14 @@ export default {
   },
   
   methods: {
-    async obterListaClientesInicial(){
+    async obterListaClientesInicial(){      
+      await this.obterListaClientes();
+
       this.currentPage = 1;
-      this.obterListaClientes();
+      this.onChangePage(this.currentPage);
     },
 
     async obterListaClientes(){
-
       var result = await clientesAPIService.selecionarBusca();
             
       if (result != null) {          
@@ -84,12 +97,24 @@ export default {
           this.clientes = result.data;
       }
     },
+
+    onChangePage(pageNumber){
+      this.currentPage = pageNumber;      
+      var skip = (this.currentPage-1) * this.itemsByPage;
+
+      console.log('onChangePage: ' + this.currentPage + ' - skip: ' + skip);
+
+      //this.filtrarItens(skip);
+    },
+
     onChengeSearchText(){
       console.log('search text changing...');
     },
+
     editarCliente(cliente){
-      this.$router.push({ name: "cliente-edicao", params: { id: cliente.id } });
+      this.$router.push({ name: "cliente-edicao", params: { id: cliente.id } });            
     },
+
     async deletarCliente(cliente){
       const result = await clientesAPIService.deletar(cliente.id);
       if (result) {
@@ -97,6 +122,7 @@ export default {
           this.clientes.splice(i, 1);
       }
     },
+
     status_text(value){
       return status_cadastro_description(value);
     },
@@ -141,7 +167,7 @@ export default {
   }
 
   .header-search .input-search {
-    width: 60%;
+    width: 99%;
   }
 
   .content {
@@ -172,6 +198,18 @@ export default {
     margin: 10px auto;
   }
 
+  .filter-status {
+    border: 1px solid var(--border-color-light);
+    border-radius: 25px;    
+    padding: 0px 15px;
+    outline: none;
+    text-transform: uppercase;
+    font-family: 'Poppins', Helvetica, sans-serif;
+    font-size: 0.853rem;
+    text-align: left;  
+    height: 100%;
+  }
+
   @media screen and (max-width: 960px) {
     .header-items {
       display: block;
@@ -181,6 +219,12 @@ export default {
       width: 100%;
       height: 40px;
       margin-top: 20px;
+    }
+
+    .filter-status {
+      width: 100%;
+      height: 30px;    
+      margin: 0px;
     }
   }
 

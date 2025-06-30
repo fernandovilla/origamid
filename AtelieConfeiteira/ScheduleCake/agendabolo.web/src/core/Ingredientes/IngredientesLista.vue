@@ -252,7 +252,7 @@ export default {
 }
 
 .header-search .input-search {
-  width: 100%; 
+  width: 99%; 
 }
 
 .header-ativos {

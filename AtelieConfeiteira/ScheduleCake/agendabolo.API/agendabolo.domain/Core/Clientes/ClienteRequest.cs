@@ -9,17 +9,7 @@ namespace Agendabolo.Core.Clientes
     }
 
     partial class ClienteRequest
-    {
-        public static PessoaDTA ParseToDTA(ClienteRequest clienteRequest)
-        {
-            return (PessoaDTA)clienteRequest;
-        }
-
-        public static ClienteRequest ParseFromDTA(PessoaDTA clienteDTA)
-        {
-            return clienteDTA;
-        }
-
+    {        
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var results = new List<ValidationResult>();

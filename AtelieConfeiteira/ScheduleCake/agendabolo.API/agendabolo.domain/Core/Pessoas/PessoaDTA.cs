@@ -16,8 +16,15 @@ namespace Agendabolo.Core.Pessoas
         PessoaJuridica= 2,
     }
 
+    public enum GeneroPessoaEnum
+    {
+        NaoInformado = 0,
+        Masculino = 1,
+        Feminino = 2
+    }
+
     [Table("pessoas")]
-    public class PessoaDTA
+    public partial class PessoaDTA
     {
         [Key]
         [Column("id")]
@@ -74,4 +81,47 @@ namespace Agendabolo.Core.Pessoas
         [Column("observacoes")]
         public string Observacoes { get; set; }
     }
+
+    /// <summary>
+    /// Campos referentes à Pessoa Física
+    /// </summary>
+    partial class PessoaDTA
+    {
+
+        [Column("rg")]
+        public string RG { get; set; }
+
+        [Column("rgemissor")]
+        public string RGEmissor { get; set; }
+
+        [Column("rguf")]
+        public string RGUF { get; set; }
+
+        [Column("cpf")]
+        public string CPF { get; set; }
+
+        [Column("genero")]
+        public GeneroPessoaEnum Genero { get; set; }
+    }
+
+    /// <summary>
+    /// Canpos referentes à Pessoa Jurídica
+    /// </summary>
+    partial class PessoaDTA 
+    {
+        [Column("razaosocial")]
+        public string RazaoSocial { get; set; }
+
+        [Column("contato")]
+        public string Contato { get; set; }
+
+        [Column("cnpj")]
+        public string CNPJ { get; set; }
+
+        [Column("ie")]
+        public string IE { get; set; }
+    }
+
+    
+
 }

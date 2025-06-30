@@ -71,8 +71,8 @@ namespace Agendabolo.Controllers
                     return Ok(new
                     {
                         total = 1,
-                        data = ClienteRequest.ParseFromDTA(cliente)
-                    }); ; ; ;
+                        data = cliente
+                    });
 
                 return NoContent();
             }
@@ -88,13 +88,11 @@ namespace Agendabolo.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {
-                    var pessoaDTA = ClienteRequest.ParseToDTA(cliente);
-
-                    (bool ok, PessoaDTA result) = _service.Save(pessoaDTA);
+                {                    
+                    (bool ok, PessoaDTA result) = _service.Save(cliente);
 
                     if (ok)
-                        return Ok(ClienteRequest.ParseFromDTA(_service.Get(result.Id)));
+                        return Ok((ClienteRequest)_service.Get(result.Id));
                     else
                         return BadRequest();
                 }
