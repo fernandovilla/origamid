@@ -12,7 +12,7 @@ Cadastro de receitas:
   
 Cadastro de produtos:
   ✔ Calculo do Custo Matéria Prima, por receita @done(25-02-26 14:05)
-  ✔ Calculo do Preço de Venda, utilizando o "*" no campo @done(25-02-26 14:05)
+  ✔ Calculo do Preço de Venda, utilizando o "*" no campo @done(25-02-26 14:05nnNNN)
   ✔ OK Alerta de preço de venda desatualizado em relação à margem @done(25-02-26 14:08)
   ✔ OK Alterar % da Receita no table - EF não está atualizando BD @done(25-02-26 14:08)
    
