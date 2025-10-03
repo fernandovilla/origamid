@@ -1,0 +1,84 @@
+O Novo Comercial 
+
+---------------------------------------------------------------------------------------------------
+Aula 01 - Pré-Venda x Pronta entrega
+
+---------------------------------------------------------------------------------------------------
+Aula 02 - Comercial Físico x Digital
+    - Processo é sobre REPOSIÇÃO (venda será tratada na aula 4)
+    - Custo Presencial = 33K - 2 vendedores
+    - Custo Digital = 10K
+    - Tempo de visitas atrelado ao custo de locomoção é muito oneroso
+    - Queda do faturamento foi menor que 20%
+    - Houve reclamações mas poucos deixaram de comprar
+    - O que é necessário:
+        1. Sistema para gestão e controle:
+            - GestãoClick, PedidoOK, WaSpeed
+            - Bom cadastro de clientes: whatsapp, telefones, contato de quem compra na empresa, endereço para traçamento de rotas
+            - Software para gestão de mensagens do whatsapp -> www.waspeed.com.br
+            - Asaas é plataforma de emissão de boleto
+
+    - Objeções do cliente em adotar o atendimento via Whatsapp:
+        - OBJEÇÕES NÃO SÃO QUEBRADAS, SÃO CONTORNADAS (CONVENCIMENTO/PERSUASÃO)
+        - EU GOSTO QUE VC VISITA 
+            -> Alto custo com locomoção
+            -> Chega no estabelecimento e o cliente não está, perdeu a viagem
+            -> Cliente está ocupado, atrapalha dar 30min de atenção pro vendedor, pelo whatsapp é 5min o pedido está feito
+            -> Ajuda a manter o custo por mais tempo
+        - Cliente já conhece o produto e sabe que vende bem
+        - Atendimento via whatsapp é feito por uma pessoa
+        - Cliente não quer SOFRER uma compra, ele quer DECIDIR COMPRAR
+        - Muitos estão fazendo assim e estão achando muito melhor, inclusive agradecem por isso
+        - Alguns não iam com a cara do vendedor
+        - NÃO TERÁ BOLA, vendedor empurra produtos que o cliente não pedi, para bater meta. Whatsapp mantem uma copia do pedido
+        - Perceria deve ser Ganha-Ganha
+
+    - Forma de vender no Whatsapp:
+        - Manter a mesma forma de falar se estivesse no local
+            - Criar um script no WaSpeed, como se vc estivesse falando
+            - Disparo das mensagens deve ser por ROTA
+            - TEXTO: "Boa tarde, seu Carlos, tudo joia? Aqui é o Fernando da VillaDoces. Vou te mandar um audio pra facilitar"
+            - AUDIO: "Queria ver com vc como está o estoque dos doces. Estou fechando as entregas pra repor ai na sua região. Me manda uma foto do seu estoque se preferir, senão pode falar as quantidades e sabores que deseja repoor. Tal dia entregaremos"
+            - Diminuir o distânciamento com o cliente, deve parecer que vc gravou o audio para a pessoa
+            - WaSpeed permite incluir audio                  
+
+    - Como aumentar taxa de resposta?
+        - Rota 50 clientes / 30 respostas
+        - Utilizar tags no whatsapp
+        - Comprou                   -> Tag VERDE
+        - Não Comprou               -> Tag VERMELHA -> está com estoque, não quer mais, etc
+        - Follow Up (persistência)  -> Tag ROSA 
+            - cliente não responde por N motivos
+            - retomar a conversa. Fazer um novo disparo em massa apenas para esses, reforçando a venda, ex: "Fala comigo + carinha de choro"
+            - seguir o cliente no instagram, fazer "social selling", reagir às postagens dos clientes com comentários
+        - À Visitar                 -> Tag AMARELA
+            - clientes que não estão comprando mais e compravam bem antes, necessário visita
+
+    - ABORDAGEM PRIMEIRA VENDA:       
+        - Salva meu contato e já me manda um "oi"
+
+    - Como fazer análise dos ultimos pedidos?
+        - Software que ofereça histórico
+
+    - CRM (Client Relation Management)
+
+    - PERGUNTAS:    
+        > Quando atende encomendas personalisadas
+            - Organizar numa coluna do WaSpeed só para os clientes encomendas
+            - Entrar em contato apenas quando necessário
+        > 
+            
+    - API e Integração Whatsapp:
+        - Z-API, Twilio, AiSensy
+
+    - SOFTWARES:
+        - https://www.pedidook.com.br/plano/app#mensal
+        - https://gestaoclick.com.br/planos-erp/
+        - https://www.waspeed.com.br
+
+    
+---------------------------------------------------------------------------------------------------
+Aula 03 - Consignação x Venda Firme
+
+---------------------------------------------------------------------------------------------------
+Aula 04 - Prospecção
