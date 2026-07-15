@@ -10,13 +10,15 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 /* Três maneitas de incluir injeção dependência */
-//  builder.Services.AddTransient();    //sempre uma nova instância
-//  builder.Services.AddSingleton();    //uma única instância
-//  builder.Services.AddScoped();       //nova instância em cada request
+//  builder.Services.AddTransient();        //sempre uma nova instância
+//  builder.Services.AddSingleton();        //uma única instância
+//  builder.Services.AddScoped();           //nova instância em cada request
 
 //builder.Services.AddTransient<NumeroAleatorio>();
 builder.Services.AddScoped<NumeroAleatorio>();
 //builder.Services.AddSingleton<NumeroAleatorio>();
+
+builder.Services.AddSingleton<ISenderMessage, Email>();
 
 
 var app = builder.Build();

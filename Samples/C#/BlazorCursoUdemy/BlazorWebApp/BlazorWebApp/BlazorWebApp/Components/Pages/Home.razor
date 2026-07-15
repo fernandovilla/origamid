@@ -2,6 +2,7 @@
 
 @inject NumeroAleatorio NumeroAleatorioA
 @inject NumeroAleatorio NumeroAleatorioB
+@inject ISenderMessage senderMessage
 
 <PageTitle>Home</PageTitle>
 
@@ -12,4 +13,10 @@
 <div class="card p-3">
     <p>Numero A: @NumeroAleatorioA.NumeroiIdentificado</p>
     <p>Número B: @NumeroAleatorioB.NumeroiIdentificado</p>
+</div>
+
+<div class="row m-3">
+    <div class="card col-4">
+        Mennsagem Enviada: @senderMessage.Send("Mensagem...")
+    </div>
 </div>
