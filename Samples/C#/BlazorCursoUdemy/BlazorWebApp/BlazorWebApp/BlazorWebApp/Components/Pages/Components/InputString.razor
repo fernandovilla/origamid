@@ -1,0 +1,10 @@
+﻿<input @attributes="@Attributes" placeholder="@Placeholder" class="form-control" />
+
+@code {
+    [Parameter(CaptureUnmatchedValues =true)]
+    public Dictionary<string,object> Attributes { get; set; }
+
+    [Parameter]
+    public string Placeholder { get; set; }
+
+}

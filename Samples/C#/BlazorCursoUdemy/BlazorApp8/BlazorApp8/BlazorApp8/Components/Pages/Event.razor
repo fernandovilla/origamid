@@ -1,0 +1,38 @@
+﻿@page "/event"
+@rendermode InteractiveServer
+
+<h3>Event</h3>
+
+<div>
+    <button class="btn btn-secondary" onclick="showAlert()">Clique aqui (JS) </button>
+    <button class="btn btn-primary" @onclick="ShowAlertCSharp" >Clique aqui (C#)</button>
+
+    @if(!string.IsNullOrEmpty(TextoOne)){
+        <p>
+            @TextoOne
+        </p>
+    }
+</div>
+
+<div class="mt-3">
+    <button class="btn btn-success" @onclick="@((e) => { TextoTwo = string.Format(_format, e.ScreenX,e.ScreenY);})">Cliqui aqui (Blazor-inline)</button>
+    <p>@TextoTwo</p>
+</div>
+
+<script>
+    showAlert = () => alert('Clicou no botão JavaScript');
+</script>
+
+@code {
+    private string TextoOne { get; set; } = string.Empty;
+    private string TextoTwo { get; set; } = string.Empty;
+    private const string _format = "Posição do click: \nx = {0}, y = {1}";
+
+    private void ShowAlertCSharp(MouseEventArgs e)
+    {
+        if (string.IsNullOrEmpty(TextoOne))
+            TextoOne = string.Format(_format, e.ScreenX, e.ScreenY);
+        else
+            TextoOne = string.Empty;
+    }
+}

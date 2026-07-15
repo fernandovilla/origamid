@@ -1,0 +1,46 @@
+﻿@page "/bind"
+@rendermode InteractiveServer
+
+@* -------------------------------------------------------------------------------------------------
+    RenderMode
+    - None: sem interatividade
+    - Server: processa no servidor
+    - WebAssembly: processamento é na página (necessário estar no projeto Client)
+    - Auto: maneira hibrida, server e webassembly (necessário estar no projeto Client)
+   ------------------------------------------------------------------------------------------------*@
+
+
+<h3>Bind</h3>
+
+<div>
+    @*Bind One-Way (unidirecional): somente get*@
+    <p>@Texto</p>
+</div>
+
+<div class="mt-3">
+    @*
+        Bind Two-Way (Bidirecional): get e set
+        Formato default de utilizar  bind, alterando o evento de recursividade
+    *@
+    <input class="form-control" @bind="Texto" @bind:event="oninput" />
+</div>
+
+<div class="mt-3">
+    @*
+        Bind Two-Way (Bidirecional): get e set
+        Utilizando nome completo nas chamadas do Bind
+    *@
+    <input class="form-control" @bind-value="Texto" @bind-value:event="oninput" />
+</div>
+
+<div class="mt-3">
+    @*
+        Bind Two-Way (Bidirecional): get e set
+        Simulação de um bind bidirecional
+    *@
+    <input class="form-control bg-success" value="@Texto" @oninput="((e) => Texto = e.Value!.ToString()!)" />
+</div>
+
+@code {
+    public string Texto { get; set; } = "My text";
+}

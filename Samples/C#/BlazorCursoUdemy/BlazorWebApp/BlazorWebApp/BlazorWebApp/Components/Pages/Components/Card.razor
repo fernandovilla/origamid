@@ -1,0 +1,78 @@
+﻿@rendermode InteractiveServer
+
+
+
+<div class="card" style="width: 18rem;">
+
+    <div class="card-header p-0">
+        @if (CardHeader != null)
+        {
+            @CardHeader
+        }
+        else
+        {
+            <img src="@Image" class="card-img-top" alt="imagem" />
+        }
+    </div>
+
+    <div class="card-body">
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <h5 class="card-title">@Title</h5>
+            <p class="card-text">@Description</p>
+
+            @if (!string.IsNullOrEmpty(ButtonText))
+            {
+                <button class="btn btn-primary" @onclick="ButtonClickEvent">@ButtonText</button>
+            }
+        }
+    </div>
+
+
+    <div class="card-footer text-body-secondary p-1">
+        @if (CardFooter != null)
+        {
+            @CardFooter
+        }
+        else
+        {
+            <p>Footer</p>
+        }
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment CardHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment CardFooter { get; set; }
+
+
+    [Parameter]
+    public string? Image { get; set; } = "https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-social.png";
+
+    [Parameter]
+    public string? Title { get; set; } = "[Title]";
+
+    [Parameter]
+    public string? Description { get; set; } = "[Description]";
+
+    [Parameter]
+    public string? ButtonText { get; set; }
+
+    [Parameter]
+    public EventCallback ButtonClickEvent { get; set; }
+
+}
+
+

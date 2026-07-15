@@ -1,0 +1,66 @@
+﻿@*
+    MANEIRA CONVENCIONAL DE CRIAR ROTAS
+    @page "/router"
+    @page "/router/{group?}/{id:int?}"
+    @page "/rounting/{arg1?}/{arg2:int?}"
+*@
+
+@* o '*' indica que todos os argumentos serão capturados pela variável 'all' *@
+@page "/routing/{*all}"
+
+@*Passando as rotas por constants*@
+@attribute [Route(RoutersConstants.ROUTER_HUB)]
+@attribute [Route(RoutersConstants.ROUTER_HUB_ARGS1)]
+@attribute [Route(RoutersConstants.ROUTER_HUB_ARGS2)]
+
+@rendermode InteractiveServer
+
+@inject NavigationManager navigation
+
+
+<h3>RouterHub</h3>
+
+<div>
+    @if (!string.IsNullOrEmpty(Group))
+    {
+        <p>Grupo: @Group</p>
+    }
+
+    @if (Id != null)
+    {
+        <p>ID: @Id</p>
+    }
+
+    @if (!string.IsNullOrEmpty(All))
+    {
+        <p>All: @All (QueryString: @Nome)</p>
+    }
+</div>
+
+<div>
+    <input class="form-control" @bind="Router" />
+    <button class="btn btn-primary" @onclick="OnClick" >Go!</button>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public string? All { get; set; }
+
+    [Parameter]
+    public string? Group { get; set; }
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    [SupplyParameterFromQuery(Name = "nome")]
+    public string? Nome { get; set; }
+
+    public string? Router { get; set; } = "/";
+
+    public void OnClick(MouseEventArgs e)
+    {
+        navigation.NavigateTo(Router);
+    }
+}

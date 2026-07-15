@@ -1,0 +1,9 @@
+/* 
+    CSS for Separation component
+    CSS Isolation 
+*/
+
+h3[b-titulo] {  /*informar o atributo é opcional*/
+    color: cadetblue !important
+}
+

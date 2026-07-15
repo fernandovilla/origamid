@@ -1,0 +1,64 @@
+﻿@page "/component"
+@rendermode InteractiveServer
+@inject IJSRuntime js
+
+<h3>Component</h3>
+
+<div class="row">
+    <div class="col-md-3">
+        <Card Title="Cartão #1" Description="Texto do Cartão #1" ButtonText="Comprar" ButtonClickEvent="ButtonClickCard1" />
+    </div>
+
+    <div class="col-md-3">
+        <Card Title="Cartão #2" Description="Texto do Cartão #2" ButtonText="Clique aqui" ButtonClickEvent="@((e) => ButtonClickCard2(e))" />
+    </div>
+
+    <div class="col-md-3">
+        <Card>
+            <h5>Cartão #3</h5>
+            <p>Este cartão utiliza o recurdo de RenderFragment</p>
+        </Card>
+    </div>
+
+    <div class="col-md-3">
+        <Card>
+            <CardHeader>
+                <h5 class="p-3">Este é o Header</h5>
+            </CardHeader>
+
+            <ChildContent>
+                <p>Este é o body</p>
+            </ChildContent>
+
+            <CardFooter>
+                <p class="p-3">Aqui é o footer</p>
+            </CardFooter>
+        </Card>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <InputString Placeholder="Digite o texto" maxlength="5" autocomplete="off" />
+    </div>
+</div>
+
+
+
+@code {
+    private void ButtonClickCard1()
+    {
+        js.InvokeVoidAsync("alert", "Card 1 Clicado...");
+    }
+
+    private void ButtonClickCard2<MouseEventArgs>(MouseEventArgs e)
+    {
+        js.InvokeVoidAsync("alert", $"Card 2 clicado...");
+    }
+
+    private void ButtonClickCard3()
+    {
+        js.InvokeVoidAsync("alert", "Card 3 clicado...");
+    }
+}

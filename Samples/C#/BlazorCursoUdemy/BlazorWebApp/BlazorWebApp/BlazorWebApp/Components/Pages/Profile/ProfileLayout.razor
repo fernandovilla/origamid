@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+@layout Layout.MainLayout
+
+<div class="row">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item"><NavLink class="nav-link" href="profile/account"> Dados da Conta </NavLink></li>
+            <li class="list-group-item"><NavLink class="nav-link" href="profile/security"> Segurança </NavLink></li>
+            <li class="list-group-item"><NavLink class="nav-link" href="profile/privacity"> Privacidade </NavLink></li>
+        </ul>
+    </div>
+    <div class="col-9">
+        @Body
+    </div>
+
+</div>
+
+@code {
+
+}
