@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.9" />
+    <Compile Remove="Pages\Database\**" />
+    <Content Remove="Pages\Database\**" />
+    <EmbeddedResource Remove="Pages\Database\**" />
+    <None Remove="Pages\Database\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Database\" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.9" />
   </ItemGroup>
 
 </Project>

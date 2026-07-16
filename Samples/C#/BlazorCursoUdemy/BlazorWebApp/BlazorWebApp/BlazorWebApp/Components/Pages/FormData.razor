@@ -3,31 +3,43 @@
 
 <h3>Login</h3>
 
-@* 
+@*
     FocusTrap MudBlazor]
     https://www.mudblazor.com/components/focustrap#usage
-    https://www.bing.com/search?q=blazor%20focur%20traps&qs=n&form=QBRE&sp=-1&ghc=2&lq=0&pq=blazor%20focur%20trap&sc=12-17&sk=&cvid=84A7F24237AC426FA39E1560EE1CDE0A 
+    https://www.bing.com/search?q=blazor%20focur%20traps&qs=n&form=QBRE&sp=-1&ghc=2&lq=0&pq=blazor%20focur%20trap&sc=12-17&sk=&cvid=84A7F24237AC426FA39E1560EE1CDE0A
 *@
 
-<div class="row">
-    <div class="col-12">
-        <label for="email">E-mail:</label>
-        <input id="email" class="form-control" @bind="email" type="email" />
-    </div>
+@* <form @onsubmit="Acessar" @formname="login"> *@
+@* <EditForm Model="usuario" OnSubmit="Acessar" FormName="login"> *@
+@* OnValidSubmit substitui o uso do Submmit com EditContext.Validade() no método Acessar, pois ele só é disparado quando não há erros *@
 
-    <div class="col-12">
-        <label for="senha">Senha:</label>
-        <input id="senha" class="form-control" @bind="senha" type="password" />
-    </div>
+<EditForm Model="usuario" OnValidSubmit="AcessarOnValidSubmit" FormName="login">
+    <DataAnnotationsValidator />    @* Habilita a validação dos campos *@
+    <ValidationSummary /> @* Lista os erros de validação das propriedades *@
 
-    <div class="col-12 mt-3">
-        <button class="btn btn-outline-primary" @onclick="login">Login</button>
+    <div class="row">
+        <div class="col-12">
+            <label for="email">E-mail:</label>
+            <InputText id="email" class="form-control" @bind-Value="usuario.Login" type="email" />
+            <ValidationMessage For="() => usuario.Login"/>      @* substitui o ValidationSummary *@
+        </div>
+
+        <div class="col-12">
+            <label for="senha">Senha:</label>
+            <InputText id="senha" class="form-control" @bind-Value="usuario.Senha" type="password" />
+            <ValidationMessage For="()=> usuario.Senha" />
+        </div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-outline-primary">Login</button>
+        </div>
     </div>
-</div>
+</EditForm>
+
 
 @if (acessoLiberado)
 {
-    <div class="alert alert-info">
+    <div class="alert alert-info mt-4">
         <p>Acesso Liberado</p>
     </div>
 }
@@ -35,12 +47,19 @@
 
 @code {
     private bool acessoLiberado { get; set; } = false;
-    private string? email { get; set; }
-    private string? senha { get; set; }
+    private Usuario usuario { get; set; } = new();
 
-
-    private void login()
+    private void Acessar(EditContext contexto)  //Uso do EditContext requer que seja informado o Model no EditForm
     {
+        //Aciona a validação dos campos
+        if (!contexto.Validate())
+            return;
+
+        acessoLiberado = !acessoLiberado;
+    }
+
+    private void AcessarOnValidSubmit()  //Uso do EditContext requer que seja informado o Model no EditForm
+    {        
         acessoLiberado = !acessoLiberado;
     }
 }

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ScreenSound.Web/ScreenSound.Web.csproj" Id="445bc6e6-fca7-4803-a180-5d20e0027df6" />
+  <Project Path="ScreenSound2.API/ScreenSound.API.csproj" />
+  <Project Path="ScreenSound2.Domain/ScreenSound.Domain.csproj" />
+</Solution>

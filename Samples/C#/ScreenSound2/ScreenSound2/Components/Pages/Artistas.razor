@@ -1,0 +1,67 @@
+﻿@page "/Artistas"
+@inject ArtistaAPI artistaApi
+
+<h3>Artistas</h3>
+
+
+<MudStack Class="mt-4 mb-4" Row=true Justify="Justify.SpaceBetween">
+    <MudText Class="mb-4" Typo="Typo.h4">Artistas Cadastrados</MudText>
+    <MudPagination Count="@totalPages" SelectedChanged="ChangedPage" />
+</MudStack>
+
+@if (artistas is not null)
+{
+    <div class="rolagem">
+        <MudGrid>
+            @foreach (var artista in artistasPage)
+            {
+                <MudItem xs="3">
+                    <CardArtista Artista="artista" />
+                </MudItem>
+            }
+        </MudGrid>
+    </div>
+}
+
+<style>
+    .rolagem{
+        overflow: auto;
+    }
+</style>
+
+
+@code {
+    private ICollection<ArtistaResponse>? artistas;
+    private ICollection<ArtistaResponse>? artistasPage;
+    private int totalPages;
+    private int totalItems;
+    private int size = 3;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        artistas = await artistaApi.GetArtistasAsync();
+
+        if (artistas is not null)
+        {
+            artistas = artistas.OrderBy(i => i.Nome).ToList();
+            totalItems = artistas.Count();
+            totalPages = Convert.ToInt32(Math.Ceiling((totalItems * 1.0) / size));
+
+            this.ChangedPage(1);
+        }
+
+    }
+
+    private void ChangedPage(int pageNumber)
+    {
+        var indice = pageNumber - 1;
+
+        artistasPage = artistas!
+            .Skip(size * indice)
+            .Take(size)
+            .ToList();
+    }
+
+}

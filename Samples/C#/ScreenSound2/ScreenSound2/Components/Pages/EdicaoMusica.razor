@@ -1,0 +1,162 @@
+﻿@page "/EdicaoMusica/{Id}"
+@inject ArtistaAPI artistaAPI
+@inject GeneroAPI generoAPI
+@inject MusicaAPI musicaAPI
+@inject NavigationManager navigatinManager
+@inject ISnackbar Snackbar
+
+<MudPaper Class="px-8 pt-2 pb-4 mx-1 my-8" Justify="Justify.Center">
+
+
+    @if (_musica.Id == 0)
+    {
+        <MudText Class="mt-8" Typo="Typo.h4">Nova Música</MudText>
+    }
+    else
+    {
+        <MudText Class="mt-8" Typo="Typo.h4">Edição Música: @_musica.Id</MudText>
+    }
+
+    
+    <MudForm>
+        <MudFocusTrap>
+            <MudTextField @bind-bind-Value="_musica.Nome"
+                          Class="mt-4" T="string"
+                          Placeholder="Nome da música"
+                          Variant="Variant.Outlined"
+                          Required=true
+                          RequiredError="Campo obrigatório" />
+
+     @*        <MudSelect Class="mt-4" T="System.String" Label="Artistas" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">            
+                @foreach(var artista in _artistas){
+                    <MudSelectItem Value="@artista">@artista</MudSelectItem>
+                }
+            </MudSelect> *@
+
+            <select class="mt-4">
+                @foreach(var artista in _artistas){
+                    <option>@artista</option>
+                }
+            </select>
+            
+            
+
+            <MudNumericField @bind-value="_musica.AnoLancamento"
+                             Class="mt-4"
+                             Placeholder="Ano de Lançamento"
+                             Variant="Variant.Outlined"
+                             Lines="1"
+                             Required=true
+                             RequiredError="Campo obrigatório" />
+
+            @* <MudSelect Class="mt-4" T="String" Label="Gêneros" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">            
+                @foreach (var genero in _generos)
+                {
+                    <MudSelectItem Value="genero">@genero</MudSelectItem>
+                }            
+            </MudSelect> *@
+
+
+            <select class="mt-4 p-2">
+                @foreach(var genero in _generos)
+                {
+                    <option value='@genero.Id'>@genero</option>
+                }               
+            </select>
+        
+            
+            <MudStack Class="mt-4" Row="true" Justify="Justify.Center">
+                <MudButton OnClick="Voltar" Variant="Variant.Filled" Color="Color.Default" StartIcon="@Icons.Material.Filled.ArrowBack">
+                    VOLTAR
+                </MudButton>
+
+                @if (_musica.Id == 0)
+                {
+                    <MudButton OnClick="CadastrarAsync" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save">
+                        CADASTRAR
+                    </MudButton>
+                }
+                else
+                {
+                    <MudButton OnClick="ExcluirAsync" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Delete">
+                        EXCLUIR
+                    </MudButton>
+
+                    <MudButton OnClick="SalvarAsync" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save">
+                        SALVAR
+                    </MudButton>
+                }
+            </MudStack>
+        </MudFocusTrap>
+    </MudForm>
+    
+
+</MudPaper>
+
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = "";
+
+    private MusicaResponse _musica { get; set; }
+    private ICollection<string>? _artistas { get; set; } = null;
+    private ICollection<GeneroResponse>? _generos { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _musica = await GetMudicaAsync(this.Id);
+
+        await GetArtistasAsync();
+        await GetGenerosAsync();
+    }
+
+    private async Task<MusicaResponse> GetMudicaAsync(string id)
+    {
+        int idSearch = Convert.ToInt32(id);
+
+        if (idSearch > 0)
+        {
+            var response = await musicaAPI.GetAsync(idSearch);
+
+            if (response != null)
+                return response;
+        }
+
+        return new MusicaResponse();
+    }
+
+    private async Task GetArtistasAsync()
+    {
+        //_artistas = await artistaAPI.GetArtistasAsync();
+
+        _artistas = new List<string>() { "Jose", "João", "Maria" };
+    }
+
+    private async Task GetGenerosAsync()
+    {
+        _generos = await generoAPI.GetGenerosAsync();        
+    }
+
+
+
+    private void Voltar()
+    {
+
+    }
+
+    private void CadastrarAsync()
+    {
+
+    }
+
+    private void ExcluirAsync()
+    {
+
+    }
+
+    private void SalvarAsync()
+    {
+
+    }
+}

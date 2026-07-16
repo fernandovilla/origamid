@@ -1,0 +1,162 @@
+﻿@page "/EdicaoArtista/{Id}"
+@inject ArtistaAPI artistaAPI
+@inject NavigationManager navigatinManager
+@inject ISnackbar Snackbar
+
+
+@using ScreenSound.Web.Requests;
+@using ScreenSound.Web.Services;
+@using ScreenSound.Components
+
+
+<MudPaper Class="px-8 pt-2 pb-4 mx-12 my-8" Justify="Justify.Center">
+
+    @if (_artista.Id == 0)
+    {
+        <MudText Class="mt-8" Typo="Typo.h4">Novo Artista</MudText>
+    }
+    else
+    {
+        <MudText Class="mt-8" Typo="Typo.h4">Edição Artista: @_artista?.Id</MudText>
+    }
+
+    <MudText Class="mt-8">Cadastro do Artista</MudText>
+
+    <MudFocusTrap>
+        <MudForm>
+
+            <MudTextField @bind-Value="_artista.Nome"
+                          Class="mt-4" T="string" Placeholder="Nome do artista"
+                          Variant="Variant.Outlined"
+                          Required=true
+                          RequiredError="Nome do artista é obrigatório" />
+
+            <MudTextField @bind-Value="_artista.Bio"
+                          Class="mt-4" T="string" Placeholder="Biografia do artista"
+                          Variant="Variant.Outlined"
+                          Lines="4"
+                          Required=true RequiredError="Campo obrigatório" />
+
+        
+            @if (!string.IsNullOrEmpty(_fileImage))
+            {
+                <MudImage Class="mt-4" Src="@_fileImage" Style="width: 200px; height: 200px" />
+            }
+
+            <MudFileUpload T="IBrowserFile" Accept=".jpeg" FilesChanged="UploadFile">
+                <ActivatorContent>
+                    <MudButton HtmlTag="label" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.PhotoCamera">
+                        Foto Perfil
+                    </MudButton>
+                </ActivatorContent>
+            </MudFileUpload>
+                
+            <MudStack Class="mt-4" Row="true" Justify="Justify.Center">
+                <MudButton OnClick="Voltar" Variant="Variant.Filled" Color="Color.Default" StartIcon="@Icons.Material.Filled.ArrowBack">Voltar</MudButton>
+
+                @if (_artista.Id == 0)
+                {
+                    <MudButton OnClick="CadastrarAsync" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save">Cadastrar</MudButton>
+                }
+                else
+                {
+                    <MudButton OnClick="ExcluirAsync" Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Delete">Excluir</MudButton>
+                    <MudButton OnClick="SalvarAsync" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save">Salvar</MudButton>
+                }
+            </MudStack>
+        
+        </MudForm>
+    </MudFocusTrap>
+
+</MudPaper>
+
+
+
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = "";
+
+    private string _fileImage { get; set; }
+    private string? _fotoPerfil { get; set; }
+
+    public ArtistaResponse _artista { get; set; } 
+
+    protected override async Task OnInitializedAsync()
+    {
+        _artista = await GetArtistaAsync(this.Id);
+    }
+
+    private async Task<ArtistaResponse> GetArtistaAsync(string id)
+    {
+        int idSearch = Convert.ToInt32(id);
+
+        if (idSearch > 0)
+        {
+            return await artistaAPI.GetArtistasAsync(idSearch);
+        }
+        else
+        {
+            return new ArtistaResponse();
+        }
+    }
+
+    private async Task CadastrarAsync()
+    {
+        var request = new ArtistaRequest(_artista.Nome, _artista.Bio, _fotoPerfil);
+
+        if (await artistaAPI.AddAsync(request))
+        {
+            Snackbar.Add("Artista cadastrado com sucesso", Severity.Success);
+
+            await this.Voltar();
+        }
+        else
+        {
+            Snackbar.Add("Não foi possível cadastrar o artista", Severity.Error);
+        }
+    }
+
+    private async Task SalvarAsync()
+    {
+        var request = new ArtistaRequestEdit(_artista.Id, _artista.Nome, _artista.Bio, _fotoPerfil);
+
+        if (await artistaAPI.SaveAsync(request))
+        {
+            Snackbar.Add("Artista alterado com sucesso", Severity.Success);
+
+            await this.Voltar();
+        }
+        else
+        {
+            Snackbar.Add("Não foi possível alterar o artista", Severity.Error);
+        }
+    }
+
+    private async Task ExcluirAsync()
+    {
+        await artistaAPI.DeleteAsync(_artista.Id);
+
+        await Voltar();
+    }
+
+    private async Task UploadFile(IBrowserFile file)
+    {
+        long maxFileSize = 1024 * 1024 * 15;
+        var format = "image/jpeg";
+        var resizeImage = await file.RequestImageFileAsync(format, 200, 200);
+
+        using var fileStream = resizeImage.OpenReadStream();
+        using var memoryStream = new MemoryStream();
+        await fileStream.CopyToAsync(memoryStream);
+
+        _fotoPerfil = Convert.ToBase64String(memoryStream.ToArray());
+        _fileImage = $"data:{format};base64,{_fotoPerfil}";                
+    }
+
+    private async Task Voltar()
+    {
+        navigatinManager.NavigateTo("/Artistas");
+    }
+}
