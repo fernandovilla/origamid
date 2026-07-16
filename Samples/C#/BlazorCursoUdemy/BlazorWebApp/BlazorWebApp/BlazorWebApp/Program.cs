@@ -18,7 +18,9 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped<NumeroAleatorio>();
 //builder.Services.AddSingleton<NumeroAleatorio>();
 
-builder.Services.AddSingleton<ISenderMessage, Email>();
+//builder.Services.AddSingleton<ISenderMessage, Email>();
+builder.Services.AddKeyedSingleton<ISenderMessage, Email>("email");
+builder.Services.AddKeyedSingleton<ISenderMessage, SMS>("sms");
 
 
 var app = builder.Build();

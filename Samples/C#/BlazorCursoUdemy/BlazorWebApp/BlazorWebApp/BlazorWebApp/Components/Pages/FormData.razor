@@ -1,0 +1,46 @@
+﻿@page "/form/data"
+@rendermode InteractiveServer
+
+<h3>Login</h3>
+
+@* 
+    FocusTrap MudBlazor]
+    https://www.mudblazor.com/components/focustrap#usage
+    https://www.bing.com/search?q=blazor%20focur%20traps&qs=n&form=QBRE&sp=-1&ghc=2&lq=0&pq=blazor%20focur%20trap&sc=12-17&sk=&cvid=84A7F24237AC426FA39E1560EE1CDE0A 
+*@
+
+<div class="row">
+    <div class="col-12">
+        <label for="email">E-mail:</label>
+        <input id="email" class="form-control" @bind="email" type="email" />
+    </div>
+
+    <div class="col-12">
+        <label for="senha">Senha:</label>
+        <input id="senha" class="form-control" @bind="senha" type="password" />
+    </div>
+
+    <div class="col-12 mt-3">
+        <button class="btn btn-outline-primary" @onclick="login">Login</button>
+    </div>
+</div>
+
+@if (acessoLiberado)
+{
+    <div class="alert alert-info">
+        <p>Acesso Liberado</p>
+    </div>
+}
+
+
+@code {
+    private bool acessoLiberado { get; set; } = false;
+    private string? email { get; set; }
+    private string? senha { get; set; }
+
+
+    private void login()
+    {
+        acessoLiberado = !acessoLiberado;
+    }
+}

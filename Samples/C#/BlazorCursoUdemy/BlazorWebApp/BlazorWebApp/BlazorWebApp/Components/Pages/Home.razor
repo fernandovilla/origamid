@@ -2,7 +2,8 @@
 
 @inject NumeroAleatorio NumeroAleatorioA
 @inject NumeroAleatorio NumeroAleatorioB
-@inject ISenderMessage senderMessage
+
+@* @inject ISenderMessage senderMessage *@
 
 <PageTitle>Home</PageTitle>
 
@@ -17,6 +18,9 @@
 
 <div class="row m-3">
     <div class="card col-4">
-        Mennsagem Enviada: @senderMessage.Send("Mensagem...")
+        Email Enviado: @senderEmail.Send("Mensagem...")
+    </div>
+    <div class="card col-4 ml-1">
+        SMS Enviada: @senderSms.Send("Mensagem...")
     </div>
 </div>
