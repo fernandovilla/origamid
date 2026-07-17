@@ -1,4 +1,6 @@
 <Solution>
-  <Project Path="BlazorWebApp/BlazorWebApp.Client/BlazorWebApp.Client.csproj" />
-  <Project Path="BlazorWebApp/BlazorWebApp/BlazorWebApp.csproj" />
+  <Project Path="D:/Fernando/GitHub/origamid/Samples/C#/BlazorCursoUdemy/BlazorWebApp/BlazorWebApp.Identity/BlazorWebApp.Identity.Client/BlazorWebApp.Identity.Client.csproj" Id="1648beaf-b780-479a-a973-5cc8d159409b" />
+  <Project Path="D:/Fernando/GitHub/origamid/Samples/C#/BlazorCursoUdemy/BlazorWebApp/BlazorWebApp.Identity/BlazorWebApp.Identity/BlazorWebApp.Identity.csproj" Id="c902532e-68af-45a2-9bc1-555c83079bf0" />
+  <Project Path="D:/Fernando/GitHub/origamid/Samples/C#/BlazorCursoUdemy/BlazorWebApp/BlazorWebApp/BlazorWebApp.Client/BlazorWebApp.Client.csproj" />
+  <Project Path="D:/Fernando/GitHub/origamid/Samples/C#/BlazorCursoUdemy/BlazorWebApp/BlazorWebApp/BlazorWebApp/BlazorWebApp.csproj" />
 </Solution>
