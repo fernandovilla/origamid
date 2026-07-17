@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<Component1 />
+
+<p>Usuário Logado: @usuario.Nome</p>
+
+@code {
+    private Usuario usuario { get; set; } = new Usuario() { Id = 1, Nome = "Luis Fernando Villa" };
+}
