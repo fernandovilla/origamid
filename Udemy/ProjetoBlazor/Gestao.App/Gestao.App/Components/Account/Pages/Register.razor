@@ -16,44 +16,100 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Register</PageTitle>
+<PageTitle>Cadastre-se</PageTitle>
 
-<h1>Register</h1>
+<div class="p-lg-5 p-4">
+    <div>
+        <h5 class="text-primary">Criar uma conta</h5>
+        <p class="text-muted">Obtenha agora sua conta grátis.</p>
+    </div>
 
-<div class="row">
-    <div class="col-lg-6">
+    <div class="mt-4">
         <StatusMessage Message="@Message" />
+
         <EditForm Model="Input" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
-            <h2>Create a new account.</h2>
-            <hr />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label for="Input.Email">Email</label>
-                <ValidationMessage For="() => Input.Email" class="text-danger" />
+            <ValidationSummary class="invalid-feedback" role="alert" />
+
+            <div class="mb-3">
+                <label for="Input.Email" class="form-label">E-mail <span class="invalid-feedback">*</span></label>
+                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Digite seu e-mail" />
+                <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="Input.Password">Password</label>
-                <ValidationMessage For="() => Input.Password" class="text-danger" />
+
+            <div class="mb-3">
+                <label for="Input.Password">Senha</label>
+                <div class="position-relative auth-pass-inputgroup">
+                    <InputText id="Input.Password"
+                               type="password" @bind-Value="Input.Password"
+                               class="form-control pe-5 password-input"
+                               onpaste="return false"
+                               autocomplete="new-password"
+                               aria-required="true"
+                               aria-describedby="passwordInput"
+                               placeholder="Digite a senha" />
+                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                    <ValidationMessage For="() => Input.Password" class="invalid-feedback" />
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="Input.ConfirmPassword" id="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label for="Input.ConfirmPassword">Confirm Password</label>
-                <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+
+
+            <div class="mb-3">
+                <label for="Input.ConfirmPassword">Confirme a Senha</label>
+                <div class="position-relative auth-pass-inputgroup">
+                    <InputText id="Input.ConfirmPassword"
+                               type="password" @bind-Value="Input.ConfirmPassword"
+                               class="form-control pe-5 password-input"
+                               onpaste="return false"
+                               autocomplete="new-password"
+                               aria-required="true"
+                               aria-describedby="passwordInput"
+                               placeholder="Digite a senha novamente" />
+                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                    <ValidationMessage For="() => Input.ConfirmPassword" class="invalid-feedback" />
+                </div>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <div class="mb-4">
+                <p class="mb-0 fs-12 text-muted fst-italic">
+                    Ao se registrar, você concorda com os <a href="#" class="text-primary text-decoration-underline fst-normal fw-medium">Termos de Uso</a>
+                </p>
+            </div>
+
+            <div id="password-contain" class="p-3 bg-light mb-2 rounded">
+                <h5 class="fs-13">Password must contain:</h5>
+                <p id="pass-length" class="invalid fs-12 mb-2">Minimum <b>8 characters</b></p>
+                <p id="pass-lower" class="invalid fs-12 mb-2">At <b>lowercase</b> letter (a-z)</p>
+                <p id="pass-upper" class="invalid fs-12 mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                <p id="pass-number" class="invalid fs-12 mb-0">A least <b>number</b> (0-9)</p>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-success w-100" type="submit">Cadastrar</button>
+            </div>
         </EditForm>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
+
+        <div class="mt-4 text-center">
+            <div class="signin-other-title">
+                <h5 class="fs-13 mb-4 title text-muted">Criar uma conta com</h5>
+            </div>
+
+            <div>
+                <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-facebook-fill fs-16"></i></button>
+                <button type="button" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></button>
+                <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
+                <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
+            </div>
             <ExternalLoginPicker />
-        </section>
+        </div>
+
+    </div>
+
+    <div class="mt-5 text-center">
+        <p class="mb-0">Já possui uma conta? <a href="/Account/Login" class="fw-semibold text-primary text-decoration-underline"> Acessar</a> </p>
     </div>
 </div>
+
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
