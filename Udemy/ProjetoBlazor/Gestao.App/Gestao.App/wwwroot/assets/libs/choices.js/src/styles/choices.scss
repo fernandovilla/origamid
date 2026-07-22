@@ -396,9 +396,9 @@ $choices-z-index: 1 !default;
 
   &::-ms-clear,
   &::-ms-reveal {
-    display: none;
+    /*display: none;
     width: 0;
-    height: 0;
+    height: 0;*/
   }
 
   [dir="rtl"] & {

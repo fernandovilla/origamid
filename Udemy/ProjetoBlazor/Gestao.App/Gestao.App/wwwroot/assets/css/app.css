@@ -11953,9 +11953,9 @@ div.dtr-modal div.dtr-modal-close:hover {
 .numInputWrapper input {
   width: 100%;
 }
-.numInputWrapper input::-ms-clear {
+/*.numInputWrapper input::-ms-clear {
   display: none;
-}
+}*/
 .numInputWrapper input::-webkit-outer-spin-button, .numInputWrapper input::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;

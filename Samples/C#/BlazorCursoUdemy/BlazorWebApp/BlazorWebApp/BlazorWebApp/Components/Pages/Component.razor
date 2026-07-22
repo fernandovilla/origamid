@@ -40,13 +40,22 @@
 
 <div class="row">
     <div class="col-md-2">
-        <InputString Placeholder="Digite o texto" maxlength="5" autocomplete="off" />
+        <InputString Placeholder="Digite o texto" maxlength="5" autocomplete="off" @bind-Value="Texto" />
+        <p>Texto: @Texto</p>
+    </div>
+
+    <div class="col-md-2 ">
+        <InputPassword @bind-Value="Password" Placeholder="senha..." />
+        <p>Password: @Password</p>
     </div>
 </div>
 
 
 
 @code {
+    private string? Texto { get; set; }
+    private string? Password { get; set; }
+
     private void ButtonClickCard1()
     {
         js.InvokeVoidAsync("alert", "Card 1 Clicado...");

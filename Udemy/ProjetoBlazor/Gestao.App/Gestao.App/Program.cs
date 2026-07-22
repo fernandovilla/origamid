@@ -5,6 +5,8 @@ using Gestao.App.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,14 +34,32 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
         options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+//CONFIGURAÇÃO DO EMAIL - INICIO
+//  GMAIL PARA ENVIO DE CONFIRMAÇÃO DE E-MAIL
+//builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddSingleton<SmtpClient>(options =>
+{
+    var smtp = new SmtpClient();
+    smtp.Host = builder.Configuration.GetValue<string>("EmailSender:Host")!;
+    smtp.Port = builder.Configuration.GetValue<int>("EmailSender:Port");
+    smtp.EnableSsl = builder.Configuration.GetValue<bool>("EmailSender:EnableSsl");
+    smtp.Credentials = new NetworkCredential(
+        builder.Configuration.GetValue<string>("EmailSender:Credential:Username"),
+        builder.Configuration.GetValue<string>("EmailSender:Credential:Password")
+    );
+    return smtp;
+});
+builder.Services.AddSingleton<IEmailSender<ApplicationUser>, Gestao.App.Libraries.Mail.EmailSender>();
+//CONFIGURAÇÃO DE EMAIL - FIM
 
 var app = builder.Build();
 

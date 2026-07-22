@@ -32,42 +32,43 @@
             <ValidationSummary class="invalid-feedback" role="alert" />
 
             <div class="mb-3">
-                <label for="Input.Email" class="form-label">E-mail <span class="invalid-feedback">*</span></label>
-                <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Digite seu e-mail" />
+                <label for="email" class="form-label">E-mail <span class="invalid-feedback">*</span></label>
+                <InputText id="email"
+                           @bind-Value="Input.Email"
+                           class="form-control"
+                           autocomplete="username"
+                           aria-required="true"
+                           placeholder="Digite o e-mail" />
                 <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
             </div>
 
             <div class="mb-3">
-                <label for="Input.Password">Senha</label>
-                <div class="position-relative auth-pass-inputgroup">
-                    <InputText id="Input.Password"
-                               type="password" @bind-Value="Input.Password"
-                               class="form-control pe-5 password-input"
-                               onpaste="return false"
-                               autocomplete="new-password"
-                               aria-required="true"
-                               aria-describedby="passwordInput"
-                               placeholder="Digite a senha" />
-                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                    <ValidationMessage For="() => Input.Password" class="invalid-feedback" />
-                </div>
+                <label for="password">Senha</label>
+                <InputText id="password"
+                           type="password"
+                           @bind-Value="Input.Password"
+                           class="form-control"
+                           onpaste="return false"
+                           autocomplete="new-password"
+                           aria-required="true"
+                           aria-describedby="passwordInput"
+                           placeholder="Digite a senha" />
+                <ValidationMessage For="() => Input.Password" class="invalid-feedback" />
             </div>
 
 
             <div class="mb-3">
-                <label for="Input.ConfirmPassword">Confirme a Senha</label>
-                <div class="position-relative auth-pass-inputgroup">
-                    <InputText id="Input.ConfirmPassword"
-                               type="password" @bind-Value="Input.ConfirmPassword"
-                               class="form-control pe-5 password-input"
-                               onpaste="return false"
-                               autocomplete="new-password"
-                               aria-required="true"
-                               aria-describedby="passwordInput"
-                               placeholder="Digite a senha novamente" />
-                    <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                    <ValidationMessage For="() => Input.ConfirmPassword" class="invalid-feedback" />
-                </div>
+                <label for="confirmPassword">Confirme a Senha</label>
+                <InputText id="confirmPassword"
+                           type="password"
+                           @bind-Value="Input.ConfirmPassword"
+                           class="form-control pe-5 password-input"
+                           onpaste="return false"
+                           autocomplete="new-password"
+                           aria-required="true"
+                           aria-describedby="passwordInput"
+                           placeholder="Digite a senha novamente" />
+                <ValidationMessage For="() => Input.ConfirmPassword" class="invalid-feedback" />
             </div>
 
             <div class="mb-4">
@@ -127,13 +128,17 @@
         Input ??= new();
     }
 
+
     public async Task RegisterUser(EditContext editContext)
     {
         var user = CreateUser();
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
+
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        await emailStore.SetEmailConfirmedAsync(user, true, CancellationToken.None);
+
         var result = await UserManager.CreateAsync(user, Input.Password);
 
         if (!result.Succeeded)
@@ -146,12 +151,14 @@
 
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
         var callbackUrl = NavigationManager.GetUriWithQueryParameters(
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
-        await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        //await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
@@ -170,7 +177,8 @@
     {
         try
         {
-            return Activator.CreateInstance<ApplicationUser>();
+            //return Activator.CreateInstance<ApplicationUser>();
+            return new ApplicationUser();
         }
         catch
         {
@@ -182,9 +190,8 @@
     private IUserEmailStore<ApplicationUser> GetEmailStore()
     {
         if (!UserManager.SupportsUserEmail)
-        {
             throw new NotSupportedException("The default UI requires a user store with email support.");
-        }
+
         return (IUserEmailStore<ApplicationUser>)UserStore;
     }
 
