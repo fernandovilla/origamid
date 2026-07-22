@@ -5,6 +5,7 @@ Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(func
         })
     })
 });
+
 var password = document.getElementById("password-input"),
     confirm_password = document.getElementById("confirm-password-input");
 function validatePassword() {
@@ -22,7 +23,9 @@ var myInput = document.getElementById("password-input"),
 
 if (myInput != null) {
     myInput.onfocus = function () {
-        document.getElementById("password-contain").style.display = "block"
+        var pc = document.getElementById("password-contain");
+        if (pc != null)
+            pc.style.display = "block";
     }, myInput.onblur = function () {
         document.getElementById("password-contain").style.display = "none"
     }, myInput.onkeyup = function () {
