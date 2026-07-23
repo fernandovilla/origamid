@@ -25,6 +25,20 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
+    .AddGoogle(options => {
+        options.ClientId = builder.Configuration.GetValue<string>("OAuth:Google:ClientId")!;
+        options.ClientSecret = builder.Configuration.GetValue<string>("OAuth:Google:ClientSecret")!;
+    })
+    .AddFacebook(options =>
+    {
+        options.ClientId = builder.Configuration.GetValue<string>("OAuth:Facebook:ClientId")!;
+        options.ClientSecret = builder.Configuration.GetValue<string>("OAuth:Facebook:ClientSecret")!;
+    })
+    .AddMicrosoftAccount(options =>
+    {
+        options.ClientId = builder.Configuration.GetValue<string>("OAuth:Microsoft:ClientId")!;
+        options.ClientSecret = builder.Configuration.GetValue<string>("OAuth:Microsoft:ClientSecret")!;
+    })
     .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -34,8 +48,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = false;
-        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedAccount = true;
+        options.SignIn.RequireConfirmedEmail = true;
         options.SignIn.RequireConfirmedPhoneNumber = false;
         options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
     })
