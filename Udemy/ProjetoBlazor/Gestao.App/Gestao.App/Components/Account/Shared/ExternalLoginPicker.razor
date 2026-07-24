@@ -9,10 +9,12 @@
 {
     <div>
         <p>
-            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-            about setting up this ASP.NET application to support logging in via external services</a>.
-        </p>
-    </div>
+            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+            article
+            about setting up this ASP.NET application to support logging in via external services
+        </a>.
+    </p>
+</div>
 }
 else
 {
@@ -23,12 +25,33 @@ else
             <p>
                 @foreach (var provider in externalLogins)
                 {
-                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    switch (provider.Name.ToUpper())
+                    {
+                        case "GOOGLE":
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-danger btn-icon waves-effect waves-light mx-1"><i class="ri-google-fill fs-16"></i></button>
+                            break;
+                        case "FACEBOOK":
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-primary btn-icon waves-effect waves-light mx-1"><i class="ri-facebook-fill fs-16"></i></button>
+                            break;
+                        case "MICROSOFT":
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-dark btn-icon waves-effect waves-ligh  mx-1"><i class="ri-microsoft-fill fs-16"></i></button>
+                            break;
+                        case "TWITTER":
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-info btn-icon waves-effect waves-light mx-1"><i class="ri-twitter-fill fs-16"></i></button>
+                            break;
+                        case "GITHUB":
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-dark btn-icon waves-effect waves-light mx-1"><i class="ri-github-fill fs-16"></i></button>
+                            break;
+                        default:
+                            <button type="submit" name="provider" value="@provider.Name" title="Faça login usando @provider.DisplayName" class="btn btn-primary waves-effect waves-light mx-1" />
+                            break;
+                    }
                 }
             </p>
         </div>
     </form>
 }
+
 
 @code {
     private AuthenticationScheme[] externalLogins = [];
@@ -36,8 +59,9 @@ else
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
+
     protected override async Task OnInitializedAsync()
     {
-        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
+        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();      
     }
 }
