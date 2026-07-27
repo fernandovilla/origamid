@@ -30,7 +30,7 @@
     <div class="mt-4">
         <StatusMessage Message="@message" />
 
-        <div class="alert alert-info"> 
+        <div class="alert alert-info">
             Você logou com sucesso utilizando uma conta do <strong>@ProviderDisplayName</strong>.
             Por favor, confirme o endereço de e-mail abaixo, em seguida clique no botão <string>Finalizar Cadastro</string> para finalizar o login.
         </div>
@@ -111,6 +111,8 @@
             // the login page if we get here some other way.
             RedirectManager.RedirectTo("Account/Login");
         }
+
+        await OnAutomaticLoginAsync();
     }
 
     private async Task OnLoginCallbackAsync()
@@ -150,7 +152,7 @@
         }
     }
 
-    private async Task OnValidSubmitAsync()
+    private async Task OnAutomaticLoginAsync()
     {
         if (externalLoginInfo is null)
         {
@@ -158,6 +160,54 @@
             return;
         }
 
+        var appUser = await UserManager.FindByEmailAsync(Input.Email);
+
+        if (appUser != null)
+        {
+            //TODO - Usuário localizado -> Localizar o login social -> Associar o login social ao usuário
+            var appUserSocialLogin = await UserManager.FindByLoginAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey);
+
+            if (appUserSocialLogin != null)
+            {
+                //Usuário encontrado, porém e-mail não confirmado. Envia e-mail de confirmação e vai para a página "RegisterConfirmation"
+                if (UserManager.Options.SignIn.RequireConfirmedAccount)
+                {
+                    await SendConfirmationEmailAsync(appUserSocialLogin);
+                    RedirectManager.RedirectTo("Account/RegisterConfirmation", new() { ["email"] = Input.Email });
+                }
+
+                await SignInManager.SignInAsync(appUserSocialLogin, isPersistent: false, externalLoginInfo.LoginProvider);
+                RedirectManager.RedirectTo("/");
+            }
+            else
+            {
+                //Não encontrado, associal a conta logada
+                var result = await UserManager.AddLoginAsync(appUser, externalLoginInfo);
+
+                if (result.Succeeded)
+                {
+                    if (UserManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        await SendConfirmationEmailAsync(appUser);
+                        RedirectManager.RedirectTo("Account/RegisterConfirmation", new() { ["email"] = Input.Email });
+                    }
+                    else
+                    {
+                        await SignInManager.SignInAsync(appUser, isPersistent: false, externalLoginInfo.LoginProvider);
+                        RedirectManager.RedirectTo("/");
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            await CreateUserInStore();
+        }
+    }
+
+    private async Task CreateUserInStore()
+    {
         var emailStore = GetEmailStore();
         var user = CreateUser();
 
@@ -168,18 +218,14 @@
         if (result.Succeeded)
         {
             result = await UserManager.AddLoginAsync(user, externalLoginInfo);
+
             if (result.Succeeded)
             {
                 Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
 
-                var userId = await UserManager.GetUserIdAsync(user);
-                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                await SendConfirmationEmailAsync(user);
 
-                var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-                    NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                    new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-                await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
+                //ALTERAR PARA REDIRECIONAR DIRETO PARA A TELA DE LOGIN
 
                 // If account confirmation is required, we need to show the link if we don't have a real email sender
                 if (UserManager.Options.SignIn.RequireConfirmedAccount)
@@ -197,6 +243,17 @@
         {
             message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
         }
+    }
+
+    private async Task SendConfirmationEmailAsync(ApplicationUser user)
+    {
+        var userId = await UserManager.GetUserIdAsync(user);
+        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+        var callbackUrl = NavigationManager.GetUriWithQueryParameters(NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri, new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
+
+        await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
     }
 
     private ApplicationUser CreateUser()
