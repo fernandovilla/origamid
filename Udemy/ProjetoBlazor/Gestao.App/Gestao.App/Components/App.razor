@@ -14,7 +14,13 @@
     <link rel="stylesheet" href="@Assets["Gestao.App.styles.css"]" />
     @* <link rel="stylesheet" href="https://cloudflare.com"> *@
     <ImportMap />
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="@Assets["images/favicon.ico"]">
+
+    <!-- jsvectormap css -->
+    <link href="assets/libs/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
     
 
     @* TEMPLATE VELZON - INICIO *@
@@ -42,14 +48,28 @@
     <script src="assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
     <script src="assets/js/plugins.js"></script>
 
+    <!-- apexcharts -->
+    <script src="@Assets["libs/apexcharts/apexcharts.min.js"]"></script>
+
+    <!-- Vector map-->
+    <script src="@Assets["libs/jsvectormap/jsvectormap.min.js"]"></script>
+    <script src="@Assets["libs/jsvectormap/maps/world-merc.js"]"></script>
+
+    <!--Swiper slider js-->
+    <script src="@Assets["libs/swiper/swiper-bundle.min.js"]"></script>
+
     @* validation init  *@
-    <script src="assets/js/pages/form-validation.init.js"></script>
+    <script src="@Assets["js/pages/form-validation.init.js"]"></script>
     @* password create init *@
-    <script src="assets/js/pages/passowrd-create.init.js"></script>
+    <script src="@Assets["js/pages/passowrd-create.init.js"]"></script>
     @* password-addon-init *@
-    <script src="assets/js/pages/password-addon.init.js"></script>
+    <script src="@Assets["js/pages/password-addon.init.js"]"></script>
+
+        <!-- App js -->
+    <script src="@Assets["js/app.js"]"></script>
 
     @* VELZON JAVASCRIPT - FIM*@
+
 </body>
 
 </html>
