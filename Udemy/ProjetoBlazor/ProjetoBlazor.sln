@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.App", "Gestao.App\Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.App.Client", "Gestao.App\Gestao.App.Client\Gestao.App.Client.csproj", "{AE974A6A-E48D-4217-A97C-8057C2E8330B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestao.Domain", "Gestao.Domain\Gestao.Domain.csproj", "{8F6AC587-7547-4893-8F21-58830597227D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AE974A6A-E48D-4217-A97C-8057C2E8330B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE974A6A-E48D-4217-A97C-8057C2E8330B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE974A6A-E48D-4217-A97C-8057C2E8330B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F6AC587-7547-4893-8F21-58830597227D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F6AC587-7547-4893-8F21-58830597227D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F6AC587-7547-4893-8F21-58830597227D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F6AC587-7547-4893-8F21-58830597227D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,5 @@
-﻿using Gestao.App.Data;
+﻿using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
 using System.Net.Mail;
 
 namespace Gestao.App.Libraries.Mail

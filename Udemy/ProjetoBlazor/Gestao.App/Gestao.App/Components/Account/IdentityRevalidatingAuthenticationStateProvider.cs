@@ -1,4 +1,4 @@
-using Gestao.App.Data;
+using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;

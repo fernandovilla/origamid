@@ -2,6 +2,7 @@ using Gestao.App.Client.Pages;
 using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
+using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,7 @@
-using Gestao.App.Data;
+using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+
 
 namespace Gestao.App.Components.Account
 {
