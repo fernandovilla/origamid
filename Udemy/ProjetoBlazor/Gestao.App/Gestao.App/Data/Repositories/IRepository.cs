@@ -1,0 +1,17 @@
+﻿using Gestao.Domain.Libraries.Utilities;
+using Gestao.Domain.Model;
+
+namespace Gestao.App.Data.Repositories
+{
+    public interface IRepository<T> where T : class
+    {
+        Task<PaginatedList<T>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize);
+        Task<PaginatedList<T>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize);
+        Task<List<T>> GetAllAsync(Guid applicationUserId);
+        Task<List<T>> GetAllAsync();
+        Task<T?> GetAsync(int id);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(int id);
+    }
+}

@@ -11,7 +11,7 @@ namespace Gestao.App.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
-        public DbSet<AttachmentDocument> AttachementDocuments { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -20,6 +20,11 @@ namespace Gestao.App.Data
             // Sempre salva a coluna 'Repeat' com o texto do enum
             builder.Entity<FinancialTransaction>()
                  .Property(p => p.Repeat)
+                .HasConversion<string>();
+            
+            // Sempre salva a coluna 'FinancialTransactionType' com o texto do enum
+            builder.Entity<FinancialTransaction>()
+                 .Property(p => p.FinancialTransactionType)
                 .HasConversion<string>();
         }
     }

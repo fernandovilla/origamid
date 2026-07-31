@@ -12,9 +12,16 @@ namespace Gestao.Domain.Model
         Yearly
     }
 
+    public enum FinancialTransactionTypeEnum
+    {
+        Pay,
+        Receive
+    }
+
     public class FinancialTransaction
     {
         public int Id { get; set; }
+        public FinancialTransactionTypeEnum FinancialTransactionType { get; set; }
         public string Description { get; set; } = string.Empty;
         public string? Observation { get; set; } = null;
         public DateTimeOffset ReferenceDate { get; set; }
@@ -28,7 +35,7 @@ namespace Gestao.Domain.Model
         public decimal AmountPaid { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
 
-        public ICollection<AttachmentDocument>? Attachments { get; set; } = null;
+        public ICollection<Document>? Documents { get; set; } = null;
 
         public int CompanyId { get; set; }
         public Company Company { get; set; } = null!;

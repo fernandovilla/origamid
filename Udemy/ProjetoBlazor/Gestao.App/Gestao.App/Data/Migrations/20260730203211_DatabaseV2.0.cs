@@ -120,7 +120,7 @@ namespace Gestao.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AttachementDocuments",
+                name: "Documents",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -132,9 +132,9 @@ namespace Gestao.App.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AttachementDocuments", x => x.ID);
+                    table.PrimaryKey("PK_Documents", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_AttachementDocuments_FinancialTransactions_FinancialTransactionId",
+                        name: "FK_Documents_FinancialTransactions_FinancialTransactionId",
                         column: x => x.FinancialTransactionId,
                         principalTable: "FinancialTransactions",
                         principalColumn: "Id");
@@ -146,8 +146,8 @@ namespace Gestao.App.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AttachementDocuments_FinancialTransactionId",
-                table: "AttachementDocuments",
+                name: "IX_Documents_FinancialTransactionId",
+                table: "Documents",
                 column: "FinancialTransactionId");
 
             migrationBuilder.CreateIndex(
@@ -175,7 +175,7 @@ namespace Gestao.App.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AttachementDocuments");
+                name: "Documents");
 
             migrationBuilder.DropTable(
                 name: "FinancialTransactions");

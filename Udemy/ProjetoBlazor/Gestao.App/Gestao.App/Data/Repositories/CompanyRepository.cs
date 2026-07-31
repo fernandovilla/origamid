@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.App.Data.Repositories
 {
-    public class CompanyRepository
+    public class CompanyRepository : ICompanyRepository
     {
         private readonly ApplicationDbContext _db;
         private DbSet<Company> _companies => _db.Companies;
@@ -14,7 +14,6 @@ namespace Gestao.App.Data.Repositories
             _db = dbContext;
         }
 
-        //TODO - Fazer paginação
         public async Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
         {
             // LINQ:
@@ -32,26 +31,56 @@ namespace Gestao.App.Data.Repositories
             return new PaginatedList<Company>(items, pageIndex, totalPages);
         }
 
-        public Company Get(int id)
+        public async Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Company company)
+        public async Task<List<Company>> GetAllAsync(Guid applicationUserId)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Company company)
+        public async Task<Company?> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _companies.SingleOrDefaultAsync(i => i.Id == id);   
         }
 
-        public void Delete(int id)
+        public async Task AddAsync(Company company)
         {
-            throw new NotImplementedException();
+            if (company == null)
+                throw new ArgumentNullException(nameof(company));   
+
+            await _companies.AddAsync(company);
+            await _db.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(Company company)
+        {
+            if (company == null)
+                throw new ArgumentNullException(nameof(company));
 
+            _companies.Update(company);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("Invalid company ID.", nameof(id));
+
+            var company = await GetAsync(id);
+
+            if (company != null)
+            {
+                _companies.Remove(company);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<Company>> GetAllAsync()
+        {
+            return await _companies.ToListAsync();
+        }
     }
 }

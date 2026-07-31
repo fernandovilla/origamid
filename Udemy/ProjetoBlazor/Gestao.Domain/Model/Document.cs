@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Gestao.Domain.Model
 {
-    public class AttachmentDocument
+    public class Document
     {
         public int ID { get; set; }
         public string Path { get; set; } = null!;        //wwwroot/files/financialtransactions/{id}/{filename}
