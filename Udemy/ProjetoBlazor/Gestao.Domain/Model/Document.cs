@@ -10,7 +10,7 @@ namespace Gestao.Domain.Model
         public string Path { get; set; } = null!;        //wwwroot/files/financialtransactions/{id}/{filename}
         public DateTimeOffset CreatedAt { get; set; }
 
-        public int? FinancialTrsnsactionId { get; set; }
+        public int? FinancialTransactionId { get; set; }
         public FinancialTransaction? FinancialTransaction { get; set; }
     }
 }

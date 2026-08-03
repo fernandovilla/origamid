@@ -38,17 +38,28 @@ namespace Gestao.App.Data.Repositories
             }
         }
 
-        public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize, string? searchAccountName = null)
         {
-            var items = await _accounts.Where(i => i.CompanyId == companyId)
-               .Skip((pageIndex - 1) * pageSize)
-               .Take(pageSize)
-               .ToListAsync();
+            var items = await _accounts
+                .Where(i => i.CompanyId == companyId)
+                .Where(i => string.IsNullOrEmpty(searchAccountName) || i.Description.Contains(searchAccountName)) // Filter by searchAccountName if provided
+                .OrderByDescending(i => i.Description)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-            var countCompanies = await _accounts.CountAsync(i => i.CompanyId == companyId);
+            var countCompanies = await _accounts
+                .Where(i => i.CompanyId == companyId)
+                .Where(i => string.IsNullOrEmpty(searchAccountName) || i.Description.Contains(searchAccountName)) // Filter by searchAccountName if provided
+                .CountAsync(i => i.CompanyId == companyId);
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
 
             return new PaginatedList<Account>(items, pageIndex, totalPages);
+        }
+
+        public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        {
+            return await GetAllAsync(applicationUserId, companyId, pageIndex, pageSize, null);
         }
 
         public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)

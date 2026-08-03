@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.App.Data.Repositories
 {
-    public class FinancialTransactionRepository  : IFinancialTransactionRepository
+    public class FinancialTransactionRepository : IFinancialTransactionRepository
     {
         private readonly ApplicationDbContext _db;
         private DbSet<FinancialTransaction> _financialTransactions => _db.FinancialTransactions;
@@ -50,25 +50,37 @@ namespace Gestao.App.Data.Repositories
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
         {
             var items = (await GetAllAsync()).Where(i => i.CompanyId == companyId)
-               .Skip((pageIndex - 1) * pageSize)
-               .Take(pageSize)
-               .ToList();
+                .OrderByDescending(i => i.ReferenceDate)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
 
             var countCompanies = await _financialTransactions.CountAsync(i => i.CompanyId == companyId);
-            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  
+            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
             return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
         }
 
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
         {
-            var items = (await GetAllAsync()).Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
-               .Skip((pageIndex - 1) * pageSize)
-               .Take(pageSize)
-               .ToList();
+            return await GetAllAsync(companyId, type, pageIndex, pageSize, null);
+        }
 
-            var countCompanies = await _financialTransactions.CountAsync(i => i.CompanyId == companyId);
-            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
+        {
+            var items = (await GetAllAsync())
+                .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
+                .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption)) // Filter by searchDescription if provided
+                .OrderByDescending(i => i.ReferenceDate)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var countCompanies = await _financialTransactions
+                .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
+                .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption))
+                .CountAsync(i => i.CompanyId == companyId);
+            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
             return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
         }
@@ -99,6 +111,6 @@ namespace Gestao.App.Data.Repositories
             await _db.SaveChangesAsync();
         }
 
-        
+
     }
 }

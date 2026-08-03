@@ -60,15 +60,25 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<Document>> GetAllAsync(int financialTransactionId, int pageIndex, int pageSize)
         {
+            return await GetAllAsync(financialTransactionId, pageIndex, pageSize, null);
+        }
+
+        public async Task<PaginatedList<Document>> GetAllAsync(int financialTransactionId, int pageIndex, int pageSize, string? searchDescription = null)
+        {
             if (financialTransactionId <= 0)
                 throw new ArgumentException("Invalid financial transaction ID.", nameof(financialTransactionId));
 
-            var items = await _documents.Where(i => i.FinancialTrsnsactionId == financialTransactionId)
-               .Skip((pageIndex - 1) * pageSize)
-               .Take(pageSize)
-               .ToListAsync();
+            var items = await _documents
+                .Where(i => i.FinancialTransactionId == financialTransactionId)
+                .Where(i => string.IsNullOrEmpty(searchDescription) || i.Path.Contains(searchDescription))
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-            var countCompanies = await _documents.CountAsync(i => i.FinancialTrsnsactionId == financialTransactionId);
+            var countCompanies = await _documents
+                .Where(i => i.FinancialTransactionId == financialTransactionId)
+                .Where(i => string.IsNullOrEmpty(searchDescription) || i.Path.Contains(searchDescription))
+                .CountAsync(i => i.FinancialTransactionId == financialTransactionId);
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
             return new PaginatedList<Document>(items, pageIndex, totalPages);
@@ -88,6 +98,6 @@ namespace Gestao.App.Data.Repositories
             await _db.SaveChangesAsync();
         }
 
-        
+
     }
 }

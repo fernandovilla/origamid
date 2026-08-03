@@ -5,5 +5,8 @@ namespace Gestao.App.Data.Repositories
 {
     public interface ICompanyRepository 
         : IRepository<Company>
-    {    }
+    {
+
+        Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize, string? searchCompanyName = null);
+    }
 }
