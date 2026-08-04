@@ -6,6 +6,7 @@ using Gestao.App.Data.Repositories;
 using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Mail;
@@ -17,6 +18,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
+
 
 #region DBContext Dependency Injection
 
@@ -118,11 +120,15 @@ else
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
-app.UseHttpsRedirection();
 
-app.UseAntiforgery();
+app.UseHttpsRedirection();  //Habilita redirecionamento de HTTP para HTTPS (se permitido)
+
+app.UseStaticFiles();       //libera a pasta wwwroot para acesso público
+app.UseAntiforgery();      //habilita a proteção contra CSRF
 
 app.MapStaticAssets();
+
+//Módulo de Blazor Server e Blazor WebAssembly sendo habilitado para o mesmo projeto, com renderização interativa
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
@@ -130,5 +136,22 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+#region Minimal APIs Endpoints
+
+int pageSize = builder.Configuration.GetValue<int>("Pagination:PageSize");
+
+//API -> GET -> Lista paginada de Categorias
+app.MapGet("/api/categories", async (
+    ICategoryRepository repository,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex) =>
+{
+
+    return await repository.GetAllAsync(null, companyId, pageIndex, pageSize);
+});
+
+
+#endregion
 
 app.Run();

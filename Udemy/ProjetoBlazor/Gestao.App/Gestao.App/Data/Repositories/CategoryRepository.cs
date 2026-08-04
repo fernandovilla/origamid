@@ -43,15 +43,18 @@ namespace Gestao.App.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<PaginatedList<Category>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<Category>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
-            var items = await _categories.Where(i => i.UserId == applicationUserId && i.CompanyId == companyId)
+            var items = await _categories
+                .Where(i => i.CompanyId == companyId)
                 .OrderBy(i => i.Name)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _categories.CountAsync(i => i.UserId == applicationUserId);
+            var countCompanies = await _categories
+                .Where(i => i.CompanyId == companyId)
+                .CountAsync(i => i.UserId == applicationUserId);
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
 
             return new PaginatedList<Category>(items, pageIndex, totalPages);
