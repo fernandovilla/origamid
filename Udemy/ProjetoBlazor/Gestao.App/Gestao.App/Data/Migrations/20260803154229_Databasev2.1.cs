@@ -6,14 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Gestao.App.Migrations
 {
     /// <inheritdoc />
-    public partial class Databasev21 : Migration
+    public partial class DatabaseV21 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AttachementDocuments");
-
             migrationBuilder.AddColumn<string>(
                 name: "FinancialTransactionType",
                 table: "FinancialTransactions",
@@ -34,35 +31,11 @@ namespace Gestao.App.Migrations
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
-            migrationBuilder.CreateTable(
-                name: "Documents",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    FinancialTransactionId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documents", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Documents_FinancialTransactions_FinancialTransactionId",
-                        column: x => x.FinancialTransactionId,
-                        principalTable: "FinancialTransactions",
-                        principalColumn: "Id");
-                });
-
+            
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CompanyId",
                 table: "Categories",
-                column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Documents_FinancialTransactionId",
-                table: "Documents",
-                column: "FinancialTransactionId");
+                column: "CompanyId");            
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Categories_Companies_CompanyId",

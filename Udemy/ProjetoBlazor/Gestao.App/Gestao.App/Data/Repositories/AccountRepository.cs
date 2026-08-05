@@ -38,7 +38,7 @@ namespace Gestao.App.Data.Repositories
             }
         }
 
-        public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize, string? searchAccountName = null)
+        public async Task<PaginatedList<Account>> GetAllAsync(int companyId, int pageIndex, int pageSize, string? searchAccountName = null)
         {
             var items = await _accounts
                 .Where(i => i.CompanyId == companyId)
@@ -57,15 +57,16 @@ namespace Gestao.App.Data.Repositories
             return new PaginatedList<Account>(items, pageIndex, totalPages);
         }
 
-        public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<Account>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
-            return await GetAllAsync(applicationUserId, companyId, pageIndex, pageSize, null);
+            throw new NotImplementedException();
         }
 
         public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
+
 
         public async Task<List<Account>> GetAllAsync(Guid applicationUserId)
         {
@@ -90,5 +91,7 @@ namespace Gestao.App.Data.Repositories
         {
             return await _accounts.ToListAsync();
         }
+
+        
     }
 }

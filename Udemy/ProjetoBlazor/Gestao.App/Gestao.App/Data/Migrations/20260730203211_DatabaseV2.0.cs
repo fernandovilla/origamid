@@ -40,15 +40,14 @@ namespace Gestao.App.Migrations
                     Address = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     Complement = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Companies_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Companies_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -151,9 +150,9 @@ namespace Gestao.App.Migrations
                 column: "FinancialTransactionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Companies_UserId1",
+                name: "IX_Companies_UserId",
                 table: "Companies",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FinancialTransactions_AccountId",

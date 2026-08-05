@@ -9,7 +9,7 @@ namespace Gestao.Domain.Model
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int? CompanyId { get; set; }
-        public Company? Company { get; set; }
-        public Guid UserId { get; set; }
+        public Company? Company { get; set; }              
+
     }
 }

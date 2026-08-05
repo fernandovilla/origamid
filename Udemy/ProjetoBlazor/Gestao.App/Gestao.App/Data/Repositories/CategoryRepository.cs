@@ -54,7 +54,7 @@ namespace Gestao.App.Data.Repositories
 
             var countCompanies = await _categories
                 .Where(i => i.CompanyId == companyId)
-                .CountAsync(i => i.UserId == applicationUserId);
+                .CountAsync();
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
 
             return new PaginatedList<Category>(items, pageIndex, totalPages);
@@ -62,7 +62,7 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<List<Category>> GetAllAsync(Guid applicationUserId)
         {
-            return await _categories.Where(i => i.UserId == applicationUserId).ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<Category?> GetAsync(int id)

@@ -7,6 +7,6 @@ namespace Gestao.App.Data.Repositories
         : IRepository<Account>
     {
 
-        Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize, string? searchAccountName = null);
+        Task<PaginatedList<Account>> GetAllAsync(int companyId, int pageIndex, int pageSize, string? searchAccountName = null);
     }
 }

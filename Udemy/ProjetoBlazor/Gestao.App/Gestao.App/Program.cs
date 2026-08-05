@@ -141,14 +141,57 @@ app.MapAdditionalIdentityEndpoints();
 
 int pageSize = builder.Configuration.GetValue<int>("Pagination:PageSize");
 
-//API -> GET -> Lista paginada de Categorias
+//API -> GET -> Lista paginada de Categoria
 app.MapGet("/api/categories", async (
     ICategoryRepository repository,
     [FromQuery] int companyId,
     [FromQuery] int pageIndex) =>
 {
 
-    return await repository.GetAllAsync(null, companyId, pageIndex, pageSize);
+    var data = await repository.GetAllAsync(null, companyId, pageIndex, pageSize);
+
+    return Results.Ok(data);
+});
+
+//API -> GET -> Lista paginada de Company
+app.MapGet("/api/companies", async (
+    ICompanyRepository repository,
+    [FromQuery] Guid applicationUserId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord
+    ) =>
+{
+    var data = await repository.GetAllAsync(applicationUserId, pageIndex, pageSize, searchWord);
+
+    return Results.Ok(data);
+});
+
+
+//API -> GET -> Lista paginada de Account
+app.MapGet("/api/accounts", async (
+    IAccountRepository repository,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord
+    ) =>
+{
+    var data = await repository.GetAllAsync(companyId, pageIndex, pageSize, searchWord);
+
+    return Results.Ok(data);
+});
+
+//API -> GET -> Lista paginada de Financial Transaction
+app.MapGet("/api/financialtransactions", async (
+    IFinancialTransactionRepository repository,
+    [FromQuery] FinancialTransactionTypeEnum type,
+    [FromQuery] int companyId,
+    [FromQuery] int pageIndex,
+    [FromQuery] string searchWord
+    ) =>
+{
+    var data = await repository.GetAllAsync(companyId, type,pageIndex, pageSize, searchWord);
+
+    return Results.Ok(data);
 });
 
 

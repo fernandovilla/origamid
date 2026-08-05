@@ -13,7 +13,7 @@ namespace Gestao.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260803154229_Databasev2.1")]
-    partial class Databasev21
+    partial class DatabaseV21
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

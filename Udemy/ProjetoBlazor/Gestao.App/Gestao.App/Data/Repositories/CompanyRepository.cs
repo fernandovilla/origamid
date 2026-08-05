@@ -42,7 +42,7 @@ namespace Gestao.App.Data.Repositories
             return await GetAllAsync(applicationUserId, pageIndex, pageSize, null);
         }
 
-        public async Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<Company>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
@@ -93,5 +93,7 @@ namespace Gestao.App.Data.Repositories
         {
             return await _companies.ToListAsync();
         }
+
+        
     }
 }

@@ -38,7 +38,7 @@ namespace Gestao.App.Data.Repositories
             }
         }
 
-        public async Task<PaginatedList<Document>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<Document>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             return await GetAllAsync(0, pageIndex, pageSize);
         }
@@ -96,8 +96,6 @@ namespace Gestao.App.Data.Repositories
 
             _documents.Update(entity);
             await _db.SaveChangesAsync();
-        }
-
-
+        }        
     }
 }

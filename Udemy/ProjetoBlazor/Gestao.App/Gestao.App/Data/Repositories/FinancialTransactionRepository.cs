@@ -37,7 +37,7 @@ namespace Gestao.App.Data.Repositories
             }
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             return await GetAllAsync(companyId, pageIndex, pageSize);
         }
