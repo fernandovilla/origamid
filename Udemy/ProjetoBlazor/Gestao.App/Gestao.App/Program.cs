@@ -1,4 +1,3 @@
-using Gestao.App.Client.Pages;
 using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
@@ -6,7 +5,6 @@ using Gestao.App.Data.Repositories;
 using Gestao.Domain.Model;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Mail;
@@ -14,11 +12,14 @@ using System.Net.Mail;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
+builder.Services
+    .AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
+builder.Services
+    .AddControllers();  //Habilita o uso de controllers
 
 #region DBContext Dependency Injection
 
@@ -94,13 +95,14 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, Gestao.App.Librarie
 #endregion
 
 
-#region Repositories Dependency Injection
+#region Repositories Dependency Injection e outras...
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
+builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => builder.Configuration);
 
 #endregion
 
@@ -139,62 +141,14 @@ app.MapAdditionalIdentityEndpoints();
 
 #region Minimal APIs Endpoints
 
-int pageSize = builder.Configuration.GetValue<int>("Pagination:PageSize");
+//Habilita o uso de Controllers para APIs REST
+app.MapControllers(); 
 
-//API -> GET -> Lista paginada de Categoria
-app.MapGet("/api/categories", async (
-    ICategoryRepository repository,
-    [FromQuery] int companyId,
-    [FromQuery] int pageIndex) =>
-{
-
-    var data = await repository.GetAllAsync(null, companyId, pageIndex, pageSize);
-
-    return Results.Ok(data);
-});
-
-//API -> GET -> Lista paginada de Company
-app.MapGet("/api/companies", async (
-    ICompanyRepository repository,
-    [FromQuery] Guid applicationUserId,
-    [FromQuery] int pageIndex,
-    [FromQuery] string searchWord
-    ) =>
-{
-    var data = await repository.GetAllAsync(applicationUserId, pageIndex, pageSize, searchWord);
-
-    return Results.Ok(data);
-});
-
-
-//API -> GET -> Lista paginada de Account
-app.MapGet("/api/accounts", async (
-    IAccountRepository repository,
-    [FromQuery] int companyId,
-    [FromQuery] int pageIndex,
-    [FromQuery] string searchWord
-    ) =>
-{
-    var data = await repository.GetAllAsync(companyId, pageIndex, pageSize, searchWord);
-
-    return Results.Ok(data);
-});
-
-//API -> GET -> Lista paginada de Financial Transaction
-app.MapGet("/api/financialtransactions", async (
-    IFinancialTransactionRepository repository,
-    [FromQuery] FinancialTransactionTypeEnum type,
-    [FromQuery] int companyId,
-    [FromQuery] int pageIndex,
-    [FromQuery] string searchWord
-    ) =>
-{
-    var data = await repository.GetAllAsync(companyId, type,pageIndex, pageSize, searchWord);
-
-    return Results.Ok(data);
-});
-
-
+// Aqui tb poderia ser mapeado os métodos para cada endpoint
+//app.MapGet("/api/health", () => {
+//    ...
+//))
+    
 #endregion
 
 app.Run();
