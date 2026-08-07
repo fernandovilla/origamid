@@ -1,7 +1,7 @@
 ﻿using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model;
+using Gestao.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.Design;
 
 namespace Gestao.App.Data.Repositories
 {

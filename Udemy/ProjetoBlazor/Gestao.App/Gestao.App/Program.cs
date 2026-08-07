@@ -3,6 +3,7 @@ using Gestao.App.Components.Account;
 using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
 using Gestao.Domain.Model;
+using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

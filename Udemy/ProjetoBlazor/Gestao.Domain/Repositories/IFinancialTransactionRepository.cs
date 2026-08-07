@@ -1,8 +1,7 @@
 ﻿using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model;
-using Microsoft.EntityFrameworkCore;
 
-namespace Gestao.App.Data.Repositories
+namespace Gestao.Domain.Repositories
 {
     public interface IFinancialTransactionRepository
         : IRepository<FinancialTransaction>

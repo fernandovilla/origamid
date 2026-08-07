@@ -2,6 +2,7 @@
 using Gestao.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
+using Gestao.Domain.Repositories;
 
 namespace Gestao.App.Data.Repositories
 {

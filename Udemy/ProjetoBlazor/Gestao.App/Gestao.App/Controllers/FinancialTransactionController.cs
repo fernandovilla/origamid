@@ -1,5 +1,5 @@
-﻿using Gestao.App.Data.Repositories;
-using Gestao.Domain.Model;
+﻿using Gestao.Domain.Model;
+using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gestao.App.Controllers

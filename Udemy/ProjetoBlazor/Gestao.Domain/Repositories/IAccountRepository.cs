@@ -1,7 +1,7 @@
 ﻿using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model;
 
-namespace Gestao.App.Data.Repositories
+namespace Gestao.Domain.Repositories
 {
     public interface IAccountRepository
         : IRepository<Account>
