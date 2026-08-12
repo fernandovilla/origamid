@@ -1,0 +1,48 @@
+﻿@typeparam T
+
+@if (PaginatedData != null)
+{
+    <!--Paginação-->
+    <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+        <div class="col-sm">
+            <div class="text-muted">
+                Mostrando página <span class="fw-semibold">@PaginatedData.PageIndex</span> de <span class="fw-semibold">@PaginatedData.TotalPages</span>.
+            </div>
+        </div>
+        <div class="col-sm-auto  mt-3 mt-sm-0">
+            <ul class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
+                <li class="page-item  @(PaginatedData.PageIndex == 1 ? "disabled" : "")">
+                    <button @onclick="() => NavigateToPage(PaginatedData.PageIndex - 1)" class="page-link">←</button>
+                </li>
+
+                @for (int i = 1; i <= PaginatedData.TotalPages; i++)
+                {
+                    var pageNumber = i;
+                    <li class="page-item @(PaginatedData.PageIndex == pageNumber ? "active" : "")">
+                        <button @onclick="() => NavigateToPage(pageNumber)" class="page-link">@pageNumber</button>
+                    </li>
+                }
+
+                <li class="page-item @(PaginatedData.PageIndex == PaginatedData.TotalPages ? "disabled" : "")">
+                    <button @onclick="() => NavigateToPage(PaginatedData.PageIndex + 1)" class="page-link">→</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public PaginatedList<T> PaginatedData { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<int> OnPageChanged { get; set; }
+
+    private async Task NavigateToPage(int pageNumber)
+    {
+        if (pageNumber < 1 || pageNumber > PaginatedData.TotalPages)
+            return;
+
+        await OnPageChanged.InvokeAsync(pageNumber);
+    }
+}

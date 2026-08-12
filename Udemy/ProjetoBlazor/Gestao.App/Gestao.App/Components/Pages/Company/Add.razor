@@ -1,0 +1,112 @@
+﻿@page "/company/add"
+@rendermode InteractiveServer
+@inject IJSRuntime js
+
+<PageTitle>
+    Empresa - Cadastro
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Cadastro de Empresa</h4>
+
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="razaoSocial">Razão Social</label>
+                            <input type="text" class="form-control" id="razaoSocial" autocomplete="not" />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="nomeFantasia">Nome Fantasia</label>
+                            <input type="text" class="form-control" id="nomeFantasia" autocomplete="not" />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cnpj">CNPJ</label>
+                            <input type="text" class="form-control" id="cnpj" autocomplete="not" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cep">CEP</label>
+                            <input type="text" class="form-control" id="cep" autocomplete="not" />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div>
+                            <label for="endereco">Endereço</label>
+                            <input type="text" class="form-control" id="endereco" disabled />
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="bairro">Bairro</label>
+                            <input type="text" class="form-control" id="bairro" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cidade">Cidade</label>
+                            <input type="text" class="form-control" id="cidade" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="uf">UF</label>
+                            <input type="text" class="form-control" id="uf" disabled />
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="compl">Complemento</label>
+                            <input type="text" class="form-control" id="compl" autocomplete="not" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="d-flex justify-content-between">
+                        <a href="company/list" class="btn btn-light">Voltar</a>
+                        <button class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@code {    
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("CompanyMaskInit");
+    }
+}
