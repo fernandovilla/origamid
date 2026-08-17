@@ -2,6 +2,7 @@ using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
+using Gestao.App.Libraries.Services;
 using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -104,6 +105,13 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
 builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => builder.Configuration);
+
+#endregion
+
+
+#region Anothers Dependency Injection
+
+builder.Services.AddSingleton<ICepServices, CepServices>();
 
 #endregion
 

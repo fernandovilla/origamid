@@ -1,6 +1,8 @@
 ﻿@page "/company/add"
+
 @rendermode InteractiveServer
 @inject IJSRuntime js
+@inject ICepServices cep
 
 <PageTitle>
     Empresa - Cadastro
@@ -15,83 +17,96 @@
             </div>
             <div class="card-body">
 
-                <div class="row">
+                <EditForm Model="Company" OnValidSubmit="OnSubmit" FormName="RegisterCompany">
+                    <DataAnnotationsValidator />
 
-                
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="razaoSocial">Razão Social</label>
-                            <input type="text" class="form-control" id="razaoSocial" autocomplete="not" />
+                    <div class="row">
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="razaoSocial" class="form-label">Razão Social</label>
+                                <InputText @bind-Value="Company!.LegalName" type="text" class="form-control" id="razaoSocial" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.LegalName" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+                                <InputText @bind-Value="Company!.TradeName" type="text" class="form-control" id="nomeFantasia" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.TradeName" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cnpj" class="form-label">CNPJ</label>
+                                <InputText @bind-Value="Company!.TaxId" type="text" class="form-control" id="cnpj" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.TaxId" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="nomeFantasia">Nome Fantasia</label>
-                            <input type="text" class="form-control" id="nomeFantasia" autocomplete="not" />
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cep" class="form-label">CEP</label>
+                                <InputText @bind-Value="Company!.PostalCode" type="text" class="form-control" id="cep" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.PostalCode" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="cnpj">CNPJ</label>
-                            <input type="text" class="form-control" id="cnpj" autocomplete="not" />
+                        <div class="col-xxl-6 col-md-6">
+                            <div>
+                                <label for="endereco" class="form-label">Endereço</label>
+                                <InputText @bind-Value="Company!.Address" type=" text" class="form-control" id="endereco" readonly />
+                                <ValidationMessage For="() => Company!.Address" />
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="cep">CEP</label>
-                            <input type="text" class="form-control" id="cep" autocomplete="not" />
-                        </div>
-                    </div>
-
-                    <div class="col-xxl-6 col-md-6">
-                        <div>
-                            <label for="endereco">Endereço</label>
-                            <input type="text" class="form-control" id="endereco" disabled />
-                        </div>
-                    </div>
 
                     
 
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="bairro">Bairro</label>
-                            <input type="text" class="form-control" id="bairro" disabled />
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="bairro" class="form-label">Bairro</label>
+                                <InputText @bind-Value="Company!.Neighboarhood" type="text" class="form-control" id="bairro" readonly />
+                                <ValidationMessage For="() => Company!.Neighboarhood" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cidade" class="form-label">Cidade</label>
+                                <InputText @bind-Value="Company!.City" type="text" class="form-control" id="cidade" readonly />
+                                <ValidationMessage For="() => Company!.City" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="uf" class="form-label">UF</label>
+                                <InputText @bind-Value="Company!.State" type="text" class="form-control" id="uf" readonly />
+                                <ValidationMessage For="() => Company!.State" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="compl" class="form-label">Complemento</label>
+                                <InputText @bind-Value="Company!.Complement" type="text" class="form-control" id="compl" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.Complement" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="cidade">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" disabled />
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <a href="company/list" class="btn btn-light">Voltar</a>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
                     </div>
 
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="uf">UF</label>
-                            <input type="text" class="form-control" id="uf" disabled />
-                        </div>
-                    </div>
-
-                    <div class="col-xxl-3 col-md-6">
-                        <div>
-                            <label for="compl">Complemento</label>
-                            <input type="text" class="form-control" id="compl" autocomplete="not" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="d-flex justify-content-between">
-                        <a href="company/list" class="btn btn-light">Voltar</a>
-                        <button class="btn btn-primary">Salvar</button>
-                    </div>
-                </div>
+                </EditForm>
 
             </div>
         </div>
@@ -100,13 +115,23 @@
 
 
 
+@code {
 
+    [SupplyParameterFromForm]
+    private Gestao.Domain.Model.Company? Company { get; set; }
 
-
-@code {    
+    private void OnSubmit()
+    {
+        throw new NotImplementedException();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await js.InvokeVoidAsync("CompanyMaskInit");
+    }
+
+    protected override void OnInitialized()
+    {
+        Company = new();
     }
 }
