@@ -1,4 +1,5 @@
-﻿using Gestao.Domain.Libraries.Validations;
+﻿using FluentValidation;
+using Gestao.Domain.Libraries.Validations;
 using System.ComponentModel.DataAnnotations;
 
 //Utilizar o fluentvalidation para uma limpeza melhor do código
@@ -9,17 +10,9 @@ namespace Gestao.Domain.Model
     public class Company
     {    
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "Razão Social é obrigatório")]
-        public string LegalName { get; set; } = string.Empty;
-        
-        [Required(ErrorMessage = "Nome Fantasia é obrigatório")]
+        public string LegalName { get; set; } = string.Empty;        
         public string TradeName { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "CNPJ é obrigatório")]
-        [CNPJ(ErrorMessage ="CNPJ é inválido")]
         public string TaxId { get; set; } = string.Empty;
-
         public string PostalCode { get; set; } = string.Empty;        
         public string State { get; set; } = string.Empty;        
         public string City { get; set; } = string.Empty;        
@@ -31,5 +24,29 @@ namespace Gestao.Domain.Model
         public Guid UserId { get; set; }
         public ApplicationUser User { get; set; } = null!;
 
+    }
+
+    public class CompanyValidator : AbstractValidator<Company>
+    {
+        public CompanyValidator()
+        {
+            RuleFor(i => i.LegalName)
+                .NotEmpty().WithMessage("Razão Social é obrigatório")
+                .Length(3, 100).WithMessage("Razão Social deve ter entre {MinLength} e {MaxLength} caracteres");
+
+            RuleFor(i => i.TradeName)
+                .NotEmpty().WithMessage("Nome Fantasia é obrigatório")
+                .Length(3, 100).WithMessage("Nome Fantasia deve ter entre {MinLength} e {MaxLength} caracteres");
+
+            RuleFor(i => i.TaxId)
+                .NotEmpty().WithMessage("CNPJ é obrigatório")
+                .Must(x => CNPJValido(x)).WithMessage("CNPJ é inválido");                
+        }
+
+        private bool CNPJValido(string cnpj)
+        {
+            var cnpjAttrib = new CNPJAttribute();
+            return cnpjAttrib.IsValid(cnpj);
+        }
     }
 }

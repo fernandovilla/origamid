@@ -17,8 +17,9 @@
             </div>
             <div class="card-body">
 
-                <EditForm Model="Company" OnValidSubmit="OnSubmit" FormName="RegisterCompany">
-                    <DataAnnotationsValidator />
+                <EditForm Model=@Company OnValidSubmit="OnSubmit" FormName="RegisterCompany">
+                    
+                    <Morris.Blazor.Validation.Validate />
 
                     <div class="row">
 
@@ -120,8 +121,10 @@
     [SupplyParameterFromForm]
     private Gestao.Domain.Model.Company? Company { get; set; }
 
-    private void OnSubmit()
+    private void OnSubmit(EditContext context)
     {
+        context.ValidateObjectTree();
+
         throw new NotImplementedException();
     }
 

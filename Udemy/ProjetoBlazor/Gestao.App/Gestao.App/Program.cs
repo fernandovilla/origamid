@@ -1,3 +1,4 @@
+using FluentValidation;
 using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
@@ -6,10 +7,12 @@ using Gestao.App.Libraries.Services;
 using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Forms.Mapping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Net.Mail;
+using Morris.Blazor.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,6 +111,17 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 
 #endregion
 
+
+#region Validator Dependency Injection
+
+// Quando for utilizar em API
+//builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();
+
+//https://github.com/mrpmorris/blazor-validation
+builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
+
+#endregion
 
 #region Anothers Dependency Injection
 
