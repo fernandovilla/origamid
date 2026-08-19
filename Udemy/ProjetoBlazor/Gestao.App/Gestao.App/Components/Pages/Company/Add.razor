@@ -1,8 +1,11 @@
 ﻿@page "/company/add"
+@using Gestao.App.Components.Account.Pages.Manage
+
 
 @rendermode InteractiveServer
 @inject IJSRuntime js
-@inject ICepServices cep
+@inject ICepServices CepService
+@inject AuthenticationStateProvider authProvider;
 
 <PageTitle>
     Empresa - Cadastro
@@ -17,8 +20,8 @@
             </div>
             <div class="card-body">
 
-                <EditForm Model=@Company OnValidSubmit="OnSubmit" FormName="RegisterCompany">
-                    
+                <EditForm Model=@Company OnValidSubmit="OnSubmitAsync" FormName="RegisterCompany">
+
                     <Morris.Blazor.Validation.Validate />
 
                     <div class="row">
@@ -52,7 +55,17 @@
                         <div class="col-xxl-3 col-md-6">
                             <div>
                                 <label for="cep" class="form-label">CEP</label>
-                                <InputText @bind-Value="Company!.PostalCode" type="text" class="form-control" id="cep" autocomplete="not" />
+                                <div class="input-group">
+                                    <InputText @bind-Value="Company!.PostalCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
+                                    @if (Loading)
+                                    {
+                                        <span class="input-group-text input-group-text-bg-transparent">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </span>
+                                    }
+                                </div>
                                 <ValidationMessage For="() => Company!.PostalCode" />
                             </div>
                         </div>
@@ -83,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-3 col-md-3">
                             <div>
                                 <label for="uf" class="form-label">UF</label>
                                 <InputText @bind-Value="Company!.State" type="text" class="form-control" id="uf" readonly />
@@ -119,13 +132,16 @@
 @code {
 
     [SupplyParameterFromForm]
-    private Gestao.Domain.Model.Company? Company { get; set; }
+    private Gestao.Domain.Model.Company Company { get; set; }
+    private bool Loading = false;
 
-    private void OnSubmit(EditContext context)
+    private async Task OnSubmitAsync(EditContext context)
     {
-        context.ValidateObjectTree();
+        // context.ValidateObjectTree();
 
-        throw new NotImplementedException();
+        Company!.CreatedAt = DateTimeOffset.Now;
+        Company!.UserId = await GetAuthenticatedUserAsync();
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -136,5 +152,43 @@
     protected override void OnInitialized()
     {
         Company = new();
+
+
+    }
+
+    private async Task<Guid> GetAuthenticatedUserAsync()
+    {
+        //Carregar as empresas cadastradas...
+        /*
+        * Blazor Server, obtem o usuário de SignInManager
+        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
+        */
+
+        return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+    }
+
+    private async Task OnCepEntry(ChangeEventArgs e)
+    {
+        if (e.Value!.ToString()!.Length == 10)
+        {
+            Loading = true;
+
+            Company.Address = string.Empty;
+            Company.City = string.Empty;
+            Company.State = string.Empty;
+            Company.Neighboarhood = string.Empty;
+
+            var address = await CepService.SearchByPostalCodeAsync(e.Value.ToString()!);
+
+            if (address != null)
+            {
+                Company.Address = address.Logradouro;
+                Company.City = address.Localidade;
+                Company.State = address.UF;
+                Company.Neighboarhood = address.Bairro;
+            }
+
+            Loading = false;
+        }
     }
 }

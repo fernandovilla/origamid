@@ -1,9 +1,9 @@
 ﻿@page "/Company/List"
-@using System.Security.Claims
+
 @* @using Gestao.App.Client.Components *@
 @attribute [Authorize]
 @rendermode InteractiveAuto
-@inject ICompanyRepository repository;
+@inject ICompanyRepository companyRepository;
 @inject AuthenticationStateProvider authProvider;
 
 <PageTitle>
@@ -121,8 +121,8 @@
     }
 
     protected override async Task OnInitializedAsync()
-    {        
-        await LoarAuthenticatedUserAsync();
+    {
+        await LoadAuthenticatedUserAsync();
 
         await LoadDataAsync();
 
@@ -130,10 +130,10 @@
 
     private async Task LoadDataAsync()
     {
-        Companies = await repository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
+        Companies = await companyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
     }
 
-    private async Task LoarAuthenticatedUserAsync()
+    private async Task LoadAuthenticatedUserAsync()
     {
         //Carregar as empresas cadastradas...
         /*
@@ -141,11 +141,6 @@
         * Blazor WASM, obtem o usuário de AuthenticationStateProvider
         */
 
-        var authenticationState = await authProvider.GetAuthenticationStateAsync();
-
-        var nameIdentifier = authenticationState.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.NameIdentifier);
-
-        if (nameIdentifier != null)
-            Guid.TryParse(nameIdentifier.Value, out UserId);
+        UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
     }
 }

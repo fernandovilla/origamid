@@ -63,3 +63,16 @@ input[readonly],
 input[readonly]:focus {
     background-color: #eff2f7;
 }
+
+.spinner-border-sm {
+    max-height: 1rem;
+    max-width: 1rem;
+}
+
+.input-border-right-none {
+    border-right: none !important;
+}
+
+.input-group-text-bg-transparent {
+    background-color: transparent !important;
+}
