@@ -3,7 +3,7 @@
 @* @using Gestao.App.Client.Components *@
 @attribute [Authorize]
 @rendermode InteractiveAuto
-@inject ICompanyRepository companyRepository;
+@inject ICompanyRepository CompanyRepository;
 @inject AuthenticationStateProvider authProvider;
 
 <PageTitle>
@@ -18,7 +18,7 @@
             <i class="ri-building-4-line me-1" />Empresas
         </h4>
         <div class="flex-shrink-0">
-            <a href="/company/add" class="btn btn-info btn-sm material-shadow-none">
+            <a href="/company/edit" class="btn btn-info btn-sm material-shadow-none">
                 <i class="ri-add-circle-line me-1" />nova empresa
             </a>
         </div>
@@ -74,7 +74,7 @@
 
                                 <td>
                                     <a href="#" class="btn btn-sm btn-soft-success"><i class="ri-check-line me-1" />Selecionar</a>
-                                    <a href="#" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
+                                    <a href="/company/edit/@company.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="#" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
                                 </td>
                             </tr>
@@ -130,7 +130,7 @@
 
     private async Task LoadDataAsync()
     {
-        Companies = await companyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
+        Companies = await CompanyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
     }
 
     private async Task LoadAuthenticatedUserAsync()
