@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestao.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace Gestao.Domain.Model
         Receive
     }
 
-    public class FinancialTransaction
+    public class FinancialTransaction : IStatusManager
     {
         public int Id { get; set; }
         public FinancialTransactionTypeEnum FinancialTransactionType { get; set; }
@@ -32,18 +33,18 @@ namespace Gestao.Domain.Model
         public decimal InterestPenalty { get; set; }        //Juros/Multa
         public decimal Discounts { get; set; } = 0;
         public DateTimeOffset PaymentDate { get; set; }
-        public decimal AmountPaid { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-
-        public ICollection<Document>? Documents { get; set; } = null;
-
+        public decimal AmountPaid { get; set; }        
         public int CompanyId { get; set; }
         public Company Company { get; set; } = null!;
-
         public int AccountId { get; set; }
         public Account? Account { get; set; } = null!;
-
         public int? CategoryId { get; set; }        
-        public Category? Category { get; set; }       
+        public Category? Category { get; set; }
+        public ICollection<Document>? Documents { get; set; } = null;
+
+        public StatusEnum Status { get; set; } = StatusEnum.Normal;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

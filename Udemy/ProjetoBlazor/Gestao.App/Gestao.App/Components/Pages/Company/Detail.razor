@@ -1,0 +1,168 @@
+﻿@page "/company/detail/{id:int}"
+
+
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider authProvider
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@inject ICompanyRepository CompanyRepository
+
+<PageTitle>
+    Empresa - Detalhe
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">
+                    Detalhes da Empresa
+                </h4>
+
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="razaoSocial" class="form-label">Razão Social</label>
+                            <p>@Company!.LegalName</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+                            <p>@Company!.TradeName</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cnpj" class="form-label">CNPJ</label>
+                            <p>@Company!.TaxId</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cep" class="form-label">CEP</label>
+                            <p>@Company!.PostalCode</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-6 col-md-6">
+                        <div>
+                            <label for="endereco" class="form-label">Endereço</label>
+                            <p>@Company!.Address</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <p>@Company!.Neighboarhood</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="cidade" class="form-label">Cidade</label>
+                            <p>@Company!.City</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-3">
+                        <div>
+                            <label for="uf" class="form-label">UF</label>
+                            <p>@Company!.State</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-3 col-md-6">
+                        <div>
+                            <label for="compl" class="form-label">Complemento</label>
+                            <p>@Company!.Complement</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="d-flex justify-content-between">
+                        <a href="company/list" class="btn btn-light">Voltar</a>
+                        <button @onclick="OnClickAsync" class="btn btn-danger"><i class="ri-delete-bin-line" />Excluir</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    private Gestao.Domain.Model.Company Company { get; set; }
+
+
+    private async Task OnClickAsync()
+    {
+        await CompanyRepository.DeleteAsync(Company.Id);
+
+        await js.InvokeVoidAsync("alert", "Empresa excluída com sucesso!");
+        
+        NavigationManager.NavigateTo("/Company/List");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("CompanyMaskInit");
+    }
+
+
+
+    protected override void OnInitialized()
+    {
+        Company = new();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+        {
+            //TODO - SELECIONA OS DADOS DO REPOSITORY
+            var company = (await CompanyRepository.GetAsync(Id))!;
+
+            if (company == null)
+            {
+                NavigationManager.NavigateTo("company/list");
+                return;
+            }
+
+            if (company.UserId != await GetAuthenticatedUserAsync())
+            {
+                NavigationManager.NavigateTo("company/list");
+                return;
+            }
+
+            Company = company;
+        }
+    }
+
+    private async Task<Guid> GetAuthenticatedUserAsync()
+    {
+        //Carregar as empresas cadastradas...
+        /*
+        * Blazor Server, obtem o usuário de SignInManager
+        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
+        */
+
+        return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+    }
+}

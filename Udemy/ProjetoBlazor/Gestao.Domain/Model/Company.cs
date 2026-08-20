@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
+using Gestao.Domain.Interfaces;
 using Gestao.Domain.Libraries.Validations;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 
 //Utilizar o fluentvalidation para uma limpeza melhor do código
 //https://docs.fluentvalidation.net/en/latest/
 
 namespace Gestao.Domain.Model
 {
-    public class Company
+    public class Company : IStatusManager
     {    
         public int Id { get; set; }
         public string LegalName { get; set; } = string.Empty;        
@@ -19,11 +21,18 @@ namespace Gestao.Domain.Model
         public string Neighboarhood { get; set; } = string.Empty;        
         public string Address { get; set; } = string.Empty;
         public string Complement { get; set; } = string.Empty;
-
-        public DateTimeOffset CreatedAt { get; set; } = DateTime.Now; //DataHora Local + Fuso-horário
+        
+        
         public Guid UserId { get; set; }
         public ApplicationUser User { get; set; } = null!;
+        public ICollection<Account>? Accounts { get; set; }
+        public ICollection<Category>? Categories { get; set; }
+        public ICollection<FinancialTransaction>? FinancialTransactions { get; set; }
 
+        public StatusEnum Status { get; set; } = StatusEnum.Normal;
+        public DateTimeOffset CreatedAt { get; set; } = DateTime.Now; //DataHora Local + Fuso-horário
+        public DateTimeOffset? UpdatedAt { get; set; } = null;
+        public DateTimeOffset? DeletedAt { get; set; } = null;
     }
 
     public class CompanyValidator : AbstractValidator<Company>

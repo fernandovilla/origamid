@@ -2,6 +2,7 @@
 @page "/company/edit/{id:int}"
 
 
+
 @rendermode InteractiveServer
 @inject AuthenticationStateProvider authProvider
 @inject NavigationManager NavigationManager
@@ -147,8 +148,7 @@
         // context.ValidateObjectTree();
 
         if (Id == 0)
-        {
-            Company!.CreatedAt = DateTimeOffset.Now;
+        {            
             Company!.UserId = await GetAuthenticatedUserAsync();
 
             await CompanyRepository.AddAsync(Company);
@@ -156,7 +156,6 @@
         }
         else
         {
-            //TODO - Atualização da empresa
             await CompanyRepository.UpdateAsync(Company);
             await js.InvokeVoidAsync("alert", "Empresa atualizada com sucesso!");
         }

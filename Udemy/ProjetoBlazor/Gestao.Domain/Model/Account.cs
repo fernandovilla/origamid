@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Gestao.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Gestao.Domain.Model
 {
-    public class Account
+    public class Account : IStatusManager
     {
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -12,6 +13,10 @@ namespace Gestao.Domain.Model
         public DateTimeOffset BalanceDate { get; set; }
         public int? CompanyId { get; set; }
         public Company? Company { get; set; }
-        public DateTimeOffset CreateAt { get; set; }
+
+        public StatusEnum Status { get; set; } = StatusEnum.Normal;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }
