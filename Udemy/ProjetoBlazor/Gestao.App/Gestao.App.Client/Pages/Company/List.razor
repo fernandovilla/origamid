@@ -73,7 +73,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-soft-success"><i class="ri-check-line me-1" />Selecionar</a>
+                                    <button class="btn btn-sm btn-soft-success" @onclick="() => SelectCompanyAsync(company.Id)"><i class="ri-check-line me-1" />Selecionar</button>
                                     <a href="/company/edit/@company.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="/company/detail/@company.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
                                 </td>
@@ -142,5 +142,11 @@
         */
 
         UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+    }
+
+    private async Task SelectCompanyAsync(int id)
+    {
+        //TODO - ARMAZENAR A TAREFA NO LOCAL STORAGE
+        //TODO - COMPANYSELECTEDNOTIFICATIONSTATS -> NOTIFICA QUAL EMPRESA FOI SELECIONADA
     }
 }

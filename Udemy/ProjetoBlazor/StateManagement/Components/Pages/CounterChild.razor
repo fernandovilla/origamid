@@ -1,6 +1,9 @@
-﻿<div class="child">
+﻿@inject StateContainer State
+@implements IDisposable
+
+<div class="child">
     <h3>Counter Child</h3>
-    <p>Current Count: @Count</p>
+    <p>Current Count: @State.Counter</p>
     
     <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 </div>
@@ -15,15 +18,19 @@
 </style>
 
 @code {
-    [Parameter]
-    public int Count { get; set; }
-
-    [Parameter]
-    public EventCallback IncrementParentEvent { get; set; }
 
     private void IncrementCount()
     {
-        //Count++;
-        IncrementParentEvent.InvokeAsync();        
+        State.Counter++;
+    }
+
+    protected override void OnInitialized()
+    {
+        State.Notification += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.Notification -= StateHasChanged;
     }
 }

@@ -12,7 +12,6 @@
         </NavLink>
     </li>
     <!-- END PAINEL MENU -->
-
     <!-- START CADASTRO MENU -->
     <li class="nav-item">
         <a class="nav-link menu-link" href="#sidebarCadastro" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
@@ -27,127 +26,50 @@
                     <NavLink class="nav-link" href="/Company/List">Empresa</NavLink>
                 </li>
 
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Account/List">Conta</NavLink>
-                </li>
+                @if (companySelected)
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Account/List">Conta</NavLink>
+                    </li>
 
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Category/List">Categoria</NavLink>
-                </li>
-
-
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="auth">Auth Required</NavLink>
-                </li>
-
-                
-                
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Category/List">Categoria</NavLink>
+                    </li>
+                }                
             </ul>
         </div>
     </li>
     <!-- END CADASTRO MENU -->
 
     <!-- START CONTAS MENU -->
-    <li class="nav-item">
-        <a class="nav-link menu-link" href="#sidebarContas" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
-            <i class="ri-money-dollar-circle-line"></i>
-            <span data-key="t-contas">Contas</span>
-        </a>
-        <div class="collapse menu-dropdown" id="sidebarContas">
-            <ul class="nav nav-sm flex-column">
-                <li class="nav-item">
-                    <NavLink href="/AccountManagement/Pay/List" class="nav-link" data-key="t-pay">Pagar</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink href="/AccountManagement/Receive/List" class="nav-link" data-key="t-receive">Receber</NavLink>
-                </li>                
-            </ul>
-        </div>
-    </li>
+    @if (companySelected)
+    {
+        <li class="nav-item">
+            <a class="nav-link menu-link" href="#sidebarContas" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                <i class="ri-money-dollar-circle-line"></i>
+                <span data-key="t-contas">Contas</span>
+            </a>
+            <div class="collapse menu-dropdown" id="sidebarContas">
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <NavLink href="/AccountManagement/Pay/List" class="nav-link" data-key="t-pay">Pagar</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink href="/AccountManagement/Receive/List" class="nav-link" data-key="t-receive">Receber</NavLink>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    }
     <!-- END CONTAS MENU -->
 
 </ul>
 
 
-
-
-
-@*
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Gestao.App</a>
-    </div>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="auth">
-                <span class="bi bi-lock-nav-menu" aria-hidden="true"></span> Auth Required
-            </NavLink>
-        </div>
-
-        <AuthorizeView>
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Manage">
-                        <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <form action="Account/Logout" method="post">
-                        <AntiforgeryToken />
-                        <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                        <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-                        </button>
-                    </form>
-                </div>
-            </Authorized>
-            <NotAuthorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Login">
-                        <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login
-                    </NavLink>
-                </div>
-            </NotAuthorized>
-        </AuthorizeView>
-    </nav>
-</div>
-*@
-
-
-
-
-
                 
 @code {
     private string? currentUrl;
+    private bool companySelected = false;
 
     protected override void OnInitialized()
     {

@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Gestao.App.Client.Services;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -13,6 +14,8 @@ builder.Services.AddScoped<HttpClient>(sp =>
 {
     return new HttpClient { BaseAddress = new Uri("https://localhost:7049") };
 });
+
+builder.Services.AddBlazoredLocalStorage();
 
 #region Services Dependencies Injection
 builder.Services.AddScoped<ICompanyRepository, CompanyService>();
