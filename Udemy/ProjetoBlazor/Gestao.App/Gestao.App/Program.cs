@@ -1,4 +1,5 @@
-using FluentValidation;
+using Blazored.LocalStorage;
+using Gestao.App.Client.Libraries.Notifications;
 using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
@@ -7,12 +8,11 @@ using Gestao.App.Libraries.Services;
 using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms.Mapping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Morris.Blazor.Validation;
 using System.Net;
 using System.Net.Mail;
-using Morris.Blazor.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -123,11 +123,16 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(C
 
 #endregion
 
+
 #region Anothers Dependency Injection
 
 builder.Services.AddSingleton<ICepServices, CepServices>();
+builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification>();
 
 #endregion
+
+
+builder.Services.AddBlazoredLocalStorage();
 
 
 var app = builder.Build();

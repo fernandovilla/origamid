@@ -1,6 +1,9 @@
 ﻿@implements IDisposable
 
+@rendermode InteractiveServer
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+@inject ICompanySelectNotification CompanySelectNotification
 
 <ul class="navbar-nav" id="navbar-nav">
     <li class="menu-title"><span data-key="t-menu">Menu</span></li>
@@ -26,7 +29,7 @@
                     <NavLink class="nav-link" href="/Company/List">Empresa</NavLink>
                 </li>
 
-                @if (companySelected)
+                @if (hasCompanySelected)
                 {
                     <li class="nav-item">
                         <NavLink class="nav-link" href="/Account/List">Conta</NavLink>
@@ -42,7 +45,7 @@
     <!-- END CADASTRO MENU -->
 
     <!-- START CONTAS MENU -->
-    @if (companySelected)
+    @if (hasCompanySelected)
     {
         <li class="nav-item">
             <a class="nav-link menu-link" href="#sidebarContas" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
@@ -69,12 +72,28 @@
                 
 @code {
     private string? currentUrl;
-    private bool companySelected = false;
+    private bool hasCompanySelected = false;
+
 
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+
+        //Monitorar o CompanySelectNotification
+        CompanySelectNotification.OnCompanySelected += OnCompanySelected;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //Verificar existencia de company no localStorage
+        hasCompanySelected = await LocalStorage.ContainKeyAsync(Gestao.App.Client.Libraries.Constants.AppConstants.LOCAL_STORAGE_COMPANY);
+        StateHasChanged();  //força a renderização do componente
+    }
+
+    private void OnCompanySelected()
+    {
+        hasCompanySelected = true;
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -86,6 +105,7 @@
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
+        CompanySelectNotification.OnCompanySelected -= OnCompanySelected;
     }
 }
 

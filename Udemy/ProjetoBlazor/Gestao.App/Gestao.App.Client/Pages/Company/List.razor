@@ -1,10 +1,12 @@
-﻿@page "/Company/List"
+﻿@* @page "/Company/List" *@
+@attribute [Route(AppRoutes.ROUTE_COMPANY_LIST)]
 
-@* @using Gestao.App.Client.Components *@
 @attribute [Authorize]
 @rendermode InteractiveAuto
-@inject ICompanyRepository CompanyRepository;
-@inject AuthenticationStateProvider authProvider;
+@inject ICompanyRepository CompanyRepository
+@inject ILocalStorageService LocalStorage
+@inject ICompanySelectNotification CompanySelectNotification
+@inject AuthenticationStateProvider AuthProvider
 
 <PageTitle>
     Empresas
@@ -73,7 +75,7 @@
                                 </td>
 
                                 <td>
-                                    <button class="btn btn-sm btn-soft-success" @onclick="() => SelectCompanyAsync(company.Id)"><i class="ri-check-line me-1" />Selecionar</button>
+                                    <button class="btn btn-sm btn-soft-success" @onclick="() => SelectCompanyAsync(company)"><i class="ri-check-line me-1" />Selecionar</button>
                                     <a href="/company/edit/@company.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="/company/detail/@company.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
                                 </td>
@@ -124,7 +126,7 @@
     {
         await LoadAuthenticatedUserAsync();
 
-        await LoadDataAsync();
+        await LoadDataAsync();      
 
     }
 
@@ -141,12 +143,16 @@
         * Blazor WASM, obtem o usuário de AuthenticationStateProvider
         */
 
-        UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+                                        UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
     }
 
-    private async Task SelectCompanyAsync(int id)
+    private async Task SelectCompanyAsync(Company company)
     {
         //TODO - ARMAZENAR A TAREFA NO LOCAL STORAGE
+
+        await LocalStorage.SetItemAsync(AppConstants.LOCAL_STORAGE_COMPANY, company);
+
         //TODO - COMPANYSELECTEDNOTIFICATIONSTATS -> NOTIFICA QUAL EMPRESA FOI SELECIONADA
+        CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
     }
 }

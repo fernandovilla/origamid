@@ -1,4 +1,5 @@
 using Blazored.LocalStorage;
+using Gestao.App.Client.Libraries.Notifications;
 using Gestao.App.Client.Services;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -16,6 +17,9 @@ builder.Services.AddScoped<HttpClient>(sp =>
 });
 
 builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddScoped<ISelectNotification, CompanySelectNotification>();
+
 
 #region Services Dependencies Injection
 builder.Services.AddScoped<ICompanyRepository, CompanyService>();
