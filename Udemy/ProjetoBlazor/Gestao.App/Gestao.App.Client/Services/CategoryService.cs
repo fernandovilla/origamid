@@ -40,6 +40,11 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
+        public async Task<PaginatedList<Category>> GetAllAsync(int companyId, int pageIndex, int pageSize)
+        {
+            return await GetAllAsync(null, companyId, pageIndex, pageSize);
+        }
+
         public Task<Category?> GetAsync(int id)
         {
             throw new NotImplementedException();

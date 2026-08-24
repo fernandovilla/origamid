@@ -1,5 +1,5 @@
-﻿@* @page "/Company/List" *@
-@attribute [Route(AppRoutes.ROUTE_COMPANY_LIST)]
+﻿@page "/company/list"
+
 
 @attribute [Authorize]
 @rendermode InteractiveAuto
@@ -43,14 +43,14 @@
                         <th scope="col">Nome Fantasia</th>
                         <th scope="col">CNPJ</th>
                         <th scope="col">Endereço</th>
-                        <th scope="col">Ação</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Companies == null)
                     {
                         <tr>
-                            <td colspan="4">Careggando...</td>
+                            <td colspan="4">Carregando...</td>
                         </tr>
                     }
                     else if (Companies.Items.Count == 0)

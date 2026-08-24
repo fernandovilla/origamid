@@ -3,7 +3,7 @@
 @implements IDisposable
 @inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorage
-@inject CompanySelectNotification CompanyNotification
+@inject ICompanySelectNotification CompanyNotification
 
 
 <header id="page-topbar">
@@ -445,7 +445,7 @@
                     <Authorized>
                         @if (hasCompanySelected)
                         {                            
-                            <a href="@AppRoutes.ROUTE_COMPANY_LIST">
+                            <a href="/Company/List">
                                 <div class="p-3">
                                     <strong>@Company?.LegalName</strong>
                                     <br />
@@ -532,12 +532,13 @@
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;
-        CompanyNotification.OnCompanySelected += OnCompanySelectedAsync;
+        NavigationManager.LocationChanged += OnLocationChanged;        
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        CompanyNotification.OnCompanySelected += OnCompanySelectedAsync;
+
         OnCompanySelectedAsync();
 
         StateHasChanged();

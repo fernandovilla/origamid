@@ -23,9 +23,6 @@ builder.Services
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
-builder.Services
-    .AddControllers();  //Habilita o uso de controllers
-
 #region DBContext Dependency Injection
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -112,7 +109,7 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 #endregion
 
 
-#region Validator Dependency Injection
+#region FluentValidation Dependency Injection
 
 // Quando for utilizar em API
 //builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();
@@ -120,6 +117,8 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 //https://github.com/mrpmorris/blazor-validation
 builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
 
 #endregion
 
@@ -134,6 +133,9 @@ builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification
 
 builder.Services.AddBlazoredLocalStorage();
 
+
+builder.Services
+    .AddControllers();  //Habilita o uso de controllers
 
 var app = builder.Build();
 

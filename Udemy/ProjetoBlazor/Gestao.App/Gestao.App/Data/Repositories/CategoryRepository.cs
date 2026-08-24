@@ -38,6 +38,23 @@ namespace Gestao.App.Data.Repositories
             }
         }
 
+        public async Task<PaginatedList<Category>> GetAllAsync(int companyId, int pageIndex, int pageSize)
+        {
+            var items = await _categories
+                .Where(i => i.CompanyId == companyId)
+                .OrderBy(i => i.Name)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var countCompanies = await _categories
+                .Where(i => i.CompanyId == companyId)
+                .CountAsync();
+            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
+
+            return new PaginatedList<Category>(items, pageIndex, totalPages);
+        }
+
         public Task<PaginatedList<Category>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();

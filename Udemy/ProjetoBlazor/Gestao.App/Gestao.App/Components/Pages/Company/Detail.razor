@@ -1,6 +1,5 @@
 ﻿@page "/company/detail/{id:int}"
 
-
 @rendermode InteractiveServer
 @inject AuthenticationStateProvider authProvider
 @inject NavigationManager NavigationManager
@@ -116,7 +115,7 @@
         await CompanyRepository.DeleteAsync(Company.Id);
 
         await js.InvokeVoidAsync("alert", "Empresa excluída com sucesso!");
-        
+
         NavigationManager.NavigateTo("/Company/List");
     }
 

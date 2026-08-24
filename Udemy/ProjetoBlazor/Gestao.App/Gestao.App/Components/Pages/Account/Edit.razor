@@ -1,0 +1,136 @@
+﻿@page "/account/edit"
+@page "/account/edit/{id:int}"
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@inject IAccountRepository AccountRepository
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>
+    @(Id > 0 ? "Conta - Atualização" : "Conta - Cadastro")
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">
+                    @(Id > 0 ? "Atualização de Conta" : "Cadastro de Conta")
+                </h4>
+
+            </div>
+            <div class="card-body">
+
+                <EditForm Model=@Account OnValidSubmit="OnSubmitAsync" FormName="UpdateAccount">
+
+                    <Morris.Blazor.Validation.Validate />
+
+                    <div class="row">
+
+                        <div class="col-xxl-6 col-md-6">
+                            <div>
+                                <label for="description" class="form-label">Descrição/Nome</label>
+                                <InputText @bind-Value="Account!.Description" class="form-control" id="description" autocomplete="not" />
+                                <ValidationMessage For="() => Account!.Description" />
+                            </div>
+                        </div>
+
+                       
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="balance" class="form-label">Saldo Inicial</label>
+                                <InputNumber @bind-Value="Account!.Balance" class="form-control" id="balance" autocomplete="not" />
+                                <ValidationMessage For="() => Account!.Balance" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="balanceDate" class="form-label">Data Saldo Inicial</label>
+                                <InputDate @bind-Value="Account!.BalanceDate" class="form-control" id="balanceDate" autocomplete="not" />
+                                <ValidationMessage For="() => Account!.BalanceDate" />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <a href="/account/list" class="btn btn-light">Voltar</a>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+
+                </EditForm>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Company? Company = null;
+
+    [SupplyParameterFromForm]
+    private Account Account { get; set; }
+
+
+    private async Task OnSubmitAsync(EditContext context)
+    {
+        // context.ValidateObjectTree();
+
+        if (Id == 0)
+        {
+            Account.CompanyId = Company!.Id;
+
+            await AccountRepository.AddAsync(Account);
+            await js.InvokeVoidAsync("alert", "Conta cadastrada com sucesso!");
+        }
+        else
+        {
+            await AccountRepository.UpdateAsync(Account);
+            await js.InvokeVoidAsync("alert", "Conta atualizada com sucesso!");
+        }
+
+        NavigationManager.NavigateTo("/account/list");
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+    }
+
+
+
+    protected override void OnInitialized()
+    {
+        Account = new();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+        {
+            //TODO - SELECIONA OS DADOS DO REPOSITORY
+            var account = (await AccountRepository.GetAsync(Id))!;
+
+            if (account == null)
+            {
+                NavigationManager.NavigateTo("/account/list");
+                return;
+            }
+
+            Account = account;
+        }
+    }
+
+}

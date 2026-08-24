@@ -1,7 +1,5 @@
 ﻿@page "/company/edit"
-@page "/company/edit/{id:int}"
-
-
+@page "/company/edit/{id:int}" 
 
 @rendermode InteractiveServer
 @inject AuthenticationStateProvider authProvider
@@ -148,7 +146,7 @@
         // context.ValidateObjectTree();
 
         if (Id == 0)
-        {            
+        {
             Company!.UserId = await GetAuthenticatedUserAsync();
 
             await CompanyRepository.AddAsync(Company);

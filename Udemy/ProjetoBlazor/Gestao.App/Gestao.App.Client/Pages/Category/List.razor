@@ -1,10 +1,121 @@
-﻿@page "/Category/List"
+﻿@page "/category/list"
 
 @attribute [Authorize]
 @rendermode InteractiveAuto
+@inject ICategoryRepository CategoryRepository
+@inject ILocalStorageService LocalStorage
 
-<h3>List Category</h3>
+<PageTitle>
+    Categorias
+</PageTitle>
+
+<div class="card">
+
+    <div class="card-header align-items-center d-flex">
+
+        <h4 class="card-title mb-0 flex-grow-1">
+            <i class="ri-building-4-line me-1" />Categorias
+        </h4>
+        <div class="flex-shrink-0">
+            <a href="/category/edit" class="btn btn-info btn-sm material-shadow-none">
+                <i class="ri-add-circle-line me-1" />nova categoria
+            </a>
+        </div>
+    </div><!-- end card header -->
+
+    <div class="card-body pt-0">
+
+        <div class="table-responsive table-card-company">
+            <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                <thead class="text-muted table-light">
+                    <tr>
+                        <th scope="col">Descrição/Nome</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Categories == null)
+                    {
+                        <tr>
+                            <td colspan="4">Carregando...</td>
+                        </tr>
+                    }
+                    else if (Categories.Items.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="4">Nenhuma categoria cadastrada</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var category in Categories.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@category.Name</strong>
+                                </td>
+                                <td>
+                                    <a href="/category/edit/@category.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
+                                    <a href="/category/detail/@category.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    <!-- end tr -->
+                </tbody><!-- end tbody -->
+            </table><!-- end table -->
+        </div>
+        
+        <Pagination PaginatedData=@Categories OnPageChanged=@OnPageChanged />
+
+    </div>
+
+	
+</div>
+
+<style>
+    .table-card-company {
+        margin-left: -16px;
+        margin-right: -16px;
+    }
+</style>
+
 
 @code {
+    private PaginatedList<Category>? Categories = null;
+    private int PageSize = 15;
+    private int PageIndex = 1;
+    private Company? Company = null;
 
+
+    private async Task OnPageChanged(int pageNumber)
+    {
+        PageIndex = pageNumber;
+        await LoadDataAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await LoadAuthenticatedUserAsync();
+        //await LoadDataAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        await LoadDataAsync();
+        StateHasChanged();
+    }
+
+    private async Task LoadDataAsync()
+    {
+        if (Company == null)
+            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+
+        if (Company != null)
+            Categories = await CategoryRepository.GetAllAsync(Company.Id, PageIndex, PageSize);
+    }
 }

@@ -1,0 +1,114 @@
+﻿@page "/category/edit"
+@page "/category/edit/{id:int}"
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@inject ICategoryRepository CategoryRepository
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>
+    @(Id > 0 ? "Categoria - Atualização" : "Categoria - Cadastro")
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">
+                    @(Id > 0 ? "Atualização de Categoria" : "Cadastro de Categoria")
+                </h4>
+
+            </div>
+            <div class="card-body">
+
+                <EditForm Model=@Category OnValidSubmit="OnSubmitAsync" FormName="UpdateCategory">
+
+                    <Morris.Blazor.Validation.Validate />
+
+                    <div class="row">
+                        <div class="col-xxl-6 col-md-6">
+                            <div>
+                                <label for="description" class="form-label">Descrição/Nome</label>
+                                <InputText @bind-Value="Category!.Name" class="form-control" id="description" autocomplete="not" />
+                                <ValidationMessage For="() => Category!.Name" />
+                            </div>
+                        </div>                       
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <a href="/category/list" class="btn btn-light">Voltar</a>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+
+                </EditForm>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Company? Company = null;
+
+    [SupplyParameterFromForm]
+    private Category Category { get; set; }
+
+
+    private async Task OnSubmitAsync(EditContext context)
+    {
+        // context.ValidateObjectTree();
+
+        if (Id == 0)
+        {
+            Category.CompanyId = Company!.Id;
+
+            await CategoryRepository.AddAsync(Category);
+            await js.InvokeVoidAsync("alert", "Categoria cadastrada com sucesso!");
+        }
+        else
+        {
+            await CategoryRepository.UpdateAsync(Category);
+            await js.InvokeVoidAsync("alert", "Categoria atualizada com sucesso!");
+        }
+
+        NavigationManager.NavigateTo("/category/list");
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+    }
+
+
+
+    protected override void OnInitialized()
+    {
+        Category = new();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+        {
+            //TODO - SELECIONA OS DADOS DO REPOSITORY
+            var category = (await CategoryRepository.GetAsync(Id))!;
+
+            if (category == null)
+            {
+                NavigationManager.NavigateTo("/category/list");
+                return;
+            }
+
+            Category = category;
+        }
+    }
+
+}
