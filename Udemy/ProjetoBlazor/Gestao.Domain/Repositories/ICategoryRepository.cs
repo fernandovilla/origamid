@@ -6,6 +6,7 @@ namespace Gestao.Domain.Repositories
     public interface ICategoryRepository
         : IRepository<Category>
     {
+        Task<IList<Category>> GetAllAsync(int companyId);
         Task<PaginatedList<Category>> GetAllAsync(int companyId, int pageIndex, int pageSize);
     }
 }

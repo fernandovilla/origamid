@@ -2,6 +2,7 @@
 using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Gestao.App.Data.Repositories
 {
@@ -36,6 +37,16 @@ namespace Gestao.App.Data.Repositories
                 _categories.Remove(category);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<IList<Category>> GetAllAsync(int companyId)
+        {
+            var items = await _categories
+                .Where(i => i.CompanyId == companyId)
+                .OrderBy(i => i.Name)
+                .ToListAsync();
+
+            return [.. items];
         }
 
         public async Task<PaginatedList<Category>> GetAllAsync(int companyId, int pageIndex, int pageSize)

@@ -3,6 +3,7 @@ using Gestao.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
 using Gestao.Domain.Repositories;
+using FluentValidation.TestHelper;
 
 namespace Gestao.App.Data.Repositories
 {
@@ -37,6 +38,16 @@ namespace Gestao.App.Data.Repositories
                 _accounts.Remove(category);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<IList<Account>> GetAllAsync(int companyId)
+        {
+            var items = await _accounts
+                .Where(i => i.CompanyId == companyId)                
+                .OrderBy(i => i.Description)                
+                .ToListAsync();
+
+            return [.. items];
         }
 
         public async Task<PaginatedList<Account>> GetAllAsync(int companyId, int pageIndex, int pageSize, string? searchAccountName = null)

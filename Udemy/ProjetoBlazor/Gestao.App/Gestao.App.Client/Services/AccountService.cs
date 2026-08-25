@@ -30,6 +30,13 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IList<Account>> GetAllAsync(int companyId)
+        {
+            var result = await httpClient.GetFromJsonAsync<IList<Account>>($"{BaseEndPoint}?companyId={companyId}");
+
+            return result!;
+        }
+
         public async Task<PaginatedList<Account>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
         {
             var result = await httpClient.GetFromJsonAsync<PaginatedList<Account>>($"{BaseEndPoint}?applicationUserId={applicationUserId}&pageIndex={pageIndex}");

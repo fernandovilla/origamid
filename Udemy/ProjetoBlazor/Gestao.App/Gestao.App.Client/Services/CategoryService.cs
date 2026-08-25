@@ -19,6 +19,12 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IList<Category>> GetAllAsync(int companyId)
+        {
+            var result = await httpClient.GetFromJsonAsync<IList<Category>>($"{BaseEndPoint}?companyId={companyId}");
+            return result!;
+        }
+
         public async Task<PaginatedList<Category>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             var result = await httpClient.GetFromJsonAsync<PaginatedList<Category>>($"{BaseEndPoint}?companyId={companyId}&pageIndex={pageIndex}");
@@ -44,6 +50,8 @@ namespace Gestao.App.Client.Services
         {
             return await GetAllAsync(null, companyId, pageIndex, pageSize);
         }
+
+        
 
         public Task<Category?> GetAsync(int id)
         {
