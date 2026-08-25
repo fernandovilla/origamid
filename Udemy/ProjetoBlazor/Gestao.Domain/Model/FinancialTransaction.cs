@@ -9,7 +9,7 @@ namespace Gestao.Domain.Model
 {
     public enum RecurrentEnum
     {
-        [Display(Name = "Nenhum")] None,
+        [Display(Name = "Não")] None,
         [Display(Name = "Semanal")] Weekly,
         [Display(Name = "Mensal")] Monthly,
         [Display(Name = "Anual")] Yearly

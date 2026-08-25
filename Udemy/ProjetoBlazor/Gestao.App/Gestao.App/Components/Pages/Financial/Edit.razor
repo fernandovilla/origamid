@@ -258,7 +258,7 @@
 
     protected override void OnInitialized()
     {
-        Transaction = new();
+        //Transaction = new();
     }
 
     protected override async Task OnParametersSetAsync()
@@ -278,8 +278,10 @@
         }
         else
         {
-            Transaction.FinancialTransactionType = TypeEnum;
+            Transaction = new();
+            Transaction.FinancialTransactionType = TypeEnum;            
             Transaction.ReferenceDate = DateTimeOffset.Now;
+            Transaction.DueDate = DateTimeOffset.Now;            
         }
     }
 
