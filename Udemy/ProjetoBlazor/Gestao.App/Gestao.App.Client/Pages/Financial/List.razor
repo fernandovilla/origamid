@@ -32,7 +32,7 @@
         </div>
     </div><!-- end card header -->
 
-    <div class="card-body pt-0">
+    <div class="card-body">
 
         <!-- Pesquisa -->
         <div class="col-lg-8">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="table-responsive table-card-company">
+        <div class="table-responsive table-card-company mt-4">
             <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
                 <thead class="text-muted table-light">
                     <tr>
@@ -78,10 +78,14 @@
                                 </td>
                                 <td>
                                     @ValueAmount(transaction.AmountPaid, transaction.Amount)
+                                    @if (transaction.AmountPaid.HasValue)
+                                    {
+                                        <span class="badge badge-label bg-success mx-3" data-key="t-hot">PAGO</span>
+                                    }
                                 </td>
                                 <td>
                                     <a href="/financial/@Type/edit/@transaction.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
-                                    <a href="/financial/@Type/detail/@transaction.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
+                                    <a href="/financial/@Type/detail/@transaction.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>                                    
                                 </td>
                             </tr>
                         }

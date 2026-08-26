@@ -1,6 +1,5 @@
 ﻿@page "/financial/{type}/edit"
 @page "/financial/{type}/edit/{id:int}"
-@using Gestao.App.Client.Libraries.Extensions
 
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
@@ -9,6 +8,7 @@
 @inject ICategoryRepository CategoryRepository
 @inject IAccountRepository AccountRepository
 @inject ILocalStorageService LocalStorage
+@inject IWebHostEnvironment WebHostEnvironment
 
 
 <PageTitle>
@@ -26,9 +26,12 @@
             </div>
             <div class="card-body">
 
-                <EditForm Model=@Transaction OnValidSubmit="OnSubmitAsync" FormName="UpdateTransaction">
+                <EditForm Model="Transaction" OnValidSubmit="OnSubmitAsync" FormName="UpdateTransaction">
 
+                    @*Validações em Gestao.Domain.Model.FinancialTransactionValidator*@
                     <Morris.Blazor.Validation.Validate />
+                    
+                    @*<ValidationSummary />*@
 
                     <div class="row">
                         <div class="col-xxl-3 col-md-6">
@@ -75,7 +78,7 @@
 
                         <div class="col-xxl-3 col-md-6">
                             <div>
-                                <label for="referenceDate" class="form-label">Conta</label>
+                                <label for="referenceDate" class="form-label">Data Competencia</label>
                                 <InputDate @bind-Value="Transaction!.ReferenceDate" class="form-control" id="referenceDate" autocomplete="not" />
                                 <ValidationMessage For="() => Transaction!.ReferenceDate" />
                             </div>
@@ -172,9 +175,23 @@
                         <div class="col-12">
                             <div>
                                 <label for="attachments" class="form-label">Anexos</label>
-                                @* <InputTextArea @bind-Value="Transaction!.Documents" class="form-control" id="attachments" autocomplete="not" /> *@
-                                @* <ValidationMessage For="() => Transaction!.InterestPenalty" /> *@
+                                <InputFile class="form-control" onchange="UploadFileAsync" id="attachments" />
                             </div>
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Opções</th>
+                                </tr>
+                                @foreach(var doc in Transaction.Documents!)
+                                {
+                                    <tr>
+                                        <td>@doc.OriginalFileName</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></button>                                    
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
                         </div>
                     </div>
 
@@ -213,7 +230,7 @@
     private bool RepeatTimesDisabled => (Transaction.Repeat == RecurrentEnum.None);
 
     [SupplyParameterFromForm]
-    private FinancialTransaction Transaction { get; set; } 
+    private FinancialTransaction Transaction { get; set; } = new();
 
     private async Task OnSubmitAsync(EditContext context)
     {
@@ -272,7 +289,7 @@
 
             if (transaction == null)
             {
-                NavigationManager.NavigateTo("/financial/list");
+                NavigationManager.NavigateTo($"/financial/{Type}/list");
                 return;
             }
 
@@ -293,4 +310,32 @@
             Transaction.RepeatTimes = null;
     }
 
+    private async Task UploadFileAsync(InputFileChangeEventArgs args)
+    {
+        if (args.File == null)
+            return;
+
+        var file = args.File;
+
+        //TODO - Upload do arquivo -> Melhor local é o /wwwroot/uploads/arquivo-{guid}.xxx
+        //  Escalabilidade Vertical = upgrade na maquina, quando a aplicação roda num unico servidor
+        //  Escalabilidade Horizontal = quando é incluído mais maquinas, quando a aplicação roda num datacenter ou em mais de um servidor, Ex: AWS S3
+
+        var fileName = $"{Path.GetFileNameWithoutExtension(file.Name)}-{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+        var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "uploads", fileName);
+
+        await using var fileStream = new FileStream(filePath, FileMode.Create);
+        await file.OpenReadStream().CopyToAsync(fileStream);
+
+        Document doc = new();
+        doc.Path = fileName;
+        doc.OriginalFileName = Path.GetFileName(file.Name);
+
+        if (Transaction.Documents == null)
+            Transaction.Documents = new List<Document>();
+
+        Transaction.Documents.Add(doc);
+
+        //TODO - Excluir arquivos não assiciados a uma transação financeira
+    }
 }

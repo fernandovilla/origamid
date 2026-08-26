@@ -51,9 +51,7 @@
                         @foreach (var category in Categories.Items)
                         {
                             <tr>
-                                <td>
-                                    <strong>@category.Name</strong>
-                                </td>
+                                <td>@category.Name</td>
                                 <td>
                                     <a href="/category/edit/@category.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="/category/detail/@category.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>

@@ -64,16 +64,9 @@
                         @foreach (var company in Companies.Items)
                         {
                             <tr>
-                                <td>
-                                    <strong>@company.TradeName</strong>
-                                </td>
-                                <td>
-                                    @company.TaxId
-                                </td>
-                                <td>
-                                    @company.Address
-                                </td>
-
+                                <td>@company.TradeName</td>
+                                <td>@company.TaxId</td>
+                                <td>@company.Address</td>
                                 <td>
                                     <button class="btn btn-sm btn-soft-success" @onclick="() => SelectCompanyAsync(company)"><i class="ri-check-line me-1" />Selecionar</button>
                                     <a href="/company/edit/@company.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
@@ -126,7 +119,7 @@
     {
         await LoadAuthenticatedUserAsync();
 
-        await LoadDataAsync();      
+        await LoadDataAsync();
 
     }
 

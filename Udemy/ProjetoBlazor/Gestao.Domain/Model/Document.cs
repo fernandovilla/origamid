@@ -9,7 +9,7 @@ namespace Gestao.Domain.Model
     {
         public int ID { get; set; }
         public string Path { get; set; } = null!;        //wwwroot/files/financialtransactions/{id}/{filename}
-                                                         //
+        public string OriginalFileName { get; set; } = null!;
         public int? FinancialTransactionId { get; set; }
         public FinancialTransaction? FinancialTransaction { get; set; }
 

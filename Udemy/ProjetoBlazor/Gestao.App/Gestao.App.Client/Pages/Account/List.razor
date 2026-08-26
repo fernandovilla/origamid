@@ -61,12 +61,8 @@
                         @foreach (var account in Accounts.Items)
                         {
                             <tr>
-                                <td>
-                                    <strong>@account.Description</strong>
-                                </td>
-                                <td>
-                                    @account.BalanceDate.ToString("dd/MM/yyyy")
-                                </td>
+                                <td>@account.Description</td>
+                                <td>@account.BalanceDate.ToString("dd/MM/yyyy")</td>
                                 <td>
                                     <a href="/account/edit/@account.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="/account/detail/@account.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>

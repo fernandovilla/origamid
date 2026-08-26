@@ -115,10 +115,12 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 //builder.Services.AddScoped<IValidator<Company>, CompanyValidator>();
 
 //https://github.com/mrpmorris/blazor-validation
+//https://docs.fluentvalidation.net/en/latest/index.html
 builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(FinancialTransactionValidator).Assembly));
 
 #endregion
 
