@@ -14,7 +14,16 @@
     <div class="card-header align-items-center d-flex">
 
         <h4 class="card-title mb-0 flex-grow-1">
-            <i class="ri-building-4-line me-1" />Transações Financeiras - Contas @TypeDescription
+            @if (TypeEnum == FinancialTransactionTypeEnum.Pay)
+            {
+                <i class="ri-currency-line me-1" />
+                <span>Contas à Pagar</span>
+            }
+            else
+            {
+                <i class="ri-hand-heart-line me-1" />
+                <span>Contas à Receber</span>
+            }
         </h4>
         <div class="flex-shrink-0">
             <a href="/financial/@Type/edit" class="btn btn-info btn-sm material-shadow-none">
@@ -62,9 +71,13 @@
                         {
                             <tr>
                                 <td>
-                                    <strong>@transaction.ReferenceDate.ToString("dd/MMM/yyyy")</strong>
-                                    <strong>@transaction.Description</strong>
-                                    <strong>@((transaction.AmountPaid.HasValue ? transaction.AmountPaid.Value : @transaction.Amount).ToString("C"))</strong>
+                                    @transaction.ReferenceDate.ToString("dd/MM/yyyy HH:mm:ss")
+                                </td>
+                                <td>
+                                    @transaction.Description
+                                </td>
+                                <td>
+                                    @ValueAmount(transaction.AmountPaid, transaction.Amount)
                                 </td>
                                 <td>
                                     <a href="/financial/@Type/edit/@transaction.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
@@ -100,7 +113,7 @@
 @code {
     [Parameter]
     public string? Type { get; set; }
-    
+
     public FinancialTransactionTypeEnum TypeEnum => (Type?.ToUpper() == "PAY" ? FinancialTransactionTypeEnum.Pay : FinancialTransactionTypeEnum.Receive);
 
     public string TypeDescription => (TypeEnum == FinancialTransactionTypeEnum.Pay ? "À Pagar" : "À Receber");
@@ -110,7 +123,7 @@
     private int PageSize = 15;
     private int PageIndex = 1;
     private string SearchWord = string.Empty;
-    
+
     private async Task OnPageChanged(int pageNumber)
     {
         PageIndex = pageNumber;
@@ -142,9 +155,20 @@
     {
         if (Company == null)
             Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
-                    
-        
+
+
         if (Company != null)
             Transactions = await FinancialTransactionRepository.GetAllAsync(Company.Id, TypeEnum, PageIndex, PageSize, SearchWord);
+    }
+
+    private string ValueAmount(decimal? amountPaid, decimal? amount)
+    {
+        if (amountPaid != null && amountPaid > 0)
+            return amountPaid.Value.ToString("C");
+
+        if (amount != null && amount > 0)
+            return amount.Value.ToString("C");
+
+        return "-";
     }
 }

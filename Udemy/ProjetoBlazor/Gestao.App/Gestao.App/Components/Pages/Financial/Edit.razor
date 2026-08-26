@@ -43,6 +43,7 @@
                             <div>
                                 <label for="category" class="form-label">Categoria</label>
                                 <InputSelect @bind-Value="Transaction!.CategoryId" class="form-select" id="category">
+                                    <option value="0">--Selecione--</option>
                                     @if (Categories != null)
                                     {
                                         @foreach (var category in Categories)
@@ -59,6 +60,7 @@
                             <div>
                                 <label for="account" class="form-label">Conta</label>
                                 <InputSelect @bind-Value="Transaction!.AccountId" class="form-select" id="account">
+                                    <option value="0">--Selecione--</option>
                                     @if (Accounts != null)
                                     {
                                         @foreach (var account in Accounts)
@@ -200,7 +202,7 @@
     [Parameter]
     public string? Type { get; set; }
 
-    private FinancialTransactionTypeEnum TypeEnum => Type!.ToUpper().Equals("PAY") ? FinancialTransactionTypeEnum.Pay : FinancialTransactionTypeEnum.Receive;
+    private FinancialTransactionTypeEnum TypeEnum => Type.ToUpper() == "PAY" ? FinancialTransactionTypeEnum.Pay : FinancialTransactionTypeEnum.Receive;
 
     public string TypeDescription => TypeEnum == FinancialTransactionTypeEnum.Pay ? "à Pagar" : "à Receber";
 
@@ -211,11 +213,11 @@
     private bool RepeatTimesDisabled => (Transaction.Repeat == RecurrentEnum.None);
 
     [SupplyParameterFromForm]
-    private FinancialTransaction Transaction { get; set; } = new();
+    private FinancialTransaction Transaction { get; set; } 
 
     private async Task OnSubmitAsync(EditContext context)
     {
-        // context.ValidateObjectTree();
+        // context.ValidateObjectTree();        
 
         if (Id == 0)
         {
@@ -231,7 +233,7 @@
             await js.InvokeVoidAsync("alert", "Transação atualizada com sucesso!");
         }
 
-        NavigationManager.NavigateTo("/financial/list");
+        NavigationManager.NavigateTo($"/financial/{Type}/list");
 
     }
 
