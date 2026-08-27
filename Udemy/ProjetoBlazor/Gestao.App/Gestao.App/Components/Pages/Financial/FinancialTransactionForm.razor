@@ -1,0 +1,236 @@
+﻿@inject ICategoryRepository CategoryRepository
+@inject IAccountRepository AccountRepository
+@inject ILocalStorageService LocalStorage
+
+<EditForm Model="Transaction" OnValidSubmit="OnSubmitAsync" FormName="UpdateTransaction">
+
+    @*Validações em Gestao.Domain.Model.FinancialTransactionValidator*@
+    <Morris.Blazor.Validation.Validate />
+
+    @*<ValidationSummary />*@
+
+    <div class="row">
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="description" class="form-label">Descrição</label>
+                <InputText @bind-Value="Transaction!.Description" class="form-control" id="description" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.Description" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="category" class="form-label">Categoria</label>
+                <InputSelect @bind-Value="Transaction!.CategoryId" class="form-select" id="category">
+                    <option value="0">--Selecione--</option>
+                    @if (Categories != null)
+                    {
+                        @foreach (var category in Categories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Transaction!.CategoryId" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="account" class="form-label">Conta</label>
+                <InputSelect @bind-Value="Transaction!.AccountId" class="form-select" id="account">
+                    <option value="0">--Selecione--</option>
+                    @if (Accounts != null)
+                    {
+                        @foreach (var account in Accounts)
+                        {
+                            <option value="@account.Id">@account.Description</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Transaction!.AccountId" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="referenceDate" class="form-label">Data Competencia</label>
+                <InputDate @bind-Value="Transaction!.ReferenceDate" class="form-control" id="referenceDate" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.ReferenceDate" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="dueDate" class="form-label">Data Vencimento</label>
+                <InputDate @bind-Value="Transaction!.DueDate" class="form-control" id="dueDate" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.DueDate" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="amount" class="form-label">Valor</label>
+                <InputNumber @bind-Value="Transaction!.Amount" class="form-control" id="amount" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.Amount" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="repeat" class="form-label">Repetir</label>
+                <InputSelect @bind-Value="Transaction!.Repeat" @bind-Value:after="OnRepeatChanged" class="form-control" id="repeat">
+                    @foreach (RecurrentEnum option in Enum.GetValues(typeof(RecurrentEnum)))
+                    {
+                        <option value="@option">@option.DisplayName()</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="() => Transaction!.Repeat" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="repeatTimes" class="form-label">Vezes</label>
+                <InputNumber @bind-Value="Transaction!.RepeatTimes" class="form-control" id="repeatTimes" autocomplete="not" disabled="@RepeatTimesDisabled" />
+                <ValidationMessage For="() => Transaction!.RepeatTimes" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="penalty" class="form-label">Juros/Multa</label>
+                <InputNumber @bind-Value="Transaction!.InterestPenalty" class="form-control" id="penalty" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.InterestPenalty" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="discount" class="form-label">Desconto</label>
+                <InputNumber @bind-Value="Transaction!.Discounts" class="form-control" id="discount" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.Discounts" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="paymentDate" class="form-label">Data Pagamento</label>
+                <InputDate @bind-Value="Transaction!.PaymentDate" class="form-control" id="paymentDate" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.PaymentDate" />
+            </div>
+        </div>
+
+        <div class="col-xxl-3 col-md-6">
+            <div>
+                <label for="amountPaid" class="form-label">Valor Pago</label>
+                <InputNumber @bind-Value="Transaction!.AmountPaid" class="form-control" id="amountPaid" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.AmountPaid" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <label for="observation" class="form-label">Observação</label>
+                <InputTextArea @bind-Value="Transaction!.Observation" class="form-control" id="observation" autocomplete="not" />
+                <ValidationMessage For="() => Transaction!.Observation" />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-0">
+        <UploadFileForm Documents="Transaction.Documents!.ToList()" OnUploadedFile="OnUploadedFileAsync" OnRemovedFile="OnRemovedFileAsync" IsEditForm="@IsEditForm" />
+    </div>
+
+    <div class="row mt-2">
+        <div class="d-flex justify-content-between">
+            <a href="/financial/@TypeEnum.ToString()/list" class="btn btn-light">Voltar</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </div>
+
+</EditForm>
+
+@code {
+    private bool RepeatTimesDisabled => (Transaction.Repeat == RecurrentEnum.None);
+    private Company? Company { get; set; }
+    private IList<Category>? Categories { get; set; }
+    private IList<Account>? Accounts { get; set; }
+
+
+
+    [Parameter]
+    public FinancialTransactionTypeEnum TypeEnum { get; set; }
+
+    [Parameter]
+    public bool IsEditForm { get; set; }
+
+    [Parameter]
+    public FinancialTransaction Transaction { get; set; } = new() { ReferenceDate = DateTimeOffset.Now, DueDate = DateTimeOffset.Now, Documents = new List<Document>() };
+
+    [Parameter]
+    public EventCallback<FinancialTransaction> OnSaving { get; set; }
+
+
+
+
+    private async Task OnSubmitAsync(EditContext context)
+    {
+        Transaction.FinancialTransactionType = TypeEnum;
+        Transaction.CompanyId = Company!.Id;
+
+        await OnSaving.InvokeAsync(Transaction);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //TODO - Acessa a página apenas se tiver categorias cadastradas
+
+        if (firstRender)
+        {
+            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+            Categories = await CategoryRepository.GetAllAsync(Company!.Id);
+            Accounts = await AccountRepository.GetAllAsync(Company!.Id);
+        }
+
+        StateHasChanged();     
+    }
+
+    private void OnRepeatChanged()
+    {
+        if (Transaction.Repeat == RecurrentEnum.None)
+            Transaction.RepeatTimes = null;
+    }
+
+
+    private async Task OnUploadedFileAsync(Document doc)
+    {
+        if (doc == null)
+            return;
+
+        if (Transaction.Documents == null)
+            Transaction.Documents = new List<Document>();
+
+        Transaction.Documents.Add(doc);
+        StateHasChanged();
+    }
+
+    private async Task OnRemovedFileAsync(Document doc)
+    {
+        if (doc == null)
+            return;
+
+        if (Transaction.Documents!.Contains(doc))
+            Transaction.Documents?.Remove(doc);
+    }
+}

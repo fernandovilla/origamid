@@ -1,7 +1,6 @@
-﻿@page "/financial/{type}/edit/{id:int}"
+﻿@page "/financial/{type}/add"
 
 @rendermode InteractiveServer
-
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
 @inject IFinancialTransactionRepository FinancialRepository
@@ -19,49 +18,30 @@
                 </h4>
             </div>
             <div class="card-body">
-                <FinancialTransactionForm TypeEnum="TypeEnum" Transaction="Transaction" IsEditForm="true" OnSaving="OnSavingAsync" />
+                <FinancialTransactionForm TypeEnum="TypeEnum" IsEditForm="false" OnSaving="OnSavingAsync" />
             </div>
         </div>
     </div>
 </div>
 
 
-
-@code {
-    [Parameter]
-    public int Id { get; set; }
-
+@code {    
     [Parameter]
     public string? Type { get; set; }
 
     private FinancialTransactionTypeEnum TypeEnum => Type?.ToUpper() == "PAY" ? FinancialTransactionTypeEnum.Pay : FinancialTransactionTypeEnum.Receive;
 
-    private FinancialTransaction Transaction { get; set; } = new();
-
+    
 
     private async Task OnSavingAsync(FinancialTransaction financialTransaction)
     {
         if (financialTransaction == null)
             return;
 
-        await FinancialRepository.UpdateAsync(financialTransaction);
-        await js.InvokeVoidAsync("alert", "Transação atualizada com sucesso!");
+        await FinancialRepository.AddAsync(financialTransaction);
+        await js.InvokeVoidAsync("alert", "Transação registrada com sucesso!");
 
         NavigationManager.NavigateTo($"/financial/{Type}/list");
     }
 
-
-    protected override async Task OnParametersSetAsync()
-    {
-        //TODO - SELECIONA OS DADOS DO REPOSITORY
-        var transaction = (await FinancialRepository.GetAsync(Id))!;
-
-        if (transaction == null)
-        {
-            NavigationManager.NavigateTo($"/financial/{Type}/list");
-            return;
-        }
-
-        this.Transaction = transaction;
-    }
 }

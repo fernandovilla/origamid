@@ -1,0 +1,116 @@
+﻿@inject IWebHostEnvironment WebHostEnvironment
+@inject IJSRuntime js
+
+<div class="col-12 mt-4">
+    <div>
+        <label for="attachments" class="form-label">Documentos Anexos</label>
+        <InputFile class="form-control" onchange="UploadFileAsync" id="attachments" />
+        <div class="form-text">Tamanho máximo do arquivo: 10Mb</div>
+    </div>
+</div>
+
+@if (Documents?.Count > 0)
+{
+    <div class="col-12 my-4">
+
+        <div class="table-responsive table-card">
+            <table class="table align-middle table-nowrap table-striped-columns mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Opções</th>
+                        <th scope="col">Tamanho (Kb)</th>
+                        <th scope="col">Data Inclusão</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var doc in Documents)
+                    {
+                        <tr>
+                            <td><a href="/uploads/@doc.Path" target="_blank">@doc.OriginalFileName</a></td>
+                            <td>@(doc.Size / 1024) Kb</td>
+                            <td>@doc.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td><button type="button" @onclick="() => RemoveFileAsync(doc)" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@code {
+    private long MaxFileSize = 1024 * 1024 * 10; //10Mb
+
+    [Parameter]
+    public bool IsEditForm { get; set; }
+
+    [Parameter]
+    public IList<Document>? Documents { get; set; }
+
+    [Parameter]
+    public EventCallback<Document> OnUploadedFile { get; set; }
+
+    [Parameter]
+    public EventCallback<Document> OnRemovedFile { get; set; }
+
+
+    public async Task UploadFileAsync(InputFileChangeEventArgs args)
+    {
+        if (args.File == null)
+            return;
+
+        try
+        {
+            var file = args.File;
+
+            if (file.Size > MaxFileSize)
+            {
+                await js.InvokeVoidAsync("alert", "Tamanho do arquivo selecionado é maior que o permitido. Máximo 10Mb");
+                return;
+            }
+
+            //TODO - Upload do arquivo -> Melhor local é o /wwwroot/uploads/arquivo-{guid}.xxx
+            //  Escalabilidade Vertical = upgrade na maquina, quando a aplicação roda num unico servidor
+            //  Escalabilidade Horizontal = quando é incluído mais maquinas, quando a aplicação roda num datacenter ou em mais de um servidor, Ex: AWS S3
+
+            var fileName = $"{Path.GetFileNameWithoutExtension(file.Name)}-{Guid.NewGuid()}{Path.GetExtension(file.Name)}";
+            var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "uploads", fileName);
+
+            await using var fileStream = new FileStream(filePath, FileMode.Create);
+            using var stream = file.OpenReadStream(maxAllowedSize: MaxFileSize);
+            await stream.CopyToAsync(fileStream);
+
+            Document doc = new();
+            doc.Path = fileName;
+            doc.OriginalFileName = Path.GetFileName(file.Name);
+            doc.CreatedAt = DateTimeOffset.Now;
+            doc.Size = file.Size;
+
+            await OnUploadedFile.InvokeAsync(doc);
+        }
+        catch (Exception ex)
+        {
+            await js.InvokeVoidAsync("alert", $"Ocorreu erro uploading o arquivo! \nErro: {ex.Message}");
+        }
+
+        //TODO - Excluir arquivos não assiciados a uma transação financeira
+    }
+
+    public async Task RemoveFileAsync(Document doc)
+    {
+        if (doc == null)
+            return;
+
+        var filePath = Path.Combine(WebHostEnvironment.WebRootPath, "uploads", doc.Path);
+
+        if (!IsEditForm)
+        {
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+        }
+
+        await OnRemovedFile.InvokeAsync(doc);
+    }
+
+}

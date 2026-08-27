@@ -470,3 +470,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+#Ignorar arquivos que usuário fez upload
+Udemy/ProjetoBlazor/Gestao.App/Gestao.App/wwwroot/uploads/

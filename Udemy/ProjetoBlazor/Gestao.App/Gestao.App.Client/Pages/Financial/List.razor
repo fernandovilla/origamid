@@ -26,7 +26,7 @@
             }
         </h4>
         <div class="flex-shrink-0">
-            <a href="/financial/@Type/edit" class="btn btn-info btn-sm material-shadow-none">
+            <a href="/financial/@Type/add" class="btn btn-info btn-sm material-shadow-none">
                 <i class="ri-add-circle-line me-1" />nova transação
             </a>
         </div>
@@ -71,10 +71,14 @@
                         {
                             <tr>
                                 <td>
-                                    @transaction.ReferenceDate.ToString("dd/MM/yyyy HH:mm:ss")
+                                    @transaction.ReferenceDate.ToString("dd/MM/yyyy HH:mm")
                                 </td>
                                 <td>
                                     @transaction.Description
+                                    @if(transaction.Documents?.Count > 0)
+                                    {                                        
+                                        <i class="las la-paperclip mx-2" />                                                                                
+                                    }
                                 </td>
                                 <td>
                                     @ValueAmount(transaction.AmountPaid, transaction.Amount)
