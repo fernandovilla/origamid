@@ -6,6 +6,7 @@
 @inject IJSRuntime js
 @inject IAccountRepository AccountRepository
 @inject ILocalStorageService LocalStorage
+@inject ApplicationDbContext DbContext
 
 <PageTitle>
     @(Id > 0 ? "Conta - Atualização" : "Conta - Cadastro")
@@ -60,7 +61,7 @@
 
                     <div class="row mt-2">
                         <div class="d-flex justify-content-between">
-                            <a href="/account/list" class="btn btn-light">Voltar</a>
+                            <a href="/account/list" class="btn btn-light" @onclick="RollbackDataAsync">Voltar</a>
                             <button type="submit" class="btn btn-primary">Salvar</button>
                         </div>
                     </div>
@@ -133,4 +134,10 @@
         }
     }
 
+    private async Task RollbackDataAsync()
+    {
+        DbContext.ChangeTracker.Clear();
+    }
+
 }
+

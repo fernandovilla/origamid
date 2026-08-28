@@ -72,7 +72,7 @@ namespace Gestao.App.Data.Repositories
             var items = (await GetAllAsync())
                 .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
                 .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption)) // Filter by searchDescription if provided
-                .OrderByDescending(i => i.ReferenceDate)
+                .OrderByDescending(i => i.ReferenceDate)                
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -93,12 +93,18 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<List<FinancialTransaction>> GetAllAsync()
         {
-            return await _financialTransactions.ToListAsync();
+            return await _financialTransactions
+                .Include(i => i.Category)
+                .Include(i => i.Account)
+                .Include(i => i.Documents)
+                .ToListAsync();
         }
 
         public async Task<FinancialTransaction?> GetAsync(int id)
         {
             return await _financialTransactions
+                .Include(i => i.Category)
+                .Include(i => i.Account)
                 .Include(i => i.Documents)
                 .SingleOrDefaultAsync(i => i.Id == id);
         }

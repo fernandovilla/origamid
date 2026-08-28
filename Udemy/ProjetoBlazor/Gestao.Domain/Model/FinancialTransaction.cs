@@ -28,6 +28,7 @@ namespace Gestao.Domain.Model
         public DateTimeOffset ReferenceDate { get; set; }
         public DateTimeOffset DueDate { get; set; }         //Vencimento
         public decimal? Amount { get; set; }
+        public int? RepeatGroup { get; set; }
         public RecurrentEnum Repeat { get; set; } = RecurrentEnum.None;
         public int? RepeatTimes { get; set; }
         public decimal? InterestPenalty { get; set; }        //Juros/Multa

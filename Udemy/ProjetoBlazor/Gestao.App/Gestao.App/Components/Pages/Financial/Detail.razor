@@ -11,145 +11,156 @@
     Transação Financeira - Detalhes
 </PageTitle>
 
-<div class="card">
-    <div class="card-header align-items-center d-flex">
-        <h4 class="card-title mb-0 flex-grow-1">
-            @($"Detalhes de Conta {(TypeEnum == FinancialTransactionTypeEnum.Pay ? "à Pagar" : "À Receber")}")
-        </h4>
-    </div>
-
-    <div class="card-body">
-        <div class="row">
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="description" class="form-label">Descrição</label>
-                    <p>@Transaction!.Description</p>
-
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="category" class="form-label">Categoria</label>
-                    <p> @Transaction!.CategoryId</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="account" class="form-label">Conta</label>
-                    <p>@Transaction!.AccountId</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="referenceDate" class="form-label">Data Competencia</label>
-                    <p>@Transaction!.ReferenceDate.ToString("dd/MM/yyyy")</p>
-                </div>
-            </div>
+@if (Transaction != null)
+{
+    <div class="card">
+        <div class="card-header align-items-center d-flex">
+            <h4 class="card-title mb-0 flex-grow-1">
+                @($"Detalhes de Conta {(TypeEnum == FinancialTransactionTypeEnum.Pay ? "à Pagar" : "À Receber")}")
+            </h4>
         </div>
 
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="description" class="form-label mb-1">Descrição</label>
+                        <p>@Transaction!.Description</p>
 
-        <div class="row">
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="dueDate" class="form-label">Data Vencimento</label>
-                    <p>@Transaction!.DueDate.ToString("dd/MM/yyyy")</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="amount" class="form-label">Valor</label>
-                    <p>@Transaction!.Amount?.ToString("C")</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="repeat" class="form-label">Repetir</label>
-                    <p>@Transaction!.Repeat.DisplayName()</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="repeatTimes" class="form-label">Vezes</label>
-                    <p>@Transaction!.RepeatTimes</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="penalty" class="form-label">Juros/Multa</label>
-                    <p>@Transaction!.InterestPenalty?.ToString("C")</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="discount" class="form-label">Desconto</label>
-                    <p>@Transaction!.Discounts?.ToString("C")</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="paymentDate" class="form-label">Data Pagamento</label>
-                    <p>@Transaction!.PaymentDate?.ToString("dd/MM/yyyy")</p>
-                </div>
-            </div>
-
-            <div class="col-xxl-3 col-md-6">
-                <div>
-                    <label for="amountPaid" class="form-label">Valor Pago</label>
-                    <p>@Transaction!.AmountPaid?.ToString("C")</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-12">
-                <div>
-                    <label for="observation" class="form-label">Observação</label>
-                    <p>Transaction!.Observation</p>
-                </div>
-            </div>
-        </div>
-
-        @if (Documents.Count > 0)
-        {
-            <div class="row mt-0">
-                <div class="col-12">
-                    <label class="form-label"><i class="las la-paperclip me-2" />Arquivos Anexos</label>
-                    <ul class="list-group">
-                        @foreach (var doc in Documents)
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="category" class="form-label mb-1">Categoria</label>
+                        @if (Transaction!.Category != null)
                         {
-                            <li class="list-group-item">
-                                <i class="ri-bill-line align-middle me-2" />
-                                @doc.OriginalFileName
-                            </li>
+                            <p>@Transaction.Category.Name</p>
                         }
-                    </ul>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="account" class="form-label mb-1">Conta</label>
+                        @if (Transaction!.Account != null)
+                        {
+                            <p>@Transaction.Account.Description</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="referenceDate" class="form-label mb-1">Data Competencia</label>
+                        <p>@Transaction!.ReferenceDate.ToString("dd/MM/yyyy")</p>
+                    </div>
                 </div>
             </div>
-        }
 
-        <div class="row mt-4">
-            <div class="d-flex justify-content-between">
-                <a href="/financial/@TypeEnum.ToString()/list" class="btn btn-light">Voltar</a>
-                <button type="button" class="btn btn-danger">Excluir</button>
+
+            <div class="row">
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="dueDate" class="form-label mb-1">Data Vencimento</label>
+                        <p>@Transaction!.DueDate.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="amount" class="form-label mb-1">Valor</label>
+                        <p>@Transaction!.Amount?.ToString("C")</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="repeat" class="form-label mb-1">Repetir</label>
+                        <p>@Transaction!.Repeat.DisplayName()</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="repeatTimes" class="form-label mb-1">Vezes</label>
+                        <p>@Transaction!.RepeatTimes</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="penalty" class="form-label mb-1">Juros/Multa</label>
+                        <p>@Transaction!.InterestPenalty?.ToString("C")</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="discount" class="form-label mb-1">Desconto</label>
+                        <p>@Transaction!.Discounts?.ToString("C")</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="paymentDate" class="form-label mb-1">Data Pagamento</label>
+                        <p>@Transaction!.PaymentDate?.ToString("dd/MM/yyyy")</p>
+                    </div>
+                </div>
+
+                <div class="col-xxl-3 col-md-6">
+                    <div>
+                        <label for="amountPaid" class="form-label mb-1">Valor Pago</label>
+                        <p>@Transaction!.AmountPaid?.ToString("C")</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        <label for="observation" class="form-label mb-1">Observação</label>
+                        <p>@Transaction!.Observation</p>
+                    </div>
+                </div>
+            </div>
+
+            @if (Documents.Count > 0)
+            {
+                <div class="row mt-0">
+                    <div class="col-12">
+                        <label class="form-label"><i class="las la-paperclip me-2" />Arquivos Anexos</label>
+                        <ul class="list-group">
+                            @foreach (var doc in Documents)
+                            {
+                                <li class="list-group-item">
+                                    <a href="/uploads/@doc.Path">
+                                        <i class="ri-bill-line align-middle me-2" />
+                                        @doc.OriginalFileName
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+
+            <div class="row mt-4">
+                <div class="d-flex justify-content-between">
+                    <a href="/financial/@TypeEnum.ToString()/list" class="btn btn-light">Voltar</a>
+                    <button type="button" class="btn btn-soft-danger" @onclick="RemoveAsync">
+                        <i class="ri-delete-bin-line me-2" />Excluir
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
-    
-</div>
+}
 
 
 @code {
@@ -177,5 +188,14 @@
         }
 
         this.Transaction = transaction;
+    }
+
+    private async Task RemoveAsync()
+    {
+        await FinancialRepository.DeleteAsync(Transaction.Id);
+
+        await js.InvokeVoidAsync("alert", "Transação Financeira excluída");
+
+        NavigationManager.NavigateTo($"/financial/{Type}/list");
     }
 }
