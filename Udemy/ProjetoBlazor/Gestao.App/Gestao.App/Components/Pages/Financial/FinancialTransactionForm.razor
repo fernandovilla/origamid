@@ -1,6 +1,8 @@
-﻿@inject ICategoryRepository CategoryRepository
+﻿
+@inject ICategoryRepository CategoryRepository
 @inject IAccountRepository AccountRepository
 @inject ILocalStorageService LocalStorage
+@inject ApplicationDbContext DbContext
 
 <EditForm Model="Transaction" OnValidSubmit="OnSubmitAsync" FormName="UpdateTransaction">
 
@@ -149,12 +151,12 @@
 
 
     <div class="row mt-0">
-        <UploadFileForm Documents="Transaction.Documents!.ToList()" OnUploadedFile="OnUploadedFileAsync" OnRemovedFile="OnRemovedFileAsync" IsEditForm="@IsEditForm" />
+        <UploadFileForm Documents="Documents" OnUploadedFile="OnUploadedFileAsync" OnRemovedFile="OnRemovedFileAsync" IsEditForm="@IsEditForm" />
     </div>
 
     <div class="row mt-2">
         <div class="d-flex justify-content-between">
-            <a href="/financial/@TypeEnum.ToString()/list" class="btn btn-light">Voltar</a>
+            <a href="/financial/@TypeEnum.ToString()/list" class="btn btn-light" @onclick="RollbackDataAsync">Voltar</a>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
     </div>
@@ -162,11 +164,11 @@
 </EditForm>
 
 @code {
-    private bool RepeatTimesDisabled => (Transaction.Repeat == RecurrentEnum.None);
     private Company? Company { get; set; }
     private IList<Category>? Categories { get; set; }
     private IList<Account>? Accounts { get; set; }
-
+    private bool RepeatTimesDisabled => (Transaction.Repeat == RecurrentEnum.None);
+    private IList<Document> Documents => Transaction.Documents!.ToList();
 
 
     [Parameter]
@@ -176,7 +178,12 @@
     public bool IsEditForm { get; set; }
 
     [Parameter]
-    public FinancialTransaction Transaction { get; set; } = new() { ReferenceDate = DateTimeOffset.Now, DueDate = DateTimeOffset.Now, Documents = new List<Document>() };
+    public FinancialTransaction Transaction { get; set; } = new()
+    {
+        ReferenceDate = DateTimeOffset.Now,
+        DueDate = DateTimeOffset.Now,
+        Documents = new List<Document>()
+    };
 
     [Parameter]
     public EventCallback<FinancialTransaction> OnSaving { get; set; }
@@ -201,9 +208,9 @@
             Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
             Categories = await CategoryRepository.GetAllAsync(Company!.Id);
             Accounts = await AccountRepository.GetAllAsync(Company!.Id);
-        }
 
-        StateHasChanged();     
+            StateHasChanged();
+        }
     }
 
     private void OnRepeatChanged()
@@ -232,5 +239,10 @@
 
         if (Transaction.Documents!.Contains(doc))
             Transaction.Documents?.Remove(doc);
+    }
+
+    private async Task RollbackDataAsync()
+    {
+        DbContext.ChangeTracker.Clear();
     }
 }
