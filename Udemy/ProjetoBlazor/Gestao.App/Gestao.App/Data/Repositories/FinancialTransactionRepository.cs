@@ -27,13 +27,18 @@ namespace Gestao.App.Data.Repositories
         public async Task DeleteAsync(int id)
         {
             if (id <= 0)
-                throw new ArgumentException("Invalid category ID.", nameof(id));
+                throw new ArgumentException("Invalid transaction ID.", nameof(id));
 
-            var category = await GetAsync(id);
+            var transaction = await GetAsync(id);
 
-            if (category != null)
+            await DeleteAsync(transaction);
+        }
+
+        public async Task DeleteAsync(FinancialTransaction? transaction)
+        {
+            if (transaction != null)
             {
-                _financialTransactions.Remove(category);
+                _financialTransactions.Remove(transaction);
                 await _db.SaveChangesAsync();
             }
         }
@@ -51,7 +56,7 @@ namespace Gestao.App.Data.Repositories
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
         {
             var items = (await GetAllAsync()).Where(i => i.CompanyId == companyId)
-                .OrderByDescending(i => i.ReferenceDate)
+                .OrderBy(i => i.ReferenceDate)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -69,13 +74,16 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
         {
-            var items = (await GetAllAsync())
+            var items = await _financialTransactions
+                .Include(i => i.Account)
+                .Include(i => i.Category)
+                .Include(i => i.Documents)
                 .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
                 .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption)) // Filter by searchDescription if provided
-                .OrderByDescending(i => i.ReferenceDate)                
+                .OrderBy(i => i.ReferenceDate)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
 
             var countCompanies = await _financialTransactions
                 .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
@@ -88,16 +96,23 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
         {
-            return await GetAllAsync();
+            return GetAllFinancialTransaction(null, null).ToList();
+
         }
 
         public async Task<List<FinancialTransaction>> GetAllAsync()
         {
-            return await _financialTransactions
-                .Include(i => i.Category)
+            return GetAllFinancialTransaction(null, null).ToList();
+        }
+
+        private IEnumerable<FinancialTransaction> GetAllFinancialTransaction(int? companyId, FinancialTransactionTypeEnum? type)
+        {
+            return _financialTransactions
+                .Where(i => companyId != null ? i.CompanyId == companyId : false)
+                .Where(i => type != null ? i.FinancialTransactionType != type : false)
                 .Include(i => i.Account)
-                .Include(i => i.Documents)
-                .ToListAsync();
+                .Include(i => i.Category)
+                .Include(i => i.Documents);
         }
 
         public async Task<FinancialTransaction?> GetAsync(int id)
@@ -116,6 +131,22 @@ namespace Gestao.App.Data.Repositories
 
             _financialTransactions.Update(entity);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<int> GetCountTransactionRepeatGroup(int groupId)
+        {
+            return await _financialTransactions
+                .Where(i => i.RepeatGroup == groupId)
+                .OrderBy(i => i.Id)
+                .CountAsync();
+        }
+
+        public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
+        {
+            return await _financialTransactions
+                .Where(i => i.RepeatGroup == groupId)
+                .OrderBy(i => i.Id)
+                .ToListAsync();
         }
 
 

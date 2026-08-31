@@ -9,22 +9,27 @@ namespace Gestao.App.Client.Services
     {
         private readonly string BaseEndPoint = "api/financialtransactions";
 
-        public Task AddAsync(FinancialTransaction entity)
+        public async Task AddAsync(FinancialTransaction entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
+        public async Task DeleteAsync(FinancialTransaction? transaction)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
@@ -35,32 +40,42 @@ namespace Gestao.App.Client.Services
             return result!;
         }
 
-        public Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
+        public async Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<FinancialTransaction>> GetAllAsync()
+        public async Task<List<FinancialTransaction>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<FinancialTransaction?> GetAsync(int id)
+        public async Task<FinancialTransaction?> GetAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(FinancialTransaction entity)
+        public async Task<int> GetCountTransactionRepeatGroup(int groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateAsync(FinancialTransaction entity)
         {
             throw new NotImplementedException();
         }

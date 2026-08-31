@@ -5,6 +5,7 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
 @inject IFinancialTransactionRepository FinancialRepository
+@inject IQueue Queue
 
 <PageTitle>
     Transação Financeira - Edição
@@ -45,6 +46,9 @@
             return;
 
         await FinancialRepository.UpdateAsync(financialTransaction);
+
+        Queue.QueueInvocableWithPayload<FinancialTransactionRepeatInvocable, FinancialTransaction>(financialTransaction);
+
         await js.InvokeVoidAsync("alert", "Transação atualizada com sucesso!");
 
         NavigationManager.NavigateTo($"/financial/{Type}/list");

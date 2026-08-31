@@ -1,9 +1,11 @@
 ﻿@page "/financial/{type}/add"
 
+
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject IJSRuntime js
 @inject IFinancialTransactionRepository FinancialRepository
+@inject IQueue Queue
 
 <PageTitle>
     Transação Financeira - Edição
@@ -38,14 +40,19 @@
         if (financialTransaction == null)
             return;
 
+
+        await FinancialRepository.AddAsync(financialTransaction);
+
         if (financialTransaction.Repeat != RecurrentEnum.None)
         {
             /* Criar as parcelas das transações, dentro de um mesmo grupo */
-
+            Queue.QueueInvocableWithPayload<FinancialTransactionRepeatInvocable, FinancialTransaction>(financialTransaction);
+            await js.InvokeVoidAsync("alert", "Transação registrada com sucesso! Parcelas estão sendo processadas.");
         }
-
-        await FinancialRepository.AddAsync(financialTransaction);
-        await js.InvokeVoidAsync("alert", "Transação registrada com sucesso!");
+        else
+        {
+            await js.InvokeVoidAsync("alert", "Transação registrada com sucesso!");
+        }
 
         NavigationManager.NavigateTo($"/financial/{Type}/list");
     }

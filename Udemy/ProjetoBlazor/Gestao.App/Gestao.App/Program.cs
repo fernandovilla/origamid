@@ -1,9 +1,11 @@
 using Blazored.LocalStorage;
+using Coravel;
 using Gestao.App.Client.Libraries.Notifications;
 using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
+using Gestao.App.Libraries.Queues;
 using Gestao.App.Libraries.Services;
 using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
@@ -129,6 +131,12 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(F
 
 builder.Services.AddSingleton<ICepServices, CepServices>();
 builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification>();
+
+//Queuing - Coravel *************
+builder.Services.AddQueue();
+builder.Services.AddScoped<FinancialTransactionRepeatInvocable>();
+//*******************************
+
 
 #endregion
 

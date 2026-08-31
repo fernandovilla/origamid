@@ -22,6 +22,9 @@ namespace Gestao.App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] FinancialTransactionTypeEnum type, [FromQuery] int companyId, [FromQuery] int pageIndex, [FromQuery] string searchWord)
         {
+            // VIDEO INTERESSANTE SOBRE IASYNCENUMERABLE
+            //https://www.youtube.com/watch?v=MyhVJ-PE-jw
+
             var data = await repository.GetAllAsync(companyId, type, pageIndex, PageSize, searchWord);
 
             return Ok(data);

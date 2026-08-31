@@ -71,7 +71,7 @@
                         {
                             <tr>
                                 <td>
-                                    @transaction.ReferenceDate.ToString("dd/MM/yyyy HH:mm")
+                                    @transaction.ReferenceDate!.Value.ToString("dd/MM/yyyy HH:mm")
                                 </td>
                                 <td>
                                     @transaction.Description

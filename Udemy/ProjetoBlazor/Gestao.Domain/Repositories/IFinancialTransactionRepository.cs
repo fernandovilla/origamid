@@ -9,6 +9,8 @@ namespace Gestao.Domain.Repositories
         Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize);
         Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize);
         Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null);
-        
+        Task<int> GetCountTransactionRepeatGroup(int groupId);
+        Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId);
+        Task DeleteAsync(FinancialTransaction? transaction);
     }
 }
