@@ -8,12 +8,11 @@ namespace Gestao.App.Data.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly ApplicationDbContext _db;
-        private DbSet<Category> _categories => _db.Categories;
+        private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-        public CategoryRepository(ApplicationDbContext db)
+        public CategoryRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
         {
-            _db = db;
+            _factory = dbFactory;
         }
 
         public async Task AddAsync(Category entity)
@@ -21,8 +20,9 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            await _categories.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+            await db.Categories.AddAsync(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -31,17 +31,20 @@ namespace Gestao.App.Data.Repositories
                 throw new ArgumentException("Invalid category ID.", nameof(id));
 
             var category = await GetAsync(id);
+            if (category == null)
+                return;
 
-            if (category != null)
-            {
-                _categories.Remove(category);
-                await _db.SaveChangesAsync();
-            }
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.Categories.Remove(category);
+            await db.SaveChangesAsync();
         }
 
         public async Task<IList<Category>> GetAllAsync(int companyId)
         {
-            var items = await _categories
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.Categories
                 .Where(i => i.CompanyId == companyId)
                 .OrderBy(i => i.Name)
                 .ToListAsync();
@@ -51,14 +54,16 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<Category>> GetAllAsync(int companyId, int pageIndex, int pageSize)
         {
-            var items = await _categories
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.Categories
                 .Where(i => i.CompanyId == companyId)
                 .OrderBy(i => i.Name)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _categories
+            var countCompanies = await db.Categories
                 .Where(i => i.CompanyId == companyId)
                 .CountAsync();
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
@@ -73,14 +78,16 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<Category>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
         {
-            var items = await _categories
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.Categories
                 .Where(i => i.CompanyId == companyId)
                 .OrderBy(i => i.Name)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _categories
+            var countCompanies = await db.Categories
                 .Where(i => i.CompanyId == companyId)
                 .CountAsync();
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);  //.Ceiling arredonda pra cima
@@ -95,7 +102,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<Category?> GetAsync(int id)
         {
-            return await _categories.SingleOrDefaultAsync(i => i.Id == id);
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.Categories.SingleOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task UpdateAsync(Category entity)
@@ -103,13 +112,17 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            _categories.Update(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.Categories.Update(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task<List<Category>> GetAllAsync()
         {
-            return await _categories.ToListAsync();
+            using var db  = await _factory.CreateDbContextAsync();
+
+            return await db.Categories.ToListAsync();
         }
     }
 }

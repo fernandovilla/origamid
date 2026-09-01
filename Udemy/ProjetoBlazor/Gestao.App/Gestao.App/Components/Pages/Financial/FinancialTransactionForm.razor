@@ -1,5 +1,4 @@
-﻿
-@inject ICategoryRepository CategoryRepository
+﻿@inject ICategoryRepository CategoryRepository
 @inject IAccountRepository AccountRepository
 @inject ILocalStorageService LocalStorage
 @inject ApplicationDbContext DbContext
@@ -12,10 +11,19 @@
     @*<ValidationSummary />*@
 
     <div class="row">
+        @if (ParcelaFilha)
+        {
+            <div class="col-12">
+                <p>
+                    <a href="@($"/financial/{TypeEnum.ToString()}/edit/{Transaction.RepeatGroup}")">Clique aqui para editar o registro origem</a>
+                </p>
+            </div>
+        }
+
         <div class="col-xxl-3 col-md-6">
             <div>
                 <label for="description" class="form-label">Descrição</label>
-                <InputText @bind-Value="Transaction!.Description" class="form-control" id="description" autocomplete="not" />
+                <InputText @bind-Value="Transaction!.Description" class="form-control" id="description" autocomplete="not" disabled="@ParcelaFilha" />
                 <ValidationMessage For="() => Transaction!.Description" />
             </div>
         </div>
@@ -23,7 +31,7 @@
         <div class="col-xxl-3 col-md-6">
             <div>
                 <label for="category" class="form-label">Categoria</label>
-                <InputSelect @bind-Value="Transaction!.CategoryId" class="form-select" id="category">
+                <InputSelect @bind-Value="Transaction!.CategoryId" class="form-select" id="category" disabled="@ParcelaFilha">
                     <option value="0">--Selecione--</option>
                     @if (Categories != null)
                     {
@@ -40,7 +48,7 @@
         <div class="col-xxl-3 col-md-6">
             <div>
                 <label for="account" class="form-label">Conta</label>
-                <InputSelect @bind-Value="Transaction!.AccountId" class="form-select" id="account">
+                <InputSelect @bind-Value="Transaction!.AccountId" class="form-select" id="account" disabled="@ParcelaFilha">
                     <option value="0">--Selecione--</option>
                     @if (Accounts != null)
                     {
@@ -84,7 +92,7 @@
         <div class="col-xxl-3 col-md-6">
             <div>
                 <label for="repeat" class="form-label">Repetir</label>
-                <InputSelect @bind-Value="Transaction!.Repeat" @bind-Value:after="OnRepeatChanged" class="form-control" id="repeat">
+                <InputSelect @bind-Value="Transaction!.Repeat" @bind-Value:after="OnRepeatChanged" class="form-control" id="repeat" disabled="@ParcelaFilha">
                     @foreach (RecurrentEnum option in Enum.GetValues(typeof(RecurrentEnum)))
                     {
                         <option value="@option">@option.DisplayName()</option>
@@ -150,9 +158,12 @@
     </div>
 
 
-    <div class="row mt-0">
-        <UploadFileForm Documents="Documents" OnUploadedFile="OnUploadedFileAsync" OnRemovedFile="OnRemovedFileAsync" IsEditForm="@IsEditForm" />
-    </div>
+    @if (!ParcelaFilha)
+    {
+        <div class="row mt-0">
+            <UploadFileForm Documents="Documents" OnUploadedFile="OnUploadedFileAsync" OnRemovedFile="OnRemovedFileAsync" IsEditForm="@IsEditForm" />
+        </div>
+    }
 
     <div class="row mt-2">
         <div class="d-flex justify-content-between">
@@ -188,7 +199,7 @@
     [Parameter]
     public EventCallback<FinancialTransaction> OnSaving { get; set; }
 
-
+    private bool ParcelaFilha => Transaction.RepeatGroup.HasValue && Transaction.RepeatGroup != Transaction.Id;
 
 
     private async Task OnSubmitAsync(EditContext context)

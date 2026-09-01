@@ -7,12 +7,11 @@ namespace Gestao.App.Data.Repositories
 {
     public class CompanyRepository : ICompanyRepository
     {
-        private readonly ApplicationDbContext _db;
-        private DbSet<Company> _companies => _db.Companies;
+        private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-        public CompanyRepository(ApplicationDbContext dbContext)
+        public CompanyRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
         {
-            _db = dbContext;
+            _factory = dbFactory;
         }
 
         public async Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize, string? searchCompanyName = null)
@@ -21,7 +20,9 @@ namespace Gestao.App.Data.Repositories
             //  .Skip(x)       //pula x registros = ((PageIndex - 1) * PageSize)
             //  .Take(n)      //pega n registros = PageSize = 15
 
-            var items = await _companies
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.Companies
                 .Where(i => i.UserId == applicationUserId)
                 .Where(i => string.IsNullOrEmpty(searchCompanyName) || i.TradeName.Contains(searchCompanyName) || i.LegalName.Contains(searchCompanyName))
                 .OrderBy(i => i.TradeName)
@@ -29,7 +30,7 @@ namespace Gestao.App.Data.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _companies
+            var countCompanies = await db.Companies
                 .Where(i => i.UserId == applicationUserId)
                 .Where(i => string.IsNullOrEmpty(searchCompanyName) || i.TradeName.Contains(searchCompanyName) || i.LegalName.Contains(searchCompanyName))
                 .CountAsync(i => i.UserId == applicationUserId);
@@ -55,7 +56,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<Company?> GetAsync(int id)
         {
-            return await _companies.SingleOrDefaultAsync(i => i.Id == id);
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.Companies.SingleOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task AddAsync(Company company)
@@ -63,8 +66,10 @@ namespace Gestao.App.Data.Repositories
             if (company == null)
                 throw new ArgumentNullException(nameof(company));
 
-            await _companies.AddAsync(company);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            await db.Companies.AddAsync(company);
+            await db.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Company company)
@@ -72,8 +77,10 @@ namespace Gestao.App.Data.Repositories
             if (company == null)
                 throw new ArgumentNullException(nameof(company));
 
-            _companies.Update(company);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.Companies.Update(company);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -83,18 +90,20 @@ namespace Gestao.App.Data.Repositories
 
             var company = await GetAsync(id);
 
-            if (company != null)
-            {
-                _companies.Remove(company);
-                await _db.SaveChangesAsync();
-            }
+            if (company == null)
+                return;
+
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.Companies.Remove(company);
+            await db.SaveChangesAsync();
         }
 
         public async Task<List<Company>> GetAllAsync()
         {
-            return await _companies.ToListAsync();
-        }
+            using var db = await _factory.CreateDbContextAsync();
 
-        
+            return await db.Companies.ToListAsync();
+        }
     }
 }

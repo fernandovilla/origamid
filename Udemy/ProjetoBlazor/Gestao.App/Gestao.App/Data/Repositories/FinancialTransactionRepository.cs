@@ -7,12 +7,10 @@ namespace Gestao.App.Data.Repositories
 {
     public class FinancialTransactionRepository : IFinancialTransactionRepository
     {
-        private readonly ApplicationDbContext _db;
-        private DbSet<FinancialTransaction> _financialTransactions => _db.FinancialTransactions;
-
-        public FinancialTransactionRepository(ApplicationDbContext db)
+        private readonly IDbContextFactory<ApplicationDbContext> _factory;
+        public FinancialTransactionRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
         {
-            _db = db;
+            _factory = dbFactory;
         }
 
         public async Task AddAsync(FinancialTransaction entity)
@@ -20,8 +18,10 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            await _financialTransactions.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            await db.FinancialTransactions.AddAsync(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -38,8 +38,10 @@ namespace Gestao.App.Data.Repositories
         {
             if (transaction != null)
             {
-                _financialTransactions.Remove(transaction);
-                await _db.SaveChangesAsync();
+                using var db = await _factory.CreateDbContextAsync();
+
+                db.FinancialTransactions.Remove(transaction);
+                await db.SaveChangesAsync();
             }
         }
 
@@ -55,13 +57,16 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
         {
-            var items = (await GetAllAsync()).Where(i => i.CompanyId == companyId)
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.FinancialTransactions
+                .Where(i => i.CompanyId == companyId)
                 .OrderBy(i => i.ReferenceDate)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
 
-            var countCompanies = await _financialTransactions.CountAsync(i => i.CompanyId == companyId);
+            var countCompanies = await db.FinancialTransactions.CountAsync(i => i.CompanyId == companyId);
             var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
             return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
@@ -74,7 +79,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
         {
-            var items = await _financialTransactions
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.FinancialTransactions
                 .Include(i => i.Account)
                 .Include(i => i.Category)
                 .Include(i => i.Documents)
@@ -85,7 +92,7 @@ namespace Gestao.App.Data.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _financialTransactions
+            var countCompanies = await db.FinancialTransactions
                 .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
                 .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption))
                 .CountAsync(i => i.CompanyId == companyId);
@@ -107,7 +114,9 @@ namespace Gestao.App.Data.Repositories
 
         private IEnumerable<FinancialTransaction> GetAllFinancialTransaction(int? companyId, FinancialTransactionTypeEnum? type)
         {
-            return _financialTransactions
+            using var db = _factory.CreateDbContext();
+
+            return db.FinancialTransactions
                 .Where(i => companyId != null ? i.CompanyId == companyId : false)
                 .Where(i => type != null ? i.FinancialTransactionType != type : false)
                 .Include(i => i.Account)
@@ -117,7 +126,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<FinancialTransaction?> GetAsync(int id)
         {
-            return await _financialTransactions
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.FinancialTransactions
                 .Include(i => i.Category)
                 .Include(i => i.Account)
                 .Include(i => i.Documents)
@@ -129,13 +140,17 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            _financialTransactions.Update(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.FinancialTransactions.Update(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task<int> GetCountTransactionRepeatGroup(int groupId)
         {
-            return await _financialTransactions
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.FinancialTransactions
                 .Where(i => i.RepeatGroup == groupId)
                 .OrderBy(i => i.Id)
                 .CountAsync();
@@ -143,7 +158,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
         {
-            return await _financialTransactions
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.FinancialTransactions
                 .Where(i => i.RepeatGroup == groupId)
                 .OrderBy(i => i.Id)
                 .ToListAsync();

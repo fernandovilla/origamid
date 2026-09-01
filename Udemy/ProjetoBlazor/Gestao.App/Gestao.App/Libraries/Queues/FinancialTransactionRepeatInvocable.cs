@@ -35,7 +35,6 @@ namespace Gestao.App.Libraries.Queues
             await AssingRepeatGroupTransaction();
 
 
-
             if (countRepeatGroup == 0)
             {
                 //Adicionando uma novas transações, registro inicial, cadastramento

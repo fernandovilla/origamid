@@ -7,12 +7,11 @@ namespace Gestao.App.Data.Repositories
 {
     public class DocumentRepository : IDocumentRepository
     {
-        private readonly ApplicationDbContext _db;
-        private DbSet<Document> _documents => _db.Documents;
-
-        public DocumentRepository(ApplicationDbContext db)
+        private readonly IDbContextFactory<ApplicationDbContext> _factory;
+        
+        public DocumentRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
         {
-            _db = db;
+            _factory = dbFactory;
         }
 
         public async Task AddAsync(Document entity)
@@ -20,8 +19,10 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            await _documents.AddAsync(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            await db.Documents.AddAsync(entity);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -33,8 +34,10 @@ namespace Gestao.App.Data.Repositories
 
             if (attachmentDocument != null)
             {
-                _documents.Remove(attachmentDocument);
-                await _db.SaveChangesAsync();
+                using var db = await _factory.CreateDbContextAsync();
+
+                db.Documents.Remove(attachmentDocument);
+                await db.SaveChangesAsync();
             }
         }
 
@@ -68,14 +71,16 @@ namespace Gestao.App.Data.Repositories
             if (financialTransactionId <= 0)
                 throw new ArgumentException("Invalid financial transaction ID.", nameof(financialTransactionId));
 
-            var items = await _documents
+            using var db = await _factory.CreateDbContextAsync();
+
+            var items = await db.Documents
                 .Where(i => i.FinancialTransactionId == financialTransactionId)
                 .Where(i => string.IsNullOrEmpty(searchDescription) || i.Path.Contains(searchDescription))
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var countCompanies = await _documents
+            var countCompanies = await db.Documents
                 .Where(i => i.FinancialTransactionId == financialTransactionId)
                 .Where(i => string.IsNullOrEmpty(searchDescription) || i.Path.Contains(searchDescription))
                 .CountAsync(i => i.FinancialTransactionId == financialTransactionId);
@@ -86,7 +91,9 @@ namespace Gestao.App.Data.Repositories
 
         public async Task<Document?> GetAsync(int id)
         {
-            return await _documents.SingleOrDefaultAsync(i => i.ID == id);
+            using var db = await _factory.CreateDbContextAsync();
+
+            return await db.Documents.SingleOrDefaultAsync(i => i.ID == id);
         }
 
         public async Task UpdateAsync(Document entity)
@@ -94,8 +101,10 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            _documents.Update(entity);
-            await _db.SaveChangesAsync();
+            using var db = await _factory.CreateDbContextAsync();
+
+            db.Documents.Update(entity);
+            await db.SaveChangesAsync();
         }        
     }
 }
