@@ -18,10 +18,11 @@ namespace Gestao.App.Data.Repositories
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
-            using var db = await _factory.CreateDbContextAsync();
-
-            await db.FinancialTransactions.AddAsync(entity);
-            await db.SaveChangesAsync();
+            using (var db = await _factory.CreateDbContextAsync())
+            {
+                await db.FinancialTransactions.AddAsync(entity);
+                await db.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAsync(int id)

@@ -1,10 +1,375 @@
 ﻿@page "/"
+@using Gestao.App.Components.Pages.Panel
 
 @attribute [Authorize]
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+
+<div class="row">
+    <Totalizadores />
+</div>
+
+
+<div class="row">
+    <div class="col-xl-4">
+        <div class="card card-height-100">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Store Visits by Source</h4>
+                <div class="flex-shrink-0">
+                    <div class="dropdown card-header-dropdown">
+                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text-muted">Report<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="#">Download Report</a>
+                            <a class="dropdown-item" href="#">Export</a>
+                            <a class="dropdown-item" href="#">Import</a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div id="store-visits-source" data-colors="[&quot;--vz-primary&quot;, &quot;--vz-success&quot;, &quot;--vz-warning&quot;, &quot;--vz-danger&quot;, &quot;--vz-info&quot;]" class="apex-charts" dir="ltr" style="min-height: 333px;">
+                    <div id="apexcharts184dh1cpg" class="apexcharts-canvas apexcharts184dh1cpg apexcharts-theme-light" style="width: 369px; height: 333px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" width="369" height="333">
+                            <foreignObject x="0" y="0" width="369" height="333">
+                                <style type="text/css">
+                                                                    .apexcharts-flip-y {
+                                                                        transform: scaleY(-1) translateY(-100%);
+                                                                        transform-origin: top;
+                                                                        transform-box: fill-box;
+                                                                    }
+
+                                                                    .apexcharts-flip-x {
+                                                                        transform: scaleX(-1);
+                                                                        transform-origin: center;
+                                                                        transform-box: fill-box;
+                                                                    }
+
+                                                                    .apexcharts-legend {
+                                                                        display: flex;
+                                                                        overflow: auto;
+                                                                        padding: 0 10px;
+                                                                    }
+
+                                                                        .apexcharts-legend.apexcharts-legend-group-horizontal {
+                                                                            flex-direction: column;
+                                                                        }
+
+                                                                    .apexcharts-legend-group {
+                                                                        display: flex;
+                                                                    }
+
+                                                                    .apexcharts-legend-group-vertical {
+                                                                        flex-direction: column-reverse;
+                                                                    }
+
+                                                                    .apexcharts-legend.apx-legend-position-bottom, .apexcharts-legend.apx-legend-position-top {
+                                                                        flex-wrap: wrap
+                                                                    }
+
+                                                                    .apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {
+                                                                        flex-direction: column;
+                                                                        bottom: 0;
+                                                                    }
+
+                                                                    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-left, .apexcharts-legend.apx-legend-position-top.apexcharts-align-left, .apexcharts-legend.apx-legend-position-right, .apexcharts-legend.apx-legend-position-left {
+                                                                        justify-content: flex-start;
+                                                                        align-items: flex-start;
+                                                                    }
+
+                                                                    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-center, .apexcharts-legend.apx-legend-position-top.apexcharts-align-center {
+                                                                        justify-content: center;
+                                                                        align-items: center;
+                                                                    }
+
+                                                                    .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-right, .apexcharts-legend.apx-legend-position-top.apexcharts-align-right {
+                                                                        justify-content: flex-end;
+                                                                        align-items: flex-end;
+                                                                    }
+
+                                                                    .apexcharts-legend-series {
+                                                                        cursor: pointer;
+                                                                        line-height: normal;
+                                                                        display: flex;
+                                                                        align-items: center;
+                                                                    }
+
+                                                                    .apexcharts-legend-text {
+                                                                        position: relative;
+                                                                        font-size: 14px;
+                                                                    }
+
+                                                                        .apexcharts-legend-text *, .apexcharts-legend-marker * {
+                                                                            pointer-events: none;
+                                                                        }
+
+                                                                    .apexcharts-legend-marker {
+                                                                        position: relative;
+                                                                        display: flex;
+                                                                        align-items: center;
+                                                                        justify-content: center;
+                                                                        cursor: pointer;
+                                                                        margin-right: 1px;
+                                                                    }
+
+                                                                    .apexcharts-legend-series.apexcharts-no-click {
+                                                                        cursor: auto;
+                                                                    }
+
+                                                                    .apexcharts-legend .apexcharts-hidden-zero-series, .apexcharts-legend .apexcharts-hidden-null-series {
+                                                                        display: none !important;
+                                                                    }
+
+                                                                    .apexcharts-inactive-legend {
+                                                                        opacity: 0.45;
+                                                                    }
+
+                                </style>
+                            </foreignObject>
+                            <g class="apexcharts-inner apexcharts-graphical" transform="translate(0, 0)"><defs><clipPath id="gridRectMask184dh1cpg"><rect width="375" height="301" x="-3" y="-3" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectBarMask184dh1cpg"><rect width="375" height="301" x="-3" y="-3" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMask184dh1cpg"><rect width="369" height="295" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="forecastMask184dh1cpg"></clipPath><clipPath id="nonForecastMask184dh1cpg"></clipPath></defs><g class="apexcharts-pie"><g transform="translate(0, 0) scale(1)"><circle r="89.63658536585366" cx="184.5" cy="147.5" fill="transparent"></circle><g class="apexcharts-slices"><g class="apexcharts-series apexcharts-pie-series" seriesName="Direct" rel="1" data:realIndex="0"><path d="M 184.5 9.597560975609753 A 137.90243902439025 137.90243902439025 0 0 1 322.3104371874472 152.53647605775615 L 274.07678417184064 150.7737094375415 A 89.63658536585366 89.63658536585366 0 0 0 184.5 57.86341463414634 L 184.5 9.597560975609753 z " fill="rgba(64,81,137,1)" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-0" index="0" j="0" data:angle="92.09302325581395" data:startAngle="0" data:strokeWidth="0" data:value="44" data:pathOrig="M 184.5 9.597560975609753 A 137.90243902439025 137.90243902439025 0 0 1 322.3104371874472 152.53647605775615 L 274.07678417184064 150.7737094375415 A 89.63658536585366 89.63658536585366 0 0 0 184.5 57.86341463414634 L 184.5 9.597560975609753 z "></path></g><g class="apexcharts-series apexcharts-pie-series" seriesName="Social" rel="2" data:realIndex="1"><path d="M 322.3104371874472 152.53647605775615 A 137.90243902439025 137.90243902439025 0 0 1 121.44516839111157 270.1424514580917 L 143.51435945422253 227.21759344775964 A 89.63658536585366 89.63658536585366 0 0 0 274.07678417184064 150.7737094375415 L 322.3104371874472 152.53647605775615 z " fill="rgba(10,179,156,1)" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-1" index="0" j="1" data:angle="115.11627906976746" data:startAngle="92.09302325581395" data:strokeWidth="0" data:value="55" data:pathOrig="M 322.3104371874472 152.53647605775615 A 137.90243902439025 137.90243902439025 0 0 1 121.44516839111157 270.1424514580917 L 143.51435945422253 227.21759344775964 A 89.63658536585366 89.63658536585366 0 0 0 274.07678417184064 150.7737094375415 L 322.3104371874472 152.53647605775615 z "></path></g><g class="apexcharts-series apexcharts-pie-series" seriesName="Email" rel="3" data:realIndex="2"><path d="M 121.44516839111157 270.1424514580917 A 137.90243902439025 137.90243902439025 0 0 1 57.58201653902371 93.56570513045506 L 102.00331075036542 112.44270833479578 A 89.63658536585366 89.63658536585366 0 0 0 143.51435945422253 227.21759344775964 L 121.44516839111157 270.1424514580917 z " fill="rgba(247,184,75,1)" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-2" index="0" j="2" data:angle="85.81395348837208" data:startAngle="207.2093023255814" data:strokeWidth="0" data:value="41" data:pathOrig="M 121.44516839111157 270.1424514580917 A 137.90243902439025 137.90243902439025 0 0 1 57.58201653902371 93.56570513045506 L 102.00331075036542 112.44270833479578 A 89.63658536585366 89.63658536585366 0 0 0 143.51435945422253 227.21759344775964 L 121.44516839111157 270.1424514580917 z "></path></g><g class="apexcharts-series apexcharts-pie-series" seriesName="Other" rel="4" data:realIndex="3"><path d="M 57.58201653902371 93.56570513045506 A 137.90243902439025 137.90243902439025 0 0 1 112.66105646051803 29.787431087386466 L 137.8046866993367 70.9868302068012 A 89.63658536585366 89.63658536585366 0 0 0 102.00331075036542 112.44270833479578 L 57.58201653902371 93.56570513045506 z " fill="rgba(240,101,72,1)" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-3" index="0" j="3" data:angle="35.58139534883719" data:startAngle="293.0232558139535" data:strokeWidth="0" data:value="17" data:pathOrig="M 57.58201653902371 93.56570513045506 A 137.90243902439025 137.90243902439025 0 0 1 112.66105646051803 29.787431087386466 L 137.8046866993367 70.9868302068012 A 89.63658536585366 89.63658536585366 0 0 0 102.00331075036542 112.44270833479578 L 57.58201653902371 93.56570513045506 z "></path></g><g class="apexcharts-series apexcharts-pie-series" seriesName="Referrals" rel="5" data:realIndex="4"><path d="M 112.66105646051803 29.787431087386466 A 137.90243902439025 137.90243902439025 0 0 1 184.4759314840471 9.597563075983999 L 184.48435546463062 57.8634159993896 A 89.63658536585366 89.63658536585366 0 0 0 137.8046866993367 70.9868302068012 L 112.66105646051803 29.787431087386466 z " fill="rgba(41,156,219,1)" fill-opacity="1" stroke="#ffffff" stroke-opacity="1" stroke-linecap="butt" stroke-width="0" stroke-dasharray="0" class="apexcharts-pie-area apexcharts-donut-slice-4" index="0" j="4" data:angle="31.395348837209326" data:startAngle="328.6046511627907" data:strokeWidth="0" data:value="15" data:pathOrig="M 112.66105646051803 29.787431087386466 A 137.90243902439025 137.90243902439025 0 0 1 184.4759314840471 9.597563075983999 L 184.48435546463062 57.8634159993896 A 89.63658536585366 89.63658536585366 0 0 0 137.8046866993367 70.9868302068012 L 112.66105646051803 29.787431087386466 z "></path></g><g class="apexcharts-datalabels"><text x="266.40306703702095" y="68.53551738252663" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-family="Helvetica, Arial, sans-serif" font-weight="600" fill="#ffffff" class="apexcharts-text apexcharts-pie-label" style="font-family: Helvetica, Arial, sans-serif;">25.6%</text></g><g class="apexcharts-datalabels"><text x="241.9835674761729" y="245.67912902103114" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-family="Helvetica, Arial, sans-serif" font-weight="600" fill="#ffffff" class="apexcharts-text apexcharts-pie-label" style="font-family: Helvetica, Arial, sans-serif;">32.0%</text></g><g class="apexcharts-datalabels"><text x="77.51288016027023" y="186.1944194104952" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-family="Helvetica, Arial, sans-serif" font-weight="600" fill="#ffffff" class="apexcharts-text apexcharts-pie-label" style="font-family: Helvetica, Arial, sans-serif;">23.8%</text></g><g class="apexcharts-datalabels"><text x="98.39514851914218" y="73.13968493493711" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-family="Helvetica, Arial, sans-serif" font-weight="600" fill="#ffffff" class="apexcharts-text apexcharts-pie-label" style="font-family: Helvetica, Arial, sans-serif;">9.9%</text></g><g class="apexcharts-datalabels"><text x="153.71836480166087" y="37.97378012716601" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-family="Helvetica, Arial, sans-serif" font-weight="600" fill="#ffffff" class="apexcharts-text apexcharts-pie-label" style="font-family: Helvetica, Arial, sans-serif;">8.7%</text></g></g></g></g><line x1="0" y1="0" x2="369" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line><line x1="0" y1="0" x2="369" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="0" stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line></g>
+                            <g class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)"></g>
+                            <g class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)"></g>
+                        </svg><div class="apexcharts-legend apexcharts-align-center apx-legend-position-bottom" style="right: 0px; position: absolute; left: 0px; top: 304px; max-height: 166.5px;">
+                        <div class="apexcharts-legend-series" rel="1" seriesname="Direct" data:collapsed="false" style="margin: 4px 5px;">
+                            <span class="apexcharts-legend-marker" rel="1" data:collapsed="false" style="height: 16px; width: 16px; left: 0px; top: 0px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+                                    <path d="M 0, 0
+                                    m -7, 0
+                                    a 7,7 0 1,0 14,0
+                                    a 7,7 0 1,0 -14,0" fill="#405189" fill-opacity="1" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" cx="0" cy="0" shape="circle" class="apexcharts-legend-marker apexcharts-marker apexcharts-marker-circle" style="transform: translate(50%, 50%);"></path>
+                                </svg>
+                            </span><span class="apexcharts-legend-text" rel="1" i="0" data:default-text="Direct" data:collapsed="false" style="color: rgb(55, 61, 63); font-size: 12px; font-weight: 400; font-family: Helvetica, Arial, sans-serif;">Direct</span>
+                        </div><div class="apexcharts-legend-series" rel="2" seriesname="Social" data:collapsed="false" style="margin: 4px 5px;">
+                        <span class="apexcharts-legend-marker" rel="2" data:collapsed="false" style="height: 16px; width: 16px; left: 0px; top: 0px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+                                <path d="M 0, 0
+                                m -7, 0
+                                a 7,7 0 1,0 14,0
+                                a 7,7 0 1,0 -14,0" fill="#0ab39c" fill-opacity="1" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" cx="0" cy="0" shape="circle" class="apexcharts-legend-marker apexcharts-marker apexcharts-marker-circle" style="transform: translate(50%, 50%);"></path>
+                            </svg>
+                        </span><span class="apexcharts-legend-text" rel="2" i="1" data:default-text="Social" data:collapsed="false" style="color: rgb(55, 61, 63); font-size: 12px; font-weight: 400; font-family: Helvetica, Arial, sans-serif;">Social</span>
+                    </div><div class="apexcharts-legend-series" rel="3" seriesname="Email" data:collapsed="false" style="margin: 4px 5px;">
+                    <span class="apexcharts-legend-marker" rel="3" data:collapsed="false" style="height: 16px; width: 16px; left: 0px; top: 0px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+                            <path d="M 0, 0
+                            m -7, 0
+                            a 7,7 0 1,0 14,0
+                            a 7,7 0 1,0 -14,0" fill="#f7b84b" fill-opacity="1" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" cx="0" cy="0" shape="circle" class="apexcharts-legend-marker apexcharts-marker apexcharts-marker-circle" style="transform: translate(50%, 50%);"></path>
+                        </svg>
+                    </span><span class="apexcharts-legend-text" rel="3" i="2" data:default-text="Email" data:collapsed="false" style="color: rgb(55, 61, 63); font-size: 12px; font-weight: 400; font-family: Helvetica, Arial, sans-serif;">Email</span>
+                </div><div class="apexcharts-legend-series" rel="4" seriesname="Other" data:collapsed="false" style="margin: 4px 5px;">
+                <span class="apexcharts-legend-marker" rel="4" data:collapsed="false" style="height: 16px; width: 16px; left: 0px; top: 0px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+                        <path d="M 0, 0
+                        m -7, 0
+                        a 7,7 0 1,0 14,0
+                        a 7,7 0 1,0 -14,0" fill="#f06548" fill-opacity="1" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" cx="0" cy="0" shape="circle" class="apexcharts-legend-marker apexcharts-marker apexcharts-marker-circle" style="transform: translate(50%, 50%);"></path>
+                    </svg>
+                </span><span class="apexcharts-legend-text" rel="4" i="3" data:default-text="Other" data:collapsed="false" style="color: rgb(55, 61, 63); font-size: 12px; font-weight: 400; font-family: Helvetica, Arial, sans-serif;">Other</span>
+            </div><div class="apexcharts-legend-series" rel="5" seriesname="Referrals" data:collapsed="false" style="margin: 4px 5px;">
+            <span class="apexcharts-legend-marker" rel="5" data:collapsed="false" style="height: 16px; width: 16px; left: 0px; top: 0px;">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%">
+                    <path d="M 0, 0
+                    m -7, 0
+                    a 7,7 0 1,0 14,0
+                    a 7,7 0 1,0 -14,0" fill="#299cdb" fill-opacity="1" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="butt" stroke-width="1" stroke-dasharray="0" cx="0" cy="0" shape="circle" class="apexcharts-legend-marker apexcharts-marker apexcharts-marker-circle" style="transform: translate(50%, 50%);"></path>
+                </svg>
+            </span><span class="apexcharts-legend-text" rel="5" i="4" data:default-text="Referrals" data:collapsed="false" style="color: rgb(55, 61, 63); font-size: 12px; font-weight: 400; font-family: Helvetica, Arial, sans-serif;">Referrals</span>
+        </div>
+    </div><div class="apexcharts-tooltip apexcharts-theme-dark"><div class="apexcharts-tooltip-series-group apexcharts-tooltip-series-group-0" style="order: 1;"><span class="apexcharts-tooltip-marker" shape="circle" style="background-color: rgb(64, 81, 137);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group apexcharts-tooltip-series-group-1" style="order: 2;"><span class="apexcharts-tooltip-marker" shape="circle" style="background-color: rgb(10, 179, 156);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group apexcharts-tooltip-series-group-2" style="order: 3;"><span class="apexcharts-tooltip-marker" shape="circle" style="background-color: rgb(247, 184, 75);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group apexcharts-tooltip-series-group-3" style="order: 4;"><span class="apexcharts-tooltip-marker" shape="circle" style="background-color: rgb(240, 101, 72);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div><div class="apexcharts-tooltip-series-group apexcharts-tooltip-series-group-4" style="order: 5;"><span class="apexcharts-tooltip-marker" shape="circle" style="background-color: rgb(41, 156, 219);"></span><div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-y-label"></span><span class="apexcharts-tooltip-text-y-value"></span></div><div class="apexcharts-tooltip-goals-group"><span class="apexcharts-tooltip-text-goals-label"></span><span class="apexcharts-tooltip-text-goals-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div>
+</div>
+</div>
+</div>
+</div> <!-- .card-->
+</div> <!-- .col-->
+
+<div class="col-xl-8">
+    <div class="card">
+        <div class="card-header align-items-center d-flex">
+            <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
+            <div class="flex-shrink-0">
+                <button type="button" class="btn btn-soft-info btn-sm">
+                    <i class="ri-file-list-3-line align-middle"></i> Generate Report
+                </button>
+            </div>
+        </div><!-- end card header -->
+
+        <div class="card-body">
+            <div class="table-responsive table-card">
+                <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2112</a>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-xs rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1">Alex Smith</div>
+                                </div>
+                            </td>
+                            <td>Clothes</td>
+                            <td>
+                                <span class="text-success">$109.00</span>
+                            </td>
+                            <td>Zoetic Fashion</td>
+                            <td>
+                                <span class="badge bg-success-subtle text-success">Paid</span>
+                            </td>
+                            <td>
+                                <h5 class="fs-14 fw-medium mb-0">5.0<span class="text-muted fs-11 ms-1">(61 votes)</span></h5>
+                            </td>
+                        </tr><!-- end tr -->
+                        <tr>
+                            <td>
+                                <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2111</a>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <img src="assets/images/users/avatar-2.jpg" alt="" class="avatar-xs rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1">Jansh Brown</div>
+                                </div>
+                            </td>
+                            <td>Kitchen Storage</td>
+                            <td>
+                                <span class="text-success">$149.00</span>
+                            </td>
+                            <td>Micro Design</td>
+                            <td>
+                                <span class="badge bg-warning-subtle text-warning">Pending</span>
+                            </td>
+                            <td>
+                                <h5 class="fs-14 fw-medium mb-0">4.5<span class="text-muted fs-11 ms-1">(61 votes)</span></h5>
+                            </td>
+                        </tr><!-- end tr -->
+                        <tr>
+                            <td>
+                                <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2109</a>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <img src="assets/images/users/avatar-3.jpg" alt="" class="avatar-xs rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1">Ayaan Bowen</div>
+                                </div>
+                            </td>
+                            <td>Bike Accessories</td>
+                            <td>
+                                <span class="text-success">$215.00</span>
+                            </td>
+                            <td>Nesta Technologies</td>
+                            <td>
+                                <span class="badge bg-success-subtle text-success">Paid</span>
+                            </td>
+                            <td>
+                                <h5 class="fs-14 fw-medium mb-0">4.9<span class="text-muted fs-11 ms-1">(89 votes)</span></h5>
+                            </td>
+                        </tr><!-- end tr -->
+                        <tr>
+                            <td>
+                                <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2108</a>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <img src="assets/images/users/avatar-4.jpg" alt="" class="avatar-xs rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1">Prezy Mark</div>
+                                </div>
+                            </td>
+                            <td>Furniture</td>
+                            <td>
+                                <span class="text-success">$199.00</span>
+                            </td>
+                            <td>Syntyce Solutions</td>
+                            <td>
+                                <span class="badge bg-danger-subtle text-danger">Unpaid</span>
+                            </td>
+                            <td>
+                                <h5 class="fs-14 fw-medium mb-0">4.3<span class="text-muted fs-11 ms-1">(47 votes)</span></h5>
+                            </td>
+                        </tr><!-- end tr -->
+                        <tr>
+                            <td>
+                                <a href="apps-ecommerce-order-details.html" class="fw-medium link-primary">#VZ2107</a>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0 me-2">
+                                        <img src="assets/images/users/avatar-6.jpg" alt="" class="avatar-xs rounded-circle">
+                                    </div>
+                                    <div class="flex-grow-1">Vihan Hudda</div>
+                                </div>
+                            </td>
+                            <td>Bags and Wallets</td>
+                            <td>
+                                <span class="text-success">$330.00</span>
+                            </td>
+                            <td>iTest Factory</td>
+                            <td>
+                                <span class="badge bg-success-subtle text-success">Paid</span>
+                            </td>
+                            <td>
+                                <h5 class="fs-14 fw-medium mb-0">4.7<span class="text-muted fs-11 ms-1">(161 votes)</span></h5>
+                            </td>
+                        </tr><!-- end tr -->
+                    </tbody><!-- end tbody -->
+                </table><!-- end table -->
+            </div>
+        </div>
+    </div> <!-- .card-->
+</div> <!-- .col-->
+</div>
+
+
+
+<div class="row">
+    <div class="col-sm-6 col-xl-3">
+        <!-- Simple card -->
+        <div class="card">
+            @* <img class="card-img-top img-fluid" src="assets/images/small/img-1.jpg" alt="Card image cap"> *@
+            <div class="card-body">
+                <h4 class="card-title mb-2">Contas à Pagar</h4>
+                <p class="card-text">Gerencie as contas à pagar da sua empresa</p>
+                <div class="text-end">
+                    <a href="/financial/pay/list" class="btn btn-primary">Gerenciar</a>
+                </div>
+            </div>
+        </div><!-- end card -->
+    </div><!-- end col -->
+
+    <div class="col-sm-6 col-xl-3">
+        <!-- Simple card -->
+        <div class="card">
+            @* <img class="card-img-top img-fluid" src="assets/images/small/img-1.jpg" alt="Card image cap"> *@
+            <div class="card-body">
+                <h4 class="card-title mb-2">Contas à Receber</h4>
+                <p class="card-text">Gerencie as contas à receber da sua empresa</p>
+                <div class="text-end">
+                    <a href="/financial/receive/list" class="btn btn-primary">Gerenciar</a>
+                </div>
+            </div>
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div>
