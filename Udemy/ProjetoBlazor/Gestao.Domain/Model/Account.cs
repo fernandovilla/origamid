@@ -19,6 +19,8 @@ namespace Gestao.Domain.Model
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
+
+        public ICollection<FinancialTransaction>? FinancialTransactions { get; set; }
     }
 
     public class AccountValidador : AbstractValidator<Account>

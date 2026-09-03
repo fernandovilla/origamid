@@ -1,7 +1,6 @@
-﻿@inject ICategoryRepository CategoryRepository
+﻿@inherits PageBase
+@inject ICategoryRepository CategoryRepository
 @inject IAccountRepository AccountRepository
-@inject ILocalStorageService LocalStorage
-@inject ApplicationDbContext DbContext
 
 <EditForm Model="Transaction" OnValidSubmit="OnSubmitAsync" FormName="UpdateTransaction">
 
