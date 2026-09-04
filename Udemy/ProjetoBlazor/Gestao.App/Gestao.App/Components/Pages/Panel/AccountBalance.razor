@@ -53,8 +53,8 @@
                                         }
                                         else
                                         {
-                                            <span class="badge bg-info-subtle text-info" >@report.Balance.ToString("C")</span>
-                                        }                                                                                
+                                            <span class="badge bg-info-subtle text-info">@report.Balance.ToString("C")</span>
+                                        }
                                     </td>
                                 </tr>
                             }
@@ -79,7 +79,7 @@
         await LoadCompanyAsync();
 
         await LoadAccountBalanceReport();
-
+        
         StateHasChanged();
     }
 

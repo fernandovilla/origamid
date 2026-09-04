@@ -29,7 +29,7 @@
                     <NavLink class="nav-link" href="/Company/List">Empresa</NavLink>
                 </li>
 
-                @if (hasCompanySelected)
+                @if (Company != null)
                 {
                     <li class="nav-item">
                         <NavLink class="nav-link" href="/Account/List">Conta</NavLink>
@@ -45,7 +45,7 @@
     <!-- END CADASTRO MENU -->
 
     <!-- START CONTAS MENU -->
-    @if (hasCompanySelected)
+    @if (Company != null)
     {
         <li class="nav-item">
             <a class="nav-link menu-link" href="#sidebarContas" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
@@ -72,7 +72,8 @@
                 
 @code {
     private string? currentUrl;
-    private bool hasCompanySelected = false;
+    private bool hasCompanySelected => Company != null;
+    private Company? Company { get; set; } = null;
 
 
     protected override void OnInitialized()
@@ -85,15 +86,20 @@
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        //Verificar existencia de company no localStorage
-        hasCompanySelected = await LocalStorage.ContainKeyAsync(Gestao.App.Client.Libraries.Constants.AppConstants.LOCAL_STORAGE_COMPANY);
-        StateHasChanged();  //força a renderização do componente
+    {        
+        if (firstRender)
+            await LoadCompanyAsync();
     }
 
-    private void OnCompanySelected()
+    private async void OnCompanySelected()
     {
-        hasCompanySelected = true;
+        await LoadCompanyAsync();
+    }
+
+    private async Task LoadCompanyAsync()
+    {
+        Company = await LocalStorage.GetItemAsync<Company>(Gestao.App.Client.Libraries.Constants.AppConstants.LOCAL_STORAGE_COMPANY);
+        StateHasChanged();
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

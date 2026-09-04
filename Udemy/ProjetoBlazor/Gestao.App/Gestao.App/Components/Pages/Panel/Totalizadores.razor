@@ -64,7 +64,6 @@
     </div>
 
 </div> <!-- Financial Transaction Indicadores - END -->
-
 @code {
 
     private Company? Company { get; set; }
@@ -95,6 +94,9 @@
 
     private async Task LoadTotalFinancialTransactionPayedAsync()
     {
+        if (Company == null)
+            return;
+
         var value = DbContext.FinancialTransactions
             .Where(i => i.FinancialTransactionType == FinancialTransactionTypeEnum.Pay)
             .Where(i => Company == null || i.CompanyId == Company.Id)
@@ -108,6 +110,9 @@
 
     private async Task LoadTotalFinancialTransactionReceivedAsync()
     {
+        if (Company == null)
+            return;
+
         var value = DbContext.FinancialTransactions
             .Where(i => i.FinancialTransactionType == FinancialTransactionTypeEnum.Receive)
             .Where(i => Company == null || i.CompanyId == Company.Id)

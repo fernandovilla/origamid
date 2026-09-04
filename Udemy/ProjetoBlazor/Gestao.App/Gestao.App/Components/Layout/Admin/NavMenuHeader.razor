@@ -1,8 +1,8 @@
-﻿@rendermode InteractiveServer
+﻿@using Microsoft.AspNetCore.Components.Sections
+@rendermode InteractiveServer
 
+@inherits PageBase
 @implements IDisposable
-@inject NavigationManager NavigationManager
-@inject ILocalStorageService LocalStorage
 @inject ICompanySelectNotification CompanyNotification
 
 
@@ -424,7 +424,7 @@
                 </div>
                 *@
 
-                @* <div class="ms-1 header-item d-none d-sm-flex">
+                <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-toggle="fullscreen">
                         <i class='bx bx-fullscreen fs-22'></i>
                     </button>
@@ -434,7 +434,7 @@
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                         <i class='bx bx-moon fs-22'></i>
                     </button>
-                </div> *@
+                </div>
 
                 <NavMenuHeaderNotifications />
 
@@ -443,13 +443,13 @@
                 <AuthorizeView>
 
                     <Authorized>
-                        @if (hasCompanySelected)
-                        {                            
+                        @if (Company != null)
+                        {
                             <a href="/Company/List">
                                 <div class="p-3">
-                                    <strong>@Company?.LegalName</strong>
+                                    <strong>@Company.LegalName</strong>
                                     <br />
-                                    <small class="fs-10"><strong>CNPJ: </strong>@Company?.TaxId</small>
+                                    <small class="fs-10"><strong>CNPJ: </strong>@Company.TaxId</small>
                                 </div>
                             </a>
                         }
@@ -474,12 +474,12 @@
                                 <form action="Account/Logout" method="post">
                                     <AntiforgeryToken />
                                     <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span>
+                                    <button type="submit" class="dropdown-item" @onclick="OnLogout">
+                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Sair</span>
                                     </button>
                                 </form>
 
-                               @*  <a class="dropdown-item" href="apps-chat.html"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
+                                @*  <a class="dropdown-item" href="apps-chat.html"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
                                 <a class="dropdown-item" href="apps-tasks-kanban.html"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Taskboard</span></a>
                                 <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
                                 <div class="dropdown-divider"></div>
@@ -525,33 +525,39 @@
     </div>
 </header>
 
+<script src="/assets/js/fullscreen_lightdark.js"></script>
+<script src="/assets/js/sidemenu.js"></script>"
 
 @code {
     private string? currentUrl;
-    private bool hasCompanySelected = false;
     private Company? Company { get; set; }
 
     protected override void OnInitialized()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-        NavigationManager.LocationChanged += OnLocationChanged;        
+        NavigationManager.LocationChanged += OnLocationChanged;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        CompanyNotification.OnCompanySelected += OnCompanySelectedAsync;
+    {        
+        CompanyNotification.OnCompanySelected += OnCompanySelected;
 
-        OnCompanySelectedAsync();
-
-        StateHasChanged();
+        if (firstRender)
+            await LoadCompanyAsync();
     }
 
-    private async void OnCompanySelectedAsync()
+    private async void OnCompanySelected()
     {
-        hasCompanySelected = await LocalStorage.ContainKeyAsync(AppConstants.LOCAL_STORAGE_COMPANY);
+        await LoadCompanyAsync();
+    }
 
-        if (hasCompanySelected)
-            Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+    private async Task LoadCompanyAsync()
+    {
+        //await LocalStorage.ContainKeyAsync(AppConstants.LOCAL_STORAGE_COMPANY);
+
+        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+
+        StateHasChanged();
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -560,9 +566,16 @@
         StateHasChanged();
     }
 
+    private async Task OnLogout()
+    {
+        await LocalStorage.RemoveItemAsync(AppConstants.LOCAL_STORAGE_COMPANY);
+    }
+
     public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
-        CompanyNotification.OnCompanySelected -= OnCompanySelectedAsync;
+        CompanyNotification.OnCompanySelected -= OnCompanySelected;
     }
+
+
 }

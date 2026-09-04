@@ -1,12 +1,12 @@
 ﻿@page "/company/list"
 
-
 @attribute [Authorize]
 @rendermode InteractiveAuto
 @inject ICompanyRepository CompanyRepository
 @inject ILocalStorageService LocalStorage
 @inject ICompanySelectNotification CompanySelectNotification
 @inject AuthenticationStateProvider AuthProvider
+@inject IJSRuntime JSRuntime
 
 <PageTitle>
     Empresas
@@ -64,11 +64,25 @@
                         @foreach (var company in Companies.Items)
                         {
                             <tr>
-                                <td>@company.TradeName</td>
+                                <td>
+                                    @company.TradeName
+                                    @if (CompanySelected != null && CompanySelected.Id == company.Id)
+                                    {
+                                        <span class="badge badge-label bg-success mx-3" data-key="t-hot">SELECIONADA</span>
+                                    }
+                                </td>
                                 <td>@company.TaxId</td>
                                 <td>@company.Address</td>
                                 <td>
-                                    <button class="btn btn-sm btn-soft-success" @onclick="() => SelectCompanyAsync(company)"><i class="ri-check-line me-1" />Selecionar</button>
+                                    @if (CompanySelected != null && CompanySelected.Id == company.Id)
+                                    {
+                                        <button class="btn btn-sm btn-soft-danger me-1" @onclick="() => RemoveCompanyAsync(company)"><i class="ri-close-line me-1" />Remover</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-sm btn-soft-success me-1" @onclick="() => SelectCompanyAsync(company)"><i class="ri-check-line me-1" />Selecionar</button>
+                                    }
+                                    
                                     <a href="/company/edit/@company.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
                                     <a href="/company/detail/@company.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
                                 </td>
@@ -102,6 +116,7 @@
     private string SearchWord = string.Empty;
     private int PageSize = 15;
     private int PageIndex = 1;
+    private Company? CompanySelected = null;
 
     private async Task OnSearch()
     {
@@ -120,7 +135,11 @@
         await LoadAuthenticatedUserAsync();
 
         await LoadDataAsync();
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await LoadCompanyAsync();
     }
 
     private async Task LoadDataAsync()
@@ -129,23 +148,45 @@
     }
 
     private async Task LoadAuthenticatedUserAsync()
-    {
-        //Carregar as empresas cadastradas...
-        /*
-        * Blazor Server, obtem o usuário de SignInManager
-        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
-        */
-
+    {        
         UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+    }
+
+    private async Task LoadCompanyAsync()
+    {
+        CompanySelected = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+        StateHasChanged();
     }
 
     private async Task SelectCompanyAsync(Company company)
     {
         //TODO - ARMAZENAR A TAREFA NO LOCAL STORAGE
+        if ((CompanySelected != null && CompanySelected.Id != company.Id) || CompanySelected == null)
+        {
+            await LocalStorage.SetItemAsync(AppConstants.LOCAL_STORAGE_COMPANY, company);
+            CompanySelected = company;
+        }
 
-        await LocalStorage.SetItemAsync(AppConstants.LOCAL_STORAGE_COMPANY, company);
+        StateHasChanged();
 
         //TODO - COMPANYSELECTEDNOTIFICATIONSTATS -> NOTIFICA QUAL EMPRESA FOI SELECIONADA
         CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
+    }
+
+    private async Task RemoveCompanyAsync(Company company)
+    {
+        if (CompanySelected == null)
+            return;
+
+
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"Deseja remover a empresa {company.TradeName}?");
+        if (confirm)
+        {
+            await LocalStorage.RemoveItemAsync(AppConstants.LOCAL_STORAGE_COMPANY);
+            CompanySelected = null;
+            StateHasChanged();
+
+            CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
+        }
     }
 }

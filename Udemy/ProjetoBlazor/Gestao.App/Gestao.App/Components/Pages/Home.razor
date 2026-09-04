@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-
+@inherits PageBase
 @attribute [Authorize]
 @rendermode InteractiveServer
 
@@ -15,3 +15,13 @@
 <div class="row">
     <AccessLink />
 </div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var company = await LocalStorage.GetItemAsync<Gestao.Domain.Model.Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+
+        if (company == null)
+            NavigationManager.NavigateTo("/company/list");
+    }
+}
