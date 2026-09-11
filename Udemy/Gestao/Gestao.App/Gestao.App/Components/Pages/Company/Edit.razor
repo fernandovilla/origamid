@@ -1,0 +1,242 @@
+﻿@page "/company/edit"
+@page "/company/edit/{id:int}" 
+
+
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider authProvider
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+@inject ICepServices CepService
+@inject ICompanyRepository CompanyRepository
+@inject ApplicationDbContext DbContext
+
+<PageTitle>
+    @(Id > 0 ? "Empresa - Atualização" : "Empresa - Cadastro")
+</PageTitle>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">
+                    @(Id > 0 ? "Atualização de Empresa" : "Cadastro de Empresa")
+                </h4>
+
+            </div>
+            <Focustrap class="card-body">
+                <EditForm Model=@Company OnValidSubmit="OnSubmitAsync" FormName="UpdateCompany">
+
+                    <Morris.Blazor.Validation.Validate />
+
+                    <div class="row">
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="razaoSocial" class="form-label">Razão Social</label>
+                                <InputText @bind-Value="Company!.LegalName" type="text" class="form-control" id="razaoSocial" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.LegalName" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="nomeFantasia" class="form-label">Nome Fantasia</label>
+                                <InputText @bind-Value="Company!.TradeName" type="text" class="form-control" id="nomeFantasia" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.TradeName" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cnpj" class="form-label">CNPJ</label>
+                                <InputText @bind-Value="Company!.TaxId" type="text" class="form-control" id="cnpj" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.TaxId" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cep" class="form-label">CEP</label>
+                                <div class="input-group">
+                                    <InputText @bind-Value="Company!.PostalCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
+                                    @if (Loading)
+                                    {
+                                        <span class="input-group-text input-group-text-bg-transparent">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </span>
+                                    }
+                                </div>
+                                <ValidationMessage For="() => Company!.PostalCode" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-6 col-md-6">
+                            <div>
+                                <label for="endereco" class="form-label">Endereço</label>
+                                <InputText @bind-Value="Company!.Address" type=" text" class="form-control" id="endereco" readonly />
+                                <ValidationMessage For="() => Company!.Address" />
+                            </div>
+                        </div>
+
+                    
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="bairro" class="form-label">Bairro</label>
+                                <InputText @bind-Value="Company!.Neighboarhood" type="text" class="form-control" id="bairro" readonly />
+                                <ValidationMessage For="() => Company!.Neighboarhood" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="cidade" class="form-label">Cidade</label>
+                                <InputText @bind-Value="Company!.City" type="text" class="form-control" id="cidade" readonly />
+                                <ValidationMessage For="() => Company!.City" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-3">
+                            <div>
+                                <label for="uf" class="form-label">UF</label>
+                                <InputText @bind-Value="Company!.State" type="text" class="form-control" id="uf" readonly />
+                                <ValidationMessage For="() => Company!.State" />
+                            </div>
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <div>
+                                <label for="compl" class="form-label">Complemento</label>
+                                <InputText @bind-Value="Company!.Complement" type="text" class="form-control" id="compl" autocomplete="not" />
+                                <ValidationMessage For="() => Company!.Complement" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="d-flex justify-content-between">
+                            <a href="company/list" class="btn btn-light" @onclick="RollbackDataAsync">Voltar</a>
+                            <button type="submit" class="btn btn-primary">
+                                Salvar
+                            </button>
+                        </div>
+                    </div>
+
+                </EditForm>
+            </Focustrap>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Gestao.Domain.Model.Company Company { get; set; }
+    private bool Loading = false;
+
+    private async Task OnSubmitAsync(EditContext context)
+    {
+        // context.ValidateObjectTree();
+
+        if (Id == 0)
+        {
+            Company!.UserId = await GetAuthenticatedUserAsync();
+
+            await CompanyRepository.AddAsync(Company);
+            await js.InvokeVoidAsync("alert", "Empresa cadastrada com sucesso!");
+        }
+        else
+        {
+            await CompanyRepository.UpdateAsync(Company);
+            await js.InvokeVoidAsync("alert", "Empresa atualizada com sucesso!");
+        }
+
+        NavigationManager.NavigateTo("/Company/List");
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("CompanyMaskInit");
+    }
+
+
+
+    protected override void OnInitialized()
+    {
+        Company = new();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id > 0)
+        {
+            //TODO - SELECIONA OS DADOS DO REPOSITORY
+            var company = (await CompanyRepository.GetAsync(Id))!;
+
+            if (company == null)
+            {
+                NavigationManager.NavigateTo("company/list");
+                return;
+            }
+
+            if (company.UserId != await GetAuthenticatedUserAsync())
+            {
+                NavigationManager.NavigateTo("company/list");
+                return;
+            }
+
+            Company = company;
+        }
+    }
+
+    private async Task<Guid> GetAuthenticatedUserAsync()
+    {
+        //Carregar as empresas cadastradas...
+        /*
+        * Blazor Server, obtem o usuário de SignInManager
+        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
+        */
+
+    return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+    }
+
+    private async Task OnCepEntry(ChangeEventArgs e)
+    {
+        if (e.Value!.ToString()!.Length == 10)
+        {
+            Loading = true;
+
+            Company.Address = string.Empty;
+            Company.City = string.Empty;
+            Company.State = string.Empty;
+            Company.Neighboarhood = string.Empty;
+
+            var address = await CepService.SearchByPostalCodeAsync(e.Value.ToString()!);
+
+            if (address != null)
+            {
+                Company.Address = address.Logradouro;
+                Company.City = address.Localidade;
+                Company.State = address.UF;
+                Company.Neighboarhood = address.Bairro;
+            }
+
+            Loading = false;
+        }
+    }
+
+    private async Task RollbackDataAsync()
+    {
+        DbContext.ChangeTracker.Clear();        
+    }
+}

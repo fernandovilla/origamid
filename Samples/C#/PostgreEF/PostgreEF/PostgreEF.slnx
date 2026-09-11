@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PostgreEF.Domain/PostgreEF.Domain.csproj" Id="b3d1ecae-86a8-413b-993f-6d4297acf043" />
+  <Project Path="PostgreEF.Web/PostgreEF.Web.Client/PostgreEF.Web.Client.csproj" Id="03694e8a-a01b-4384-8b47-5f2c31f961cb" />
+  <Project Path="PostgreEF.Web/PostgreEF.Web/PostgreEF.Web.csproj" Id="2c0aacb1-fde4-4251-b3a7-180e2e8d4bd4" />
+  <Project Path="PostgreEF/PostgreEF.Console.csproj" />
+</Solution>

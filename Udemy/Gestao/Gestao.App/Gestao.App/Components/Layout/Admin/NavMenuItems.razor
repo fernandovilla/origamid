@@ -1,0 +1,131 @@
+﻿@implements IDisposable
+
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+@inject ICompanySelectNotification CompanySelectNotification
+
+<ul class="navbar-nav" id="navbar-nav">
+    <li class="menu-title"><span data-key="t-menu">Menu</span></li>
+
+    <!-- START PAINEL MENU -->
+    <li class="nav-item">
+        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <i class="ri-dashboard-2-line"></i> <span data-key="t-painel">Painel</span>
+        </NavLink>
+    </li>
+    <!-- END PAINEL MENU -->
+    <!-- START CADASTRO MENU -->
+    <li class="nav-item">
+        <a class="nav-link menu-link" href="#sidebarCadastro" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
+            <i class="ri-file-list-3-line"></i>
+            <span data-key="t-cadastro">Cadastro</span>
+        </a>
+        <div class="collapse menu-dropdown" id="sidebarCadastro">
+            <ul class="nav nav-sm flex-column">
+
+                
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Company/List">Empresa</NavLink>
+                </li>
+
+                @if (Company != null)
+                {
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Account/List">Conta</NavLink>
+                    </li>
+
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Category/List">Categoria</NavLink>
+                    </li>
+                }                
+            </ul>
+        </div>
+    </li>
+    <!-- END CADASTRO MENU -->
+
+    <!-- START CONTAS MENU -->
+    @if (Company != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link menu-link" href="#sidebarContas" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                <i class="ri-money-dollar-circle-line"></i>
+                <span data-key="t-contas">Contas</span>
+            </a>
+            <div class="collapse menu-dropdown" id="sidebarContas">
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <NavLink href="/financial/pay/list" class="nav-link" data-key="t-pay">Pagar</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink href="/financial/receive/list" class="nav-link" data-key="t-receive">Receber</NavLink>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    }
+    <!-- END CONTAS MENU -->
+
+    <li class="nav-item">
+        <a class="nav-link menu-link" href="#sidebarTeste" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarTestes">
+            <i class="ri-tools-fill"></i>
+            <span data-key="t-contas">Testes</span>
+        </a>
+        <div class="collapse menu-dropdown" id="sidebarTeste">
+            <ul class="nav nav-sm flex-column">
+                <li class="nav-item">
+                    <NavLink href="/testes" class="nav-link" data-key="t-test">Testes</NavLink>
+                </li>                
+            </ul>
+        </div>
+    </li>
+
+</ul>
+
+
+                
+@code {
+    private string? currentUrl;
+    private bool hasCompanySelected => Company != null;
+    private Company? Company { get; set; } = null;
+
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+        //Monitorar o CompanySelectNotification
+        CompanySelectNotification.OnCompanySelected += OnCompanySelected;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {        
+        if (firstRender)
+            await LoadCompanyAsync();
+    }
+
+    private async void OnCompanySelected()
+    {
+        await LoadCompanyAsync();
+    }
+
+    private async Task LoadCompanyAsync()
+    {
+        Company = await LocalStorage.GetItemAsync<Company>(Gestao.App.Client.Libraries.Constants.AppConstants.LOCAL_STORAGE_COMPANY);
+        StateHasChanged();
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+        CompanySelectNotification.OnCompanySelected -= OnCompanySelected;
+    }
+}
+

@@ -1,0 +1,37 @@
+﻿@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div @ref="trapContainer" tabindex="-1" style="outline: none;">
+    @ChildContent
+</div>
+
+
+@code {
+    private ElementReference trapContainer;
+    private IJSObjectReference? module;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Import the isolated JS module
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Focustrap/Focustrap.razor.js");
+
+            // Initialize the trap loop on our container
+            await module.InvokeVoidAsync("initFocusTrap", trapContainer);
+
+            // Programmatically force initial focus inside our container
+            await trapContainer.FocusAsync();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module != null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}

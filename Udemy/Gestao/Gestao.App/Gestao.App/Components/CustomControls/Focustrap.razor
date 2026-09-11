@@ -1,0 +1,43 @@
+﻿@using Gestao.App.Components
+@using Microsoft.JSInterop
+
+@inherits PageBase
+@implements IAsyncDisposable
+
+<div @ref="trapContainer" tabindex="-1" style="outline: none;" @attributes="Attributes">
+    @ChildContent
+</div>
+
+
+@code {
+    private ElementReference trapContainer;
+    private IJSObjectReference? module;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Import the isolated JS module
+            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/CustomControls/Focustrap.razor.js");
+
+            // Initialize the trap loop on our container
+            await module.InvokeVoidAsync("initFocusTrap", trapContainer);
+
+            // Programmatically force initial focus inside our container
+            await trapContainer.FocusAsync();
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module != null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}

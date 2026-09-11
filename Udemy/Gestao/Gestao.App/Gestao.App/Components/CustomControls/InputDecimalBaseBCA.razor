@@ -1,0 +1,25 @@
+﻿@inherits InputDecimalBaseBCA
+
+<div class="@ClassDiv">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label class="@ClassLabel"
+               for="@Id">
+            @Label
+        </label>
+    }
+
+    <input @bind-value=@ValueAsString
+           class="form-control @ClassInput @ValidationResultClass"
+           type="string"
+           id="@Id"
+           title="@Title" />
+
+    @foreach (var message in ValidationMessages)
+    {
+        <h6 class="@ClassValidationMessage"
+            style="margin-top:3px;">
+            @message
+        </h6>
+    }
+</div>

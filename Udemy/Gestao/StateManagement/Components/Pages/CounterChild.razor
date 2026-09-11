@@ -1,0 +1,36 @@
+﻿@inject StateContainer State
+@implements IDisposable
+
+<div class="child">
+    <h3>Counter Child</h3>
+    <p>Current Count: @State.Counter</p>
+    
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+</div>
+
+
+
+<style>
+    .child {
+        border: 1px solid black;
+        padding: 10px;
+    }
+</style>
+
+@code {
+
+    private void IncrementCount()
+    {
+        State.Counter++;
+    }
+
+    protected override void OnInitialized()
+    {
+        State.Notification += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.Notification -= StateHasChanged;
+    }
+}

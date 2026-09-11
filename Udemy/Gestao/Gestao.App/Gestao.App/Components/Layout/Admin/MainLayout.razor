@@ -1,0 +1,35 @@
+﻿@inherits LayoutComponentBase
+
+
+<div class="layout-wrapper">
+
+
+
+
+
+    <NavMenu />
+
+    <!-- Vertical Overlay-->
+    <div class="vertical-overlay"></div>
+
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                @Body
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    Ocorreu um erro inesperado
+    <a href="." class="reload">Recarregar</a>
+    <span class="dismiss">🗙</span>
+</div>

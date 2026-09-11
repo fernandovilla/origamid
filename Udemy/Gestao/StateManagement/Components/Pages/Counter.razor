@@ -1,0 +1,46 @@
+﻿@page "/counter"
+
+@inject StateContainer State
+@implements IDisposable
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @State.Counter - @NotificationText</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<CounterChild />
+
+@code {
+    private string NotificationText { get; set; } = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        State.Notification += OnNotification;
+    }
+
+
+    private void OnNotification()
+    {
+        NotificationText = $"Notificado às {DateTime.Now.ToShortTimeString()}";
+        StateHasChanged();
+    }
+
+
+    private void IncrementCount()
+    {
+        State.Counter++;
+
+        //StateHasChanged(); Metodo do ComponentBase executado por cada método quando executado
+
+    }
+
+    public void Dispose()
+    {
+        State.Notification -= OnNotification;
+    }
+}

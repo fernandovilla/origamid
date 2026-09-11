@@ -1,0 +1,62 @@
+﻿@page "/testes"
+@using System.Drawing
+@using Gestao.App.Components.Pages.Account
+
+@inherits PageBase
+
+<div class="card">
+    <div class="card-header align-items-center d-flex">
+        <h4 class="card-title mb-0 flex-grow-1">
+            Test Custom Controls
+        </h4>
+    </div>
+    <Focustrap class="card-body">
+        <EditForm Model="Carro">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row">
+                <div class="col-3">
+                    <label for="normalInput">Normal Input</label>
+                    <input type="text" class="form-control" id="normalInput" @bind-value="Carro.Name" />
+                </div>
+
+                <div class="col-3">
+                    <label for="inputColor" class="form-label">InputColor #1</label>
+                    <InputColor @bind-Value="Carro.Color" class="form-control" id="inputColor" />
+                    <p>Favorite Color: @FavoriteColor </p>
+                </div>
+
+
+
+            </div>
+        </EditForm>
+
+        
+
+    </Focustrap>
+</div>
+
+
+@code {
+    private Car Carro { get; set; } = new();
+    private int Numero { get; set; } = 0;
+    private decimal? ValorProduto { get; set; }
+    private string ValorCurrency { get; set; } = string.Empty;
+    private Color Color { get; set; } = Color.White;
+    private string FavoriteColor => InputColor.ColorToString(Color);
+
+    private async Task HandleDecimalChanged(decimal? value)
+    {
+        ValorCurrency = $"Cost was changed to {value}";
+    }
+
+    public class Car
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Cost { get; set; }
+        public Color Color { get; set; }
+    }
+
+}

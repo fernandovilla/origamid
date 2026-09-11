@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-Gestao_App-e50f25c0-4d5f-4775-b0c1-05571234356f</UserSecretsId>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Components\CustomControls\InputDecimalBaseBCA.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Gestao.Domain\Gestao.Domain.csproj" />
+    <ProjectReference Include="..\Gestao.App.Client\Gestao.App.Client.csproj" />
+    <PackageReference Include="Coravel" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10" />
+    <PackageReference Include="Morris.Blazor.FluentValidation" Version="3.2.0" />
+    <PackageReference Include="Morris.Blazor.Validation" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+</Project>
