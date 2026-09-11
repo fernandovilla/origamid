@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 
-namespace Gestao.App.Components.CustomControls
+namespace Gestao.App.Components.CustomControls.InputDecimal
 {
-    public partial class InputDecimalBaseBCA : InputComponentBase
+    public class InputDecimalBase: InputComponentBase
     {
         private decimal? originalValue { get; set; }
         private decimal? value { get; set; }

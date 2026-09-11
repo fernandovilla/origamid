@@ -1,5 +1,6 @@
 ﻿@page "/testes"
 @using System.Drawing
+@using Gestao.App.Components.CustomControls.InputDecimal
 @using Gestao.App.Components.Pages.Account
 
 @inherits PageBase
@@ -27,7 +28,24 @@
                     <p>Favorite Color: @FavoriteColor </p>
                 </div>
 
+                <div class="col-3">
+                    <InputDecimalBaseBCA Label="Currency"
+                                         @bind-Value="Carro.Cost"
+                                         OnChanged="HandleDecimalChanged"
+                                         For="Cost"
+                                         ClassDiv="col-3"
+                                         Max=100000
+                                         Min=-2000
+                                         Format="C2" />
+                </div>
 
+                @* 
+                    InputDecimal Sample
+                    https://blazorcomponentauthority.com/
+                    https://lively-sea-07d95cd0f.2.azurestaticapps.net/ 
+
+                    https://www.youtube.com/watch?v=nkfF8q754ys
+                *@
 
             </div>
         </EditForm>
@@ -55,7 +73,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double Cost { get; set; }
+        public decimal? Cost { get; set; }
         public Color Color { get; set; }
     }
 
