@@ -1,43 +1,97 @@
-﻿@using Gestao.App.Components
-@using Microsoft.JSInterop
+﻿@implements IAsyncDisposable
+@inject IJSRuntime JS
 
-@inherits PageBase
-@implements IAsyncDisposable
-
-<div @ref="trapContainer" tabindex="-1" style="outline: none;" @attributes="Attributes">
+<div @ref="_containerRef" class="@CssClass" data-focustrap @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
-
 @code {
-    private ElementReference trapContainer;
-    private IJSObjectReference? module;
-
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? Attributes { get; set; }
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>Conteúdo cujos controles focáveis serão presos pelo trap.</summary>
+    [Parameter] 
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>Define se o trap está ativo. Pode ser alterado dinamicamente (ex: abrir/fechar modal).</summary>
+    [Parameter] 
+    public bool Active { get; set; } = true;
+
+    /// <summary>Foca automaticamente o primeiro elemento ao ativar o trap.</summary>
+    [Parameter] 
+    public bool AutoFocus { get; set; } = true;
+
+    /// <summary>Ao desativar/disposar, retorna o foco ao elemento que estava focado antes da ativação.</summary>
+    [Parameter] 
+    public bool RestoreFocus { get; set; } = true;
+
+    /// <summary>Disparado quando o usuário pressiona ESC dentro do trap (útil para fechar modais).</summary>
+    [Parameter] 
+    public EventCallback OnEscape { get; set; }
+
+    [Parameter] 
+    public string? CssClass { get; set; }
+
+    private ElementReference _containerRef;
+    private IJSObjectReference? _module;
+    private IJSObjectReference? _instance;
+    private DotNetObjectReference<FocusTrap>? _dotNetRef;
+    private bool _previousActive;
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            // Import the isolated JS module
-            module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./Components/CustomControls/Focustrap.razor.js");
+            _dotNetRef = DotNetObjectReference.Create(this);
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/CustomControls/FocusTrap.razor.js");
+            _instance = await _module.InvokeAsync<IJSObjectReference>("createFocusTrap", _containerRef, _dotNetRef, new { autoFocus = AutoFocus, restoreFocus = RestoreFocus });
 
-            // Initialize the trap loop on our container
-            await module.InvokeVoidAsync("initFocusTrap", trapContainer);
+            _previousActive = Active;
 
-            // Programmatically force initial focus inside our container
-            await trapContainer.FocusAsync();
+            if (Active)
+                await _instance.InvokeVoidAsync("activate");
         }
+        else if (_instance != null && Active != _previousActive)
+        {
+            _previousActive = Active;
+            await _instance.InvokeVoidAsync(Active ? "activate" : "deactivate");
+        }
+    }
+
+    /// <summary>Reavalia manualmente os elementos focáveis (ex: após alteração dinâmica de conteúdo).</summary>
+    public async Task RefreshAsync()
+    {
+        if (_instance != null)
+            await _instance.InvokeVoidAsync("refresh");
+    }
+
+    [JSInvokable]
+    public async Task NotifyEscapePressed()
+    {
+        if (OnEscape.HasDelegate)
+            await OnEscape.InvokeAsync();
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (module != null)
+        try
         {
-            await module.DisposeAsync();
+            if (_instance != null)
+            {
+                await _instance.InvokeVoidAsync("dispose");
+                await _instance.DisposeAsync();
+            }
+            if (_module != null)
+                await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+            // Circuito já encerrado (ex: usuário fechou a aba) — sem problema.
+        }
+        finally
+        {
+            _dotNetRef?.Dispose();
         }
     }
 }

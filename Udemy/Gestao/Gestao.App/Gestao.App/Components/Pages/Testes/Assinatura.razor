@@ -1,0 +1,81 @@
+﻿@* ============================================================
+   AssinaturaPage.razor
+   Exemplo de uso do componente <SignaturePad>.
+   ============================================================ *@
+
+@rendermode InteractiveServer
+
+@page "/assinatura"
+
+<PageTitle>Assinatura Digital</PageTitle>
+
+<h3>Assine para confirmar</h3>
+
+<SignaturePad @ref="_padRef"
+              Title="Assinatura do responsável"
+              PenColor="#003366"
+              PenWidth="3"
+              CanvasHeight="220"
+              OnSignatureSaved="HandleSignatureSaved" />
+
+@if (!string.IsNullOrEmpty(_signatureBase64))
+{
+    <div style="margin-top:1.5rem;">
+        <h4>Pré-visualização</h4>
+        <img src="@_signatureBase64" alt="Assinatura capturada" style="border:1px solid #ddd; max-width:100%;" />
+
+        <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
+            <button class="btn btn-outline-primary" @onclick="BaixarAssinatura">
+                Baixar PNG
+            </button>
+            <button class="btn btn-success" @onclick="EnviarParaServidor">
+                Enviar assinatura
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    private SignaturePad? _padRef;
+    private string? _signatureBase64;
+
+    // Chamado quando o usuário clica em "Confirmar assinatura" no componente
+    private void HandleSignatureSaved(string base64Png)
+    {
+        // base64Png já vem como data URL pronta para uso em <img src="...">
+        // Ex.: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg..."
+        _signatureBase64 = base64Png;
+    }
+
+    // Aciona o download direto pelo navegador (client-side)
+    private async Task BaixarAssinatura()
+    {
+        if (_padRef is not null)
+        {
+            await _padRef.DownloadAsync($"assinatura-{DateTime.Now:yyyyMMdd-HHmmss}.png");
+        }
+    }
+
+    // Exemplo de como converter o data URL em bytes para enviar
+    // via HttpClient/API para salvar no servidor/banco de dados.
+    private async Task EnviarParaServidor()
+    {
+        if (string.IsNullOrEmpty(_signatureBase64)) return;
+
+        var bytes = ConvertDataUrlToBytes(_signatureBase64);
+
+        // Exemplo:
+        // using var content = new MultipartFormDataContent();
+        // content.Add(new ByteArrayContent(bytes), "file", "assinatura.png");
+        // await HttpClient.PostAsync("api/assinaturas", content);
+
+        await Task.CompletedTask; // placeholder — substitua pela chamada real
+    }
+
+    private static byte[] ConvertDataUrlToBytes(string dataUrl)
+    {
+        // Remove o prefixo "data:image/png;base64,"
+        var base64 = dataUrl[(dataUrl.IndexOf(',') + 1)..];
+        return Convert.FromBase64String(base64);
+    }
+}

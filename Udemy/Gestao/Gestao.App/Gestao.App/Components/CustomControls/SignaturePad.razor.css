@@ -1,0 +1,82 @@
+/* CSS for Signaturepad component */
+.signature-pad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.signature-pad__title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.signature-pad__canvas-wrapper {
+    position: relative;
+    width: 100%;
+    border: 2px dashed #c9c9c9;
+    border-radius: 12px;
+    background: #ffffff;
+    overflow: hidden;
+    /* Impede o navegador de "roubar" o gesto para scroll/zoom
+       enquanto o usuário assina no celular */
+    touch-action: none;
+}
+
+.signature-pad__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.signature-pad__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.signature-pad__actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.signature-pad__btn {
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.05s ease;
+}
+
+    .signature-pad__btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .signature-pad__btn:active:not(:disabled) {
+        transform: scale(0.97);
+    }
+
+.signature-pad__btn--secondary {
+    background: #eeeeee;
+    color: #333;
+}
+
+.signature-pad__btn--primary {
+    background: #2563eb;
+    color: #fff;
+}

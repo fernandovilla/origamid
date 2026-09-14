@@ -15,7 +15,8 @@ namespace Gestao.App.Components
 
         [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
 
-
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
         protected override void OnInitialized()
         {

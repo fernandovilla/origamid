@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Gestao.Domain\Gestao.Domain.csproj" />
     <ProjectReference Include="..\Gestao.App.Client\Gestao.App.Client.csproj" />
+    <PackageReference Include="BlazorCanvas2d" Version="1.0.2" />
     <PackageReference Include="Coravel" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="10.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.10" />

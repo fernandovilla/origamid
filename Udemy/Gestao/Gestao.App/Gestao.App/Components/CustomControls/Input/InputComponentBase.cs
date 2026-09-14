@@ -1,10 +1,22 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace Gestao.App.Components.CustomControls
+namespace Gestao.App.Components.CustomControls.Input
 {
+
+    /***************************************************************************
+        InputDecimal Sample
+        https://blazorcomponentauthority.com/
+        https://lively-sea-07d95cd0f.2.azurestaticapps.net/ 
+
+        https://www.youtube.com/watch?v=nkfF8q754ys
+    ***************************************************************************/
     public class InputComponentBase : ComponentBase
     {
+
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
         /// <summary>
         /// The input Id.
         /// Can be used to uniquely identify instances of the component.
@@ -85,3 +97,4 @@ namespace Gestao.App.Components.CustomControls
         public List<string> ValidationMessages { get; set; } = new List<string>();
     }
 }
+

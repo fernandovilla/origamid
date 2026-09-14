@@ -1,7 +1,9 @@
 ﻿@page "/testes"
+
+@rendermode InteractiveServer
+
 @using System.Drawing
-@using Gestao.App.Components.CustomControls.InputDecimal
-@using Gestao.App.Components.Pages.Account
+@using Gestao.App.Components.CustomControls.Input
 
 @inherits PageBase
 
@@ -11,7 +13,7 @@
             Test Custom Controls
         </h4>
     </div>
-    <Focustrap class="card-body">
+    <FocusTrap class="card-body" Active="_modalAberto" OnEscape="FecharModal">
         <EditForm Model="Carro">
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -21,6 +23,11 @@
                     <label for="normalInput">Normal Input</label>
                     <input type="text" class="form-control" id="normalInput" @bind-value="Carro.Name" />
                 </div>
+               
+                <div class="col-3">
+                    <label for="custoCarro" class="form-label" >Custo Carro R$</label>
+                    <InputDecimalBase Id="custoCarro" @bind-Value="Carro.Cost" class="form-control" Format="C2" />
+                </div>
 
                 <div class="col-3">
                     <label for="inputColor" class="form-label">InputColor #1</label>
@@ -28,31 +35,14 @@
                     <p>Favorite Color: @FavoriteColor </p>
                 </div>
 
-                <div class="col-3">
-                    <InputDecimalBaseBCA Label="Currency"
-                                         @bind-Value="Carro.Cost"
-                                         OnChanged="HandleDecimalChanged"
-                                         For="Cost"
-                                         ClassDiv="col-3"
-                                         Max=100000
-                                         Min=-2000
-                                         Format="C2" />
-                </div>
-
-                @* 
-                    InputDecimal Sample
-                    https://blazorcomponentauthority.com/
-                    https://lively-sea-07d95cd0f.2.azurestaticapps.net/ 
-
-                    https://www.youtube.com/watch?v=nkfF8q754ys
-                *@
-
             </div>
         </EditForm>
+    </FocusTrap>
 
-        
-
-    </Focustrap>
+    <div class="row">
+        <button class="btn btn-secondary col-1 me-1">Voltar</button>
+        <button class="btn btn-primary col-1">Salvar</button>
+    </div>
 </div>
 
 
@@ -64,10 +54,14 @@
     private Color Color { get; set; } = Color.White;
     private string FavoriteColor => InputColor.ColorToString(Color);
 
+    private bool _modalAberto = true;   //True - indica que os elementos podem receber foco de fora ou sair
+
     private async Task HandleDecimalChanged(decimal? value)
     {
         ValorCurrency = $"Cost was changed to {value}";
     }
+
+    private void FecharModal() => _modalAberto = false;
 
     public class Car
     {

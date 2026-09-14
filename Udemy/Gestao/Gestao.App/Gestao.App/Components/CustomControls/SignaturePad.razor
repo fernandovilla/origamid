@@ -1,0 +1,162 @@
+﻿@* ============================================================
+   SignaturePad.razor
+   Componente Blazor para captura de assinatura manuscrita
+   (touch / mouse / caneta) e exportação como imagem PNG.
+   ============================================================ *@
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<div class="signature-pad">
+
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <div class="signature-pad__title">@Title</div>
+    }
+
+    <div class="signature-pad__canvas-wrapper" style="height:@(CanvasHeight)px;">
+        <canvas @ref="_canvasRef" class="signature-pad__canvas"></canvas>
+
+        @if (!_hasSignature)
+        {
+            <div class="signature-pad__placeholder">@Placeholder</div>
+        }
+    </div>
+
+    <div class="signature-pad__actions">
+        <button type="button"
+                class="signature-pad__btn signature-pad__btn--secondary"
+                disabled="@(!_hasSignature)"
+                @onclick="ClearAsync">
+            Limpar
+        </button>
+
+        <button type="button"
+                class="signature-pad__btn signature-pad__btn--primary"
+                disabled="@(!_hasSignature)"
+                @onclick="SaveAsync">
+            Confirmar assinatura
+        </button>
+    </div>
+</div>
+
+@code {
+    private ElementReference _canvasRef;
+    private IJSObjectReference? _module;
+    private DotNetObjectReference<SignaturePad>? _dotNetRef;
+    private bool _hasSignature;
+    private bool _initialized;
+
+    /// <summary>Título exibido acima da área de assinatura.</summary>
+    [Parameter] public string Title { get; set; } = "Assine no campo abaixo";
+
+    /// <summary>Texto exibido enquanto o usuário ainda não assinou.</summary>
+    [Parameter] public string Placeholder { get; set; } = "Toque e arraste o dedo para assinar";
+
+    /// <summary>Cor do traço da caneta.</summary>
+    [Parameter] public string PenColor { get; set; } = "#1a1a1a";
+
+    /// <summary>Espessura do traço em pixels.</summary>
+    [Parameter] public int PenWidth { get; set; } = 3;
+
+    /// <summary>Cor de fundo do canvas (também usada no PNG exportado).</summary>
+    [Parameter] public string BackgroundColor { get; set; } = "#ffffff";
+
+    /// <summary>Altura da área de assinatura em pixels. A largura acompanha o container pai.</summary>
+    [Parameter] public int CanvasHeight { get; set; } = 220;
+
+    /// <summary>Disparado quando o usuário confirma a assinatura. Retorna a imagem em Base64 (data URL PNG).</summary>
+    [Parameter] public EventCallback<string> OnSignatureSaved { get; set; }
+
+    /// <summary>Disparado a cada alteração do estado "tem assinatura / está vazio".</summary>
+    [Parameter] public EventCallback<bool> OnSignatureChanged { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/CustomControls/SignaturePad.razor.js");
+            // Se o componente NÃO estiver em uma Razor Class Library,
+            // troque o caminho acima para algo como "./js/signaturePad.js"
+            // (veja observação no final da resposta).
+
+            _dotNetRef = DotNetObjectReference.Create(this);
+
+            await _module.InvokeVoidAsync(
+                "initialize",
+                _canvasRef,
+                _dotNetRef,
+                PenColor,
+                PenWidth,
+                BackgroundColor);
+
+            _initialized = true;
+        }
+    }
+
+    /// <summary>Limpa o traço atual.</summary>
+    public async Task ClearAsync()
+    {
+        if (_module is null) return;
+        await _module.InvokeVoidAsync("clear", _canvasRef);
+        _hasSignature = false;
+        await OnSignatureChanged.InvokeAsync(false);
+    }
+
+    /// <summary>Confirma e exporta a assinatura, disparando OnSignatureSaved.</summary>
+    public async Task SaveAsync()
+    {
+        if (_module is null || !_hasSignature) return;
+
+        var base64Png = await _module.InvokeAsync<string>("exportAsPng", _canvasRef);
+        await OnSignatureSaved.InvokeAsync(base64Png);
+    }
+
+    /// <summary>Retorna a assinatura atual como data URL PNG, sem disparar o evento OnSignatureSaved.</summary>
+    public async Task<string?> GetSignatureAsync()
+    {
+        if (_module is null || !_hasSignature) return null;
+        return await _module.InvokeAsync<string>("exportAsPng", _canvasRef);
+    }
+
+    /// <summary>Dispara o download do PNG diretamente pelo navegador.</summary>
+    public async Task DownloadAsync(string fileName = "assinatura.png")
+    {
+        if (_module is null || !_hasSignature) return;
+        await _module.InvokeVoidAsync("downloadAsPng", _canvasRef, fileName);
+    }
+
+    /// <summary>Indica se já existe algum traço desenhado.</summary>
+    public bool IsEmpty => !_hasSignature;
+
+    // Chamado via JS quando o usuário começa/termina de desenhar
+    [JSInvokable]
+    public async Task OnStrokeChanged(bool hasSignature)
+    {
+        if (_hasSignature == hasSignature) return;
+
+        _hasSignature = hasSignature;
+        await InvokeAsync(StateHasChanged);
+        await OnSignatureChanged.InvokeAsync(hasSignature);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            try
+            {
+                if (_initialized)
+                {
+                    await _module.InvokeVoidAsync("dispose", _canvasRef);
+                }
+                await _module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+                // Circuito Blazor Server já encerrado - ignora.
+            }
+        }
+
+        _dotNetRef?.Dispose();
+    }
+}
