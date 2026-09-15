@@ -1,0 +1,62 @@
+@page "/focus-trap-demo"
+
+@rendermode InteractiveServer
+
+<h3>Demonstração de Focus Trap</h3>
+
+<button @onclick="ShowModal">Abrir modal</button>
+
+<AlertDialog Visible="@_modalAberto" Closed="OnClosed">
+    <div class="overlay">
+        <FocusTrap @bind-Active="_modalAberto" Options="_opcoes" Class="modal-content">
+            <div role="dialog" aria-modal="true" aria-labelledby="titulo-modal">
+                <h4 id="titulo-modal">Cadastro Rápido</h4>
+
+                <div>
+                    <label for="name" class="form-label">Nome</label>
+                    <input id="name" class="form-control" />
+                </div>
+
+                <div class="modal-actions mt-2">
+                    <button @onclick="Salvar" class="btn btn-primary">Salvar</button>
+                    <button @onclick="CloseModal" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </div>
+        </FocusTrap>
+    </div>
+</AlertDialog>
+
+
+@code {
+    private bool _modalAberto;
+
+    // Reaproveitável entre renderizações: não precisa ser recriado a cada abertura.
+    private readonly FocusTrapOptions _opcoes = new()
+    {
+        InitialFocus = "input",
+        EscapeDeactivates = true,       // Esc fecha o modal
+        ClickOutsideDeactivates = false, // clique fora não fecha (evite perda acidental de dados)
+        ReturnFocusOnDeactivate = true   // foco volta pro botão "Abrir modal"
+    };
+
+    private void Salvar()
+    {
+        // ... sua lógica de salvar aqui
+        _modalAberto = false;
+    }
+
+    private void ShowModal()
+    {
+        _modalAberto = true;
+    }
+
+    private void CloseModal()
+    {
+        _modalAberto = false;
+    }
+
+    private void OnClosed()
+    {
+        CloseModal();
+    }
+}

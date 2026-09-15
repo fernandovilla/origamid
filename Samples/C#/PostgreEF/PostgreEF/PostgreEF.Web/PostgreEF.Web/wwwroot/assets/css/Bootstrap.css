@@ -1,6 +1,6 @@
 ﻿:root {
-    --gs-font-sans-serif: "Poppins", sans-serif;
-    --gs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+/*    --gs-font-sans-serif: "Poppins", sans-serif;
+    --gs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;*/
     --gs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --gs-body-font-family: var(--vz-font-sans-serif);
     --gs-body-font-size: 0.8125rem;

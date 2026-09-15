@@ -1,0 +1,38 @@
+﻿@page "/signature"
+
+@rendermode InteractiveServer
+
+@*Fonte: https://www.nuget.org/packages/Blazor.SignaturePad*@
+
+<h3>Assinatura do Cliente</h3>
+<SignaturePad @bind-Value="Input.Signature"
+              style="width: 80%; height: 150px;"
+              Options="_options"
+              ClearButtonClass="btn btn-secondary mt-1"
+              ClearButtonText="Limpar" />
+
+@if (!string.IsNullOrEmpty(Input.SignatureAsBase64))
+{
+    <h4>Preview Assinatura</h4>
+    <img src="@Input.SignatureAsBase64" alt="User Signature" />
+}
+
+
+@code {
+    private MyInput Input { get; set; } = new();
+
+    private SignaturePadOptions _options = new SignaturePadOptions
+    {
+        LineCap = LineCap.Round,
+        LineJoin = LineJoin.Round,
+        LineWidth = 3,
+        StrokeStyle = Color.DarkBlue
+    };
+
+
+    public class MyInput
+    {
+        public byte[] Signature { get; set; } = Array.Empty<byte>();
+        public string SignatureAsBase64 => System.Text.Encoding.UTF8.GetString(Signature);
+    }
+}

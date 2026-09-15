@@ -1,0 +1,64 @@
+﻿@rendermode InteractiveAuto
+
+@if (_isVisible)
+{
+    <div class="alert-dialog-overlay" id="alert-dialog-overlay">
+        <div class="alert-dialog" id="alert-dialog">
+            <div>
+                <a class="btn-link" @onclick="OnClose">X</a>
+            </div>
+            <div class="alert-dialog-header">
+                <h3>@Title</h3>
+            </div>
+
+            <div class="alert-dialog-body">
+
+                @if (ChildContent != null)
+                {
+                    @ChildContent
+                }
+                else
+                {
+                    <p>@Message</p>
+                }
+            </div>
+
+            <div class="alert-dialog-footer">
+                <p>@Footer</p>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool _isVisible = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback Closed { get; set; }
+
+    [Parameter]
+    public bool Visible
+    {
+        get => _isVisible;
+        set => _isVisible = value;
+    }
+
+    [Parameter]
+    public string Title { get; set; } = "[@Title]";
+
+    [Parameter]
+    public string Message { get; set; } = "[@Message]";
+
+    [Parameter]
+    public string Footer { get; set; } = "[@Footer]";
+
+    private void OnClose()
+    {
+        _isVisible = false;
+
+        Closed.InvokeAsync();
+    }
+}

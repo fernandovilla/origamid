@@ -1,0 +1,18 @@
+﻿@* 
+    <AdditionalAssemblies>
+        Indica rotas para páginas externas ao projeto
+        É necessário incluí-las aqui e no Program.cs, MapRazorComponents.AddAdditionalAssemblies(...) 
+
+    <Found> Se encontrou a rota, carrega no layour MainLayout > @Body *@
+
+<Router 
+    AppAssembly="typeof(Program).Assembly" 
+    NotFoundPage="typeof(Pages.NoFound)"
+    
+    AdditionalAssemblies="new[] { typeof(Library._Imports).Assembly,  typeof(Client._Imports).Assembly }" >
+    
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>        
+</Router>

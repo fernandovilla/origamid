@@ -1,4 +1,4 @@
-using PostgreEF.Web.Client.Pages;
+using Blazor.FocusTrapJs;
 using PostgreEF.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddScoped<FocusTrapJsProvider>();
 
 var app = builder.Build();
 
@@ -30,6 +32,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(PostgreEF.Web.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(PostgreEF.Web.Client._Imports).Assembly)
+    .AddAdditionalAssemblies(typeof(PostgreEF.Library._Imports).Assembly);
 
 app.Run();

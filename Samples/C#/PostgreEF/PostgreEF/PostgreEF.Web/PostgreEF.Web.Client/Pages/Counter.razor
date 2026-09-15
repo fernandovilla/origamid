@@ -1,35 +1,32 @@
 ﻿@page "/counter"
-@using PostgreEF.Web.Client.Components.Focustrap
 
 <PageTitle>Counter</PageTitle>
 
 <h1>Counter</h1>
 
 
-
-<Focustrap>
-    <form>
-        <div class="row mb-2">
-            <div class="mb-3 col-2">
-                <lab for="id" class="form-label">ID</lab>
-                <input id="id" class="form-control" @bind-value="User.Id" />
-            </div>
-
-            <div class="mb-3 col-2">
-                <lab for="id" class="form-label">Nome</lab>
-                <input id="id" class="form-control" @bind-value="User.Name" />
-            </div>
+<form>
+    <div class="row mb-2">
+        <div class="mb-3 col-2">
+            <lab for="id" class="form-label">ID</lab>
+            <input id="id" class="form-control" @bind-value="User.Id" />
         </div>
+
+        <div class="mb-3 col-2">
+            <lab for="id" class="form-label">Nome</lab>
+            <input id="id" class="form-control" @bind-value="User.Name" />
+        </div>
+    </div>
 
     
-        <div class="row">
-            <div class="col-2">
-                <p role="status">Current count: @currentCount</p>
-                <button type="button" class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-            </div>
+    <div class="row">
+        <div class="col-2">
+            <p role="status">Current count: @currentCount</p>
+            <button type="button" class="btn btn-primary" @onclick="IncrementCount">Click me</button>
         </div>
-    </form>
-</Focustrap>
+    </div>
+</form>
+
 
 
 <div class="row mt-3">
