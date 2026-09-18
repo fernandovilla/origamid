@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MudBlazorBolos.Lib/MudBlazorBolos.Lib.csproj" />
+  <Project Path="MudBlazorBolos/MudBlazorBolos.csproj" />
+</Solution>

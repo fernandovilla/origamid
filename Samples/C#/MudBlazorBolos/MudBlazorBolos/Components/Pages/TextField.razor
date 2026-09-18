@@ -1,0 +1,37 @@
+﻿<MudTextField Label="@Label"
+              @bind-Value="@Value"
+              Variant="Variant.Outlined"
+              Margin="Margin.Dense"
+              @attributes="@AditionalAttributes" 
+              ValueChanged="OnValudChanged" />
+
+@code {
+    private string? _value;
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Value {
+        get => _value;
+        set
+        {
+            if (_value != value)
+                _value = value;
+
+        }
+    }
+
+    [Parameter]
+    public Dictionary<string, object>? AditionalAttributes { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private async Task OnValudChanged()
+    {
+        await ValueChanged.InvokeAsync();
+    }
+
+    
+}

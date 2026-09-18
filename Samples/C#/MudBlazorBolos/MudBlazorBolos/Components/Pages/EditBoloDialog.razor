@@ -1,0 +1,78 @@
+﻿@using System.Globalization
+@rendermode InteractiveServer
+
+<MudDialog>
+    <DialogContent>
+        <MudGrid Spacing="2" Justify="Justify.FlexStart">
+
+            <MudItem xs="12" sm="8">
+                <MudTextField Label="Nome"
+                          @bind-Value="@Bolo.Nome"
+                          Variant="Variant.Outlined"
+                          Margin="Margin.Dense" />
+            </MudItem>
+            
+            <MudItem sm="8">
+                <TextField @bind-value="@Bolo.Nome" Label="Nome #2" />
+            </MudItem>
+
+            
+            <MudItem xs="12" sm="4">
+                <MudNumericField Immediate=false
+                             HideSpinButtons="true"
+                             Label="Preço"
+                             Format="C2"
+                             Culture="@CultureInfo.GetCultureInfo("pt-BR")"
+                             @bind-Value="@Bolo.Preco"
+                             Variant="Variant.Outlined"
+                             Margin="Margin.Dense" />
+            </MudItem>
+
+            <MudItem xs="12" sm="12">
+                <MudTextField 
+                    Label="Descrição" 
+                    @bind-Value="@Bolo.Descricao" 
+                    Variant="Variant.Outlined" 
+                    Margin="Margin.Dense" />
+            </MudItem>
+
+            <MudItem xs="12" sm="12">
+                <MudTextField 
+                    Label="Imagem" 
+                    @bind-Value="@Bolo.ImageURL" 
+                    Lines="3" 
+                    Variant="Variant.Outlined" 
+                    Margin="Margin.Dense" />
+            </MudItem>
+        </MudGrid>
+        
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Secondary" onclick="Cancelar">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" onclick="Salvar">Salvar</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public IMudDialogInstance? MudDialog { get; set; }
+
+    [Parameter]
+    public Bolo Bolo { get; set; } = null!;
+
+
+    private void Cancelar()
+    {
+        MudDialog?.Cancel();
+    }
+
+    private void Salvar()
+    {
+        MudDialog?.Close(DialogResult.Ok<Bolo>(Bolo));
+    }
+
+    private void OnFocus(FocusEventArgs e)
+    {
+
+    }
+}

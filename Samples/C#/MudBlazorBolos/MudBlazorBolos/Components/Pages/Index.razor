@@ -1,0 +1,104 @@
+﻿@page "/"
+
+@rendermode InteractiveServer
+@inject BoloRepository BoloRepository
+
+<MudDialogProvider />
+<MudContainer Class="d-flex justify-left mb-2">
+    <MudFab Color="Color.Primary"
+            StartIcon="@Icons.Material.Filled.Add"
+            Size="Size.Large"
+            IconSize="Size.Large"
+            Label="Novo Bolo"
+            Class="ma-2" @onclick="(e => CreateAsync())" />
+</MudContainer>
+
+<MudGrid Justify="Justify.Center" class="pr-4 pl-4">
+
+    @foreach (var bolo in Bolos)
+    {
+        <MudItem xs="2">
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.body1">@bolo.Nome</MudText>
+                        <MudText Typo="Typo.h6">@bolo.Preco.ToString("C2")</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardMedia Image="@bolo.ImageURL" width="100" Height="200" />
+
+                <MudCardContent>
+                    <MudText Typo="Typo.body2">@bolo.Descricao</MudText>
+                </MudCardContent>
+
+                <MudCardActions>
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="(e => UpdateAsync(bolo.Id))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="(e => DeleteAsync(bolo.Id))" />
+                </MudCardActions>
+
+            </MudCard>
+        </MudItem>
+    }
+
+</MudGrid>
+
+@code {
+    private ICollection<Bolo> Bolos { get; set; } = new List<Bolo>();
+
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await LoadBolos();
+    }
+
+    private async Task LoadBolos()
+    {
+        Bolos = await BoloRepository.ListAsync();
+        StateHasChanged();
+
+    }
+
+    private async Task CreateAsync()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("Bolo", new Bolo());
+
+        var dialog = await _dialogService.ShowAsync<EditBoloDialog>("Incluir", parameters);
+        var result = await dialog.Result;
+
+        if (result != null && result.Data != null)
+        {
+            BoloRepository.Insert((Bolo)result.Data);
+            StateHasChanged();
+        }
+    }
+
+    private async Task UpdateAsync(int id)
+    {
+        var bolo = BoloRepository.Select(id);
+
+        var parameters = new DialogParameters();
+        parameters.Add("Bolo", bolo);
+
+        var dialog = await _dialogService.ShowAsync<EditBoloDialog>("Alterar", parameters);
+        var result = await dialog.Result;
+
+        if (result != null && result.Data != null && !result.Canceled)
+        {
+            BoloRepository.Update(bolo);
+            StateHasChanged();
+        }
+
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        bool? result = await _dialogService.ShowMessageBoxAsync("Confirma a exclusão?", "A exclusão não poderá ser desfeita!", yesText: "Deletar", cancelText: "Cancelar");
+
+        if (result ?? false)
+        {
+            BoloRepository.Delete(id);
+            StateHasChanged();
+        }
+    }
+}
