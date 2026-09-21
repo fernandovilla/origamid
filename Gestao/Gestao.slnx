@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Gestao.Domain/Gestao.Domain.csproj" />
+  <Project Path="Gestao.Lib/Gestao.Lib.csproj" />
+</Solution>
