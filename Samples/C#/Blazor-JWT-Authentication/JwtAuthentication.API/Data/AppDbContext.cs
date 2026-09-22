@@ -1,4 +1,4 @@
-﻿using JwtAuthentication.API.Entities;
+﻿using JwtAuthentication.Lib.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JwtAuthentication.API.Data

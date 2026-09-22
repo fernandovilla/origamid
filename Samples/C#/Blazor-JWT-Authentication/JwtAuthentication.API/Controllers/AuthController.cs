@@ -1,15 +1,8 @@
-﻿using JwtAuthentication.API.Entities;
-using JwtAuthentication.API.Models;
-using JwtAuthentication.API.Services;
+﻿using JwtAuthentication.API.Services;
+using JwtAuthentication.Lib.Entities;
+using JwtAuthentication.Lib.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace JwtAuthentication.API.Controllers
 {
@@ -30,14 +23,25 @@ namespace JwtAuthentication.API.Controllers
         }
 
         [HttpPost("token")]
-        public async Task<ActionResult<string>> LoginAsync(UserDto request)
+        public async Task<IActionResult> TokenAsync(UserDto request)
         {
-            var token = await service.LoginAsync(request);
+            var responseToken = await service.LoginAsync(request);
 
-            if (string.IsNullOrEmpty(token))
+            if (responseToken == null)
                 return BadRequest("Invalid login");
                 
-            return Ok(token);
+            return Ok(responseToken);
+        }
+
+        [HttpPost("token/refresh")]
+        public async Task<IActionResult> RefreshTokenAsync(RefreshTokenRequestDto request)
+        {
+            var responseToken = await service.RefreshTokensAsync(request);
+
+            if (responseToken == null || responseToken?.AccessToken == null || responseToken?.RefreshToken == null)
+                return Unauthorized("Invalid refresh token");
+
+            return Ok(responseToken);
         }
 
 

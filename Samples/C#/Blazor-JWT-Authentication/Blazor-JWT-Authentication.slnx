@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="JwtAuthentication.API/JwtAuthentication.API.csproj" />
+  <Project Path="JwtAuthentication.Lib/JwtAuthentication.Lib.csproj" Id="8e02b526-1f33-40d2-9e63-d13d69e1767e" />
+  <Project Path="JwtAuthentication.Web/JwtAuthentication.Web.Client/JwtAuthentication.Web.Client.csproj" Id="c9ad36dd-05e5-4a13-9c35-b16f4ff67c3a" />
+  <Project Path="JwtAuthentication.Web/JwtAuthentication.Web/JwtAuthentication.Web.csproj" Id="c3b1c310-fb6d-490b-ac9f-157447f29750" />
 </Solution>

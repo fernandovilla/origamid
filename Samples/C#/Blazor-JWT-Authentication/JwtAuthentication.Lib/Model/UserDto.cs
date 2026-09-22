@@ -1,4 +1,4 @@
-﻿namespace JwtAuthentication.API.Models
+﻿namespace JwtAuthentication.Lib.Models
 {
     public class UserDto
     {

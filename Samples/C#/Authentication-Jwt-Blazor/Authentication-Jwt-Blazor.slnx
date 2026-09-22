@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Readme.txt" />
+  </Folder>
+  <Project Path="BlazorWasmAuthentication/BlazorWasmAuthentication.csproj" />
+  <Project Path="WebApiAuthentication/WebApiAuthentication.csproj" />
+</Solution>

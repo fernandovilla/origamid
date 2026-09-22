@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\JwtAuthentication.Lib\JwtAuthentication.Lib.csproj" />
+    <ProjectReference Include="..\JwtAuthentication.Web.Client\JwtAuthentication.Web.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.12" />
+    <PackageReference Include="Refit" Version="16.1.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="16.1.0" />
+    <PackageReference Include="Refit.Reflection" Version="16.1.0" />
+  </ItemGroup>
+
+</Project>

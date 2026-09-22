@@ -1,0 +1,49 @@
+﻿@page "/login"
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager;
+
+<h3>Login</h3>
+
+<form @onsubmit="AuthenticationAsync">
+    <div class="row">
+        <div>
+            <label for="username" class="form-label">Usuário</label>
+            <InputText id="username" @bind-Value="@User.Username" />
+        </div>
+        <div>
+            <label for="username" class="form-label">Usuário</label>
+            <InputText type="password" id="username" @bind-Value="@User.Username" />
+        </div>
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-secondary">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
+
+@if (invalidLogin)
+{
+    <label>Invalid Login!</label>
+}
+
+
+@code {
+
+    private UserDto User { get; set; } = new();
+    private bool invalidLogin = false;
+
+
+    private async Task AuthenticationAsync()
+    {
+        var token = await AuthenticationService.LoginAsync(User);
+
+        if (token != null)
+        {
+            NavigationManager.NavigateTo("/");
+        } else
+        {
+            invalidLogin = true;
+            StateHasChanged();
+        }
+    }
+}
