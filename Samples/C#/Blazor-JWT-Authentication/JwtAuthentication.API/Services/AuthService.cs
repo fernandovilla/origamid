@@ -36,7 +36,7 @@ namespace JwtAuthentication.API.Services
 
             User user = new();
             user.Username = request.Username;
-            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.Password);
+            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, request.Password);            
 
             context.Users.Add(user);
             await context.SaveChangesAsync();
@@ -49,7 +49,7 @@ namespace JwtAuthentication.API.Services
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, "ADMIN")
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var keyToken = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("CredentialSettings:Token")!));

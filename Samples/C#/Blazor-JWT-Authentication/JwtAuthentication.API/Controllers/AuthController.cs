@@ -1,9 +1,11 @@
 ﻿using JwtAuthentication.API.Entities;
 using JwtAuthentication.API.Models;
 using JwtAuthentication.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -32,10 +34,25 @@ namespace JwtAuthentication.API.Controllers
         {
             var token = await service.LoginAsync(request);
 
+            if (string.IsNullOrEmpty(token))
+                return BadRequest("Invalid login");
+                
             return Ok(token);
         }
 
 
-        
+        [Authorize(Roles = "ADMIN")]
+        [HttpGet("only-admin")]
+        public async Task<IActionResult> OnlyAdminEndPoint()
+        {
+            return Ok("You are authenticated, Admin!");
+        }
+
+        [Authorize]
+        [HttpGet("any-user")]
+        public async Task<IActionResult> AnyUserEndPoint()
+        {
+            return Ok("You are authenticated, User!");
+        }
     }
 }
