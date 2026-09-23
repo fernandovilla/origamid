@@ -1,4 +1,5 @@
 ﻿@page "/login"
+
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager;
 
@@ -11,8 +12,8 @@
             <InputText id="username" @bind-Value="@User.Username" />
         </div>
         <div>
-            <label for="username" class="form-label">Usuário</label>
-            <InputText type="password" id="username" @bind-Value="@User.Username" />
+            <label for="password" class="form-label">Password</label>
+            <InputText type="password" id="password" @bind-Value="@User.Password" />
         </div>
     </div>
     <div class="row">

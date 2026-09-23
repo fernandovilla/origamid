@@ -2,14 +2,14 @@
 using JwtAuthentication.Lib.Models;
 using Refit;
 
-namespace JwtAuthentication.Web.Services
+namespace JwtAuthentication.Web.Client.Services
 {
     public interface IAuthenticationService
     {     
-        [Post("/api/token")]
+        [Post("/api/auth/token")]
         public Task<User> LoginAsync([Body] UserDto request);
 
-        [Post("/api/token/refresh")]
+        [Post("/api/auth/token/refresh")]
         public Task<TokenResponseDto> RefreshTokenAsync([Body] RefreshTokenRequestDto request);
     }
 }

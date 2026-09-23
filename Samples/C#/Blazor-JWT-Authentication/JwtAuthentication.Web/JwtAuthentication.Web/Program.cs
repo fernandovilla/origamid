@@ -1,8 +1,7 @@
 using JwtAuthentication.Lib.Models;
-using JwtAuthentication.Web.Client.Pages;
+using JwtAuthentication.Web.Client.Services;
 using JwtAuthentication.Web.Components;
 using JwtAuthentication.Web.Handlers;
-using Microsoft.AspNetCore.Authentication;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +15,7 @@ builder.Services.AddSingleton<TokenResponseDto>();
 builder.Services.AddScoped<AuthenticationHandler>();
 
 // Registra a API de Autenticação (separada para evitar loop no handler)
-builder.Services.AddRefitClient<JwtAuthentication.Web.Services.IAuthenticationService>()
+builder.Services.AddRefitClient<IAuthenticationService>()
     .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]!))
     .AddHttpMessageHandler<AuthenticationHandler>();
 

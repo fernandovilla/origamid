@@ -1,5 +1,5 @@
 ﻿using JwtAuthentication.Lib.Models;
-using JwtAuthentication.Web.Services;
+using JwtAuthentication.Web.Client.Services;
 using System.Net.Http.Headers;
 
 namespace JwtAuthentication.Web.Handlers

@@ -11,6 +11,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.12" />
+    <PackageReference Include="Refit" Version="16.1.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="16.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\JwtAuthentication.Lib\JwtAuthentication.Lib.csproj" />
   </ItemGroup>
 
 </Project>
