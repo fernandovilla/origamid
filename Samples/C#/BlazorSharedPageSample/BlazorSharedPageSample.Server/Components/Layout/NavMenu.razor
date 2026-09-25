@@ -1,0 +1,14 @@
+﻿
+
+
+
+<FluentNav @ref="navmenu" Padding="@Padding.All2" style="height:100%">
+    <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())">Home</FluentNavItem>
+    <FluentNavItem Href="/not-found" IconRest="@(new Icons.Regular.Size20.RemixAdd())">Expense Tracket</FluentNavItem>
+</FluentNav>
+
+
+
+@code {
+    private FluentNav navmenu = default!;    
+}

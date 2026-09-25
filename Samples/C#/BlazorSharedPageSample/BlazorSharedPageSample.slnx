@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="BlazorSharedPageSample.App/BlazorSharedPageSample.App.csproj" />
+  <Project Path="BlazorSharedPageSample.Pages/BlazorSharedPageSample.Pages.csproj" />
+  <Project Path="BlazorSharedPageSample.Server/BlazorSharedPageSample.Server.csproj" Id="a19d145a-06bf-40bd-a7e9-73799f542396" />
+  <Project Path="BlazorSharedPageSample/BlazorSharedPageSample.Client/BlazorSharedPageSample.Client.csproj" />
+  <Project Path="BlazorSharedPageSample/BlazorSharedPageSample/BlazorSharedPageSample.csproj" />
+</Solution>

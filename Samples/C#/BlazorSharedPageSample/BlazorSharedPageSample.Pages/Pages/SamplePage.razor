@@ -1,0 +1,22 @@
+﻿@page "/contador"
+
+<div class="card p-3 col-4">
+    <div class="row">
+        <label class="col-4">Contador: @Counter</label>
+    </div>
+
+    <div class="row">
+        <button class="btn btn-primary col-3" @onclick="IncrementarAsync" >Incrementar</button>
+    </div>
+</div>
+
+
+@code {
+
+    private int Counter { get; set; } = 0;
+
+    private async Task IncrementarAsync()
+    {
+        Counter++;
+    }
+}

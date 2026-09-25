@@ -1,0 +1,82 @@
+﻿@inherits LayoutComponentBase
+
+@inject IThemeService ThemeService
+
+<FluentLayout>
+
+    <!-- header -->
+    <FluentLayoutItem Area="@LayoutArea.Header">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentLayoutHamburger />
+            <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">
+                .Net Live TV - ExpenseTracker
+            </FluentText>
+
+            
+        </FluentStack>
+    </FluentLayoutItem>
+
+
+    <!-- navigation bar -->
+    <FluentLayoutItem Area="@LayoutArea.Navigation" Width="250px">
+        <NavMenu />
+    </FluentLayoutItem>
+
+
+    <FluentLayoutItem Area="@LayoutArea.Content" Padding="@Padding.All3">
+        @Body
+    </FluentLayoutItem>
+
+
+    <FluentLayoutItem Area="@LayoutArea.Footer">
+        <FluentStack Orientation="@Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
+            <div>
+                Desenvolvido por eu mesmo em @DateTime.Now.ToShortDateString()
+            </div>
+
+            <div>                
+                <FluentLabel>Dark Theme</FluentLabel>
+                <FluentSwitch @bind-Value="@DarkTheme" />
+            </div>
+        </FluentStack>
+    </FluentLayoutItem>
+
+    
+</FluentLayout>
+
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+<FluentProviders />
+
+
+@code {
+    private bool _darkTheme = false;
+
+    private bool DarkTheme
+    {
+        get => _darkTheme;
+        set
+        {
+            _darkTheme = value;
+            SwitchTheme();
+        }
+    }
+
+    public void SwitchTheme()
+    {
+        ThemeMode theme = _darkTheme ? ThemeMode.Dark : ThemeMode.Light;
+        ThemeService.SetThemeAsync(theme);
+        StateHasChanged();
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            SwitchTheme();
+    }
+}

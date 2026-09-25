@@ -1,0 +1,13 @@
+Blazor Hybrid
+https://learn.microsoft.com/pt-br/aspnet/core/blazor/hybrid/?view=aspnetcore-10.0
+
+Blazor Hybrid WinForm
+https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/windows-forms?view=aspnetcore-10.0
+
+Blazor Hybrid MAUI
+https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/windows-forms?view=aspnetcore-10.0
+
+
+Fluent Blazor UI
+https://www.youtube.com/watch?v=CRVLURJjFBk
+https://www.fluentui-blazor.net
