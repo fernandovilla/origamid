@@ -1,0 +1,75 @@
+﻿@page "/statistics"
+
+@using BlazorSharedPageSample.Server.Services
+@using Microsoft.FluentUI.AspNetCore.Components.Charts
+
+@inject IExpenseService Service
+
+<PageTitle>Statistics</PageTitle>
+
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Center"
+             Padding="@Padding.All4"
+             VerticalGap="20px">
+
+    <FluentText Size="TextSize.Size600">
+        Expenses by Category
+    </FluentText>
+
+    @if (Total <= 0)
+    {
+        <FluentText>No expenses to display</FluentText>
+    }
+    else
+    {
+        <FluentDonutChart ChartData="@DonutData"
+                          ChartTitle="Amount by Category"
+                          ValueInsideDonut="@Total.ToString("C2")"
+                          InnerRadius="55" />
+
+        <FluentHorizontalBarChartWithAxis ChartTitle="Amount by Category"
+                                          ChartData="@BarData"
+                                          Width="400px"
+                                          Height="300px" />
+    }
+
+</FluentStack>
+
+@code {
+
+    private IReadOnlyList<DonutDataPoint> DonutData = [];
+    private IReadOnlyList<HorizontalBarChartWithAxisDataPoint> BarData = [];
+
+    private decimal Total { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CalculateStatistics();
+    }
+
+    private void CalculateStatistics()
+    {
+        DonutData = Service.Items
+            .GroupBy(i => i.Category)
+            .Select(g => new DonutDataPoint
+            {
+                Legend = g.Key.ToString(),
+                Data = (double)g.Sum(e => e.Amount),
+                CustomColor = g.First().Color
+            }).ToList();
+
+
+        BarData = Service.Items
+            .GroupBy(i => i.Category)
+            .Select(g => new HorizontalBarChartWithAxisDataPoint
+            {
+                Y = g.Key.ToString(),
+                X = (double)g.Sum(e => e.Amount),
+                CustomColor = g.First().Color
+            }).ToList();
+
+        Total = Service.Items.Sum(i => i.Amount);
+
+    }
+
+}

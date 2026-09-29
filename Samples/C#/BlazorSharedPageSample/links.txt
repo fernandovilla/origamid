@@ -11,3 +11,21 @@ https://learn.microsoft.com/en-us/aspnet/core/blazor/hybrid/tutorials/windows-fo
 Fluent Blazor UI
 https://www.youtube.com/watch?v=CRVLURJjFBk
 https://www.fluentui-blazor.net
+
+Blazor Hybrid
+https://www.youtube.com/watch?v=oGimRuw2KVg&list=PLdo4fOcmZ0oU6AgjUbyztrhnzGVFuN6ij
+
+
+Chariote - 7
+Solutions = 9
+
+Chariote Solutions = 7+9 => 16 => 7
+
+Chariote (quadrado em 45ºna horizontal + 45º na vertical, azul escuro com uma estrela de 5 pontas na parte superior)
+Solutions
+
+
+
+Chariote (disco solar alado)
+Solutions
+

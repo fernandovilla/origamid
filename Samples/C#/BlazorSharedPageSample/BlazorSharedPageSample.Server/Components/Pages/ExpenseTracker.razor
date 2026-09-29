@@ -1,0 +1,127 @@
+﻿@page "/expenses"
+@using BlazorSharedPageSample.Server.Services
+
+@inject IExpenseService Service
+@inject IDialogService DialogService
+
+<PageTitle>Expenses</PageTitle>
+
+<FluentMultiSplitter Height="var(--layout-body-height" Width="100%" Padding="@Padding.All2">
+
+    @* Panel New Expense *@
+    <FluentMultiSplitterPane Size="40%" Min="320px" Padding="@Padding.All2">
+        <FluentText Size="TextSize.Size600">New Expense</FluentText>
+
+        @* Edit Expense Pane l*@
+        <EditExpenseDialog Item="CurrentExpense" />
+
+    </FluentMultiSplitterPane>
+
+    @* Panel Expenses List *@
+    <FluentMultiSplitterPane>
+
+        <FluentStack Padding="@Padding.Vertical2" HorizontalAlignment="HorizontalAlignment.End">            
+            <FluentButton Id="inportCsvButton" IconStart="@(new Icons.Regular.Size20.ArrowImport())">Import CSV</FluentButton>
+        </FluentStack>
+
+        @foreach (var item in Service.Items)
+        {
+            <FluentCard Style="padding: 12px">
+                <FluentStack Orientation="Orientation.Horizontal"
+                             VerticalAlignment="VerticalAlignment.Center"
+                             HorizontalGap="12px">
+
+                    <FluentIcon Value="@(new Icons.Filled.Size20.Circle())"
+                                Color="Color.Custom"
+                                CustomColor="@item.Color" />
+
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="2px" Width="unset">
+                        <FluentText>@item.Description</FluentText>
+                        <FluentText Color="Color.Info">
+                            @item.Date?.ToShortDateString() | @item.Category
+                        </FluentText>
+                    </FluentStack>
+
+                    <FluentSpacer />
+
+                    <FluentText Nowrap>@item.Amount.ToString("C2")</FluentText>
+
+                    <FluentButton Title="Edit"
+                                  IconStart="@(new Icons.Regular.Size20.Edit())"
+                                  OnClick="@(() => OpenEditAsync(item))" />
+
+                    <FluentButton Title="Delete"
+                                  IconStart="@(new Icons.Regular.Size20.Delete())"
+                                  OnClick="@(() => OnDeleteAsync(item))" />
+                </FluentStack>
+            </FluentCard>
+        }
+
+    </FluentMultiSplitterPane>
+
+</FluentMultiSplitter>
+
+@code {
+
+    private Expense CurrentExpense = new();
+
+    protected override void OnInitialized()
+    {
+        Service.Changed += OnChanged;
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        return DialogService.RegisterInputFileAsync("inportCsvButton", OnImportCompletedAsync, async options =>
+        {
+            options.Accept = ".csv";
+            options.Multiple = false;
+
+        });
+    }
+
+    private void OnChanged()
+    {
+        StateHasChanged();
+    }
+
+    private async Task OnDeleteAsync(Expense item)
+    {
+        var result = await DialogService.ShowConfirmationAsync(
+            message: $"Delete item {item.Description}?",
+            title: "Confirm deletion",
+            primaryButton: "Delete",
+            secondaryButton: "Cancel"
+        );
+
+        if (!result.Cancelled)
+            Service.Remove(item.Id);
+    }
+
+    private async Task OpenEditAsync(Expense item)
+    {
+        var result = await DialogService.ShowDialogAsync<EditExpenseDialog>(options =>{
+            options.Parameters.Add(nameof(EditExpenseDialog.Item), item.Clone());
+            options.Header.CloseAction.Visible = true;
+            options.Alignment = DialogAlignment.End;
+        });
+
+
+        if (!result.Cancelled && result.Value is Expense updated)
+            Service.Update(updated);
+    }
+
+    private async Task OnImportCompletedAsync(IEnumerable<FluentInputFileEventArgs> files)
+    {
+        foreach(var file in files)
+        {
+            if (file.LocalFile is { } local)
+            {
+                await using var stream = local.OpenRead();
+                Service.ImportCsv(stream);
+                //local.Delete();
+            }
+        }
+    }
+
+}

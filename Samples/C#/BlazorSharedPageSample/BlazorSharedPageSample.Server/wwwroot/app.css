@@ -2,16 +2,20 @@ h1:focus {
     outline: none;
 }
 
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
+/*.valid.modified:not([type=checkbox]) {
+    outline: 0px solid #26b050;
 }
 
 .invalid {
-    outline: 1px solid #e50000;
+    outline: 1px solid #e50000;   
 }
 
 .validation-message {
     color: #e50000;
+}*/
+
+.invalid fluent-text-input {
+    outline: 1px solid var(--error);
 }
 
 .blazor-error-boundary {
@@ -35,4 +39,11 @@ h1:focus {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
+}
+
+
+/* Se a tela for menor, oculta o primeiro splitter */
+body[data-media="xs"] .fluent-multi-splitter > div:nth-child(-n+2),
+body[data-media="sm"] .fluent-multi-splitter > div:nth-child(-n+2) {
+    display: none;
 }

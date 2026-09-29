@@ -1,4 +1,5 @@
 using BlazorSharedPageSample.Server.Components;
+using BlazorSharedPageSample.Server.Services;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +9,17 @@ builder.Services.
     AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddFluentUIComponents();
+
+// Registra padronização Fluent UI
+builder.Services.AddFluentUIComponents(config =>
+{
+    config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Circular);
+    config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+});
+
 
 builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 
 var app = builder.Build();
 

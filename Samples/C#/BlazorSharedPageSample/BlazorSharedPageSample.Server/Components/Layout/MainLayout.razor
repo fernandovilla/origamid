@@ -8,13 +8,64 @@
     <FluentLayoutItem Area="@LayoutArea.Header">
         <FluentStack VerticalAlignment="VerticalAlignment.Center">
             <FluentLayoutHamburger />
+            <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">.NET Live TV</FluentText>
+
+            <FluentSpacer />
+
+            <FluentStack VerticalAlignment="VerticalAlignment.Center" Width="200px">
+
+                @* Theme selection button*@
+                <FluentButton id="theme-button"
+                    Appearance="ButtonAppearance.Transparent"
+                    IconStart="@(new Icons.Regular.Size20.Color().WithColor(SystemColors.Neutral.ForegroundOnBrand))"
+                    Class="fluent-header-hover"
+                    Title="Choose a color theme" />
+
+                <FluentMenu Trigger="theme-button">
+                    <FluentMenuList>
+                        <FluentMenuItem OnClick="@(async e => await ApplyCustomThemeAsync("#0F6CDB"))">Default</FluentMenuItem>
+                        <FluentMenuItem OnClick="@(async e => await ApplyCustomThemeAsync("#BD0F0F"))">Red</FluentMenuItem>
+                        <FluentMenuItem OnClick="@(async e => await ApplyCustomThemeAsync("#239A8C"))">Green</FluentMenuItem>
+                        <FluentMenuItem OnClick="@(async e => await ApplyCustomThemeAsync("#FF8600", isExact: false))">Orange</FluentMenuItem>
+                        <FluentMenuItem OnClick="@(async e => await ApplyCustomThemeAsync("#0F6CDB", isExact: true))">Orange (exact)</FluentMenuItem>
+                    </FluentMenuList>
+
+                </FluentMenu>
+
+
+                <FluentSpacer />
+
+                <FluentButton Appearance="ButtonAppearance.Transparent"
+                    IconOnly="true"
+                    Class="fluent-header-hover"
+                    Title="Switch to Light/Dark theme"
+                    onclick="@(async e => await ThemeService.SwitchThemeAsync())">
+
+                    <FluentIcon class="hidden-if-light" 
+                        Value="@(new Icons.Filled.Size20.DarkTheme().WithColor(SystemColors.Neutral.ForegroundOnBrand))" />
+
+                    <FluentIcon class="hidden-if-dark" 
+                        Style="transform: rotate(180deg);"
+                        Value="@(new Icons.Filled.Size20.DarkTheme().WithColor(SystemColors.Neutral.ForegroundOnBrand))" />            
+                </FluentButton>
+            </FluentStack>
+        </FluentStack>
+    </FluentLayoutItem>
+
+
+
+
+
+    @* <FluentLayoutItem Area="@LayoutArea.Header">
+        <FluentStack VerticalAlignment="VerticalAlignment.Center">
+            <FluentLayoutHamburger />
             <FluentText Weight="TextWeight.Bold" Size="TextSize.Size400">
                 .Net Live TV - ExpenseTracker
             </FluentText>
 
             
         </FluentStack>
-    </FluentLayoutItem>
+    </FluentLayoutItem> *@
 
 
     <!-- navigation bar -->
@@ -29,16 +80,7 @@
 
 
     <FluentLayoutItem Area="@LayoutArea.Footer">
-        <FluentStack Orientation="@Orientation.Horizontal" VerticalAlignment="VerticalAlignment.Center">
-            <div>
-                Desenvolvido por eu mesmo em @DateTime.Now.ToShortDateString()
-            </div>
-
-            <div>                
-                <FluentLabel>Dark Theme</FluentLabel>
-                <FluentSwitch @bind-Value="@DarkTheme" />
-            </div>
-        </FluentStack>
+        Desenvolvido por eu mesmo em @DateTime.Now.ToShortDateString()
     </FluentLayoutItem>
 
     
@@ -78,5 +120,19 @@
     {
         if (firstRender)
             SwitchTheme();
+    }
+
+    private async Task ApplyCustomThemeAsync(string colorTheme, bool isExact = false)
+    {
+        var isDark = await ThemeService.IsDarkModeAsync();
+
+        var theme = await ThemeService.CreateCustomThemeAsync(new ThemeSettings()
+            {
+                Color = colorTheme,
+                Mode = isDark ? ThemeMode.Dark : ThemeMode.Light,
+                IsExact = isExact
+            });
+
+        await ThemeService.SetThemeAsync(theme);
     }
 }

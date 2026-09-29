@@ -1,14 +1,35 @@
-﻿
+﻿@inject IConfiguration Config
 
 
 
 <FluentNav @ref="navmenu" Padding="@Padding.All2" style="height:100%">
     <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())">Home</FluentNavItem>
-    <FluentNavItem Href="/not-found" IconRest="@(new Icons.Regular.Size20.RemixAdd())">Expense Tracket</FluentNavItem>
+    <FluentNavItem Href="/expenses" IconRest="@(new Icons.Regular.Size20.RemixAdd())">Expense Tracket</FluentNavItem>
+    <FluentNavItem Href="/statistics" IconRest="@(new Icons.Regular.Size20.DataPie())">Statistics</FluentNavItem>
 </FluentNav>
 
 
 
 @code {
-    private FluentNav navmenu = default!;    
+    private FluentNav navmenu = default!;
+
+    private string MenusJson => Config.GetValue<string>("Menu")!;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            
+        }
+    }
+
+
+    private class Menu
+    {
+        public string Name { get; set; }
+        public string Label { get; set; }
+        public string Route { get; set; }
+        public string Icon { get; set; }
+    }
+
 }

@@ -1,0 +1,110 @@
+﻿@using BlazorSharedPageSample.Server.Services
+
+@inject IExpenseService Service
+
+<FluentDialogBody>
+
+    <EditForm Model="@Item" OnValidSubmit="@OnSubmitAsync" novalidade="true">
+        <DataAnnotationsValidator />
+
+        @* Description *@
+        <FluentTextInput Label="Description"
+                         @bind-value="@Item.Description"
+                         Placeholder="What did you pay for?"
+                         Required="true"
+                         Width="100%" />
+
+        @* Amount *@
+        <FluentNumberInput Label="Amount"
+                           TValue="decimal"
+                           @bind-Value="@Item.Amount"
+                           Min="0"
+                           Max="10000"
+                           Step="0.10m"
+                           Width="150px">
+
+            <StartTemplate>
+                <FluentText>R$</FluentText>
+            </StartTemplate>
+        </FluentNumberInput>
+
+        @* Date *@
+        <FluentDatePicker Label="Date" @bind-Value="@Item.Date" Width="100%"/>
+
+        @* Category *@
+        <FluentSelect Label="Category"
+                      @bind-Value="@Item.Category"
+                      Items="@Expense.AllCategories"
+                      Width="100%" />
+
+        @* Color *@
+        <FluentColorPickerInput Label="Color"
+                                @bind-Value="@Item.Color"
+                                View="ColorPickerView.ColorWheel"
+                                Width="150px" />
+
+        @if (DialogInstance is null)
+        {
+            @* Actions *@
+            <FluentStack HorizontalGap="8px"
+            Margin="@Margin.Top4"
+            HorizontalAlignment="HorizontalAlignment.End"
+            VerticalAlignment="VerticalAlignment.Center"
+            Orientation="Orientation.Horizontal">
+
+                <FluentButton Type="ButtonType.Reset"
+                OnClick="@(() => Item = new())"
+                IconStart="@(new Icons.Regular.Size20.ArrowReset())"
+                ButtonShape="ButtonShape.Square">Reset</FluentButton>
+
+                @* <FluentSpacer /> *@
+
+                <FluentButton Type="ButtonType.Submit"
+                Appearance="ButtonAppearance.Primary"
+                IconStart="@(new Icons.Regular.Size20.Save())">Save</FluentButton>
+            </FluentStack>
+        }
+
+
+    </EditForm>
+
+</FluentDialogBody>
+
+
+@code {
+
+    [Parameter]
+    public Expense Item { get; set; }
+
+    [CascadingParameter]
+    public IDialogInstance? DialogInstance { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (DialogInstance is not null)
+        {
+            DialogInstance.Options.Header.Title = "Edit Expense";
+
+            // Buton OK
+            DialogInstance.Options.Footer.PrimaryAction.Label = "Save";
+            DialogInstance.Options.Footer.PrimaryAction.OnClickAsync = (dialog)
+                => Item.IsValid ? DialogInstance.CloseAsync(Item) : Task.CompletedTask;
+
+            // Button Cancel
+            DialogInstance.Options.Footer.SecondaryAction.Label = "Cancel";
+            DialogInstance.Options.Footer.SecondaryAction.OnClickAsync = (dialog)
+                => DialogInstance.CloseAsync();
+        }
+    }
+
+
+
+
+    private Task OnSubmitAsync()
+    {
+        Service.Add(Item);
+        Item = new();
+        return Task.CompletedTask;
+    }
+
+}
