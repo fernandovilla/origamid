@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Sistema.WebAPI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+#region DBContext Dependency Injection
+
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    options.UseNpgsql(connectionString);    
+});
+
+#endregion
+
 
 var app = builder.Build();
 
