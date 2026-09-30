@@ -1,0 +1,35 @@
+﻿
+
+
+<FluentNav @ref="navmenu" Padding="@Padding.All2" style="height:100%">
+
+
+    <FluentStack Orientation="Orientation.Vertical" VerticalAlignment="VerticalAlignment.Center">
+        <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())">Home</FluentNavItem>
+        <FluentNavItem Href="/expenses" IconRest="@(new Icons.Regular.Size20.RemixAdd())">Cadastros</FluentNavItem>
+        <FluentNavItem Href="/statistics" IconRest="@(new Icons.Regular.Size20.DataPie())">Statistics</FluentNavItem>
+
+        <FluentNavCategory title="cadastros" IconRest="@(new Icons.Regular.Size20.NotePin())">
+            <FluentNavSectionHeader Title="Clientes" />
+            <FluentNavItem>Clientes</FluentNavItem>
+
+            <FluentNavSectionHeader Title="Produtos e serviços" />
+            <FluentNavItem>Serviços</FluentNavItem>
+        </FluentNavCategory>
+
+        <FluentSpacer />
+
+        <FluentNavCategory title="settings" IconRest="@(new Icons.Regular.Size20.Engine())">
+            <FluentNavItem>Empresa</FluentNavItem>
+            <FluentNavItem>Usuários</FluentNavItem>
+        </FluentNavCategory>
+    </FluentStack>
+
+</FluentNav>
+
+
+@code {
+
+    public FluentNav navmenu = default!;
+
+}

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Sistema.Domain/Sistema.Domain.csproj" />
+  <Project Path="Sistema.Pages/Sistema.Pages.csproj" />
+  <Project Path="Sistema.WebAPI/Sistema.WebAPI.csproj" />
+  <Project Path="Sistema.WebApp/Sistema.WebApp.csproj" />
+</Solution>
