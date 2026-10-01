@@ -1,0 +1,109 @@
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+
+<div class="auth-page-wrapper auth-bg-cover d-flex justify-center align-center">
+    <div class="bg-overlay" />
+    
+    <MudCard class="auth-card">
+        <MudCardContent style="padding:0px;">
+            <MudGrid Justify="Justify.Center" style="margin:0px;padding:0px;">
+                
+                <MudItem xs="12" sm="12" md="6" class="auth-card-image">
+                    <div class="bg-overlay"></div>
+                </MudItem>
+
+                <MudItem xs="12" sm="12" md="6" class="auth-card-body">
+                    @Body
+                </MudItem> 
+            </MudGrid>
+
+        </MudCardContent>
+    </MudCard>
+   
+</div>
+
+
+<style>
+    /* BACKGROUN - START */
+    .auth-page-wrapper {
+        padding-bottom: 40px;
+        position: relative;
+        z-index: 2;        
+    }
+
+    .auth-bg-cover {
+        background: linear-gradient(-45deg,#405189 50%,#0ab39c)
+    }
+
+        .auth-bg-cover > .bg-overlay {
+            background-image: url('/assets/images/cover-pattern.png');
+            background-position: center;
+            background-size: cover;
+            opacity: 1;
+            background-color: transparent;
+            height: 100vh;
+            width: 100vw;
+        }
+    /* BACKGROUND - END */
+
+    .auth-card {
+        position: absolute;                        
+        border-radius: 5px;
+        background: white;
+        width: 1080px;
+        height: 67vh;        
+    }
+
+    .auth-card-image {
+        border-radius: 5px 0 0 5px;
+        background-image: url('/assets/images/auth-one-bg.jpg');
+        background-position: center;
+        background-size: cover;        
+        z-index: 0;       
+        width: 100%;
+        height: 67vh;
+        padding: 0px !important;
+    }
+
+        .bg-overlay {
+            width: 100%;
+            height: 67vh;
+            border-radius: 5px 0 0 5px;
+            background: linear-gradient(to right, #364574, #405189);
+            opacity: .8;
+        }
+
+    .auth-card-body {
+        padding: 3rem !important;
+    }
+
+    @@media only screen and (max-width: 600px) {
+        .auth-card { width: 90%; }
+
+        .auth-card-image {
+            background-position: start;
+            background-size: none;        
+            heigth: 30vh;
+        }
+    }
+
+    @@media only screen and (max-width: 1080px) {
+        .auth-card { 
+            width: 720px; 
+        }
+
+        .auth-card-image {
+            background-position: start;
+            heigth: 30vh;
+        }
+    }
+
+    
+
+</style>
+
+
+
+@code {
+
+}

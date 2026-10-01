@@ -10,14 +10,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0" />
+    <PackageReference Include="MudBlazor" Version="9.11.0" />
+    <PackageReference Include="MudBlazor.FontIcons.MaterialIcons" Version="1.5.0" />
+    <PackageReference Include="MudBlazor.ThemeManager" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sistema.Pages\Sistema.Pages.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Components\Layout\" />
+    <Folder Include="wwwroot\assets\css\" />
   </ItemGroup>
 
 </Project>

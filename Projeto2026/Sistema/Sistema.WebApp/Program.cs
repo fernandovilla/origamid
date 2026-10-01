@@ -9,8 +9,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddFluentUIComponents(config =>
 {
-    //config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Circular);
+    config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Rounded);
     config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+    config.Toast.Position = ToastPosition.TopEnd;
 });
 
 builder.Services.AddScoped<IThemeService, ThemeService>();

@@ -34,13 +34,10 @@
 </div>
 
 @code {
-   
 
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await ThemeService.SetThemeAsync(ThemeMode.Light);
-        }
-    }
+    // protected async override Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //         await ThemeService.SetThemeAsync(ThemeMode.Light);        
+    // }
 }

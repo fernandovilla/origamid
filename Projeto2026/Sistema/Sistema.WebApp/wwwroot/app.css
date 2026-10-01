@@ -1,6 +1,77 @@
+
+
+:root {
+    --text-opacity: 0.9;
+    --text-body: #212529;
+    --font-size-body: 0.8125rem;
+    --font-size-primary: var(--font-size-body);
+    --font-size-secondary: var(--font-size-body);
+    --font-h1-size: 1rem;
+    --text-primary-color: rgba(64, 81, 137, var(--text-opacity)) !important;
+    --text-secondary-color: #878a99 !important;
+}
+
+
+body {
+    font-family: "Poppins", sans-serif !important;
+    font-style: normal !important;
+    color: var(--text-body) !important;
+}
+
 h1:focus {
     outline: none;
 }
+
+h1, h2, h3, h4, h5 {
+    color: var(--text-primary-color) !important;
+    margin-top: 0px;
+    margin-bottom: 0.5rem;
+    padding: 0px;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1.015625rem !important;
+}
+
+.text-primary {
+    font-size: var(--font-size-primary);
+    color: var(--text-primary-color);
+    margin-top: 0px;
+    margin-bottom: 0.5rem;
+    padding:0px;
+}
+
+.text-secondary {
+    font-size: var(--font-size-secondary);
+    color: var(--text-secondary-color);
+    margin-top: 0px;
+    margin-bottom: 0.5rem;
+    padding: 0px;
+}
+
+p,a {
+    margin-top: 0px;
+    margin-bottom: 1rem;
+    padding: 0px;
+}
+
+
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
