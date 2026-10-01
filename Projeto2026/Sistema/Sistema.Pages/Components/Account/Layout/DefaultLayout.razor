@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+
+<div class="login-card">
+    <FluentCard Width="50%" Height="50%">
+        <FluentStack Height="100%">
+            <div>A</div>
+            <FluentSpacer />
+            <FluentDivider Vertical="true" />
+            <FluentSpacer />
+            <div>
+                @Body
+            </div>
+        </FluentStack>
+        
+    </FluentCard>
+</div>
+
+
+
+<style>
+    .login-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+
+@code {
+
+}

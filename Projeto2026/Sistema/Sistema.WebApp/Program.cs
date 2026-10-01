@@ -13,6 +13,7 @@ builder.Services.AddFluentUIComponents(config =>
     config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
 });
 
+builder.Services.AddScoped<IThemeService, ThemeService>();
 
 var app = builder.Build();
 

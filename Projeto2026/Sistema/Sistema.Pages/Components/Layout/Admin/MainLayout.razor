@@ -1,0 +1,44 @@
+﻿
+@inherits LayoutComponentBase
+
+@inject IThemeService ThemeService
+
+<FluentLayout>
+
+    <FluentLayoutItem Area="@LayoutArea.Header">
+        <FluentStack>
+            <FluentLabel>NineGoldy</FluentLabel>
+            <FluentSpacer />
+            <FluentLayoutHamburger />
+        </FluentStack>
+    </FluentLayoutItem>
+
+    
+    <FluentLayoutItem Area="@LayoutArea.Navigation">
+        <NavMenu />
+    </FluentLayoutItem>
+
+    <FluentLayoutItem Area="@LayoutArea.Content" Padding="@Padding.All2">    
+        @Body
+    </FluentLayoutItem>
+
+    <FluentLayoutItem Area="@LayoutArea.Footer">
+        Desenvolvido por NineGoldy Soluções
+    </FluentLayoutItem>
+</FluentLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code {
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ThemeService.SetThemeAsync(ThemeMode.Light);
+        }
+    }
+}

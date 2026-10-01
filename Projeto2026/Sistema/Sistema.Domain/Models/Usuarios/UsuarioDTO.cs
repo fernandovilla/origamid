@@ -2,12 +2,21 @@
 
 namespace Sistema.Domain.Models.Usuarios
 {
+    public enum UserRole
+    {
+        Default,     
+        Editor,
+        Admin,
+    }
+
     public class UsuarioDTO : IStatusManager
     {
         public Guid Id { get; set; }
         public string Nome { get; set; }
-        public string Username { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
         public string HashPassword { get; set; }
+        public UserRole Role { get; set; }
         public Guid CompaniaId { get; set; }
         public EmpresaDTO Empresa { get; set; }
 
