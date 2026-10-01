@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
 
-<div class="login-card">
+<div class="auth-page-wrapper auth-bg-cover auth-card">
+    <div class="bg-overlay">
+    </div>
     <FluentCard Width="50%" Height="50%">
         <FluentStack Height="100%">
             <div>A</div>
@@ -12,14 +14,36 @@
                 @Body
             </div>
         </FluentStack>
-        
+
     </FluentCard>
 </div>
 
-
-
 <style>
-    .login-card {
+    .auth-page-wrapper {        
+        padding-bottom: 40px;
+        position: relative;
+        z-index: 2;
+        width: 100%;       
+    }
+
+    .auth-bg-cover {
+        background: linear-gradient(45deg, #405189 40%, #0ab39d)
+    }
+
+        .auth-bg-cover > .bg-overlay {
+
+            background-image: url(~/images/cover-pattern.png);
+            background-position: center;
+            background-size: cover;
+            opacity: 1;
+            background-color: transparent;
+        }
+
+        .auth-bg-cover .footer {
+            color: rgba(255,255,255,.5)
+        }
+
+    .auth-card {
         display: flex;
         align-items: center;
         justify-content: center;
