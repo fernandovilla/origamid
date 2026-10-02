@@ -16,7 +16,9 @@ builder.Services.AddRazorComponents()
 //});
 //builder.Services.AddScoped<IThemeService, ThemeService>();
 
+
 builder.Services.AddMudServices();
+
 
 var app = builder.Build();
 

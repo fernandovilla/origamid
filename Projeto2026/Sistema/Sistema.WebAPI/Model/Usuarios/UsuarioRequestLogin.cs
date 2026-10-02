@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sistema.Domain.Models.Usuarios
 {
-    public class UsuarioRequest
+    public class UsuarioRequestLogin
     {
         public string UserName { get; set; }
         public string Password { get; set; }

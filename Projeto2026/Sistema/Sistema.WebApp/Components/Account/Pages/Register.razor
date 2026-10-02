@@ -1,32 +1,48 @@
 ﻿@page "/account/register"
 
+@using System.ComponentModel.DataAnnotations
 @using MudBlazor
+@using Sistema.WebApp.Components.CustomControls
 @inherits ComponentPageBase
 @layout Components.Account.Layout.DefaultLayout
 
 <PageTitle>Cadastro de Usuário</PageTitle>
 
-<div class="d-flex flex-column">   
+<div class="d-flex flex-column">
     <div>
         <h5 class="text-primary">Criar uma conta!</h5>
         <p class="text-secondary">Faça login para acessar o sistema</p>
     </div>
 
-    <div>
-        <MudForm @ref="_form">
-            <MudGrid>
-                <MudItem xs="12" lg="12">
-                    <MudInputLabel ForId="username">E-mail</MudInputLabel>         
-                    <MudTextField id="username" @bind-Value="@Usuario.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"  />
-                </MudItem>
+    <div class="mt-6">
+        <EditForm Model="@UserInput">
+            <DataAnnotationsValidator />
+            @*<ValidationSummary class="invalid-feedback" role="alert" />*@
 
-                <MudItem xs="12" lg="12">                  
-                    <MudInputLabel ForId="password">Senha</MudInputLabel>
-                    <MudTextField id="password" @bind-Value="@Usuario.Password" Variant="Variant.Outlined" Margin="Margin.Dense" />            
-                </MudItem>
-            </MudGrid>            
-        </MudForm>
+            <MudFocusTrap class="d-flex flex-column" DefaultFocus="DefaultFocus.FirstChild">
+                <div>                    
+                    <label for="email">E-mail</label>
+                    <AppTextField id="email" @bind-Value="@UserInput.Email" Placeholder="Digite o e-mail" />
+                    <ValidationMessage For="() => UserInput.Email" class="invalid-feedback" />
+                </div>
 
+                <div>
+                    <label for="password" class="mt-4">Senha</label>
+                    <AppPasswordField id="password" @bind-Value="@UserInput.Password" Placeholder="Digite a senha" />
+                    <ValidationMessage For="() => UserInput.Password" class="invalid-feedback" />
+                </div>
+
+                <div>
+                    <label for="confirmpassword" class="mt-4">Confirme a Senha</label>
+                    <AppPasswordField id="confirmpassword" @bind-Value="@UserInput.ConfirmPassword" Placeholder="Confirme a senha" />
+                    <ValidationMessage For="() => UserInput.ConfirmPassword" class="invalid-feedback" />
+                </div>
+
+                <MudStack AlignItems="AlignItems.Center" class="mt-6"> 
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Cadastrar</MudButton>                    
+                </MudStack>
+            </MudFocusTrap>
+        </EditForm>
 
     </div>
 
@@ -34,8 +50,25 @@
 
 
 @code {
-    private UsuarioRequest Usuario { get; set; } = new();
-    private string userName = "";
+    private UserInputModel UserInput { get; set; } = new();    
 
-    private MudForm _form;
+
+    private sealed class UserInputModel
+    {
+        [Required(ErrorMessage = "E-mail não informado")]
+        [EmailAddress(ErrorMessage ="O e-mail informado não é válido")]
+        [Display(Name = "E-mail")]
+        public string Email { get; set; } = "";
+
+        [Required(ErrorMessage = "Senha não informada")]
+        [StringLength(maximumLength: 20, MinimumLength = 6, ErrorMessage = "A senha deve ter entre 6 e 20 caractares")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Senha")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirme a Senha")]
+        [Compare("Password", ErrorMessage = "A senha e a confirmação da senha não conferem")]
+        public string ConfirmPassword { get; set; }
+    }
 }

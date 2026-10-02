@@ -94,6 +94,11 @@ p,a {
     outline: 1px solid #e50000;
 }
 
+.invalid-feedback {
+    font-size: 0.7125rem;
+    color: red;
+}
+
 .validation-message {
     color: #e50000;
 }

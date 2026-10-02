@@ -4,7 +4,7 @@ namespace Sistema.Domain.Models.Usuarios
 {
     public enum UserRole
     {
-        Default,     
+        Default,
         Editor,
         Admin,
     }
@@ -17,8 +17,8 @@ namespace Sistema.Domain.Models.Usuarios
         public string UserName { get; set; }
         public string HashPassword { get; set; }
         public UserRole Role { get; set; }
-        public Guid CompaniaId { get; set; }
-        public EmpresaDTO Empresa { get; set; }
+
+        public IQueryable<EmpresaDTO>? Empresas { get; set; }
 
 
         public StatusCadastroEnum Status { get; set; } = StatusCadastroEnum.Normal;

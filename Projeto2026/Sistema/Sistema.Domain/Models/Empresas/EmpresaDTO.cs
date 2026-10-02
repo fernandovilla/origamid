@@ -1,4 +1,6 @@
-﻿namespace Sistema.Domain.Models.Empresas
+﻿using Sistema.Domain.Models.Usuarios;
+
+namespace Sistema.Domain.Models.Empresas
 {
     public class EmpresaDTO : IStatusManager
     {
@@ -9,5 +11,6 @@
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; } = null;
         public DateTimeOffset? DeletedAt { get; set; } = null;
+        public IQueryable<UsuarioDTO>? Usuarios { get; set; }
     }
 }
