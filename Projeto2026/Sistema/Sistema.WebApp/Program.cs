@@ -1,4 +1,5 @@
-using Microsoft.FluentUI.AspNetCore.Components;
+
+using MudBlazor.Services;
 using Sistema.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,14 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddFluentUIComponents(config =>
-{
-    config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Rounded);
-    config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
-    config.Toast.Position = ToastPosition.TopEnd;
-});
+//builder.Services.AddFluentUIComponents(config =>
+//{
+//    config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Rounded);
+//    config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+//    config.Toast.Position = ToastPosition.TopEnd;
+//});
+//builder.Services.AddScoped<IThemeService, ThemeService>();
 
-builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 

@@ -3,19 +3,32 @@
 :root {
     --text-opacity: 0.9;
     --text-body: #212529;
-    --font-size-body: 0.8125rem;
+    --font-size-body: 0.8125rem !important;
     --font-size-primary: var(--font-size-body);
     --font-size-secondary: var(--font-size-body);
-    --font-h1-size: 1rem;
+    --font-size-h1: 2rem;
+    --font-size-h2: 1.500rem;
+    --font-size-h3: 1.100rem;
+    --font-size-h4: 1.052540rem;
+    --font-size-h5: 1.015625rem;
     --text-primary-color: rgba(64, 81, 137, var(--text-opacity)) !important;
     --text-secondary-color: #878a99 !important;
+    --mud-typography-default-size: .8125rem;
 }
 
 
-body {
+body, input {
     font-family: "Poppins", sans-serif !important;
     font-style: normal !important;
     color: var(--text-body) !important;
+}
+
+input, label { 
+    font-size: var(--font-size-body) !important;
+}
+
+label{
+    font-weight: 500;
 }
 
 h1:focus {
@@ -29,8 +42,8 @@ h1, h2, h3, h4, h5 {
     padding: 0px;
 }
 
-h2 {
-    font-size: 2rem;
+h1 {
+    font-size: var(--font-size-h1);
 }
 
 h2 {
@@ -46,7 +59,7 @@ h4 {
 }
 
 h5 {
-    font-size: 1.015625rem !important;
+    font-size: var(--font-size-h5) !important;
 }
 
 .text-primary {

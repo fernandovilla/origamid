@@ -1,0 +1,41 @@
+﻿@page "/account/register"
+
+@using MudBlazor
+@inherits ComponentPageBase
+@layout Components.Account.Layout.DefaultLayout
+
+<PageTitle>Cadastro de Usuário</PageTitle>
+
+<div class="d-flex flex-column">   
+    <div>
+        <h5 class="text-primary">Criar uma conta!</h5>
+        <p class="text-secondary">Faça login para acessar o sistema</p>
+    </div>
+
+    <div>
+        <MudForm @ref="_form">
+            <MudGrid>
+                <MudItem xs="12" lg="12">
+                    <MudInputLabel ForId="username">E-mail</MudInputLabel>         
+                    <MudTextField id="username" @bind-Value="@Usuario.UserName" Variant="Variant.Outlined" Margin="Margin.Dense"  />
+                </MudItem>
+
+                <MudItem xs="12" lg="12">                  
+                    <MudInputLabel ForId="password">Senha</MudInputLabel>
+                    <MudTextField id="password" @bind-Value="@Usuario.Password" Variant="Variant.Outlined" Margin="Margin.Dense" />            
+                </MudItem>
+            </MudGrid>            
+        </MudForm>
+
+
+    </div>
+
+</div>
+
+
+@code {
+    private UsuarioRequest Usuario { get; set; } = new();
+    private string userName = "";
+
+    private MudForm _form;
+}
