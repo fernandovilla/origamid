@@ -1,6 +1,9 @@
 
 using MudBlazor.Services;
-using Sistema.WebApp.Components;
+using Ninegoldy.Components;
+using Ninegoldy.Data;
+using Npgsql;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +11,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//builder.Services.AddFluentUIComponents(config =>
-//{
-//    config.DefaultValues.For<FluentButton>().Set(p => p.Shape, ButtonShape.Rounded);
-//    config.DefaultValues.ForAny<FluentDatePicker<object>>().Set(p => p.Culture, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
-//    config.Toast.Position = ToastPosition.TopEnd;
-//});
-//builder.Services.AddScoped<IThemeService, ThemeService>();
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "";
+    options.DefaultSignInScheme = "";
+})
+    .AddGoogle(options =>
+    {
+        options.ClientId = "";
+        options.ClientSecret = "";
+    })
+    .AddFacebook(options =>
+    {
+        options.ClientId = "";
+        options.ClientSecret = "";
+    })
+    
 
 builder.Services.AddMudServices();
 

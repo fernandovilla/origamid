@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Sistema.WebAPI.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +11,11 @@ builder.Services.AddOpenApi();
 
 #region DBContext Dependency Injection
 
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    options.UseNpgsql(connectionString);    
-});
+//builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+//{
+//    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+//    options.UseNpgsql(connectionString);    
+//});
 
 #endregion
 

@@ -1,15 +1,19 @@
-﻿using Sistema.Domain.Models.Empresas;
+﻿using Ninegoldy.Data;
+using Ninegoldy.Models.Users;
+using System.Data.SqlTypes;
 
-namespace Sistema.WebAPI.Data.Repositories
+namespace Ninegoldy.Models.Users
 {
-    public class EmpresaRepository : IEmpresaRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        public EmpresaRepository(ApplicationDbContext context)
+
+        public UserRepository(ApplicationDbContext context)
         {
             _context = context;
         }
-        public Task<EmpresaDTO> AddAsync(EmpresaDTO entity)
+
+        public Task<UserDTO> AddAsync(UserDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -19,17 +23,17 @@ namespace Sistema.WebAPI.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<EmpresaDTO>> GetAllAsync()
+        public Task<IList<UserDTO>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<EmpresaDTO> GetByIdAsync(Guid id)
+        public Task<UserDTO> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(EmpresaDTO entity)
+        public Task UpdateAsync(UserDTO entity)
         {
             throw new NotImplementedException();
         }

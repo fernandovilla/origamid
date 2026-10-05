@@ -1,9 +1,4 @@
-﻿using Sistema.Domain.Models.Usuarios;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sistema.Domain.Models
+﻿namespace Ninegoldy.Models
 {
     public interface IRepositoryBase<T>
     {

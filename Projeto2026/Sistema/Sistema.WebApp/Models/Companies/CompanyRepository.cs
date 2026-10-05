@@ -1,17 +1,18 @@
-﻿using Sistema.Domain.Models.Usuarios;
+﻿using Ninegoldy.Data;
+using Ninegoldy.Models.Companies;
 
-namespace Sistema.WebAPI.Data.Repositories
+namespace Ninegoldy.Models.Companies
 {
-    public class UsuarioRepository : IUsuarioRepository
+    public class CompanyRepository : ICompanyRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UsuarioRepository(ApplicationDbContext context)
+        public CompanyRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Task<UsuarioDTO> AddAsync(UsuarioDTO entity)
+        public Task<CompanyDTO> AddAsync(CompanyDTO entity)
         {
             throw new NotImplementedException();
         }
@@ -21,17 +22,17 @@ namespace Sistema.WebAPI.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<UsuarioDTO>> GetAllAsync()
+        public Task<IList<CompanyDTO>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioDTO> GetByIdAsync(Guid id)
+        public Task<CompanyDTO> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(UsuarioDTO entity)
+        public Task UpdateAsync(CompanyDTO entity)
         {
             throw new NotImplementedException();
         }

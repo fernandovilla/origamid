@@ -1,4 +1,4 @@
-namespace Sistema.WebAPI
+namespace Ninegoldy.WebAPI
 {
     public class WeatherForecast
     {

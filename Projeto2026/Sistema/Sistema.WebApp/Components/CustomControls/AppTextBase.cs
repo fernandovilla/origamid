@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace Sistema.WebApp.Components.CustomControls
+namespace Ninegoldy.Components.CustomControls
 {
     public class AppTextBase<T> : MudTextField<T>
     {

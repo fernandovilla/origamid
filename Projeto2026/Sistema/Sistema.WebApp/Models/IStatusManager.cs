@@ -1,4 +1,4 @@
-﻿namespace Sistema.Domain.Models
+﻿namespace Ninegoldy.Models
 {
     public enum StatusCadastroEnum
     {

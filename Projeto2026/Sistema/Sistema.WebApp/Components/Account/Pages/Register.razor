@@ -2,7 +2,7 @@
 
 @using System.ComponentModel.DataAnnotations
 @using MudBlazor
-@using Sistema.WebApp.Components.CustomControls
+
 @inherits ComponentPageBase
 @layout Components.Account.Layout.DefaultLayout
 
@@ -14,31 +14,30 @@
         <p class="text-secondary">Faça login para acessar o sistema</p>
     </div>
 
-    <div class="mt-6">
-        <EditForm Model="@UserInput">
-            <DataAnnotationsValidator />
-            @*<ValidationSummary class="invalid-feedback" role="alert" />*@
+    <div>
+        <EditForm Model="@UserInput" OnValidSubmit="RegisterUserAsync">
+            <DataAnnotationsValidator />          
 
             <MudFocusTrap class="d-flex flex-column" DefaultFocus="DefaultFocus.FirstChild">
                 <div>                    
-                    <label for="email">E-mail</label>
+                    <label for="email" class="mt-2">E-mail</label>
                     <AppTextField id="email" @bind-Value="@UserInput.Email" Placeholder="Digite o e-mail" />
                     <ValidationMessage For="() => UserInput.Email" class="invalid-feedback" />
                 </div>
 
                 <div>
-                    <label for="password" class="mt-4">Senha</label>
+                    <label for="password" class="mt-2">Senha</label>
                     <AppPasswordField id="password" @bind-Value="@UserInput.Password" Placeholder="Digite a senha" />
                     <ValidationMessage For="() => UserInput.Password" class="invalid-feedback" />
                 </div>
 
                 <div>
-                    <label for="confirmpassword" class="mt-4">Confirme a Senha</label>
+                    <label for="confirmpassword" class="mt-2">Confirme a Senha</label>
                     <AppPasswordField id="confirmpassword" @bind-Value="@UserInput.ConfirmPassword" Placeholder="Confirme a senha" />
                     <ValidationMessage For="() => UserInput.ConfirmPassword" class="invalid-feedback" />
                 </div>
 
-                <MudStack AlignItems="AlignItems.Center" class="mt-6"> 
+                <MudStack AlignItems="AlignItems.Center" class="mt-4"> 
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Cadastrar</MudButton>                    
                 </MudStack>
             </MudFocusTrap>
@@ -51,6 +50,14 @@
 
 @code {
     private UserInputModel UserInput { get; set; } = new();    
+
+    private async Task RegisterUserAsync(EditContext editContext)
+    {
+            
+    }
+
+
+
 
 
     private sealed class UserInputModel

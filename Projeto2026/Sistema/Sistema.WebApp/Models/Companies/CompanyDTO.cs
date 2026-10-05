@@ -1,8 +1,8 @@
-﻿using Sistema.Domain.Models.Usuarios;
+﻿using Ninegoldy.Models.Users;
 
-namespace Sistema.Domain.Models.Empresas
+namespace Ninegoldy.Models.Companies
 {
-    public class EmpresaDTO : IStatusManager
+    public class CompanyDTO : IStatusManager
     {
         public Guid Id { get; set; }
         public string Nome { get; set; }
@@ -11,6 +11,6 @@ namespace Sistema.Domain.Models.Empresas
         public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; } = null;
         public DateTimeOffset? DeletedAt { get; set; } = null;
-        public IQueryable<UsuarioDTO>? Usuarios { get; set; }
+        public IQueryable<UserDTO>? Usuarios { get; set; }
     }
 }

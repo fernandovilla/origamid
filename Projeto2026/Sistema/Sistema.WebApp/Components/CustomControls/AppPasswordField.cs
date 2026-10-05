@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 
-namespace Sistema.WebApp.Components.CustomControls
+namespace Ninegoldy.Components.CustomControls
 {
     public class AppPasswordField : AppTextBase<string>
     {

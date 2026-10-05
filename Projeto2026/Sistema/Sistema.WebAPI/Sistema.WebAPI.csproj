@@ -21,4 +21,10 @@
     <ProjectReference Include="..\Sistema.Domain\Sistema.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Model\Empresas\" />
+    <Folder Include="Model\Usuarios\" />
+  </ItemGroup>
+
 </Project>

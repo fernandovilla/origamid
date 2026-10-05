@@ -1,0 +1,16 @@
+﻿<h3>ExternalLoginPicker</h3>
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+@code {
+    private AuthenticationScheme[] externalLogins = [];
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();      
+    }
+}
