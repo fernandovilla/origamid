@@ -8,7 +8,7 @@ namespace Ninegoldy.Models.Companies
         public string Nome { get; set; }
 
         public StatusCadastroEnum Status { get; set; } = StatusCadastroEnum.Normal;
-        public DateTimeOffset CreateAt { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; } = null;
         public DateTimeOffset? DeletedAt { get; set; } = null;
         public IQueryable<UserDTO>? Usuarios { get; set; }

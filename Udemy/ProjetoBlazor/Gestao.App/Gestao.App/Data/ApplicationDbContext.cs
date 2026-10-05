@@ -51,7 +51,8 @@ namespace Gestao.App.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //base.OnConfiguring(optionsBuilder);
+            base.OnConfiguring(optionsBuilder);
+
             optionsBuilder.AddInterceptors(new StatusManagerInterceptor());
         }
     }

@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Ninegoldy.Data
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IUserRepository UserRepository { get; }
         ICompanyRepository CompanyRepository { get; }
 
-        void SaveChanges();
-        Task SaveChangesAsync();
+        int SaveChanges();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

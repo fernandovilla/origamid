@@ -1,4 +1,4 @@
-﻿<h3>ExternalLoginPicker</h3>
+﻿@* <h3>ExternalLoginPicker</h3>
 
 @inject SignInManager<ApplicationUser> SignInManager
 
@@ -14,3 +14,4 @@
         externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();      
     }
 }
+ *@

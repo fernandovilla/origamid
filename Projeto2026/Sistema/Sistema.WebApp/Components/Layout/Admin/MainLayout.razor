@@ -1,31 +1,30 @@
 ﻿
 @inherits ComponentPageBase
 
+<MudThemeProvider/>
+<MudPopoverProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-@* 
-<FluentLayout>
+<MudLayout>
+    <MudAppBar Color="Color.Primary" Elevation="1">        
+        <NavBar OnToggleDrawer="ToggleDrawer" />
+    </MudAppBar>
 
-    <FluentLayoutItem Area="@LayoutArea.Header">
-        <FluentStack>
-            <FluentLabel>NineGoldy</FluentLabel>
-            <FluentSpacer />
-            <FluentLayoutHamburger />
-        </FluentStack>
-    </FluentLayoutItem>
-
-    
-    <FluentLayoutItem Area="@LayoutArea.Navigation">
+    <MudDrawer ClipMode="DrawerClipMode.Never" Elevation="1" Variant="DrawerVariant.Mini" Open="@_drawerOpen" >
         <NavMenu />
-    </FluentLayoutItem>
+    </MudDrawer>
 
-    <FluentLayoutItem Area="@LayoutArea.Content" Padding="@Padding.All2">    
-        @Body
-    </FluentLayoutItem>
+    <MudMainContent>
+        <div class="px-4 py-4">
+            @Body
+        </div>
+    </MudMainContent>
 
-    <FluentLayoutItem Area="@LayoutArea.Footer">
+    @*<MudFooter Elevation="1">
         Desenvolvido por NineGoldy Soluções
-    </FluentLayoutItem>
-</FluentLayout> *@
+    </MudFooter>*@
+</MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
@@ -35,9 +34,19 @@
 
 @code {
 
-    // protected async override Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender)
-    //         await ThemeService.SetThemeAsync(ThemeMode.Light);        
-    // }
+    private bool _drawerOpen = true;
+
+    private async void ToggleDrawer(object sender, EventArgs e)
+    {
+        _drawerOpen = !_drawerOpen;
+        StateHasChanged();
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            
+        }
+    }
 }

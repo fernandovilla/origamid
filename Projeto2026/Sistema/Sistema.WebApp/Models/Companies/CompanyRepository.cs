@@ -1,5 +1,6 @@
 ﻿using Ninegoldy.Data;
 using Ninegoldy.Models.Companies;
+using System.Linq.Expressions;
 
 namespace Ninegoldy.Models.Companies
 {
@@ -12,7 +13,7 @@ namespace Ninegoldy.Models.Companies
             _context = context;
         }
 
-        public Task<CompanyDTO> AddAsync(CompanyDTO entity)
+        public Task<CompanyDTO> AddAsync(CompanyDTO entity, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -22,12 +23,17 @@ namespace Ninegoldy.Models.Companies
             throw new NotImplementedException();
         }
 
-        public Task<IList<CompanyDTO>> GetAllAsync()
+        public Task<IReadOnlyList<CompanyDTO>> FindAsync(Expression<Func<CompanyDTO, bool>> predicate, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CompanyDTO> GetByIdAsync(Guid id)
+        public Task<IReadOnlyCollection<CompanyDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompanyDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

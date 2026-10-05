@@ -2,5 +2,9 @@
 @inherits LayoutComponentBase
 
 @code {
+    
 
+    [Inject] protected NavigationManager NavigationManager { get; set; } = null!;
+
+    [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
 }

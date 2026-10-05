@@ -9,8 +9,8 @@
     }
     public interface IStatusManager
     {
-        StatusCadastroEnum Status { get; } 
-        DateTimeOffset CreateAt { get; set; }
+        StatusCadastroEnum Status { get; set; } 
+        DateTimeOffset CreatedAt { get; set; }
         DateTimeOffset? UpdatedAt { get; set; }
         DateTimeOffset? DeletedAt { get; set; }
 

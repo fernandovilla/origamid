@@ -1,20 +1,50 @@
 ﻿@page "/account/login"
-@* @using MudBlazor *@
+
 @inherits ComponentPageBase
-
 @layout Components.Account.Layout.DefaultLayout
+@inject IAuthService AuthService
 
-<PageTitle>Acesso do usuário</PageTitle>
+<PageTitle>Acesso de Usuário</PageTitle>
 
-<div style="width: 100%">
-    <div>        
+<div class="d-flex flex-column">
+    <div>
         <h5 class="text-primary">Bem-vindo!</h5>
         <p class="text-secondary">Faça login para acessar o sistema</p>
     </div>
 
     <div>
+        <EditForm Model="@Model" method="POST" FormName="login-form" OnValidSubmit="LoginUserAsync">
+            <DataAnnotationsValidator />
 
-        
+            <MudFocusTrap class="d-flex flex-column" DefaultFocus="DefaultFocus.FirstChild">
+                <div>
+                    <label for="email" class="mt-2">E-mail</label>
+                    <AppTextField id="email" @bind-Value="@Model.Email" Placeholder="Digite o e-mail" />
+                    <ValidationMessage For="() => Model.Email" class="invalid-feedback" />
+                </div>
+
+                <div>
+                    <label for="password" class="mt-2">Senha</label>
+                    <AppPasswordField id="password" @bind-Value="@Model.Password" Placeholder="Digite a senha" fs />
+                    <ValidationMessage For="() => Model.Password" class="invalid-feedback" />
+                </div>
+
+                <div class="d-flex flex-row align-center mt-0 py-0">
+                    <MudCheckBox @bind-Value="@Model.RememberMe" id="remember" />
+                    <label for="remember">Lembrar</label>
+                </div>
+
+                <div class="d-flex flex-row align-center justify-center mt-4">
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>                    
+                </div>
+            </MudFocusTrap>
+        </EditForm>
+
+        <div class="mt-4">
+            <p style="text-align:center;">
+                Não possui uma conta? <a href="/account/register" class="text-decoration-none">Cadastre-se</a>
+            </p>
+        </div>
 
     </div>
 
@@ -24,5 +54,37 @@
 
 
 @code {
+    [SupplyParameterFromForm(FormName = "login-form")]
+    private UserLogin Model { get; set; } = new();
+
+    [CascadingParameter]
+    public HttpContext HttpContext { get; set; } = default!;
+
+    private async Task LoginUserAsync(EditContext editContext)
+    {
+        try
+        {
+            var user = await AuthService.LoginAsync(Model);
+
+            if (user != null)
+            {
+                // Registrar no contexto o usuário logado: Usuário, Claims, ClaimsIdentidy
+
+                //https://youtu.be/oBofp1QeGVQ?t=1681
+                await HttpContext.SignInAsync(AuthConstants.AUTH_SCHEMA, null);
+
+                NavigationManager.NavigateTo("/");
+            }
+        }
+        catch (UserNotFoundException ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // Handle other exceptions
+            // You can show a generic error message to the user or log the error
+        }
+    }
 
 }
