@@ -1,4 +1,5 @@
 ﻿@page "/account/login"
+@using System.Security.Claims
 
 @inherits ComponentPageBase
 @layout Components.Account.Layout.DefaultLayout
@@ -35,7 +36,7 @@
                 </div>
 
                 <div class="d-flex flex-row align-center justify-center mt-4">
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>                    
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Login</MudButton>
                 </div>
             </MudFocusTrap>
         </EditForm>
@@ -70,8 +71,16 @@
             {
                 // Registrar no contexto o usuário logado: Usuário, Claims, ClaimsIdentidy
 
+
+                var claimsIdentidy = new ClaimsIdentity(null, AuthConstants.AUTH_SCHEMA);
+                var claims = new ClaimsPrincipal(claimsIdentidy);
+                var authProperties = new AuthenticationProperties()
+                    {
+                        IsPersistent = Model.RememberMe
+                    };
+
                 //https://youtu.be/oBofp1QeGVQ?t=1681
-                await HttpContext.SignInAsync(AuthConstants.AUTH_SCHEMA, null);
+                await HttpContext.SignInAsync(AuthConstants.AUTH_SCHEMA, claims, authProperties);
 
                 NavigationManager.NavigateTo("/");
             }

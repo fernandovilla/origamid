@@ -1,0 +1,20 @@
+﻿@page "/autorized-page"
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <h3>Página Autorizada! @context.User.Claims.FirstOrDefault(i => i.Type == ClaimTypes.Name)?.Value</h3>        
+    </Authorized>
+
+    <NotAuthorized>
+        <h3> Página Não Autorizada!</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}
