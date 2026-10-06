@@ -1,0 +1,56 @@
+﻿@page "/clientes"
+@using BlazorWebAssemblySample.Client.Services
+
+@rendermode InteractiveAuto
+
+@attribute [StreamRendering]
+
+@inject IClienteService ClienteService
+
+<RenderInfo />
+
+<h5>Lista de Clientes</h5>
+
+
+@* ISSO FUNCIONA EM WEBASSEMBLY *@
+@foreach (var cli in Clientes)
+{
+    <p>@cli.Nome</p>
+}
+
+
+
+@* ISSO NÃO FUNCIONA EM WEBASSEMBLY *@
+@* <EditForm Model="Model" onsubmit="OnSubmit">
+    <div>
+        <label class="form-label">Nome</label>
+        <InputText @bind-Value="Model.Nome" id="nome" type="text" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</EditForm>
+ *@
+
+
+@code {
+
+    private BlazorWebAssemblySample.Models.Cliente Model { get; set; } = default!;
+
+    private IList<BlazorWebAssemblySample.Models.Cliente> Clientes { get; set; } = default!;
+
+    private async Task OnSubmit(EditContext editContext)
+    {
+
+
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Clientes = (await ClienteService.ListarClientes()).ToList();
+    }
+
+    
+
+    
+
+}

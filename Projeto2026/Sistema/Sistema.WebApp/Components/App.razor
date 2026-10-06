@@ -20,11 +20,14 @@
     <link rel="stylesheet" href="@Assets["app.css"]" />
     
     <ImportMap />
-    <HeadOutlet @rendermode="@RenderModeForPage" />
+    @* <HeadOutlet @rendermode="@RenderModeForPage" /> *@
+    <HeadOutlet />
+    
 </head>
 
 <body>
-    <Routes @rendermode="@RenderModeForPage" />
+    @* <Routes @rendermode="@RenderModeForPage" /> *@
+    <Routes />
     <ReconnectModal />
 
     <script src="@Assets["_framework/blazor.web.js"]"></script>
@@ -35,8 +38,8 @@
 
 @code {
 
-    private IComponentRenderMode? RenderModeForPage => InteractiveServer;
-        
+    private IComponentRenderMode? RenderModeForPage => null;
+
     // private static readonly string[] StaticPaths = ["/account/login"];
 
     // [CascadingParameter]

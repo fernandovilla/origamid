@@ -7,6 +7,21 @@
 
 <PageTitle>Acesso de Usuário</PageTitle>
 
+@if (!RendererInfo.IsInteractive)
+{
+    <p>Is Interactive - @RendererInfo.Name</p>
+} else
+{
+    <p>Is not Interactive - @RendererInfo.Name</p>
+}
+
+@if (string.IsNullOrEmpty(Erro) == false)
+{
+    <div class="alert alert-danger" role="alert">
+        @Erro
+    </div>
+}
+
 <div class="d-flex flex-column">
     <div>
         <h5 class="text-primary">Bem-vindo!</h5>
@@ -14,7 +29,7 @@
     </div>
 
     <div>
-        <EditForm Model="@Model" method="POST" FormName="login-form" OnValidSubmit="LoginUserAsync">
+        <EditForm Model="Model" method="POST" FormName="login-form" OnValidSubmit="LoginApiAsync">
             <DataAnnotationsValidator />
 
             <MudFocusTrap class="d-flex flex-column" DefaultFocus="DefaultFocus.FirstChild">
@@ -55,11 +70,36 @@
 
 
 @code {
-    [SupplyParameterFromForm(FormName = "login-form")]
-    private UserLogin Model { get; set; } = new();
+    [SupplyParameterFromForm]
+    private UserLogin Model { get; set; } = default!;
+
+    [SupplyParameterFromQuery] 
+    public string? Erro { get; set; }
 
     [CascadingParameter]
     public HttpContext HttpContext { get; set; } = default!;
+
+    private EditContext editContext = default!;
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Model ??= new();
+
+        editContext = new EditContext(Model);
+
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+            await HttpContext.SignOutAsync(AuthConstants.AUTH_SCHEMA);
+        }
+    }
+
+    private async Task LoginApiAsync()
+    {
+        throw new NotImplementedException();
+    }
 
     private async Task LoginUserAsync(EditContext editContext)
     {

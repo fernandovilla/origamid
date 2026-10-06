@@ -8,13 +8,24 @@ using Ninegoldy.Data;
 using Npgsql;
 using Ninegoldy.Constants;
 using Ninegoldy.Services.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Ninegoldy.Models.Users;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//builder.Services
+//    .AddRazorComponents()
+//    .AddInteractiveServerComponents();
+
 builder.Services
     .AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents()
+    .AddAuthenticationStateSerialization();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -22,6 +33,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(opt =>
 
 builder.Services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
 builder.Services.AddScoped<IAuthService, AuthServices>();
+
 
 #region Authentication Config
 
@@ -68,6 +80,7 @@ builder.Services
 
 builder.Services.AddMudServices();
 
+//builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
@@ -78,13 +91,69 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    app.UseWebAssemblyDebugging();
+    //app.UseMigrationsEndPoint();
+}
+
+
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAntiforgery();
+
+
+
+
+app.MapPost("/auth/login", async (HttpContext context, IAuthService authService, [FromForm] UserLogin usuarioLogin) =>
+{
+    var user = await authService.LoginAsync(usuarioLogin);
+
+    if (user == null)
+        return Results.Redirect("/account/login?error=invalid_credentials");
+
+    var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role.ToString())
+        };
+
+    var identity = new ClaimsIdentity(claims, AuthConstants.AUTH_SCHEMA);
+    var principal = new ClaimsPrincipal(identity);
+    var properties = new AuthenticationProperties
+    {
+        IsPersistent = usuarioLogin.RememberMe,
+        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1)
+    };
+
+    await context.SignInAsync(AuthConstants.AUTH_SCHEMA, principal, properties);
+
+    return Results.Redirect("/");
+
+
+}).DisableAntiforgery();
+
+app.MapPost("/auth/logout", async (HttpContext http) =>
+{
+    await http.SignOutAsync(AuthConstants.AUTH_SCHEMA);
+    return Results.Redirect("/login");
+});
+
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+
+//Módulo de Blazor Server e Blazor WebAssembly sendo habilitado para o mesmo projeto, com renderização interativa
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
