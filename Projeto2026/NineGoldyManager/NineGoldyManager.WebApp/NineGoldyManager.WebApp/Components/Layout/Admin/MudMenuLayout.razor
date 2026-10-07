@@ -1,0 +1,20 @@
+﻿@rendermode InteractiveServer
+
+<MudAppBar Color="Color.Primary" Elevation="1" Dense="true"> 
+    <NavBar OpenDrawer="OnOpenDrawer" />
+</MudAppBar>
+    
+<MudDrawer @bind-Open="sideMenuOpen"  ClipMode="DrawerClipMode.Never" Variant="DrawerVariant.Mini" style="height:100vh" >
+    <SideMenu />
+</MudDrawer>
+    
+
+@code {
+    private bool sideMenuOpen { get; set; } = true;
+
+    private void OnOpenDrawer()
+    {
+        sideMenuOpen = !sideMenuOpen;
+    }
+
+}
