@@ -1,0 +1,53 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+
+    <MudAppBar Elevation="1" Dense="@_dense">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/MudBlazor/MudBlazor" Target="_blank" />
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="@_open" ClipMode="_clipMode" Breakpoint="@_breakpoint" Elevation="1" Variant="@DrawerVariant.Mini">
+        <MudNavMenu>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Store" Href="/account/login">Login</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.LibraryBooks">Library</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Group">Community</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    
+    <MudMainContent Class="pt-16 px-16">
+        <MudContainer Class="mt-6">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+
+
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+
+@code {
+    private bool _open = true;
+    private bool _dense = true;
+    private Breakpoint _breakpoint = Breakpoint.Sm;
+    private DrawerClipMode _clipMode = DrawerClipMode.Never;
+
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+
+    
+}

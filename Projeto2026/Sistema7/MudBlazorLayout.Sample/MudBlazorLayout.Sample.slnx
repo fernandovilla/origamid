@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MudBlazorLayout.Sample/MudBlazorLayout.Sample.Client/MudBlazorLayout.Sample.Client.csproj" />
+  <Project Path="MudBlazorLayout.Sample/MudBlazorLayout.Sample/MudBlazorLayout.Sample.csproj" />
+</Solution>
