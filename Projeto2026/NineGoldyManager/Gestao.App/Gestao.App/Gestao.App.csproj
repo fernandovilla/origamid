@@ -21,8 +21,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" PrivateAssets="all" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0" />
     <PackageReference Include="Morris.Blazor.FluentValidation" Version="3.2.0" />
     <PackageReference Include="Morris.Blazor.Validation" Version="3.2.0" />
+    <PackageReference Include="MudBlazor" Version="9.11.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,12 +9,12 @@ namespace Gestao.App.Client.Services
     {
         private readonly string BaseEndPoint = "api/categories";
 
-        public Task AddAsync(Category entity)
+        public async Task AddAsync(Category entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -52,13 +52,32 @@ namespace Gestao.App.Client.Services
         }
 
         
-
-        public Task<Category?> GetAsync(int id)
+        public async Task<Category?> GetAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Category entity)
+        public async Task<Category?> GetAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateAsync(Category entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<IQueryable<Category>> IRepository<Category>.GetAllAsync(Guid companyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<IQueryable<Category>> IRepository<Category>.GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<IList<Category>> ICategoryRepository.GetAllAsync(Guid companyId)
         {
             throw new NotImplementedException();
         }

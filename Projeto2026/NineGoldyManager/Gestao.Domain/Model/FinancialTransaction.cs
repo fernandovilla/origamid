@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gestao.Domain.Interfaces;
+using Gestao.Domain.Model.Companies;
 using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
 
@@ -21,21 +22,21 @@ namespace Gestao.Domain.Model
 
     public class FinancialTransaction : IStatusManager
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public FinancialTransactionTypeEnum FinancialTransactionType { get; set; }
         public string Description { get; set; } = string.Empty;
         public string? Observation { get; set; } = null;
         public DateTimeOffset? ReferenceDate { get; set; }
         public DateTimeOffset? DueDate { get; set; }         //Vencimento
         public decimal? Amount { get; set; }
-        public int? RepeatGroup { get; set; }
+        public Guid? RepeatGroup { get; set; }
         public RecurrentEnum Repeat { get; set; } = RecurrentEnum.None;
         public int? RepeatTimes { get; set; }
         public decimal? InterestPenalty { get; set; }        //Juros/Multa
         public decimal? Discounts { get; set; } = 0;
         public DateTimeOffset? PaymentDate { get; set; }
         public decimal? AmountPaid { get; set; }
-        public int CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
         public Company Company { get; set; } = null!;
         public int? AccountId { get; set; }
         public Account? Account { get; set; } = null!;

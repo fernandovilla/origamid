@@ -106,8 +106,8 @@
 @code {
 
     [Parameter]
-    public int Id { get; set; }
-    private Gestao.Domain.Model.Company Company { get; set; }
+    public Guid? Id { get; set; }
+    private Company Company { get; set; }
 
 
     private async Task OnClickAsync()
@@ -133,10 +133,10 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id > 0)
+        if (Id != null)
         {
             //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var company = (await CompanyRepository.GetAsync(Id))!;
+            var company = (await CompanyRepository.GetAsync((Guid)Id))!;
 
             if (company == null)
             {
@@ -144,11 +144,11 @@
                 return;
             }
 
-            if (company.UserId != await GetAuthenticatedUserAsync())
-            {
-                NavigationManager.NavigateTo("company/list");
-                return;
-            }
+            // if (company.UserId != await GetAuthenticatedUserAsync())
+            // {
+            //     NavigationManager.NavigateTo("company/list");
+            //     return;
+            // }
 
             Company = company;
         }

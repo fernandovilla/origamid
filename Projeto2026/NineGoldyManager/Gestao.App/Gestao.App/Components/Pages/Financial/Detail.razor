@@ -167,7 +167,7 @@
     private FinancialTransactionTypeEnum TypeEnum => Type?.ToUpper() == "PAY" ? FinancialTransactionTypeEnum.Pay : FinancialTransactionTypeEnum.Receive;
 
     [Parameter]
-    public int Id { get; set; }
+    public Guid? Id { get; set; }
 
     [Parameter]
     public string? Type { get; set; }
@@ -179,7 +179,7 @@
     protected override async Task OnInitializedAsync()
     {
         //TODO - SELECIONA OS DADOS DO REPOSITORY
-        var transaction = (await FinancialRepository.GetAsync(Id))!;
+        var transaction = (await FinancialRepository.GetAsync((Guid)Id))!;
 
         if (transaction == null)
         {

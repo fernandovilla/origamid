@@ -1,6 +1,7 @@
 using Gestao.App.Components.Account.Pages;
 using Gestao.App.Components.Account.Pages.Manage;
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Users;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;

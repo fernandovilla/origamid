@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gestao.Domain.Interfaces;
+using Gestao.Domain.Model.Companies;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,11 @@ namespace Gestao.Domain.Model
 {
     public class Account : IStatusManager
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Description { get; set; } = string.Empty;
         public decimal Balance { get; set; }           //saldo
         public DateTimeOffset BalanceDate { get; set; } = DateTimeOffset.Now;
-        public int? CompanyId { get; set; }
+        public Guid? CompanyId { get; set; }
         public Company? Company { get; set; }
 
         public StatusEnum Status { get; set; } = StatusEnum.Normal;

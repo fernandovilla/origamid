@@ -4,6 +4,7 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
+@using Ninegoldy.Components.CustomControls
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
@@ -13,14 +14,6 @@
 
 <PageTitle>Acesso do usuário</PageTitle>
 
-@if (!RendererInfo.IsInteractive)
-{
-    <p>Is Interactive - @RendererInfo.Name</p>
-} else
-{
-    <p>Is not Interactive - @RendererInfo.Name</p>
-}
-
 <div class="p-lg-5 p-4">
     <div>
         <h5 class="text-primary">Bem-vindo!</h5>
@@ -29,23 +22,21 @@
 
     <div class="mt-4">
         <StatusMessage Message="@errorMessage" />
-        <EditForm FormName="login" Model="Input" method="post" OnValidSubmit="LoginUser">
+        <EditForm FormName="login" Model="Input" method="post" OnValidSubmit="LoginUser" OnInvalidSubmit="OnInvalid">
             <DataAnnotationsValidator />
             <ValidationSummary class="invalid-feedback" role="alert" />
 
-            <div class="mb-3">
+            @* <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>
-                <InputText 
-                    id="email" 
-                    type="email"
-                    @bind-Value="Input.Email" 
-                    class="form-control" 
-                    autocomplete="username" 
-                    aria-required="true" 
-                    placeholder="Digite o e-mail" />
+                <InputText id="email" type="email" @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Digite o e-mail" />               
+                <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
+            </div>*@
+
+            <div class="mb-3">                
+                <MudTextField Label="E-mail" @bind-Value="TextValue" />                
                 <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
             </div>
-
+            @TextValue
 
             <div class="mb-3">
                 <div class="float-end">
@@ -63,6 +54,7 @@
                     placeholder="Digite a senha" />                
                 <ValidationMessage For="() => Input.Passkey" class="invalid-feedback" />
             </div>
+            @Input.Password
 
             <div class="form-check">
                 <label class="form-check-label" for="remember">Lembrar</label>
@@ -102,6 +94,8 @@
     private string? ValuePassword { get; set; }
     private string? errorMessage;
 
+    private string TextValue {get;set;}
+
     private EditContext editContext = default!;
 
     [CascadingParameter]
@@ -113,7 +107,20 @@
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     Input ??= new();
+
+    //     editContext = new EditContext(Input);
+
+    //     if (HttpMethods.IsGet(HttpContext.Request.Method))
+    //     {
+    //         // Clear the existing external cookie to ensure a clean login process
+    //         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+    //     }
+    // }
+
+    protected override void OnInitialized()
     {
         Input ??= new();
 
@@ -122,11 +129,18 @@
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
     }
 
-    public async Task LoginUser()
+    private void OnInvalid()
+    {
+
+    }
+
+    
+
+    private async Task LoginUser()
     {
         if (!string.IsNullOrEmpty(Input.Passkey?.Error))
         {

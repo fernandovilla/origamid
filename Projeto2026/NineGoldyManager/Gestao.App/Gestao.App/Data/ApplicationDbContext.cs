@@ -1,5 +1,7 @@
 using Gestao.App.Data.Interceptors;
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Companies;
+using Gestao.Domain.Model.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

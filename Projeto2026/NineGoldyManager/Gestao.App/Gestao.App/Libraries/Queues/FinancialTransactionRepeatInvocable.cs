@@ -8,8 +8,7 @@ using Microsoft.Identity.Client.AppConfig;
 
 namespace Gestao.App.Libraries.Queues
 {
-    public class FinancialTransactionRepeatInvocable
-        : IInvocable, IInvocableWithPayload<FinancialTransaction>
+    public class FinancialTransactionRepeatInvocable: IInvocable, IInvocableWithPayload<FinancialTransaction>
     {
         private IFinancialTransactionRepository _repository;
 

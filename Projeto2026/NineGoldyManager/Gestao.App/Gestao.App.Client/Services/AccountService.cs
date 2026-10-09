@@ -15,12 +15,12 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PaginatedList<Account>> GetAllAsync(int companyId, int pageIndex, int pageSize, string? searchAccountName = null)
+        public Task<PaginatedList<Account>> GetAllAsync(Guid companyId, int pageIndex, int pageSize, string? searchAccountName = null)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Account>> GetAllAsync(int companyId)
+        public async Task<IList<Account>> GetAllAsync(Guid companyId)
         {
             var result = await httpClient.GetFromJsonAsync<IList<Account>>($"{BaseEndPoint}?companyId={companyId}");
 
@@ -44,22 +44,28 @@ namespace Gestao.App.Client.Services
             return result!;
         }
 
-        public Task<List<Account>> GetAllAsync(Guid applicationUserId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<List<Account>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Account?> GetAsync(int id)
+        
+        public async Task<Account?> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
         public Task UpdateAsync(Account entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IQueryable<Account>> IRepository<Account>.GetAllAsync(Guid companyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IQueryable<Account>> IRepository<Account>.GetAllAsync()
         {
             throw new NotImplementedException();
         }

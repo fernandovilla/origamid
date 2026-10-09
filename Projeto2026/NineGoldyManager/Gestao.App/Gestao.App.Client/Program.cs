@@ -3,6 +3,7 @@ using Gestao.App.Client.Libraries.Notifications;
 using Gestao.App.Client.Services;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -27,5 +28,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryService>();
 builder.Services.AddScoped<IAccountRepository, AccountService>();
 builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionService>();
 #endregion
+
+builder.Services.AddMudServices();
 
 await builder.Build().RunAsync();

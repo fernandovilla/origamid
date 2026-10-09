@@ -13,43 +13,39 @@ namespace Gestao.App.Client.Services
         {
             throw new NotImplementedException();
         }
-
-        public async Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+                
         public async Task DeleteAsync(FinancialTransaction? transaction)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
+        public async Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
         {
             var result = await httpClient.GetFromJsonAsync<PaginatedList<FinancialTransaction>>($"{BaseEndPoint}?companyId={companyId}&type={type}&pageIndex={pageIndex}&searchDescription={searchDesctiption}");
             return result!;
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
+        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, Guid companyId, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
         {
             throw new NotImplementedException();
@@ -60,22 +56,32 @@ namespace Gestao.App.Client.Services
             throw new NotImplementedException();
         }
 
-        public async Task<FinancialTransaction?> GetAsync(int id)
+        public async Task<FinancialTransaction?> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> GetCountTransactionRepeatGroup(int groupId)
+        public async Task<int> GetCountTransactionRepeatGroup(Guid groupId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
+        public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(Guid groupId)
         {
             throw new NotImplementedException();
         }
 
         public async Task UpdateAsync(FinancialTransaction entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IQueryable<FinancialTransaction>> IRepository<FinancialTransaction>.GetAllAsync(Guid companyId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IQueryable<FinancialTransaction>> IRepository<FinancialTransaction>.GetAllAsync()
         {
             throw new NotImplementedException();
         }

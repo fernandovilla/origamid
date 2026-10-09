@@ -10,7 +10,7 @@
 @inject ApplicationDbContext DbContext
 
 <PageTitle>
-    @(Id > 0 ? "Empresa - Atualização" : "Empresa - Cadastro")
+    @(Id != null ? "Empresa - Atualização" : "Empresa - Cadastro")
 </PageTitle>
 
 <div class="row">
@@ -18,7 +18,7 @@
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">
-                    @(Id > 0 ? "Atualização de Empresa" : "Cadastro de Empresa")
+                    @(Id != null ? "Atualização de Empresa" : "Cadastro de Empresa")
                 </h4>
 
             </div>
@@ -136,19 +136,19 @@
 @code {
 
     [Parameter]
-    public int Id { get; set; }
+    public Guid? Id { get; set; }
 
     [SupplyParameterFromForm]
-    private Gestao.Domain.Model.Company Company { get; set; }
+    private Company Company { get; set; }
     private bool Loading = false;
 
     private async Task OnSubmitAsync(EditContext context)
     {
         // context.ValidateObjectTree();
 
-        if (Id == 0)
+        if (Id != null)
         {
-            Company!.UserId = await GetAuthenticatedUserAsync();
+            //Company!.UserId = await GetAuthenticatedUserAsync();
 
             await CompanyRepository.AddAsync(Company);
             await js.InvokeVoidAsync("alert", "Empresa cadastrada com sucesso!");
@@ -177,10 +177,10 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id > 0)
+        if (Id != null)
         {
             //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var company = (await CompanyRepository.GetAsync(Id))!;
+            var company = (await CompanyRepository.GetAsync((Guid)Id))!;
 
             if (company == null)
             {
@@ -188,11 +188,11 @@
                 return;
             }
 
-            if (company.UserId != await GetAuthenticatedUserAsync())
-            {
-                NavigationManager.NavigateTo("company/list");
-                return;
-            }
+            // if (company.UserId != await GetAuthenticatedUserAsync())
+            // {
+            //     NavigationManager.NavigateTo("company/list");
+            //     return;
+            // }
 
             Company = company;
         }

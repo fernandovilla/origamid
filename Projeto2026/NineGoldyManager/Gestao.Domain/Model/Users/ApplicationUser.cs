@@ -1,7 +1,7 @@
 using Gestao.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gestao.Domain.Model
+namespace Gestao.Domain.Model.Users
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser, IStatusManager

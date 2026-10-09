@@ -1,4 +1,5 @@
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Users;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 

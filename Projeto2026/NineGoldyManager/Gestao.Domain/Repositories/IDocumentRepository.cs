@@ -6,7 +6,7 @@ namespace Gestao.Domain.Repositories
     public interface IDocumentRepository
         : IRepository<Document>
     {
-        Task<PaginatedList<Document>> GetAllAsync(int financialTransactionId, int pageIndex, int pageSize);
-        Task<PaginatedList<Document>> GetAllAsync(int financialTransactionId, int pageIndex, int pageSize, string? searchDescription = null);
+        Task<PaginatedList<Document>> GetAllAsync(Guid financialTransactionId, int pageIndex, int pageSize);
+        Task<PaginatedList<Document>> GetAllAsync(Guid financialTransactionId, int pageIndex, int pageSize, string? searchDescription = null);
     }
 }

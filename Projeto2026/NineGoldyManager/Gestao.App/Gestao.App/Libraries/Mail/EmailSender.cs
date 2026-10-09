@@ -1,4 +1,5 @@
 ﻿using Gestao.Domain.Model;
+using Gestao.Domain.Model.Users;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Mail;
 

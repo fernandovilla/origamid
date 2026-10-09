@@ -8,11 +8,14 @@ using Gestao.App.Data.Repositories;
 using Gestao.App.Libraries.Queues;
 using Gestao.App.Libraries.Services;
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Users;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.FluentUI.AspNetCore.Components;
 using Morris.Blazor.Validation;
+using MudBlazor.Services;
 using System.Net;
 using System.Net.Mail;
 
@@ -103,11 +106,11 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, Gestao.App.Librarie
 
 #region Repositories Dependency Injection e outras...
 
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
-builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
+//builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+//builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+//builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+//builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+//builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionRepository>();
 builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => builder.Configuration);
 
 #endregion
@@ -121,7 +124,7 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 //https://github.com/mrpmorris/blazor-validation
 //https://docs.fluentvalidation.net/en/latest/index.html
 builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
-builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
+//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(FinancialTransactionValidator).Assembly));
@@ -136,7 +139,7 @@ builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification
 
 //Queuing - Coravel *************
 builder.Services.AddQueue();
-builder.Services.AddScoped<FinancialTransactionRepeatInvocable>();
+//builder.Services.AddScoped<FinancialTransactionRepeatInvocable>();
 //*******************************
 
 
@@ -148,6 +151,11 @@ builder.Services.AddBlazoredLocalStorage();
 
 builder.Services
     .AddControllers();  //Habilita o uso de controllers
+
+
+builder.Services.AddMudServices();
+builder.Services.AddFluentUIComponents();
+
 
 var app = builder.Build();
 

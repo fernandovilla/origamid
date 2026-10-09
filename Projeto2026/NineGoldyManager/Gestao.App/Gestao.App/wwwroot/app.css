@@ -28,8 +28,13 @@ h1:focus {
     outline: 1px solid #26b050;
 }
 
-.invalid {
+.invalid fluent-text-input {
     outline: 1px solid #e50000;
+    border-radius: var(--borderRadiusMedium);
+}
+
+fluent-field.invalid {
+    outline: none;
 }
 
 .validation-message {
@@ -70,9 +75,9 @@ input[readonly]:focus {
 }
 
 .input-border-right-none {
-    border-right: none !important;
+    border-right: none; /*!important*/;
 }
 
 .input-group-text-bg-transparent {
-    background-color: transparent !important;
+    background-color: transparent /*!important*/;
 }

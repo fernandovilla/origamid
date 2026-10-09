@@ -6,7 +6,7 @@ namespace Gestao.Domain.Repositories
     public interface IAccountRepository
         : IRepository<Account>
     {
-        Task<IList<Account>> GetAllAsync(int companyId);
-        Task<PaginatedList<Account>> GetAllAsync(int companyId, int pageIndex, int pageSize, string? searchAccountName = null);
+        Task<IList<Account>> GetAllAsync(Guid companyId);
+        Task<PaginatedList<Account>> GetAllAsync(Guid companyId, int pageIndex, int pageSize, string? searchAccountName = null);
     }
 }

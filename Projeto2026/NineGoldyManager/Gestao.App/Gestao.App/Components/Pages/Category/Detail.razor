@@ -47,7 +47,7 @@
 @code {
 
     [Parameter]
-    public int Id { get; set; }
+    public Guid? Id { get; set; }
     private Category Category { get; set; }
 
 
@@ -68,10 +68,10 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id > 0)
+        if (Id != null)
         {
             //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var category = (await CategoryRepository.GetAsync(Id))!;
+            var category = (await CategoryRepository.GetAsync((Guid)Id))!;
 
             if (category == null)
             {

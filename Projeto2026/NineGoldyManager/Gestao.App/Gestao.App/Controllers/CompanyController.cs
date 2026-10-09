@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Companies;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

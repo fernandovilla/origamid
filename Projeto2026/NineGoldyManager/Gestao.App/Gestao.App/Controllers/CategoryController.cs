@@ -19,9 +19,9 @@ namespace Gestao.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int companyId, [FromQuery] int pageIndex)
-        {            
-            var data = await repository.GetAllAsync(null, companyId, pageIndex, PageSize); 
+        public async Task<IActionResult> Get([FromQuery] Guid companyId, [FromQuery] int pageIndex)
+        {
+            var data = await repository.GetAllAsync(companyId, pageIndex, PageSize);
 
             return Ok(data);
         }

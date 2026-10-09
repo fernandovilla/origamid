@@ -5,168 +5,173 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.App.Data.Repositories
 {
-    public class FinancialTransactionRepository : IFinancialTransactionRepository
+    public class FinancialTransactionRepository //: IFinancialTransactionRepository
     {
-        private readonly IDbContextFactory<ApplicationDbContext> _factory;
-        public FinancialTransactionRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
-        {
-            _factory = dbFactory;
-        }
+        //private readonly IDbContextFactory<ApplicationDbContext> _factory;
 
-        public async Task AddAsync(FinancialTransaction entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+        //public FinancialTransactionRepository(IDbContextFactory<ApplicationDbContext> dbFactory)
+        //{
+        //    _factory = dbFactory;
+        //}
 
-            using (var db = await _factory.CreateDbContextAsync())
-            {
-                await db.FinancialTransactions.AddAsync(entity);
-                await db.SaveChangesAsync();
-            }
-        }
+        //public async Task AddAsync(FinancialTransaction entity)
+        //{
+        //    if (entity == null)
+        //        throw new ArgumentNullException(nameof(entity));
 
-        public async Task DeleteAsync(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentException("Invalid transaction ID.", nameof(id));
+        //    using (var db = await _factory.CreateDbContextAsync())
+        //    {
+        //        await db.FinancialTransactions.AddAsync(entity);
+        //        await db.SaveChangesAsync();
+        //    }
+        //}
 
-            var transaction = await GetAsync(id);
+        //public async Task DeleteAsync(Guid id)
+        //{
+        //    if (id <= 0)
+        //        throw new ArgumentException("Invalid transaction ID.", nameof(id));
 
-            await DeleteAsync(transaction);
-        }
+        //    var transaction = await GetAsync(id);
 
-        public async Task DeleteAsync(FinancialTransaction? transaction)
-        {
-            if (transaction != null)
-            {
-                using var db = await _factory.CreateDbContextAsync();
+        //    await DeleteAsync(transaction);
+        //}
 
-                db.FinancialTransactions.Remove(transaction);
-                await db.SaveChangesAsync();
-            }
-        }
+        //public async Task DeleteAsync(FinancialTransaction? transaction)
+        //{
+        //    if (transaction != null)
+        //    {
+        //        using var db = await _factory.CreateDbContextAsync();
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
-        {
-            return await GetAllAsync(companyId, pageIndex, pageSize);
-        }
+        //        db.FinancialTransactions.Remove(transaction);
+        //        await db.SaveChangesAsync();
+        //    }
+        //}
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid? applicationUserId, int companyId, int pageIndex, int pageSize)
+        //{
+        //    return await GetAllAsync(companyId, pageIndex, pageSize);
+        //}
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, int pageIndex, int pageSize)
-        {
-            using var db = await _factory.CreateDbContextAsync();
+        
+        //public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, int pageIndex, int pageSize)
+        //{
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            var items = await db.FinancialTransactions
-                .Where(i => i.CompanyId == companyId)
-                .OrderBy(i => i.ReferenceDate)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+        //    var items = await db.FinancialTransactions
+        //        .Where(i => i.CompanyId == companyId)
+        //        .OrderBy(i => i.ReferenceDate)
+        //        .Skip((pageIndex - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
 
-            var countCompanies = await db.FinancialTransactions.CountAsync(i => i.CompanyId == companyId);
-            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
+        //    var countCompanies = await db.FinancialTransactions.CountAsync(i => i.CompanyId == companyId);
+        //    var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
-            return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
-        }
+        //    return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
+        //}
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
-        {
-            return await GetAllAsync(companyId, type, pageIndex, pageSize, null);
-        }
+        //public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize)
+        //{
+        //    return await GetAllAsync(companyId, type, pageIndex, pageSize, null);
+        //}
 
-        public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(int companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
-        {
-            using var db = await _factory.CreateDbContextAsync();
+        //public async Task<PaginatedList<FinancialTransaction>> GetAllAsync(Guid companyId, FinancialTransactionTypeEnum type, int pageIndex, int pageSize, string? searchDesctiption = null)
+        //{
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            var items = await db.FinancialTransactions
-                .Include(i => i.Account)
-                .Include(i => i.Category)
-                .Include(i => i.Documents)
-                .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
-                .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption)) // Filter by searchDescription if provided
-                .OrderBy(i => i.ReferenceDate)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+        //    var items = await db.FinancialTransactions
+        //        .Include(i => i.Account)
+        //        .Include(i => i.Category)
+        //        .Include(i => i.Documents)
+        //        .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
+        //        .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption)) // Filter by searchDescription if provided
+        //        .OrderBy(i => i.ReferenceDate)
+        //        .Skip((pageIndex - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
 
-            var countCompanies = await db.FinancialTransactions
-                .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
-                .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption))
-                .CountAsync(i => i.CompanyId == companyId);
-            var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
+        //    var countCompanies = await db.FinancialTransactions
+        //        .Where(i => i.CompanyId == companyId && i.FinancialTransactionType == type)
+        //        .Where(i => string.IsNullOrEmpty(searchDesctiption) || i.Description.Contains(searchDesctiption))
+        //        .CountAsync(i => i.CompanyId == companyId);
+        //    var totalPages = (int)Math.Ceiling((decimal)countCompanies / pageSize);
 
-            return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
-        }
+        //    return new PaginatedList<FinancialTransaction>(items, pageIndex, totalPages);
+        //}
 
-        public async Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
-        {
-            return GetAllFinancialTransaction(null, null).ToList();
+        //public async Task<List<FinancialTransaction>> GetAllAsync(Guid applicationUserId)
+        //{
+        //    return GetAllFinancialTransaction(null, null).ToList();
 
-        }
+        //}
 
-        public async Task<List<FinancialTransaction>> GetAllAsync()
-        {
-            return GetAllFinancialTransaction(null, null).ToList();
-        }
+        //public async Task<List<FinancialTransaction>> GetAllAsync()
+        //{
+        //    return GetAllFinancialTransaction(null, null).ToList();
+        //}
 
-        private IEnumerable<FinancialTransaction> GetAllFinancialTransaction(int? companyId, FinancialTransactionTypeEnum? type)
-        {
-            using var db = _factory.CreateDbContext();
+        //private IEnumerable<FinancialTransaction> GetAllFinancialTransaction(Guid? companyId, FinancialTransactionTypeEnum? type)
+        //{
+        //    using var db = _factory.CreateDbContext();
 
-            return db.FinancialTransactions
-                .Where(i => companyId != null ? i.CompanyId == companyId : false)
-                .Where(i => type != null ? i.FinancialTransactionType != type : false)
-                .Include(i => i.Account)
-                .Include(i => i.Category)
-                .Include(i => i.Documents);
-        }
+        //    return db.FinancialTransactions
+        //        .Where(i => companyId != null ? i.CompanyId == companyId : false)
+        //        .Where(i => type != null ? i.FinancialTransactionType != type : false)
+        //        .Include(i => i.Account)
+        //        .Include(i => i.Category)
+        //        .Include(i => i.Documents);
+        //}
 
-        public async Task<FinancialTransaction?> GetAsync(int id)
-        {
-            using var db = await _factory.CreateDbContextAsync();
+        //public async Task<FinancialTransaction?> GetAsync(Guid id)
+        //{
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            return await db.FinancialTransactions
-                .Include(i => i.Category)
-                .Include(i => i.Account)
-                .Include(i => i.Documents)
-                .SingleOrDefaultAsync(i => i.Id == id);
-        }
+        //    return await db.FinancialTransactions
+        //        .Include(i => i.Category)
+        //        .Include(i => i.Account)
+        //        .Include(i => i.Documents)
+        //        .SingleOrDefaultAsync(i => i.Id == id);
+        //}
 
-        public async Task UpdateAsync(FinancialTransaction entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+        //public async Task UpdateAsync(FinancialTransaction entity)
+        //{
+        //    if (entity == null)
+        //        throw new ArgumentNullException(nameof(entity));
 
-            using var db = await _factory.CreateDbContextAsync();
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            db.FinancialTransactions.Update(entity);
-            await db.SaveChangesAsync();
-        }
+        //    db.FinancialTransactions.Update(entity);
+        //    await db.SaveChangesAsync();
+        //}
 
-        public async Task<int> GetCountTransactionRepeatGroup(int groupId)
-        {
-            using var db = await _factory.CreateDbContextAsync();
+        //public async Task<int> GetCountTransactionRepeatGroup(int groupId)
+        //{
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            return await db.FinancialTransactions
-                .Where(i => i.RepeatGroup == groupId)
-                .OrderBy(i => i.Id)
-                .CountAsync();
-        }
+        //    return await db.FinancialTransactions
+        //        .Where(i => i.RepeatGroup == groupId)
+        //        .OrderBy(i => i.Id)
+        //        .CountAsync();
+        //}
 
-        public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
-        {
-            using var db = await _factory.CreateDbContextAsync();
+        //public async Task<IList<FinancialTransaction>> GetTransactionRepeatGroup(int groupId)
+        //{
+        //    using var db = await _factory.CreateDbContextAsync();
 
-            return await db.FinancialTransactions
-                .Where(i => i.RepeatGroup == groupId)
-                .OrderBy(i => i.Id)
-                .ToListAsync();
-        }
+        //    return await db.FinancialTransactions
+        //        .Where(i => i.RepeatGroup == groupId)
+        //        .OrderBy(i => i.Id)
+        //        .ToListAsync();
+        //}
 
+        //async Task<IQueryable<FinancialTransaction>> IRepository<FinancialTransaction>.GetAllAsync(Guid companyId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
+        //async Task<IQueryable<FinancialTransaction>> IRepository<FinancialTransaction>.GetAllAsync()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

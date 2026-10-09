@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gestao.Domain.Model
+namespace Gestao.Domain.Model.Clients
 {
-    public class Cliente : IStatusManager
+    public class Client : IStatusManager
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

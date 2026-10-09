@@ -20,7 +20,7 @@ namespace Gestao.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] FinancialTransactionTypeEnum type, [FromQuery] int companyId, [FromQuery] int pageIndex, [FromQuery] string searchWord)
+        public async Task<IActionResult> GetAsync([FromQuery] FinancialTransactionTypeEnum type, [FromQuery] Guid companyId, [FromQuery] int pageIndex, [FromQuery] string searchWord)
         {
             // VIDEO INTERESSANTE SOBRE IASYNCENUMERABLE
             //https://www.youtube.com/watch?v=MyhVJ-PE-jw

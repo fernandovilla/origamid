@@ -64,7 +64,7 @@
 @code {
 
     [Parameter]
-    public int Id { get; set; }
+    public Guid? Id { get; set; }
     private Account Account { get; set; }
 
 
@@ -85,10 +85,10 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id > 0)
+        if (Id == null)
         {
             //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var account = (await AccountRepository.GetAsync(Id))!;
+            var account = (await AccountRepository.GetAsync((Guid)Id))!;
 
             if (account == null)
             {
