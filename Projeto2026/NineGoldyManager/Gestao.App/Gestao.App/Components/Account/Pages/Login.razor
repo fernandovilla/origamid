@@ -22,21 +22,24 @@
 
     <div class="mt-4">
         <StatusMessage Message="@errorMessage" />
-        <EditForm FormName="login" Model="Input" method="post" OnValidSubmit="LoginUser" OnInvalidSubmit="OnInvalid">
+
+        <EditForm FormName="login" Model="UserInput" method="post" OnValidSubmit="LoginUser">
             <DataAnnotationsValidator />
-            <ValidationSummary class="invalid-feedback" role="alert" />
 
-            @* <div class="mb-3">
+            @* <ValidationSummary class="invalid-feedback" role="alert" /> *@
+
+            <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>
-                <InputText id="email" type="email" @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Digite o e-mail" />               
-                <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
-            </div>*@
-
-            <div class="mb-3">                
-                <MudTextField Label="E-mail" @bind-Value="TextValue" />                
-                <ValidationMessage For="() => Input.Email" class="invalid-feedback" />
+                <InputText id="email" 
+                    type="email" 
+                           @bind-Value="UserInput.Email"
+                    class="form-control" 
+                    autocomplete="username" 
+                    aria-required="true" 
+                    placeholder="Digite o e-mail" />               
+                <ValidationMessage For="() => UserInput.Email" class="invalid-feedback" />
             </div>
-            @TextValue
+                        
 
             <div class="mb-3">
                 <div class="float-end">
@@ -46,19 +49,19 @@
                 <label for="password" class="form-label">Senha</label>
                 <InputText id="password" 
                     type="password" 
-                    @bind-Value="Input.Password" 
+                           @bind-Value="UserInput.Password"
                     onpaste="return false" 
+                    oncopy="return false"
                     class="form-control" 
                     autocomplete="current-password" 
                     aria-required="true" 
                     placeholder="Digite a senha" />                
-                <ValidationMessage For="() => Input.Passkey" class="invalid-feedback" />
+                <ValidationMessage For="() => UserInput.Passkey" class="invalid-feedback" />
             </div>
-            @Input.Password
 
             <div class="form-check">
                 <label class="form-check-label" for="remember">Lembrar</label>
-                <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" id="remember" />
+                <InputCheckbox @bind-Value="UserInput.RememberMe" class="darker-border-checkbox form-check-input" id="remember" />
             </div>
 
             <div class="mt-4">
@@ -102,29 +105,16 @@
     private HttpContext HttpContext { get; set; } = default!;
 
     [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = default!;
+    private InputModel UserInput { get; set; } = default!;
 
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     Input ??= new();
-
-    //     editContext = new EditContext(Input);
-
-    //     if (HttpMethods.IsGet(HttpContext.Request.Method))
-    //     {
-    //         // Clear the existing external cookie to ensure a clean login process
-    //         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-    //     }
-    // }
-
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        Input ??= new();
+        UserInput ??= new();
 
-        editContext = new EditContext(Input);
+        editContext = new EditContext(UserInput);
 
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
@@ -132,27 +122,21 @@
             HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
     }
-
-    private void OnInvalid()
-    {
-
-    }
-
-    
+       
 
     private async Task LoginUser()
     {
-        if (!string.IsNullOrEmpty(Input.Passkey?.Error))
+        if (!string.IsNullOrEmpty(UserInput.Passkey?.Error))
         {
-            errorMessage = $"Error: {Input.Passkey.Error}";
+            errorMessage = $"Error: {UserInput.Passkey.Error}";
             return;
         }
 
         SignInResult result;
-        if (!string.IsNullOrEmpty(Input.Passkey?.CredentialJson))
+        if (!string.IsNullOrEmpty(UserInput.Passkey?.CredentialJson))
         {
             // When performing passkey sign-in, don't perform form validation.
-            result = await SignInManager.PasskeySignInAsync(Input.Passkey.CredentialJson);
+            result = await SignInManager.PasskeySignInAsync(UserInput.Passkey.CredentialJson);
         }
         else
         {
@@ -164,7 +148,7 @@
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            result = await SignInManager.PasswordSignInAsync(UserInput.Email, UserInput.Password, UserInput.RememberMe, lockoutOnFailure: false);
         }
 
         if (result.Succeeded)
@@ -176,7 +160,7 @@
         {
             RedirectManager.RedirectTo(
                 "Account/LoginWith2fa",
-                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
+                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = UserInput.RememberMe });
         }
         else if (result.IsLockedOut)
         {

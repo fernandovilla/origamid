@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Controls\" />
     <Folder Include="wwwroot\uploads\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
