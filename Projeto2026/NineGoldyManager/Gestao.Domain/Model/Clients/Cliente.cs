@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Gestao.Domain.Model.Clients
 {
-    public class Client : IStatusManager
+    public class Cliente : IStatusManager
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

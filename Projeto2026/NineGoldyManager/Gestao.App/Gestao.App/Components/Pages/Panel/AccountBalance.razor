@@ -1,6 +1,10 @@
 ﻿@inherits PageBase
 
+<p>Balance</p>
+
+@*
 @inject IDbContextFactory<ApplicationDbContext> DbContextFactory
+
 
 <div class="col-xl-9">
     <!-- Accounts Table - START -->
@@ -130,4 +134,4 @@
         public decimal Balance => (InitialBalance + TotalReceived) - TotalPaid;
     }
 
-}
+} *@

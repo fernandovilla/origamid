@@ -10,11 +10,13 @@
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject IUserService UserService
 
 <PageTitle>Cadastre-se</PageTitle>
 
@@ -126,6 +128,7 @@
     public async Task RegisterUser(EditContext editContext)
     {
         var user = CreateUser();
+        ApplicationUser userAdded = null;
 
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
@@ -133,23 +136,21 @@
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
         await emailStore.SetEmailConfirmedAsync(user, true, CancellationToken.None);
 
-        //TODO: CADASTRO DE USUÁRIO
-        // SE USUÁRIO NÃO EXISTIR, CADASTRÁ-LO
-        //  1. CADASTRAR UMA EMPRESA
-        //  2. ASSOCIAR O USUÁRIO A NOVA EMPRESA
-
-        var result = await UserManager.CreateAsync(user, Input.Password);
-
-        if (!result.Succeeded)
+        try 
         {
-            identityErrors = result.Errors;
+            userAdded = await UserService.CreateAsync(user);
+        }
+        catch(IdentityErrorException e) 
+        {
+            identityErrors = e.Errors;
             return;
         }
 
+
         Logger.LogInformation("User created a new account with password.");
 
-        var userId = await UserManager.GetUserIdAsync(user);
-        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+        var userId = userAdded.Id;
+        var code = await UserManager.GenerateEmailConfirmationTokenAsync(userAdded);
 
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 

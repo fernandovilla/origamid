@@ -1,34 +1,37 @@
 using Gestao.App.Data.Interceptors;
-using Gestao.Domain.Model;
-using Gestao.Domain.Model.Companies;
 using Gestao.Domain.Model.Users;
+using Gestao.Domain.Model.Companies;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Gestao.Domain.Model;
+using Gestao.Domain.Model.Clients;
 
 namespace Gestao.App.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : IdentityDbContext<ApplicationUser>(options)
-    {
+    {        
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
-        public DbSet<Document> Documents { get; set; }
+        public DbSet<Cliente> Clients { get; set; }
+
+        //public DbSet<Account> Accounts { get; set; }
+        //public DbSet<Category> Categories { get; set; }
+        //public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
+        //public DbSet<Document> Documents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             // Sempre salva a coluna 'Repeat' com o texto do enum
-            builder.Entity<FinancialTransaction>()
-                 .Property(p => p.Repeat)
-                .HasConversion<string>();
+            //builder.Entity<FinancialTransaction>()
+            //     .Property(p => p.Repeat)
+            //    .HasConversion<string>();
             
-            // Sempre salva a coluna 'FinancialTransactionType' com o texto do enum
-            builder.Entity<FinancialTransaction>()
-                 .Property(p => p.FinancialTransactionType)
-                .HasConversion<string>();
+            //// Sempre salva a coluna 'FinancialTransactionType' com o texto do enum
+            //builder.Entity<FinancialTransaction>()
+            //     .Property(p => p.FinancialTransactionType)
+            //    .HasConversion<string>();
 
 
             /* Define o modelo delete cascade */
@@ -43,12 +46,12 @@ namespace Gestao.App.Data
                 .HasIndex(i => i.TaxId)
                 .IsUnique();
 
-            builder.Entity<Account>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            //builder.Entity<Account>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            //builder.Entity<Category>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            //builder.Entity<FinancialTransaction>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<ApplicationUser>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
-            builder.Entity<Category>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Company>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
-            builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
-            builder.Entity<FinancialTransaction>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            //builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -4,7 +4,7 @@ using Gestao.Domain.Model;
 using Gestao.Domain.Repositories;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
-using Microsoft.Identity.Client.AppConfig;
+//using Microsoft.Identity.Client.AppConfig;
 
 namespace Gestao.App.Libraries.Queues
 {

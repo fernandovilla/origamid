@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Gestao.Domain.Repositories
 {
-    public interface IClientRepository : IRepository<Client>
+    public interface IClientRepository : IRepository<Cliente>
     { }
 }

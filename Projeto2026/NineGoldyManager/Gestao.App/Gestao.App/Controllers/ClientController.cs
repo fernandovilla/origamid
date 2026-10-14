@@ -7,15 +7,15 @@ namespace Gestao.App.Controllers
     [Route("api/clients")]
     public class ClientController : Controller
     {
-        private readonly ICategoryRepository repository;
+        //private readonly ICategoryRepository repository;
         private readonly IConfigurationManager configuration;
 
         private int PageSize => configuration.GetValue<int>("Pagination:PageSize");
 
-        public ClientController(ICategoryRepository repository, IConfigurationManager configuration)
-        {
-            this.repository = repository;
-            this.configuration = configuration;
-        }
+        //public ClientController(ICategoryRepository repository, IConfigurationManager configuration)
+        //{
+        //    this.repository = repository;
+        //    this.configuration = configuration;
+        //}
     }
 }

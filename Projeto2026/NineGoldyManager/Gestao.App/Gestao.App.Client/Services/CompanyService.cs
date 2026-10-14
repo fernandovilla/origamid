@@ -5,7 +5,7 @@ using Gestao.Domain.Repositories;
 
 namespace Gestao.App.Client.Services
 {
-    public class CompanyService : ICompanyRepository
+    public class CompanyService //: ICompanyRepository
     {
         public async Task AddAsync(Company entity)
         {
@@ -49,21 +49,6 @@ namespace Gestao.App.Client.Services
         }
 
         public async Task UpdateAsync(Company entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<PaginatedList<Company>> ICompanyRepository.GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize, string? searchCompanyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IQueryable<Company>> IRepository<Company>.GetAllAsync(Guid companyId)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IQueryable<Company>> IRepository<Company>.GetAllAsync()
         {
             throw new NotImplementedException();
         }

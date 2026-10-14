@@ -144,98 +144,100 @@
 
     private async Task OnSubmitAsync(EditContext context)
     {
-        // context.ValidateObjectTree();
+        // // context.ValidateObjectTree();
 
-        if (Id != null)
-        {
-            //Company!.UserId = await GetAuthenticatedUserAsync();
+        // if (Id != null)
+        // {
+        //     //Company!.UserId = await GetAuthenticatedUserAsync();
 
-            await CompanyRepository.AddAsync(Company);
-            await js.InvokeVoidAsync("alert", "Empresa cadastrada com sucesso!");
-        }
-        else
-        {
-            await CompanyRepository.UpdateAsync(Company);
-            await js.InvokeVoidAsync("alert", "Empresa atualizada com sucesso!");
-        }
+        //     await CompanyRepository.AddAsync(Company);
+        //     await js.InvokeVoidAsync("alert", "Empresa cadastrada com sucesso!");
+        // }
+        // else
+        // {
+        //     await CompanyRepository.UpdateAsync(Company);
+        //     await js.InvokeVoidAsync("alert", "Empresa atualizada com sucesso!");
+        // }
 
-        NavigationManager.NavigateTo("/Company/List");
+        // NavigationManager.NavigateTo("/Company/List");
 
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await js.InvokeVoidAsync("CompanyMaskInit");
+        //await js.InvokeVoidAsync("CompanyMaskInit");
     }
 
 
 
     protected override void OnInitialized()
     {
-        Company = new();
+        //Company = new();
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id != null)
-        {
-            //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var company = (await CompanyRepository.GetAsync((Guid)Id))!;
+        // if (Id != null)
+        // {
+        //     //TODO - SELECIONA OS DADOS DO REPOSITORY
+        //     var company = (await CompanyRepository.GetAsync((Guid)Id))!;
 
-            if (company == null)
-            {
-                NavigationManager.NavigateTo("company/list");
-                return;
-            }
+        //     if (company == null)
+        //     {
+        //         NavigationManager.NavigateTo("company/list");
+        //         return;
+        //     }
 
-            // if (company.UserId != await GetAuthenticatedUserAsync())
-            // {
-            //     NavigationManager.NavigateTo("company/list");
-            //     return;
-            // }
+        //     // if (company.UserId != await GetAuthenticatedUserAsync())
+        //     // {
+        //     //     NavigationManager.NavigateTo("company/list");
+        //     //     return;
+        //     // }
 
-            Company = company;
-        }
+        //     Company = company;
+        // }
     }
 
     private async Task<Guid> GetAuthenticatedUserAsync()
     {
-        //Carregar as empresas cadastradas...
-        /*
-        * Blazor Server, obtem o usuário de SignInManager
-        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
-        */
+        // //Carregar as empresas cadastradas...
+        // /*
+        // * Blazor Server, obtem o usuário de SignInManager
+        // * Blazor WASM, obtem o usuário de AuthenticationStateProvider
+        // */
 
-    return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+        // return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+
+        throw new NotImplementedException();
     }
 
     private async Task OnCepEntry(ChangeEventArgs e)
     {
-        if (e.Value!.ToString()!.Length == 10)
-        {
-            Loading = true;
+        // if (e.Value!.ToString()!.Length == 10)
+        // {
+        //     Loading = true;
 
-            Company.Address = string.Empty;
-            Company.City = string.Empty;
-            Company.State = string.Empty;
-            Company.Neighboarhood = string.Empty;
+        //     Company.Address = string.Empty;
+        //     Company.City = string.Empty;
+        //     Company.State = string.Empty;
+        //     Company.Neighboarhood = string.Empty;
 
-            var address = await CepService.SearchByPostalCodeAsync(e.Value.ToString()!);
+        //     var address = await CepService.SearchByPostalCodeAsync(e.Value.ToString()!);
 
-            if (address != null)
-            {
-                Company.Address = address.Logradouro;
-                Company.City = address.Localidade;
-                Company.State = address.UF;
-                Company.Neighboarhood = address.Bairro;
-            }
+        //     if (address != null)
+        //     {
+        //         Company.Address = address.Logradouro;
+        //         Company.City = address.Localidade;
+        //         Company.State = address.UF;
+        //         Company.Neighboarhood = address.Bairro;
+        //     }
 
-            Loading = false;
-        }
+        //     Loading = false;
+        // }
     }
 
     private async Task RollbackDataAsync()
     {
-        DbContext.ChangeTracker.Clear();        
+        //DbContext.ChangeTracker.Clear();        
     }
 }

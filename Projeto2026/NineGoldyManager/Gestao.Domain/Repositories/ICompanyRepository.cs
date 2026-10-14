@@ -4,10 +4,8 @@ using Gestao.Domain.Model.Companies;
 
 namespace Gestao.Domain.Repositories
 {
-    public interface ICompanyRepository 
-        : IRepository<Company>
+    public interface ICompanyRepository : IRepository<Company>
     {
-
-        Task<PaginatedList<Company>> GetAllAsync(Guid applicationUserId, int pageIndex, int pageSize, string? searchCompanyName = null);
+        Task<PaginatedList<Company>> GetAsync(Guid applicationUserId, int pageIndex, int pageSize, string? searchCompanyName = null);
     }
 }

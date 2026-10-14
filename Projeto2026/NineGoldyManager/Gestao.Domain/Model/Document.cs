@@ -11,9 +11,7 @@ namespace Gestao.Domain.Model
         public string Path { get; set; } = null!;        //wwwroot/files/financialtransactions/{id}/{filename}
         public string OriginalFileName { get; set; } = null!;
         public long Size { get; set; }
-        public int? FinancialTransactionId { get; set; }
-        public FinancialTransaction? FinancialTransaction { get; set; }
-
+        
         public StatusEnum Status { get; set; } = StatusEnum.Normal;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? DeletedAt { get; set; }

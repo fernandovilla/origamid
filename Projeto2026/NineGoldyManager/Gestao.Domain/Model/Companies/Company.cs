@@ -30,7 +30,7 @@ namespace Gestao.Domain.Model.Companies
 
 
         public ICollection<ApplicationUser>? Users { get; set; }
-        public ICollection<Client>? Clients { get; set; }
+        public ICollection<Cliente>? Clients { get; set; }
     }
 
     public class CompanyValidator : AbstractValidator<Company>

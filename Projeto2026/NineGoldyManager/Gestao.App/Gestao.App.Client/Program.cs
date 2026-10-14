@@ -23,10 +23,10 @@ builder.Services.AddScoped<ISelectNotification, CompanySelectNotification>();
 
 
 #region Services Dependencies Injection
-builder.Services.AddScoped<ICompanyRepository, CompanyService>();
-builder.Services.AddScoped<ICategoryRepository, CategoryService>();
-builder.Services.AddScoped<IAccountRepository, AccountService>();
-builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionService>();
+//builder.Services.AddScoped<ICompanyRepository, CompanyService>();
+//builder.Services.AddScoped<ICategoryRepository, CategoryService>();
+//builder.Services.AddScoped<IAccountRepository, AccountService>();
+//builder.Services.AddScoped<IFinancialTransactionRepository, FinancialTransactionService>();
 #endregion
 
 builder.Services.AddMudServices();

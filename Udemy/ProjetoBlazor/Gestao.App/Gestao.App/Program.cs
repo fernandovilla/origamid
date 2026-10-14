@@ -29,8 +29,9 @@ builder.Services
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    options.UseSqlServer(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionPostgreSql") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    //options.UseSqlServer(connectionString);
+    options.UseNpgsql(connectionString);
 });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

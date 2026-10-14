@@ -5,9 +5,12 @@ using Gestao.App.Components;
 using Gestao.App.Components.Account;
 using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
-using Gestao.App.Libraries.Queues;
+//using Gestao.App.Libraries.Queues;
 using Gestao.App.Libraries.Services;
+using Gestao.App.Services.Companies;
+using Gestao.App.Services.Users;
 using Gestao.Domain.Model;
+using Gestao.Domain.Model.Companies;
 using Gestao.Domain.Model.Users;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -28,14 +31,17 @@ builder.Services
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
-#region DBContext Dependency Injection
+#region Database Dependency Injection
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    options.UseSqlServer(connectionString);
+    options.UseNpgsql(connectionString);
 });
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddScoped<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 #endregion
 
@@ -124,10 +130,10 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 //https://github.com/mrpmorris/blazor-validation
 //https://docs.fluentvalidation.net/en/latest/index.html
 builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
-//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
-builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
-builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
-builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(FinancialTransactionValidator).Assembly));
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
+//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
+//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
+//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(FinancialTransactionValidator).Assembly));
 
 #endregion
 
@@ -143,8 +149,17 @@ builder.Services.AddQueue();
 //*******************************
 
 
+
+
 #endregion
 
+
+#region Services Dependency Injections
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+#endregion
 
 builder.Services.AddBlazoredLocalStorage();
 
@@ -153,8 +168,8 @@ builder.Services
     .AddControllers();  //Habilita o uso de controllers
 
 
-builder.Services.AddMudServices();
-builder.Services.AddFluentUIComponents();
+//builder.Services.AddMudServices();
+//builder.Services.AddFluentUIComponents();
 
 
 var app = builder.Build();

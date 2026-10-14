@@ -27,7 +27,7 @@ namespace Gestao.App.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync([FromQuery] Guid applicationUserId, int pageIndex, string searchWord)
         {
-            var data = await repository.GetAllAsync(applicationUserId, pageIndex, PageSize, searchWord);
+            var data = await repository.GetAsync(applicationUserId, pageIndex, PageSize, searchWord);
 
             return Ok(data);
         }

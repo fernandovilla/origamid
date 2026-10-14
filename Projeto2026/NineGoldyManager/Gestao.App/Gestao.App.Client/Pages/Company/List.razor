@@ -120,73 +120,72 @@
 
     private async Task OnSearch()
     {
-        PageIndex = 1;
-        await LoadDataAsync();
+        // PageIndex = 1;
+        // await LoadDataAsync();
     }
 
     private async Task OnPageChanged(int pageNumber)
     {
-        PageIndex = pageNumber;
-        await LoadDataAsync();
+        // PageIndex = pageNumber;
+        // await LoadDataAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadAuthenticatedUserAsync();
-
-        await LoadDataAsync();
+        // await LoadAuthenticatedUserAsync();
+        // await LoadDataAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadCompanyAsync();
+        //await LoadCompanyAsync();
     }
 
     private async Task LoadDataAsync()
     {
-        Companies = await CompanyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
+        //Companies = await CompanyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
     }
 
     private async Task LoadAuthenticatedUserAsync()
     {        
-        UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+        //UserId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
     }
 
     private async Task LoadCompanyAsync()
     {
-        CompanySelected = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
-        StateHasChanged();
+        // CompanySelected = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+        // StateHasChanged();
     }
 
     private async Task SelectCompanyAsync(Company company)
     {
-        //TODO - ARMAZENAR A TAREFA NO LOCAL STORAGE
-        if ((CompanySelected != null && CompanySelected.Id != company.Id) || CompanySelected == null)
-        {
-            await LocalStorage.SetItemAsync(AppConstants.LOCAL_STORAGE_COMPANY, company);
-            CompanySelected = company;
-        }
+        // //TODO - ARMAZENAR A TAREFA NO LOCAL STORAGE
+        // if ((CompanySelected != null && CompanySelected.Id != company.Id) || CompanySelected == null)
+        // {
+        //     await LocalStorage.SetItemAsync(AppConstants.LOCAL_STORAGE_COMPANY, company);
+        //     CompanySelected = company;
+        // }
 
-        StateHasChanged();
+        // StateHasChanged();
 
-        //TODO - COMPANYSELECTEDNOTIFICATIONSTATS -> NOTIFICA QUAL EMPRESA FOI SELECIONADA
-        CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
+        // //TODO - COMPANYSELECTEDNOTIFICATIONSTATS -> NOTIFICA QUAL EMPRESA FOI SELECIONADA
+        // CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
     }
 
     private async Task RemoveCompanyAsync(Company company)
     {
-        if (CompanySelected == null)
-            return;
+        // if (CompanySelected == null)
+        //     return;
 
 
-        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"Deseja remover a empresa {company.TradeName}?");
-        if (confirm)
-        {
-            await LocalStorage.RemoveItemAsync(AppConstants.LOCAL_STORAGE_COMPANY);
-            CompanySelected = null;
-            StateHasChanged();
+        // var confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"Deseja remover a empresa {company.TradeName}?");
+        // if (confirm)
+        // {
+        //     await LocalStorage.RemoveItemAsync(AppConstants.LOCAL_STORAGE_COMPANY);
+        //     CompanySelected = null;
+        //     StateHasChanged();
 
-            CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
-        }
+        //     CompanySelectNotification.NotificateSelecion(); // apenas notifica que a compania foi selecionada
+        // }
     }
 }
