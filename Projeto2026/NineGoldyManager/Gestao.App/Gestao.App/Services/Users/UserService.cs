@@ -9,27 +9,35 @@ using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Gestao.App.Services.Users
 {
-    public class UserService : IUserService
-    {
-        [Inject] private IUserStore<ApplicationUser> UserStore { get; set; }
-        [Inject] private UserManager<ApplicationUser> UserManager { get; set; }
-        [Inject] private ICompanyService CompanyService { get; set; }
-
-
+    public class UserService(IUserStore<ApplicationUser> UserStore, UserManager<ApplicationUser> UserManager, ICompanyService CompanyService) : IUserService
+    {        
         public bool SupportsUserEmail => UserManager.SupportsUserEmail;
 
-        public async Task<ApplicationUser> CreateAsync(ApplicationUser user)
-        {            
-            var newCompanyDefault = await CompanyService.CreateAsync();
+        public async Task<ApplicationUser> CreateAsync(string userName, string password)
+        {
+            try
+            {
+                var newUser = new ApplicationUser();
+                await UserStore.SetUserNameAsync(newUser, userName, CancellationToken.None);
 
-            return await CreateAsync(user, string.Empty, newCompanyDefault);
+                var emailStore = GetEmailStore();
+                await emailStore.SetEmailAsync(newUser, userName, CancellationToken.None);
+                await emailStore.SetEmailConfirmedAsync(newUser, false, CancellationToken.None);
+
+                newUser.Company = await CompanyService.CreateAsync();
+
+                return await CreateAsync(newUser, password);
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
+            }
         }
 
-        public async Task<ApplicationUser> CreateAsync(ApplicationUser user, string password, Company company)
+        public async Task<ApplicationUser> CreateAsync(ApplicationUser user, string password)
         {
-            user.Company = company;
-
-            IdentityResult result = await UserManager.CreateAsync(user, password);
+            IdentityResult result = await UserManager.CreateAsync(user);
 
             if (!result.Succeeded)
                 throw new IdentityErrorException(result.Errors);

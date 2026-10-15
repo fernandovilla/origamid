@@ -8,9 +8,11 @@ namespace Gestao.App.Data.Repositories
 {
     public class CompanyRepository(ApplicationDbContext _dbContext) : ICompanyRepository
     {
-        public Task<Company> CreateAsync(Company entity)
+        public async Task<Company> CreateAsync(Company entity)
         {
-            throw new NotImplementedException();
+            await _dbContext.Companies.AddAsync(entity);
+
+            return entity;
         }
 
         public Task DeleteAsync(Guid id)

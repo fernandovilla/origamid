@@ -168,7 +168,7 @@ builder.Services
     .AddControllers();  //Habilita o uso de controllers
 
 
-//builder.Services.AddMudServices();
+builder.Services.AddMudServices();
 //builder.Services.AddFluentUIComponents();
 
 

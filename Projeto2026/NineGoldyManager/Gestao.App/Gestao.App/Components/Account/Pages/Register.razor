@@ -17,6 +17,7 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject IUserService UserService
+@inject ICompanyService CompanyService
 
 <PageTitle>Cadastre-se</PageTitle>
 
@@ -134,10 +135,13 @@
         var emailStore = GetEmailStore();
 
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        await emailStore.SetEmailConfirmedAsync(user, true, CancellationToken.None);
+        await emailStore.SetEmailConfirmedAsync(user, false, CancellationToken.None);
 
         try 
-        {
+        {            
+            var newCompany = await CompanyService.CreateAsync();
+            user.Company = newCompany;
+
             userAdded = await UserService.CreateAsync(user);
         }
         catch(IdentityErrorException e) 
