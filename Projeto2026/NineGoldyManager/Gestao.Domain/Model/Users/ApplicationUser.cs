@@ -7,6 +7,10 @@ namespace Gestao.Domain.Model.Users
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser, IStatusManager
     {
+        public ApplicationUser() 
+            : base()
+        { }
+
         public Guid CompanyId { get; set; }
         public Company Company { get; set; }
 

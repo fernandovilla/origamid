@@ -8,16 +8,16 @@ using Gestao.Domain.Model.Clients;
 
 namespace Gestao.App.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : IdentityDbContext<ApplicationUser>(options)
-    {        
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+    //public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    {
+        //public DbSet<User> Users { get; set; }
+        //public DbSet<UserCredential> UserCredentials { get; set; }
+        //public DbSet<UserAccessRule> UserAccessRules { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Cliente> Clients { get; set; }
 
-        //public DbSet<Account> Accounts { get; set; }
-        //public DbSet<Category> Categories { get; set; }
-        //public DbSet<FinancialTransaction> FinancialTransactions { get; set; }
-        //public DbSet<Document> Documents { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,7 +27,7 @@ namespace Gestao.App.Data
             //builder.Entity<FinancialTransaction>()
             //     .Property(p => p.Repeat)
             //    .HasConversion<string>();
-            
+
             //// Sempre salva a coluna 'FinancialTransactionType' com o texto do enum
             //builder.Entity<FinancialTransaction>()
             //     .Property(p => p.FinancialTransactionType)
@@ -41,15 +41,35 @@ namespace Gestao.App.Data
             //    .OnDelete(DeleteBehavior.Cascade);
 
 
+
             /* Define o CNPJ seja único */
-            builder.Entity<Company>()
-                .HasIndex(i => i.TaxId)
-                .IsUnique();
+            //builder.Entity<Company>()
+            //    .HasIndex(i => i.TaxId)
+            //    .IsUnique();
+
+            //builder.Entity<User>()
+            //    .HasOne(i => i.Credential)
+            //    .WithOne(i => i.User)
+            //    .HasForeignKey<UserCredential>(i => i.UserId);
+
+            //builder.Entity<UserAccessRule>()
+            //    .HasOne(i => i.Credential)
+            //    .WithOne(i => i.AccessRule)
+            //    .HasForeignKey<UserCredential>(i => i.AccessRuleId);
+
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(i => i.Company)
+                .WithMany(i => i.Users);
+               
+                
+
 
             //builder.Entity<Account>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<Category>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<FinancialTransaction>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
-            builder.Entity<ApplicationUser>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
+            builder.Entity<User>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            builder.Entity<ApplicationUser>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Company>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
         }

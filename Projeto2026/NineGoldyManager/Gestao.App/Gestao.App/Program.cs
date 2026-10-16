@@ -7,6 +7,7 @@ using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
 //using Gestao.App.Libraries.Queues;
 using Gestao.App.Libraries.Services;
+using Gestao.App.Services.Auth;
 using Gestao.App.Services.Companies;
 using Gestao.App.Services.Users;
 using Gestao.Domain.Model;
@@ -59,6 +60,12 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
     options.SignIn.RequireConfirmedEmail = true;
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
+
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = false;        
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
@@ -141,7 +148,9 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(C
 #region Anothers Dependency Injection
 
 builder.Services.AddSingleton<ICepServices, CepServices>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Queuing - Coravel *************
 builder.Services.AddQueue();

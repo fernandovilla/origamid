@@ -31,15 +31,18 @@ namespace Gestao.App.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    LegalName = table.Column<string>(type: "text", nullable: false),
-                    TradeName = table.Column<string>(type: "text", nullable: false),
-                    TaxId = table.Column<string>(type: "text", nullable: false),
-                    PostalCode = table.Column<string>(type: "text", nullable: false),
-                    State = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    Neighboarhood = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: false),
-                    Complement = table.Column<string>(type: "text", nullable: false),
+                    LegalName = table.Column<string>(type: "text", nullable: true),
+                    TradeName = table.Column<string>(type: "text", nullable: true),
+                    TaxId = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    CellPhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PostalCode = table.Column<string>(type: "text", nullable: true),
+                    State = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Neighboarhood = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    Complement = table.Column<string>(type: "text", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -48,6 +51,19 @@ namespace Gestao.App.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAccessRule",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Rule = table.Column<int>(type: "integer", nullable: false),
+                    Active = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAccessRule", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,7 +124,7 @@ namespace Gestao.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Client",
+                name: "Clients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -121,12 +137,43 @@ namespace Gestao.App.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Client", x => x.Id);
+                    table.PrimaryKey("PK_Clients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Client_Companies_CompanyId",
+                        name: "FK_Clients_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    DeletedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -233,6 +280,34 @@ namespace Gestao.App.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserCredential",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    AccessRuleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCredential", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCredential_UserAccessRule_AccessRuleId",
+                        column: x => x.AccessRuleId,
+                        principalTable: "UserAccessRule",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserCredential_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -281,14 +356,25 @@ namespace Gestao.App.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Client_CompanyId",
-                table: "Client",
+                name: "IX_Clients_CompanyId",
+                table: "Clients",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Companies_TaxId",
-                table: "Companies",
-                column: "TaxId",
+                name: "IX_User_CompanyId",
+                table: "User",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCredential_AccessRuleId",
+                table: "UserCredential",
+                column: "AccessRuleId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCredential_UserId",
+                table: "UserCredential",
+                column: "UserId",
                 unique: true);
         }
 
@@ -314,13 +400,22 @@ namespace Gestao.App.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "UserCredential");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "UserAccessRule");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Companies");

@@ -1,7 +1,6 @@
 ﻿using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model;
 using Gestao.Domain.Model.Companies;
-using Gestao.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.App.Data.Repositories
@@ -25,7 +24,7 @@ namespace Gestao.App.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Company?> GetAsync(Guid id)
+        public Task<Company?> FindByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }

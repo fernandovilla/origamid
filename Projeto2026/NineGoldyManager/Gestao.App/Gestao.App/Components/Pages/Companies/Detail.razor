@@ -136,7 +136,7 @@
         if (Id != null)
         {
             //TODO - SELECIONA OS DADOS DO REPOSITORY
-            var company = (await CompanyRepository.GetAsync((Guid)Id))!;
+            var company = (await CompanyRepository.FindByIdAsync((Guid)Id))!;
 
             if (company == null)
             {

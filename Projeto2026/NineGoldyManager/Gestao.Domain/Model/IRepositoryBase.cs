@@ -2,10 +2,10 @@
 
 namespace Gestao.Domain.Repositories
 {
-    public interface IRepository<T> where T : class
-    {                
-        Task<T?> GetAsync(Guid id);
+    public interface IRepositoryBase<T> where T : class
+    {
         Task<IQueryable<T>> GetAsync();
+        Task<T?> FindByIdAsync(Guid id);        
         Task<T> CreateAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(Guid id);

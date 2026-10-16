@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gestao.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261014203440_Database-Initial")]
+    [Migration("20261016175531_Database-Initial")]
     partial class DatabaseInitial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Gestao.App.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Gestao.Domain.Model.Clients.Client", b =>
+            modelBuilder.Entity("Gestao.Domain.Model.Clients.Cliente", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace Gestao.App.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Client");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Gestao.Domain.Model.Companies.Company", b =>
@@ -64,15 +64,15 @@ namespace Gestao.App.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CellPhoneNumber")
                         .HasColumnType("text");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Complement")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -81,40 +81,37 @@ namespace Gestao.App.Migrations
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
                     b.Property<string>("LegalName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Neighboarhood")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
                     b.Property<string>("PostalCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("State")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<string>("TaxId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("TradeName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TaxId")
-                        .IsUnique();
 
                     b.ToTable("Companies");
                 });
@@ -199,6 +196,110 @@ namespace Gestao.App.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.UserAccessRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Rule")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserAccessRule");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.UserCredential", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AccessRuleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccessRuleId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserCredential");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -354,7 +455,7 @@ namespace Gestao.App.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Gestao.Domain.Model.Clients.Client", b =>
+            modelBuilder.Entity("Gestao.Domain.Model.Clients.Cliente", b =>
                 {
                     b.HasOne("Gestao.Domain.Model.Companies.Company", null)
                         .WithMany("Clients")
@@ -370,6 +471,36 @@ namespace Gestao.App.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.User", b =>
+                {
+                    b.HasOne("Gestao.Domain.Model.Companies.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.UserCredential", b =>
+                {
+                    b.HasOne("Gestao.Domain.Model.Users.UserAccessRule", "AccessRule")
+                        .WithOne("Credential")
+                        .HasForeignKey("Gestao.Domain.Model.Users.UserCredential", "AccessRuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gestao.Domain.Model.Users.User", "User")
+                        .WithOne("Credential")
+                        .HasForeignKey("Gestao.Domain.Model.Users.UserCredential", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccessRule");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -479,6 +610,18 @@ namespace Gestao.App.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.User", b =>
+                {
+                    b.Navigation("Credential")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Users.UserAccessRule", b =>
+                {
+                    b.Navigation("Credential")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

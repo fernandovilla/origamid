@@ -7,6 +7,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using Gestao.App.Data
+@using Gestao.App.Services.Auth
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
@@ -17,7 +18,9 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject IUserService UserService
-@inject ICompanyService CompanyService
+@* @inject ICompanyService CompanyService *@
+
+@inject IAuthService AuthService
 
 <PageTitle>Cadastre-se</PageTitle>
 
@@ -128,28 +131,39 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
-        var user = CreateUser();
+        // var user = CreateUser();
         ApplicationUser userAdded = null;
+        User newUser = null;
 
-        await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-        var emailStore = GetEmailStore();
+        // await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
 
-        await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        await emailStore.SetEmailConfirmedAsync(user, false, CancellationToken.None);
+        // var emailStore = GetEmailStore();
+        // await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        // await emailStore.SetEmailConfirmedAsync(user, false, CancellationToken.None);
 
         try 
-        {            
-            var newCompany = await CompanyService.CreateAsync();
-            user.Company = newCompany;
+        {
+            userAdded = await UserService.CreateAsync(Input.Email, Input.Password);
 
-            userAdded = await UserService.CreateAsync(user);
+            // var userDto = new UserDto
+            // {
+            //     UserName = Input.Email,
+            //     Password = Input.Password
+            // };
+
+            // newUser = await AuthService.RegisterAsync(userDto);
+
         }
         catch(IdentityErrorException e) 
         {
             identityErrors = e.Errors;
             return;
+        } 
+        catch(Exception e) 
+        {
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+                $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor.");
         }
-
 
         Logger.LogInformation("User created a new account with password.");
 
@@ -157,22 +171,20 @@
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(userAdded);
 
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
+        
         var callbackUrl = NavigationManager.GetUriWithQueryParameters(
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
-        await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        await EmailSender.SendConfirmationLinkAsync(userAdded, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
-            RedirectManager.RedirectTo(
-                "Account/RegisterConfirmation",
-                new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
+            RedirectManager.RedirectTo("Account/RegisterConfirmation",new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
         }
         else
         {
-            await SignInManager.SignInAsync(user, isPersistent: false);
+            await SignInManager.SignInAsync(userAdded, isPersistent: true);
             RedirectManager.RedirectTo(ReturnUrl);
         }
     }

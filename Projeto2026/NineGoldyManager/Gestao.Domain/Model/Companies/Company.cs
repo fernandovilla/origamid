@@ -13,16 +13,19 @@ namespace Gestao.Domain.Model.Companies
 {
     public class Company : IStatusManager
     {    
-        public Guid Id { get; set; }
-        public string LegalName { get; set; } = string.Empty;        
-        public string TradeName { get; set; } = string.Empty;
-        public string TaxId { get; set; } = string.Empty;
-        public string PostalCode { get; set; } = string.Empty;        
-        public string State { get; set; } = string.Empty;        
-        public string City { get; set; } = string.Empty;        
-        public string Neighboarhood { get; set; } = string.Empty;        
-        public string Address { get; set; } = string.Empty;
-        public string Complement { get; set; } = string.Empty;
+        public Guid Id { get; set; }        
+        public string? LegalName { get; set; } 
+        public string? TradeName { get; set; } 
+        public string? TaxId { get; set; } 
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; } 
+        public string? CellPhoneNumber { get; set; }
+        public string? PostalCode { get; set; } 
+        public string? State { get; set; } 
+        public string? City { get; set; } 
+        public string? Neighboarhood { get; set; } 
+        public string? Address { get; set; } 
+        public string? Complement { get; set; } 
         public StatusEnum Status { get; set; } = StatusEnum.Normal;
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now; 
         public DateTimeOffset? UpdatedAt { get; set; } = null;

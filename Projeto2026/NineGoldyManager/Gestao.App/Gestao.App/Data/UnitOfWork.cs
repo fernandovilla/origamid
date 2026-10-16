@@ -5,15 +5,20 @@ using Gestao.Domain.Repositories;
 //using Microsoft.Identity.Client;
 using Microsoft.AspNetCore.Identity;
 using Gestao.Domain.Model.Users;
+using Gestao.Domain.Model.Companies;
 
 namespace Gestao.App.Data
 {
     public partial class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private IApplicationUserRepository? _userRepository;
+        //private IApplicationUserRepository? _userRepository;
+
+        private IUserRepository? _userRepository;
         private ICompanyRepository? _companyRepository;
 
-        public IApplicationUserRepository UserRepository => _userRepository ?? (new ApplicationUserRepository(_userManager));
+        //public IApplicationUserRepository UserRepository => _userRepository ?? (new ApplicationUserRepository(_userManager));
+
+        public IUserRepository UserRepository => _userRepository ?? (new UserRepository(_context));
         public ICompanyRepository CompanyRepository => _companyRepository ?? (new CompanyRepository(_context));
     }
 
