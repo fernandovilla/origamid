@@ -11,8 +11,8 @@ namespace Gestao.Domain.Model.Users
             : base()
         { }
 
-        public Guid CompanyId { get; set; }
-        public Company Company { get; set; }
+        public Guid? CompanyId { get; set; } = null;
+        public Company? Company { get; set; } = null;
 
         public StatusEnum Status { get; set; } = StatusEnum.Normal;
         public DateTimeOffset CreatedAt { get; set; }

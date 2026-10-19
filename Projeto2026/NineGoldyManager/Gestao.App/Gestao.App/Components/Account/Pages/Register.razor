@@ -130,39 +130,24 @@
 
 
     public async Task RegisterUser(EditContext editContext)
-    {
-        // var user = CreateUser();
+    {        
         ApplicationUser userAdded = null;
-        User newUser = null;
-
-        // await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-
-        // var emailStore = GetEmailStore();
-        // await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-        // await emailStore.SetEmailConfirmedAsync(user, false, CancellationToken.None);
-
+        
         try 
         {
             userAdded = await UserService.CreateAsync(Input.Email, Input.Password);
-
-            // var userDto = new UserDto
-            // {
-            //     UserName = Input.Email,
-            //     Password = Input.Password
-            // };
-
-            // newUser = await AuthService.RegisterAsync(userDto);
-
         }
         catch(IdentityErrorException e) 
         {
             identityErrors = e.Errors;
             return;
         } 
-        catch(Exception e) 
+        catch(Exception ex) 
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
-                $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor.");
+            // throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+            //     $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor.");
+
+            Log.Error("Ocorreu erro registrando novo usuário", ex);
         }
 
         Logger.LogInformation("User created a new account with password.");

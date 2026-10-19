@@ -39,9 +39,9 @@ namespace Gestao.App.Services.Users
                 await emailStore.SetEmailAsync(newUser, userName, CancellationToken.None);
                 await emailStore.SetEmailConfirmedAsync(newUser, false, CancellationToken.None);
 
-                newUser.Company = new Company() { 
-                    TradeName = "INDEFINIDO" 
-                };
+                //newUser.Company = new Company() { 
+                //    TradeName = "INDEFINIDO" 
+                //};
 
                 return await CreateAsync(newUser, password);
             }

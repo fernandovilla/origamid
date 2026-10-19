@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Morris.Blazor.Validation;
 using MudBlazor.Services;
+using Serilog;
 using System.Net;
 using System.Net.Mail;
 
@@ -172,16 +173,30 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddBlazoredLocalStorage();
 
-
-builder.Services
-    .AddControllers();  //Habilita o uso de controllers
-
+builder.Services.AddControllers();  //Habilita o uso de controllers
 
 builder.Services.AddMudServices();
 //builder.Services.AddFluentUIComponents();
 
 
+#region Configuração Serilog
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+Log.Information("Serilog configurado");
+
+
+#endregion
+
+
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
