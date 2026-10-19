@@ -58,7 +58,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
 
@@ -188,7 +188,6 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 Log.Information("Serilog configurado");
-
 
 #endregion
 

@@ -3,7 +3,7 @@ using Gestao.Domain.Repositories;
 
 namespace Gestao.App.Data.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<User>
+    public interface IUserRepository //: IRepositoryBase<User>
     {
 
     }

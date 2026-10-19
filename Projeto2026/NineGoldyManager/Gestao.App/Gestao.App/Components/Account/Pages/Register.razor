@@ -6,7 +6,6 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using Gestao.App.Data
 @using Gestao.App.Services.Auth
 
 @inject UserManager<ApplicationUser> UserManager
@@ -18,9 +17,11 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 @inject IUserService UserService
-@* @inject ICompanyService CompanyService *@
 
+@* 
+@inject ICompanyService CompanyService
 @inject IAuthService AuthService
+*@
 
 <PageTitle>Cadastre-se</PageTitle>
 
@@ -143,14 +144,11 @@
             return;
         } 
         catch(Exception ex) 
-        {
-            // throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
-            //     $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor.");
-
+        {            
             Log.Error("Ocorreu erro registrando novo usuário", ex);
         }
 
-        Logger.LogInformation("User created a new account with password.");
+        Log.Information($"User created a new account with password: {Input.Email}");
 
         var userId = userAdded.Id;
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(userAdded);

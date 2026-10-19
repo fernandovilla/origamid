@@ -18,7 +18,9 @@ namespace Gestao.App.Services.Auth
 
         public async Task<User?> RegisterAsync(UserDto userDto)
         {
-            return await UserService.CreateAsync(userDto);
+            throw new NotImplementedException();
+
+            //return await UserService.CreateAsync(userDto);
             
 
             //repository.CreateAsync()

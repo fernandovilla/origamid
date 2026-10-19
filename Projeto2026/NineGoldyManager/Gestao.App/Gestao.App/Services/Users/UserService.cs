@@ -1,33 +1,14 @@
 ﻿using Gestao.App.Data;
 using Gestao.App.Services.Auth;
-using Gestao.App.Services.Companies;
 using Gestao.Domain.Model.Companies;
 using Gestao.Domain.Model.Users;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Razor.Internal;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Gestao.App.Services.Users
 {
-    public class UserService(
-        IUserStore<ApplicationUser> UserStore, 
-        UserManager<ApplicationUser> UserManager, 
-        ICompanyService CompanyService, 
-        IUnitOfWorkFactory unitOfWorkFactory) : IUserService
-    {        
-        public bool SupportsUserEmail => UserManager.SupportsUserEmail;
-
-        private IUserEmailStore<ApplicationUser> GetEmailStore()
-        {
-            if (!UserManager.SupportsUserEmail)
-                throw new NotSupportedException("The default UI requires a user store with email support.");
-
-            return (IUserEmailStore<ApplicationUser>)UserStore;   
-        }
-
+    public class UserService(IUserStore<ApplicationUser> UserStore, UserManager<ApplicationUser> UserManager, IUnitOfWorkFactory unitOfWorkFactory) : IUserService
+    {                
         public async Task<ApplicationUser> CreateAsync(string userName, string password)
         {
             try
@@ -39,16 +20,21 @@ namespace Gestao.App.Services.Users
                 await emailStore.SetEmailAsync(newUser, userName, CancellationToken.None);
                 await emailStore.SetEmailConfirmedAsync(newUser, false, CancellationToken.None);
 
-                //newUser.Company = new Company() { 
-                //    TradeName = "INDEFINIDO" 
-                //};
+                
+                var resultUser = await CreateAsync(newUser, password);
 
-                return await CreateAsync(newUser, password);
+                resultUser.Company = new Company()
+                {
+                    TradeName = "INDEFINIDO"
+                };
+
+                await UserManager.UpdateAsync(resultUser);
+
+                return resultUser;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
-             
             }
         }
 
@@ -90,30 +76,30 @@ namespace Gestao.App.Services.Users
             throw new NotImplementedException();
         }
 
-        public async Task<User> CreateAsync(UserDto userDto)
-        {
-            var user = new User();
-            user.Email = userDto.UserName;
-            user.UserName = userDto.UserName;
+        //public async Task<User> CreateAsync(UserDto userDto)
+        //{           
+        //    var user = new User();
+        //    user.Email = userDto.UserName;
+        //    user.UserName = userDto.UserName;
 
-            user.Credential = new UserCredential();
-            user.Credential.PasswordHash = new PasswordHasher<User>().HashPassword(user, userDto.Password);
+        //    user.Credential = new UserCredential();
+        //    user.Credential.PasswordHash = new PasswordHasher<User>().HashPassword(user, userDto.Password);
 
-            user.Credential.AccessRule = new UserAccessRule();
-            user.Credential.AccessRule.Rule = UserAccessRuleEnum.Limited;
+        //    user.Credential.AccessRule = new UserAccessRule();
+        //    user.Credential.AccessRule.Rule = UserAccessRuleEnum.Limited;
 
 
-            using var unit = unitOfWorkFactory.Create();
+        //    using var unit = unitOfWorkFactory.Create();
 
-            user.Company = await CreateNewEmptyCompany(unit);
-            user.CompanyId = user.Company.Id;
+        //    user.Company = await CreateNewEmptyCompany(unit);
+        //    user.CompanyId = user.Company.Id;
 
-            unit.UserRepository.CreateAsync(user);
+        //    unit.UserRepository.CreateAsync(user);
 
-            await unit.SaveChangesAsync();
+        //    await unit.SaveChangesAsync();
 
-            return user;
-        }
+        //    return user;
+        //}
 
         private async Task<Company> CreateNewEmptyCompany(IUnitOfWork unit)
         {

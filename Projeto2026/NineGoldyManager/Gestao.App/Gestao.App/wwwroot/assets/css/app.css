@@ -1039,7 +1039,7 @@ File: Main Css File
   text-align: center;
 }
 :is([data-layout=vertical], [data-layout=semibox])[data-sidebar-size=md] .navbar-menu .menu-title span {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 :is([data-layout=vertical], [data-layout=semibox])[data-sidebar=dark] .logo-dark {
   display: none;
