@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Gestao.Domain.Interfaces;
 using Gestao.Domain.Libraries.Validations;
-using Gestao.Domain.Model.Clients;
+using Gestao.Domain.Model.Customers;
 using Gestao.Domain.Model.Users;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
@@ -33,7 +33,7 @@ namespace Gestao.Domain.Model.Companies
 
 
         public ICollection<ApplicationUser>? Users { get; set; }
-        public ICollection<Cliente>? Clients { get; set; }
+        public ICollection<Customer>? Customers { get; set; }
     }
 
     public class CompanyValidator : AbstractValidator<Company>

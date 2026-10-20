@@ -1,0 +1,9 @@
+﻿@page "/customer/edit"
+@page "/customer/edit/{id:guid}"
+
+<h3>Edição de Cliente</h3>
+
+@code {
+    [Parameter]
+    public Guid? Id { get; set; }
+}

@@ -133,7 +133,7 @@
     public async Task RegisterUser(EditContext editContext)
     {        
         ApplicationUser userAdded = null;
-        
+
         try 
         {
             userAdded = await UserService.CreateAsync(Input.Email, Input.Password);
@@ -146,6 +146,7 @@
         catch(Exception ex) 
         {            
             Log.Error("Ocorreu erro registrando novo usuário", ex);
+            return;
         }
 
         Log.Information($"User created a new account with password: {Input.Email}");

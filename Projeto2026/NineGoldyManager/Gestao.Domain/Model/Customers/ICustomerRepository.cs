@@ -1,10 +1,10 @@
-﻿using Gestao.Domain.Model.Clients;
+﻿using Gestao.Domain.Model.Customers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Gestao.Domain.Repositories
 {
-    public interface IClientRepository : IRepositoryBase<Cliente>
+    public interface ICustomerRepository : IRepositoryBase<Customer>
     { }
 }

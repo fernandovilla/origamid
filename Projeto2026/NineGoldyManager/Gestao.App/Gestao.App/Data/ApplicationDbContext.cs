@@ -4,19 +4,14 @@ using Gestao.Domain.Model.Companies;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Gestao.Domain.Model;
-using Gestao.Domain.Model.Clients;
+using Gestao.Domain.Model.Customers;
 
 namespace Gestao.App.Data
 {
-    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
-    //public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)    
     {
-        //public DbSet<User> Users { get; set; }
-        //public DbSet<UserCredential> UserCredentials { get; set; }
-        //public DbSet<UserAccessRule> UserAccessRules { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Cliente> Clients { get; set; }
-
+        public DbSet<Customer> Customers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -61,16 +56,21 @@ namespace Gestao.App.Data
             builder.Entity<ApplicationUser>()
                 .HasOne(i => i.Company)
                 .WithMany(i => i.Users);
-               
-                
+
+            builder.Entity<Customer>()
+                .HasOne(i => i.Company)
+                .WithMany(i => i.Customers);
 
 
             //builder.Entity<Account>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<Category>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<FinancialTransaction>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
-            builder.Entity<User>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            //builder.Entity<User>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+
             builder.Entity<ApplicationUser>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Company>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            builder.Entity<Customer>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+
             //builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
         }
 
