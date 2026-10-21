@@ -206,7 +206,7 @@
         * Blazor WASM, obtem o usuário de AuthenticationStateProvider
         */
 
-    return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
+        return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(authProvider))!.Value;
     }
 
     private async Task OnCepEntry(ChangeEventArgs e)

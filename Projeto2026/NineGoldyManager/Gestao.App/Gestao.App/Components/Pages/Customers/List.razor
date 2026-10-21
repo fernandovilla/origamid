@@ -1,7 +1,9 @@
 ﻿@page "/customer/list"
 @using Gestao.Domain.Libraries.Utilities
 
-@attribute [Authorize]
+@inherits AuthenticatedPageBase
+@inject ICustomerService CustomerService
+
 
 <PageTitle>
     Clientes
@@ -78,8 +80,8 @@
                                         <button class="btn btn-sm btn-soft-success me-1" @onclick="() => SelectCompanyAsync(customer)"><i class="ri-check-line me-1" />Selecionar</button>
                                     } *@
 
-                                    <a href="/company/edit/@customer.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
-                                    <a href="/company/detail/@customer.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
+                                    <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
+                                    <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
                                 </td>
                             </tr>
                         }
@@ -90,7 +92,7 @@
             </table><!-- end table -->
         </div>
 
-        <Pagination PaginatedData="Customers" OnPageChanged="OnPageChanged" />
+        @* <Pagination PaginatedData="Customers" OnPageChanged="OnPageChanged" /> *@
     </div>
 
 	
@@ -104,28 +106,46 @@
 </style>
 
 @code {
-
-    private PaginatedList<Customer> Customers { get; set; }
+    private IPaginatedList<Customer> Customers { get; set; }
+    private int PageIndex = 1;
+    private int PageSize = 15;
+    private ApplicationUser User;
 
     private string SearchWord { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
+        await LoadAuthenticatedUserAsync();
         await LoadDataAsync();
     }
 
+    private async Task LoadAuthenticatedUserAsync()
+    {        
+        var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+
+        if (userId != Guid.Empty)
+            User = await ApplicationUserService.FindByIdAsync(userId);
+    }
+
+
     private async Task OnPageChanged(int pageNumber)
     {
-
+        PageIndex = pageNumber;
+        StateHasChanged();
     }
+
 
     private async Task LoadDataAsync()
     {
-        //Companies = await CompanyRepository.GetAllAsync(UserId, PageIndex, PageSize, SearchWord);
+        if (User == null)
+            return;
+
+        Customers = await CustomerService.ListAsync((Guid)User.CompanyId, PageIndex, PageSize, SearchWord);
     }
 
     private async Task OnSearch()
     {
-        
+        PageIndex = 1;
+        await LoadDataAsync();
     }
 }

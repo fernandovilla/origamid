@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Sections
+@using Gestao.App.Components.Pages.Panel
+
 @rendermode InteractiveServer
 
 @inherits PageBase
@@ -546,7 +548,7 @@
     {
         //await LocalStorage.ContainKeyAsync(AppConstants.LOCAL_STORAGE_COMPANY);
 
-        Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
+        //Company = await LocalStorage.GetItemAsync<Company>(AppConstants.LOCAL_STORAGE_COMPANY);
 
         StateHasChanged();
     }

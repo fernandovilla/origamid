@@ -10,14 +10,20 @@ namespace Gestao.App.Libraries.Services
         private readonly string _url = @"https://viacep.com.br/ws/{0}/json/";
 
         public async Task<AddressCEP?> SearchByPostalCodeAsync(string postalCode)
-        {
+        {            
             var code = postalCode.Replace(".", string.Empty).Replace("-", string.Empty);
-            var url = $"https://viacep.com.br/ws/{code}/json/";
 
-            var http = new HttpClient();
-            var result = await http.GetFromJsonAsync<AddressCEP>(url);
+            if (!string.IsNullOrEmpty(code))
+            {
+                var url = $"https://viacep.com.br/ws/{code}/json/";
 
-            return result;
+                using var http = new HttpClient();
+                var result = await http.GetFromJsonAsync<AddressCEP>(url);
+
+                return result;
+            }
+
+            return null;
         }
     }
 

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Gestao.App.Services.Users
 {
-    public class UserService(IUserStore<ApplicationUser> UserStore, UserManager<ApplicationUser> UserManager, IUnitOfWorkFactory unitOfWorkFactory) : IUserService
+    public class ApplicationUserService(IUserStore<ApplicationUser> UserStore, UserManager<ApplicationUser> UserManager, IUnitOfWorkFactory unitOfWorkFactory) 
+        : IApplicationUserService
     {                
         public async Task<ApplicationUser> CreateAsync(string userName, string password)
         {
@@ -47,7 +48,7 @@ namespace Gestao.App.Services.Users
 
             var userId = await GetUserIdAsync(user);
 
-            return await FindByIdAsync(userId);
+            return await FindByIdAsync(Guid.Parse(userId));
 
         }
 
@@ -56,9 +57,9 @@ namespace Gestao.App.Services.Users
             return await UserManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
-        public async Task<ApplicationUser> FindByIdAsync(string userId)
+        public async Task<ApplicationUser> FindByIdAsync(Guid userId)
         {
-            return await UserManager.FindByIdAsync(userId);
+            return await UserManager.FindByIdAsync(userId.ToString());            
         }
 
         public async Task<string> GetUserIdAsync(ApplicationUser user)

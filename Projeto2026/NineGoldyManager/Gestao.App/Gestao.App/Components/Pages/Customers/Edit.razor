@@ -1,9 +1,357 @@
 ﻿@page "/customer/edit"
-@page "/customer/edit/{id:guid}"
+@page "/customer/edit/{id:Guid}"
 
-<h3>Edição de Cliente</h3>
+@rendermode InteractiveServer
+
+@inherits AuthenticatedPageBase
+@inject ICepServices CepService
+@inject ICustomerService CustomerService
+
+<PageTitle>
+    Cliente - @(Id != null ? "Atualização" : "Cadastro")
+</PageTitle>
+
+<h5 class="mb-2">
+    @(Id != null ? "Atualização de Cliente" : "Cadastro de Cliente")
+</h5>
+
+
+
+<div class="class="overflow-y-visible overflow-x-visible"">
+
+
+    <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel" >
+
+        <Morris.Blazor.Validation.Validate />
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <h6 class="card-title mb-0 flex-grow-1">
+                            Dados do Cliente
+                        </h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-xxl-6 col-md-6">
+                                <label for="name" class="form-label">Nome</label>
+                                <InputText id="name" @bind-Value="Model!.Name" type="text" class="form-control" autocomplete="off" maxlength="100" />
+                                <ValidationMessage For="() => Model!.Name" />
+                            </div>
+
+
+                            <div class="col-xxl-3 col-md-6">
+                                <label for="pessoa" class="form-label">Pessoa</label>
+                                <InputSelect @bind-Value="Model!.TipoPessoa" class="form-control">
+                                    @foreach(TipoPessoaEnum option in Enum.GetValues(typeof(TipoPessoaEnum)))
+                                    {
+                                        <option value="@option">@option.DisplayName()</option>
+                                    }
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-xxl-3 col-md-6">                            
+                                @if (Model.TipoPessoa == TipoPessoaEnum.PessoaFisica)
+                                {
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <InputText id="cpf" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
+                                } else
+                                {
+                                    <label for="cnpj" class="form-label">CNPJ</label>
+                                    <InputText id="cnpj" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
+                                }
+                                <ValidationMessage For="() => Model!.Document" />
+                            </div>
+
+                            <div class="col-xxl-3 col-md-6">
+                                <label for="birthDate" class="form-label">Data Nascimento</label>
+                                <InputDate @bind-Value="Model!.BirthDate" class="form-control" id="birthDate" />
+                                <ValidationMessage For="() => Model!.BirthDate" />
+                            </div>
+                        </div>
+                    
+                    
+                    
+
+                        
+
+                
+
+                    </div>
+                </div>
+            </div>
+
+       
+        </div>
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header align-items-center d-flex">
+                    <h6 class="card-title mb-0 flex-grow-1">
+                        Endereço do Cliente
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">                            
+                            <label for="cep" class="form-label">CEP</label>
+                            @* <div class="input-group">
+                                <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
+                                @if (Loading)
+                                {
+                                    <span class="input-group-text input-group-text-bg-transparent">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </span>
+                                }
+                            </div> *@
+
+                            <InputGroup IconStart="ri-user-location-line">
+                                <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
+                                @if (Loading)
+                                {
+                                    <span class="input-group-text input-group-text-bg-transparent">
+                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </span>
+                                }
+                            </InputGroup>
+
+                            <ValidationMessage For="() => Model!.ZipCode" />
+                        </div>
+
+                        
+                        <div class="col-xxl-6 col-md-6">                            
+                            <label for="address" class="form-label">Endereço</label>
+                            <InputText @bind-Value="Model!.Address" type="text" class="form-control" id="address" />
+                            <ValidationMessage For="() => Model!.Address" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="numberAddres" class="form-label">Número</label>
+                            <InputText id="numberAddress" @bind-Value="Model!.NumberAddress" type="text" class="form-control" />
+                            <ValidationMessage For="() => Model!.NumberAddress" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="neighboarhood" class="form-label">Bairro</label>
+                            <InputText id="neighboarhood" @bind-Value="Model!.Neighboarhood" type="text" class="form-control"  />
+                            <ValidationMessage For="() => Model!.Neighboarhood" />
+                        </div>
+
+                            <div class="col-xxl-6 col-md-6">
+                            <label for="city" class="form-label">Cidade</label>
+                            <InputText @bind-Value="Model!.City" type="text" class="form-control" id="city"  />
+                            <ValidationMessage For="() => Model!.City" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="uf" class="form-label">UF</label>
+                            <InputText @bind-Value="Model!.State" type="text" class="form-control" id="uf"  />
+                            <ValidationMessage For="() => Model!.State" />
+                        </div>
+
+                        <div class="col-xxl-9 col-md-6">
+                            <label for="compl" class="form-label">Complemento</label>
+                            <InputText @bind-Value="Model!.Complement" type="text" class="form-control" id="compl" autocomplete="off" />
+                            <ValidationMessage For="() => Model!.Complement" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="phone" class="form-label">Telefone</label>
+                            <InputGroup IconStart="ri-phone-line">
+                                <InputText @bind-Value="Model!.PhoneNumber" type="text" class="form-control" id="phone" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.PhoneNumber" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="cellphone" class="form-label">Celular</label>
+                            <InputGroup IconStart="ri-cellphone-line">
+                                <InputText @bind-Value="Model!.CellPhoneNumber" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.CellPhoneNumber" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">
+                            <label for="cellphone" class="form-label">Whatsapp</label>                        
+                            <InputGroup IconStart="ri-whatsapp-line">
+                                <InputText @bind-Value="Model!.Whatsapp" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.Whatsapp" />
+                        </div>
+
+                        <div class="col-xxl-3 col-md-6">                        
+                            <label for="cellphone" class="form-label">Telegram</label>
+                            <InputGroup IconStart="ri-telegram-line">
+                                <InputText @bind-Value="Model!.Telegram" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.Telegram" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-6 col-md-6">
+                            <label for="instagram" class="form-label">Instagram</label>                        
+                            <InputGroup IconStart="ri-instagram-line">
+                                <InputText @bind-Value="Model!.Instagram" type="text" class="form-control" id="instagram" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.Instagram" />
+                        </div>
+
+                            <div class="col-xxl-6 col-md-6">
+                            <label for="facebook" class="form-label">Facebook</label>
+                            <InputGroup IconStart="ri-facebook-line">
+                                <InputText @bind-Value="Model!.Facebook" type="text" class="form-control" id="facebook" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.Facebook" />
+                        </div>
+
+                        <div class="col-xxl-6 col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <InputGroup IconStart="ri-mail-line">
+                                <InputText @bind-Value="Model!.Email" type="text" class="form-control" id="email" autocomplete="off" />
+                            </InputGroup>
+                            <ValidationMessage For="() => Model!.Email" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xxl-12 col-md-12">
+                            <label for="obs" class="form-label">Observações</label>
+                            <InputTextArea id="obs" @bind-Value="Model!.Obs" class="form-control" autocomplete="off"  />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+            <div class="row mt-3">
+            <div class="d-flex justify-content-start">
+                <a href="customer/list" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
+            
+                <ButtonSave type="submit" />
+            </div>
+        </div>
+
+    
+
+    </EditForm>
+</div>
 
 @code {
+    private bool Loading = false;
+
     [Parameter]
-    public Guid? Id { get; set; }
+    public string? Id { get; set; }
+
+    public Customer? Model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();        
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Id))
+            await LoadCustomerAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("CustomerMaskInit");
+    }
+
+    private async Task LoadCustomerAsync()
+    {
+        Model = await CustomerService.FindByIdAsync(Guid.Parse(Id));
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        if (Model == null)
+            return;
+
+        if (string.IsNullOrEmpty(Id))
+            await CreateCustomerAsync();
+        else
+            await UpdateCustomerAsync();
+    }
+
+    private async Task CreateCustomerAsync()
+    {
+        Model.CompanyId = AuthenticatedUser.CompanyId;
+
+        var newCustomer = await CustomerService.CreateAscyn(Model);
+
+        if (newCustomer != null)
+        {
+            //TODO: ALTERAR PARA TOAST
+            await JSRuntime!.InvokeVoidAsync("alert", "Cliente cadastrado!");
+            NavigationManager!.NavigateTo("/customer/list");
+        }
+    }
+
+    private async Task UpdateCustomerAsync()
+    {        
+        await CustomerService.UpdateAsync(Model);
+
+        //TODO: ALTERAR PARA TOAST
+        await JSRuntime!.InvokeVoidAsync("alert", "Cliente atualizado!");
+        NavigationManager!.NavigateTo("/customer/list");        
+    }
+
+    private async Task RollbackDataAsync()
+    {
+        //DbContext.ChangeTracker.Clear();        
+    }
+
+    private async Task<Guid> GetAuthenticatedUserAsync()
+    {
+        //Carregar as empresas cadastradas...
+        /*
+        * Blazor Server, obtem o usuário de SignInManager
+        * Blazor WASM, obtem o usuário de AuthenticationStateProvider
+        */
+
+        return (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+    }
+
+    private async Task OnCepEntry(ChangeEventArgs e)
+    {
+        if (e.Value!.ToString()!.Length == 10)
+        {
+            Loading = true;
+
+            Model.Address = string.Empty;
+            Model.City = string.Empty;
+            Model.State = string.Empty;
+            Model.Neighboarhood = string.Empty;
+
+            var address = await CepService.SearchByPostalCodeAsync(e.Value.ToString()!);
+
+            if (address != null)
+            {
+                Model.Address = address.Logradouro;
+                Model.City = address.Localidade;
+                Model.State = address.UF;
+                Model.Neighboarhood = address.Bairro;
+            }
+
+            Loading = false;
+        }
+    }
+
+
+
 }

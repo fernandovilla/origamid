@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gestao.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20261020010328_Database-v1.1")]
-    partial class Databasev11
+    [Migration("20261021141944_Database-v1.0")]
+    partial class Databasev10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,21 +91,21 @@ namespace Gestao.App.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("CompanyId1")
+                    b.Property<Guid?>("CompanyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -115,48 +115,69 @@ namespace Gestao.App.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Document")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Facebook")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Instagram")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Neighboarhood")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NumberAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Obs")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("State")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<string>("Telegram")
+                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("TipoPessoa")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Whatsapp")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ZipCode")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId1");
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Customers");
                 });
@@ -400,7 +421,7 @@ namespace Gestao.App.Migrations
                 {
                     b.HasOne("Gestao.Domain.Model.Companies.Company", "Company")
                         .WithMany("Customers")
-                        .HasForeignKey("CompanyId1");
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });

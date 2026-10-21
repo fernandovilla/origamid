@@ -208,7 +208,7 @@ File: Main Css File
 
 @media (min-width: 768px) {
   .topbar-user {
-    background-color: var(--vz-topbar-user-bg);
+    /*background-color: var(--vz-topbar-user-bg);*/    
   }
 }
 .topbar-user .dropdown-menu {
@@ -331,16 +331,21 @@ File: Main Css File
 }
 [data-layout=horizontal] .page-content {
   padding: calc(45px + 1.5rem) calc(1.5rem * 0.5) 60px calc(1.5rem * 0.5);
+  border: 1px solid lime;
 }
+
 @media (min-width: 1024.1px) {
-  [data-layout=horizontal] .page-content {
-    margin-top: 70px;
-  }
+    [data-layout=horizontal] .page-content {
+        margin-top: 70px;
+        border: 1px solid red;
+    }
 }
+
 @media (max-width: 1024.1px) {
-  [data-layout=horizontal] .page-content {
-    padding: calc(45px + 1.5rem * 1.8) calc(1.5rem * 0.5) 60px calc(1.5rem * 0.5);
-  }
+    [data-layout=horizontal] .page-content {
+        padding: calc(45px + 1.5rem * 1.8) calc(1.5rem * 0.5) 60px calc(1.5rem * 0.5);
+        border: 1px solid blue;
+    }
 }
 @media (min-width: 1024.1px) {
   [data-layout=horizontal][data-layout-width=boxed] .page-content {
@@ -16239,4 +16244,9 @@ span.flatpickr-weekday {
 .blog-grid-card:hover .blog-img {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
+}
+
+.form-label {
+    margin-bottom: 0px;
+    border: 1px solid lime;
 }

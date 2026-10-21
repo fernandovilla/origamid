@@ -4,7 +4,16 @@ using System.Text;
 
 namespace Gestao.Domain.Libraries.Utilities
 {
-    public class PaginatedList<T>
+    public interface IPaginatedList<T>
+    {
+        List<T> Items { get; }
+        int TotalPages { get; }
+        int PageIndex { get; }
+        bool HasNextPage { get; }
+        bool HasPreviousPage { get; }
+    }
+
+    public class PaginatedList<T> : IPaginatedList<T>
     {
         /* Exemplo:
          * 92 empresas existentes

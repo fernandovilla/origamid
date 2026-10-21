@@ -1,0 +1,8 @@
+﻿<button @attributes="@Attributes" class="btn btn-primary">
+    <i class="ri-save-line md-1" /> Salvar
+</button>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+}

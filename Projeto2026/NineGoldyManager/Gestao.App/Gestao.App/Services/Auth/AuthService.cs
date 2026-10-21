@@ -4,7 +4,7 @@ using Gestao.Domain.Model.Users;
 
 namespace Gestao.App.Services.Auth
 {
-    public class AuthService(IUnitOfWorkFactory UnitOfWorkFactory, IUserService UserService) : IAuthService
+    public class AuthService(IUnitOfWorkFactory UnitOfWorkFactory, IApplicationUserService UserService) : IAuthService
     {
         public Task<TokenResponseDto?> LoginAsync(UserDto user)
         {

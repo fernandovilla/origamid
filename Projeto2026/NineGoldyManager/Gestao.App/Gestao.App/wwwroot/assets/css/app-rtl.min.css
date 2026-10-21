@@ -222,9 +222,11 @@
     top: 4px !important
 }
 
+
+
 @media (min-width:768px) {
     .topbar-user {
-        background-color: var(--vz-topbar-user-bg)
+        background-color: var(--vz-topbar-user-bg);        
     }
 }
 

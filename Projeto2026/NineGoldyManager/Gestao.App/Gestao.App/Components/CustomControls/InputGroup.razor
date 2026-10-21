@@ -1,0 +1,23 @@
+﻿<div class="input-group">
+    @if (!string.IsNullOrEmpty(IconStart)) 
+    {
+        <span class="input-group-text"><i class="@IconStart" /></span> 
+    }
+    @ChildContent
+
+    @if (!string.IsNullOrEmpty(IconEnd))
+    {
+        <span class="input-group-text"><i class="@IconEnd" /></span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string IconStart { get; set; } 
+
+    [Parameter]
+    public string IconEnd { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

@@ -10,24 +10,21 @@ using Gestao.Domain.Model.Companies;
 namespace Gestao.App.Data
 {
     public partial class UnitOfWork : IUnitOfWork, IDisposable
-    {
-        //private IApplicationUserRepository? _userRepository;
-
-        private IUserRepository? _userRepository;
+    {        
         private ICompanyRepository? _companyRepository;
+        private ICustomerRepository? _customerRepository;
 
-        //public IApplicationUserRepository UserRepository => _userRepository ?? (new ApplicationUserRepository(_userManager));
+        
 
-        public IUserRepository UserRepository => _userRepository ?? (new UserRepository(_context));
-        public ICompanyRepository CompanyRepository => _companyRepository ?? (new CompanyRepository(_context));
+        
+        public ICompanyRepository CompanyRepository => _companyRepository ??= new CompanyRepository(_context);
+        public ICustomerRepository CustomerRepository => _customerRepository ??= new CustomerRepository(_context);
     }
 
 
     partial class UnitOfWork
     {
-        //[Inject]
-        //private IDbContextFactory<ApplicationDbContext> dbContextFactory { get; set; }
-
+     
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 

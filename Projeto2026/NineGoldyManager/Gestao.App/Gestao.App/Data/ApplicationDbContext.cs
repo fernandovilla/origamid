@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Gestao.Domain.Model;
 using Gestao.Domain.Model.Customers;
+using Gestao.App.Data.Converters;
 
 namespace Gestao.App.Data
 {
@@ -71,6 +72,7 @@ namespace Gestao.App.Data
             builder.Entity<Company>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Customer>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
 
+            
             //builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            
         }
 
@@ -79,6 +81,12 @@ namespace Gestao.App.Data
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.AddInterceptors(new StatusManagerInterceptor());
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<DateTime>().HaveConversion<UtcDatetimeConverter>();
+            configurationBuilder.Properties<DateTime?>().HaveConversion<NullableUtcDateTimeConverter>();
         }
     }
 }

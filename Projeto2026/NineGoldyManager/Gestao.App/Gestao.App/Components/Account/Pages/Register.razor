@@ -16,7 +16,7 @@
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
-@inject IUserService UserService
+@inject IApplicationUserService ApplicationUserService
 
 @* 
 @inject ICompanyService CompanyService
@@ -136,7 +136,7 @@
 
         try 
         {
-            userAdded = await UserService.CreateAsync(Input.Email, Input.Password);
+            userAdded = await ApplicationUserService.CreateAsync(Input.Email, Input.Password);
         }
         catch(IdentityErrorException e) 
         {

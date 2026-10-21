@@ -9,9 +9,11 @@ using Gestao.App.Data.Repositories;
 using Gestao.App.Libraries.Services;
 using Gestao.App.Services.Auth;
 using Gestao.App.Services.Companies;
+using Gestao.App.Services.Customers;
 using Gestao.App.Services.Users;
 using Gestao.Domain.Model;
 using Gestao.Domain.Model.Companies;
+using Gestao.Domain.Model.Customers;
 using Gestao.Domain.Model.Users;
 using Gestao.Domain.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -139,9 +141,7 @@ builder.Services.AddTransient<IConfigurationManager, ConfigurationManager>(i => 
 //https://docs.fluentvalidation.net/en/latest/index.html
 builder.Services.AddFormValidation(config => config.AddDataAnnotationsValidation());
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CompanyValidator).Assembly));
-//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(AccountValidador).Assembly));
-//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CategoryValidator).Assembly));
-//builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(FinancialTransactionValidator).Assembly));
+builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(CustomerValidator).Assembly));
 
 #endregion
 
@@ -149,7 +149,7 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(C
 #region Anothers Dependency Injection
 
 builder.Services.AddSingleton<ICepServices, CepServices>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -167,7 +167,9 @@ builder.Services.AddQueue();
 #region Services Dependency Injections
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
+
 
 #endregion
 
