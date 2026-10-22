@@ -6,9 +6,7 @@ namespace Gestao.App.Libraries.Services
     public class CepServices : ICepServices
     {
         //https://viacep.com.br/
-
-        private readonly string _url = @"https://viacep.com.br/ws/{0}/json/";
-
+        
         public async Task<AddressCEP?> SearchByPostalCodeAsync(string postalCode)
         {            
             var code = postalCode.Replace(".", string.Empty).Replace("-", string.Empty);
