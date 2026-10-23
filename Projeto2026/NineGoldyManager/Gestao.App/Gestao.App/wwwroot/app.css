@@ -5,6 +5,10 @@ html, body {
 }
 
 body {
+    /* overflow: auto !important; */
+}
+
+body .page-content {
     overflow: auto !important;
 }
 
