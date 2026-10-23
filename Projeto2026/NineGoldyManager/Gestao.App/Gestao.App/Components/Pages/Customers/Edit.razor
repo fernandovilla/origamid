@@ -43,19 +43,20 @@
                             <div class="col-xxl-3 col-md-6">
                                 <label for="pessoa" class="form-label">Pessoa</label>
                                 <InputSelect @bind-Value="Model!.TipoPessoa" class="form-control">
-                                    @foreach(TipoPessoaEnum option in Enum.GetValues(typeof(TipoPessoaEnum)))
+                                    @foreach (TipoPessoaEnum option in Enum.GetValues(typeof(TipoPessoaEnum)))
                                     {
                                         <option value="@option">@option.DisplayName()</option>
                                     }
                                 </InputSelect>
                             </div>
 
-                            <div class="col-xxl-3 col-md-6">                            
+                            <div class="col-xxl-3 col-md-6">
                                 @if (Model.TipoPessoa == TipoPessoaEnum.PessoaFisica)
                                 {
                                     <label for="cpf" class="form-label">CPF</label>
                                     <InputText id="cpf" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
-                                } else
+                                }
+                                else
                                 {
                                     <label for="cnpj" class="form-label">CNPJ</label>
                                     <InputText id="cnpj" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
@@ -93,7 +94,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xxl-3 col-md-6">                            
+                        <div class="col-xxl-3 col-md-6">
                             <label for="cep" class="form-label">CEP</label>
                             @* <div class="input-group">
                                 <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
@@ -123,7 +124,7 @@
                         </div>
 
                         
-                        <div class="col-xxl-6 col-md-6">                            
+                        <div class="col-xxl-6 col-md-6">
                             <label for="address" class="form-label">Endereço</label>
                             <InputText @bind-Value="Model!.Address" type="text" class="form-control" id="address" />
                             <ValidationMessage For="() => Model!.Address" />
@@ -137,19 +138,19 @@
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="neighboarhood" class="form-label">Bairro</label>
-                            <InputText id="neighboarhood" @bind-Value="Model!.Neighboarhood" type="text" class="form-control"  />
+                            <InputText id="neighboarhood" @bind-Value="Model!.Neighboarhood" type="text" class="form-control" />
                             <ValidationMessage For="() => Model!.Neighboarhood" />
                         </div>
 
-                            <div class="col-xxl-6 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
                             <label for="city" class="form-label">Cidade</label>
-                            <InputText @bind-Value="Model!.City" type="text" class="form-control" id="city"  />
+                            <InputText @bind-Value="Model!.City" type="text" class="form-control" id="city" />
                             <ValidationMessage For="() => Model!.City" />
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="uf" class="form-label">UF</label>
-                            <InputText @bind-Value="Model!.State" type="text" class="form-control" id="uf"  />
+                            <InputText @bind-Value="Model!.State" type="text" class="form-control" id="uf" />
                             <ValidationMessage For="() => Model!.State" />
                         </div>
 
@@ -178,14 +179,14 @@
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
-                            <label for="cellphone" class="form-label">Whatsapp</label>                        
+                            <label for="cellphone" class="form-label">Whatsapp</label>
                             <InputGroup IconStart="ri-whatsapp-line">
                                 <InputText @bind-Value="Model!.Whatsapp" type="text" class="form-control" id="cellphone" autocomplete="off" />
                             </InputGroup>
                             <ValidationMessage For="() => Model!.Whatsapp" />
                         </div>
 
-                        <div class="col-xxl-3 col-md-6">                        
+                        <div class="col-xxl-3 col-md-6">
                             <label for="cellphone" class="form-label">Telegram</label>
                             <InputGroup IconStart="ri-telegram-line">
                                 <InputText @bind-Value="Model!.Telegram" type="text" class="form-control" id="cellphone" autocomplete="off" />
@@ -196,14 +197,14 @@
 
                     <div class="row">
                         <div class="col-xxl-6 col-md-6">
-                            <label for="instagram" class="form-label">Instagram</label>                        
+                            <label for="instagram" class="form-label">Instagram</label>
                             <InputGroup IconStart="ri-instagram-line">
                                 <InputText @bind-Value="Model!.Instagram" type="text" class="form-control" id="instagram" autocomplete="off" />
                             </InputGroup>
                             <ValidationMessage For="() => Model!.Instagram" />
                         </div>
 
-                            <div class="col-xxl-6 col-md-6">
+                        <div class="col-xxl-6 col-md-6">
                             <label for="facebook" class="form-label">Facebook</label>
                             <InputGroup IconStart="ri-facebook-line">
                                 <InputText @bind-Value="Model!.Facebook" type="text" class="form-control" id="facebook" autocomplete="off" />
@@ -223,7 +224,7 @@
                     <div class="row">
                         <div class="col-xxl-12 col-md-12">
                             <label for="obs" class="form-label">Observações</label>
-                            <InputTextArea id="obs" @bind-Value="Model!.Obs" class="form-control" autocomplete="off"  />
+                            <InputTextArea id="obs" @bind-Value="Model!.Obs" class="form-control" autocomplete="off" />
                         </div>
 
                     </div>
@@ -232,7 +233,7 @@
         </div>
 
 
-            <div class="row mt-3">
+        <div class="row mt-3">
             <div class="d-flex justify-content-start">
                 <a href="customer/list" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
             
@@ -255,7 +256,7 @@
 
     protected override void OnInitialized()
     {
-        Model ??= new();        
+        Model ??= new();
     }
 
     protected override async Task OnParametersSetAsync()
@@ -300,17 +301,17 @@
     }
 
     private async Task UpdateCustomerAsync()
-    {        
+    {
         await CustomerService.UpdateAsync(Model);
 
         //TODO: ALTERAR PARA TOAST
         await JSRuntime!.InvokeVoidAsync("alert", "Cliente atualizado!");
-        NavigationManager!.NavigateTo("/customer/list");        
+        NavigationManager!.NavigateTo("/customer/list");
     }
 
     private async Task RollbackDataAsync()
     {
-        //DbContext.ChangeTracker.Clear();        
+        //DbContext.ChangeTracker.Clear();
     }
 
     private async Task<Guid> GetAuthenticatedUserAsync()

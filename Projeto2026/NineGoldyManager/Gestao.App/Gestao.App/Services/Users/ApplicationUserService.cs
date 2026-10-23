@@ -1,5 +1,4 @@
 ﻿using Gestao.App.Data;
-using Gestao.App.Services.Auth;
 using Gestao.Domain.Model.Companies;
 using Gestao.Domain.Model.Users;
 using Microsoft.AspNetCore.Identity;
