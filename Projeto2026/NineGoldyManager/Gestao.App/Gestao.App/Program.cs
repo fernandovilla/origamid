@@ -7,7 +7,6 @@ using Gestao.App.Data;
 using Gestao.App.Data.Repositories;
 //using Gestao.App.Libraries.Queues;
 using Gestao.App.Libraries.Services;
-using Gestao.App.Services.Auth;
 using Gestao.App.Services.Companies;
 using Gestao.App.Services.Customers;
 using Gestao.App.Services.Users;
@@ -151,7 +150,6 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(C
 builder.Services.AddSingleton<ICepServices, CepServices>();
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<ICompanySelectNotification, CompanySelectNotification>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Queuing - Coravel *************
 builder.Services.AddQueue();
