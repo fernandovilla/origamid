@@ -9,99 +9,116 @@
     Clientes
 </PageTitle>
 
-<div class="card">
+<div style="height:calc(100vh - 90px);overflow:hidden;">
+    <div class="card">
 
-    <div class="card-header align-items-center d-flex">
+        <div class="card-header align-items-center d-flex">
 
-        <h4 class="card-title mb-0 flex-grow-1">
-            <i class="ri-contacts-line me-1" />Clientes
-        </h4>
-        <div class="flex-shrink-0">
-            <a href="/customer/edit" class="btn btn-info btn-sm material-shadow-none">
-                <i class="ri-user-add-line me-1" />novo cliente
-            </a>
-        </div>
-    </div><!-- end card header -->
-
-    <div class="card-body">
-
-        <!-- Pesquisa -->
-        <div class="col-lg-8">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord">
-                <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch" /></button>
+            <h4 class="card-title mb-0 flex-grow-1">
+                <i class="ri-contacts-line me-1" />Clientes
+            </h4>
+            <div class="flex-shrink-0">
+                <a href="/customer/edit" class="btn btn-info btn-sm material-shadow-none">
+                    <i class="ri-user-add-line me-1" />novo cliente
+                </a>
             </div>
-        </div>
+        </div><!-- end card header -->
 
-        <div class="table-responsive mt-4 table-card-company">
-            <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
-                <thead class="text-muted table-light">
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Documento</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Customers == null)
-                    {
+        <div class="card-body">
+
+            <!-- Pesquisa -->
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord">
+                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch" /></button>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-4 table-card-company">
+                <table class="table table-borderless table-centered align-middle table-nowrap mb-0 table-container">
+                    <thead class="text-muted table-light">
                         <tr>
-                            <td colspan="4">Carregando...</td>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Tipo Pessoa</th>
+                            <th scope="col">Ações</th>
                         </tr>
-                    }
-                    else if (Customers.Items.Count == 0)
-                    {
-                        <tr>
-                            <td colspan="4">Nenhuma empresa cadastrada</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        @foreach (var customer in Customers.Items)
+                    </thead>
+                    <tbody>
+                        @if (Customers == null)
                         {
                             <tr>
-                                <td>
-                                    @customer.Name
-                                    @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
-                                    {
-                                        <span class="badge badge-label bg-success mx-3" data-key="t-hot">SELECIONADA</span>
-                                    } *@
-                                </td>
-                                <td>@customer.Document</td>
-                                <td>@customer.Address</td>
-                                <td>
-                                    @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
-                                    {
-                                        <button class="btn btn-sm btn-soft-danger me-1" @onclick="() => RemoveCompanyAsync(customer)"><i class="ri-close-line me-1" />Remover</button>
-                                    }
-                                    else
-                                    {
-                                        <button class="btn btn-sm btn-soft-success me-1" @onclick="() => SelectCompanyAsync(customer)"><i class="ri-check-line me-1" />Selecionar</button>
-                                    } *@
-
-                                    <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
-                                    <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
-                                </td>
+                                <td colspan="4">Carregando...</td>
                             </tr>
                         }
-                    }
+                        else if (Customers.Items.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="4">Nenhuma empresa cadastrada</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var customer in Customers.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        @customer.Name
+                                        @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
+                                        {
+                                            <span class="badge badge-label bg-success mx-3" data-key="t-hot">SELECIONADA</span>
+                                        } *@
+                                    </td>
+                                    <td>@(customer.TipoPessoa == TipoPessoaEnum.PessoaFisica ? "Pessoa Física" : "Pessoa Jurídica")</td>
+                                    <td>
+                                        @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
+                                        {
+                                            <button class="btn btn-sm btn-soft-danger me-1" @onclick="() => RemoveCompanyAsync(customer)"><i class="ri-close-line me-1" />Remover</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-soft-success me-1" @onclick="() => SelectCompanyAsync(customer)"><i class="ri-check-line me-1" />Selecionar</button>
+                                        } *@
 
-                    <!-- end tr -->
-                </tbody><!-- end tbody -->
-            </table><!-- end table -->
+                                        <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
+                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                        <!-- end tr -->
+                    </tbody><!-- end tbody -->
+                </table><!-- end table -->
+            </div>
+
+            <Pagination PaginatedData="Customers" OnPageChanged="OnPageChanged" />
         </div>
 
-        @* <Pagination PaginatedData="Customers" OnPageChanged="OnPageChanged" /> *@
+        
     </div>
-
-	
 </div>
 
 <style>
     .table-card-company {
         margin-left: -16px;
         margin-right: -16px;
+        max-height: calc(100vh - 300px) !important;
+    }
+
+    .table-container {        
+        overflow-y: auto !important;
+    }
+
+    @* table {
+        max-height: 200px !important;
+        overflow-y: auto !important;
+        border: 3px solid tomato;
+    } *@
+
+    th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
     }
 </style>
 

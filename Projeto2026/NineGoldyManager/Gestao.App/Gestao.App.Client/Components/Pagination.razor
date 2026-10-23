@@ -33,7 +33,7 @@
 
 @code {
     [Parameter]
-    public PaginatedList<T> PaginatedData { get; set; } = null!;
+    public IPaginatedList<T> PaginatedData { get; set; } = null!;
 
     [Parameter]
     public EventCallback<int> OnPageChanged { get; set; }

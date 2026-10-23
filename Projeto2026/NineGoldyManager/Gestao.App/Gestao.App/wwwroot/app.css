@@ -4,13 +4,25 @@ html, body {
     background-color: #f3f3f9 !important;    
 }
 
-body {
-    /* overflow: auto !important; */
+.main-content {
+    position: fixed;
+    top: 70px;
+    left: 0px;
+    right: 0px;    
+    height: calc(100vh - 69px);
+    overflow: hidden;
+    /* border: 5px solid green; */
 }
 
-body .page-content {
-    overflow: auto !important;
+.page-content {
+    margin: 0;
+    padding: 10px !important;    
+    height: inherit !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    /* border: 5px dotted gray; */
 }
+
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -116,20 +128,6 @@ input[readonly]:focus {
     margin-top: 8px !important;
 }
 
-.page-content {
-    /*padding: calc(70px + 1.5rem) calc(0.75rem) 60px;*/
-    /*
-        position: fixed;
-        top: 66px;
-        right: 0;
-        left: var(--vz-vertical-menu-width);
-        width: calc(100vw - var(--vz-vertical-menu-width)) !important;
-        padding: 20px calc(0.75rem) 60px !important;
-    */
-
-    margin-top: 50px;
-    padding: 15px calc(0.75rem) 60px !important;    
-}
 
 .input-group-text {
     padding: 3px 8px !important;
