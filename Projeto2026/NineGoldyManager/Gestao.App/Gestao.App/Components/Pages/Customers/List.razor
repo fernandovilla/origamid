@@ -1,6 +1,8 @@
 ﻿@page "/customer/list"
 @using Gestao.Domain.Libraries.Utilities
 
+@rendermode InteractiveServer
+
 @inherits AuthenticatedPageBase
 @inject ICustomerService CustomerService
 
@@ -29,8 +31,8 @@
             <!-- Pesquisa -->
             <div class="col-lg-8">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord">
-                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch" /></button>
+                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord" @oninput="OnInput">
+                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"  /></button>
                 </div>
             </div>
 
@@ -62,25 +64,14 @@
                             {
                                 <tr>
                                     <td>
-                                        @customer.Name
-                                        @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
-                                        {
-                                            <span class="badge badge-label bg-success mx-3" data-key="t-hot">SELECIONADA</span>
-                                        } *@
+                                        <a href="/customer/edit/@customer.Id" style="width:100%;display:block">
+                                            @customer.Name
+                                        </a>
                                     </td>
                                     <td>@(customer.TipoPessoa == TipoPessoaEnum.PessoaFisica ? "Pessoa Física" : "Pessoa Jurídica")</td>
-                                    <td>
-                                        @* @if (CompanySelected != null && CompanySelected.Id == customer.Id)
-                                        {
-                                            <button class="btn btn-sm btn-soft-danger me-1" @onclick="() => RemoveCompanyAsync(customer)"><i class="ri-close-line me-1" />Remover</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="btn btn-sm btn-soft-success me-1" @onclick="() => SelectCompanyAsync(customer)"><i class="ri-check-line me-1" />Selecionar</button>
-                                        } *@
-
-                                        <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info"><i class="ri-edit-line" /></a>
-                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger"><i class="ri-delete-bin-line" /></a>
+                                    <td>                                        
+                                        <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line" /></a>
+                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line" /></a>
                                     </td>
                                 </tr>
                             }
@@ -102,30 +93,61 @@
     .table-card-company {
         margin-left: -16px;
         margin-right: -16px;
-        max-height: calc(100vh - 300px) !important;
+        height: calc(100vh - 320px) !important;
+        max-height: calc(100vh - 320px) !important;
     }
-
-    .table-container {        
+    
+    tbody {
         overflow-y: auto !important;
     }
 
-    @* table {
-        max-height: 200px !important;
-        overflow-y: auto !important;
-        border: 3px solid tomato;
-    } *@
+    tbody tr:nth-child(even) {        
+        background-color: #f3f6f9;
+    }
 
     th {
         position: sticky;
         top: 0;
         z-index: 1;
     }
+
+
+    td a {
+        color: var(--vz-table-color);              
+        padding: 0.24rem !important;          
+        @* background-color: aqua; *@
+    }
+
+    td a:hover {
+        color: var(--vz-table-color);                                
+        border: 0.01rem solid var(--vz-table-color);
+        padding: 0.23rem 0.18rem !important;          
+        background-color: lightgray;
+        opacity: 0.7;
+        border-radius: 5px;
+    }
+
+    table td {
+        padding: 0.50rem !important;
+    }
+
+    table td:hover {
+        @* padding: 0.39rem !important; *@
+    }
+
+    .icon-action{
+        width: 30px;
+        height: 30px;
+        font-size: 0.756rem;
+    }
+
+
 </style>
 
 @code {
     private IPaginatedList<Customer> Customers { get; set; }
     private int PageIndex = 1;
-    private int PageSize = 15;
+    private int PageSize = 12;
     private ApplicationUser User;
 
     private string SearchWord { get; set; }
@@ -148,6 +170,7 @@
     private async Task OnPageChanged(int pageNumber)
     {
         PageIndex = pageNumber;
+        await LoadDataAsync();
         StateHasChanged();
     }
 
@@ -162,7 +185,17 @@
 
     private async Task OnSearch()
     {
+        Console.WriteLine("OnSearch...");       
         PageIndex = 1;
         await LoadDataAsync();
+        StateHasChanged();
+    }
+
+    private async Task OnInput()
+    {
+        if (SearchWord.Length > 3 || SearchWord.Length == 0) {
+            await LoadDataAsync();
+            StateHasChanged();
+        }
     }
 }
