@@ -37,7 +37,7 @@ namespace Gestao.App.Data.Repositories
         {
             var itens = await DbContext.Customers
                 .Where(i => i.CompanyId.Equals(companyId))
-                .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.Contains(searchCustomerName))
+                .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.ToUpper().Contains(searchCustomerName.ToUpper()))
                 .OrderBy(i => i.Name)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
@@ -45,7 +45,7 @@ namespace Gestao.App.Data.Repositories
 
             var countCustomer = await DbContext.Customers
                 .Where(i => i.CompanyId.Equals(companyId))
-                .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.Contains(searchCustomerName))
+                .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.ToUpper().Contains(searchCustomerName.ToUpper()))
                 .CountAsync(i => i.CompanyId.Equals(companyId));
 
             var totalPages = (int)Math.Ceiling((decimal)countCustomer / pageSize);  //.Ceiling arredonda pra cima    

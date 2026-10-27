@@ -15,11 +15,11 @@
     @(Id != null ? "Atualização de Cliente" : "Cadastro de Cliente")
 </h5>
 
-<div class="class="overflow-y-visible overflow-x-visible"">
+<div class="overflow-y-visible overflow-x-visible">
+    
+    <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel">
 
-    <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel" >
-
-        <Morris.Blazor.Validation.Validate />
+        <Morris.Blazor.Validation.Validate/>
 
         <div class="row">
             <div class="col-lg-12">
@@ -35,8 +35,8 @@
 
                             <div class="col-xxl-6 col-md-6">
                                 <label for="name" class="form-label">Nome</label>
-                                <InputText id="name" @bind-Value="Model!.Name" type="text" class="form-control" autocomplete="off" maxlength="100" />
-                                <ValidationMessage For="() => Model!.Name" />
+                                <InputText id="name" @bind-Value="Model!.Name" type="text" class="form-control" autocomplete="off" maxlength="100"/>
+                                <ValidationMessage For="() => Model!.Name"/>
                             </div>
 
 
@@ -54,35 +54,27 @@
                                 @if (Model.TipoPessoa == TipoPessoaEnum.PessoaFisica)
                                 {
                                     <label for="cpf" class="form-label">CPF</label>
-                                    <InputText id="cpf" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
+                                    <InputText id="cpf" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off"/>
                                 }
                                 else
                                 {
                                     <label for="cnpj" class="form-label">CNPJ</label>
-                                    <InputText id="cnpj" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off" />
+                                    <InputText id="cnpj" @bind-Value="Model!.Document" typeof="text" class="form-control" autocomplete="off"/>
                                 }
-                                <ValidationMessage For="() => Model!.Document" />
+                                <ValidationMessage For="() => Model!.Document"/>
                             </div>
 
                             <div class="col-xxl-3 col-md-6">
                                 <label for="birthDate" class="form-label">Data Nascimento</label>
-                                <InputDate @bind-Value="Model!.BirthDate" class="form-control" id="birthDate" />
-                                <ValidationMessage For="() => Model!.BirthDate" />
+                                <InputDate @bind-Value="Model!.BirthDate" class="form-control" id="birthDate"/>
+                                <ValidationMessage For="() => Model!.BirthDate"/>
                             </div>
                         </div>
-                    
-                    
-                    
-
-                        
-
-                
-
                     </div>
                 </div>
             </div>
 
-       
+
         </div>
 
         <div class="col-lg-12">
@@ -96,20 +88,8 @@
                     <div class="row">
                         <div class="col-xxl-3 col-md-6">
                             <label for="cep" class="form-label">CEP</label>
-                            @* <div class="input-group">
-                                <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
-                                @if (Loading)
-                                {
-                                    <span class="input-group-text input-group-text-bg-transparent">
-                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
-                                    </span>
-                                }
-                            </div> *@
-
                             <InputGroup IconStart="ri-user-location-line">
-                                <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" />
+                                <InputText @bind-Value="Model!.ZipCode" type="text" class="@(Loading ? "form-control input-border-right-none" : "form-control")" id="cep" autocomplete="not" @oninput="OnCepEntry" maxlength="10"/>
                                 @if (Loading)
                                 {
                                     <span class="input-group-text input-group-text-bg-transparent">
@@ -120,44 +100,44 @@
                                 }
                             </InputGroup>
 
-                            <ValidationMessage For="() => Model!.ZipCode" />
+                            <ValidationMessage For="() => Model!.ZipCode"/>
                         </div>
 
-                        
+
                         <div class="col-xxl-6 col-md-6">
                             <label for="address" class="form-label">Endereço</label>
-                            <InputText @bind-Value="Model!.Address" type="text" class="form-control" id="address" />
-                            <ValidationMessage For="() => Model!.Address" />
+                            <InputText @bind-Value="Model!.Address" type="text" class="form-control" id="address" maxlength="100"/>
+                            <ValidationMessage For="() => Model!.Address"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="numberAddres" class="form-label">Número</label>
-                            <InputText id="numberAddress" @bind-Value="Model!.NumberAddress" type="text" class="form-control" />
-                            <ValidationMessage For="() => Model!.NumberAddress" />
+                            <InputText id="numberAddress" @bind-Value="Model!.NumberAddress" type="text" class="form-control" maxlength="20"/>
+                            <ValidationMessage For="() => Model!.NumberAddress"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="neighboarhood" class="form-label">Bairro</label>
-                            <InputText id="neighboarhood" @bind-Value="Model!.Neighboarhood" type="text" class="form-control" />
-                            <ValidationMessage For="() => Model!.Neighboarhood" />
+                            <InputText id="neighboarhood" @bind-Value="Model!.Neighboarhood" type="text" class="form-control" maxlength="100"/>
+                            <ValidationMessage For="() => Model!.Neighboarhood"/>
                         </div>
 
                         <div class="col-xxl-6 col-md-6">
                             <label for="city" class="form-label">Cidade</label>
-                            <InputText @bind-Value="Model!.City" type="text" class="form-control" id="city" />
-                            <ValidationMessage For="() => Model!.City" />
+                            <InputText @bind-Value="Model!.City" type="text" class="form-control" id="city" maxlength="100"/>
+                            <ValidationMessage For="() => Model!.City"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="uf" class="form-label">UF</label>
-                            <InputText @bind-Value="Model!.State" type="text" class="form-control" id="uf" />
-                            <ValidationMessage For="() => Model!.State" />
+                            <InputText @bind-Value="Model!.State" type="text" class="form-control" id="uf" maxlength="2"/>
+                            <ValidationMessage For="() => Model!.State"/>
                         </div>
 
                         <div class="col-xxl-9 col-md-6">
                             <label for="compl" class="form-label">Complemento</label>
-                            <InputText @bind-Value="Model!.Complement" type="text" class="form-control" id="compl" autocomplete="off" />
-                            <ValidationMessage For="() => Model!.Complement" />
+                            <InputText @bind-Value="Model!.Complement" type="text" class="form-control" id="compl" autocomplete="off" maxlength="100"/>
+                            <ValidationMessage For="() => Model!.Complement"/>
                         </div>
                     </div>
 
@@ -165,33 +145,33 @@
                         <div class="col-xxl-3 col-md-6">
                             <label for="phone" class="form-label">Telefone</label>
                             <InputGroup IconStart="ri-phone-line">
-                                <InputText @bind-Value="Model!.PhoneNumber" type="text" class="form-control" id="phone" autocomplete="off" />
+                                <InputText @bind-Value="Model!.PhoneNumber" type="text" class="form-control" id="phone" autocomplete="off" maxlength="13"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.PhoneNumber" />
+                            <ValidationMessage For="() => Model!.PhoneNumber"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="cellphone" class="form-label">Celular</label>
                             <InputGroup IconStart="ri-cellphone-line">
-                                <InputText @bind-Value="Model!.CellPhoneNumber" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                                <InputText @bind-Value="Model!.CellPhoneNumber" type="text" class="form-control" id="cellphone" autocomplete="off" maxlength="14"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.CellPhoneNumber" />
+                            <ValidationMessage For="() => Model!.CellPhoneNumber"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="cellphone" class="form-label">Whatsapp</label>
                             <InputGroup IconStart="ri-whatsapp-line">
-                                <InputText @bind-Value="Model!.Whatsapp" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                                <InputText @bind-Value="Model!.Whatsapp" type="text" class="form-control" id="cellphone" autocomplete="off" maxlength="14"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.Whatsapp" />
+                            <ValidationMessage For="() => Model!.Whatsapp"/>
                         </div>
 
                         <div class="col-xxl-3 col-md-6">
                             <label for="cellphone" class="form-label">Telegram</label>
                             <InputGroup IconStart="ri-telegram-line">
-                                <InputText @bind-Value="Model!.Telegram" type="text" class="form-control" id="cellphone" autocomplete="off" />
+                                <InputText @bind-Value="Model!.Telegram" type="text" class="form-control" id="cellphone" autocomplete="off" maxlength="14"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.Telegram" />
+                            <ValidationMessage For="() => Model!.Telegram"/>
                         </div>
                     </div>
 
@@ -199,34 +179,33 @@
                         <div class="col-xxl-6 col-md-6">
                             <label for="instagram" class="form-label">Instagram</label>
                             <InputGroup IconStart="ri-instagram-line">
-                                <InputText @bind-Value="Model!.Instagram" type="text" class="form-control" id="instagram" autocomplete="off" />
+                                <InputText @bind-Value="Model!.Instagram" type="text" class="form-control" id="instagram" autocomplete="off" maxlength="250"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.Instagram" />
+                            <ValidationMessage For="() => Model!.Instagram"/>
                         </div>
 
                         <div class="col-xxl-6 col-md-6">
                             <label for="facebook" class="form-label">Facebook</label>
                             <InputGroup IconStart="ri-facebook-line">
-                                <InputText @bind-Value="Model!.Facebook" type="text" class="form-control" id="facebook" autocomplete="off" />
+                                <InputText @bind-Value="Model!.Facebook" type="text" class="form-control" id="facebook" autocomplete="off" maxlength="250"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.Facebook" />
+                            <ValidationMessage For="() => Model!.Facebook"/>
                         </div>
 
                         <div class="col-xxl-6 col-md-6">
                             <label for="email" class="form-label">Email</label>
                             <InputGroup IconStart="ri-mail-line">
-                                <InputText @bind-Value="Model!.Email" type="text" class="form-control" id="email" autocomplete="off" />
+                                <InputText @bind-Value="Model!.Email" type="text" class="form-control" id="email" autocomplete="off" maxlength="250"/>
                             </InputGroup>
-                            <ValidationMessage For="() => Model!.Email" />
+                            <ValidationMessage For="() => Model!.Email"/>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-xxl-12 col-md-12">
                             <label for="obs" class="form-label">Observações</label>
-                            <InputTextArea id="obs" @bind-Value="Model!.Obs" class="form-control" autocomplete="off" />
+                            <InputTextArea id="obs" @bind-Value="Model!.Obs" class="form-control" autocomplete="off" maxlength="500"/>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -235,13 +214,13 @@
 
         <div class="row mt-3">
             <div class="d-flex justify-content-start">
-                <a href="customer/list" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
-            
-                <ButtonSave type="submit" />
+                <a href="customer/list/@PageIndex" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
+
+                <ButtonSave type="submit"/>
             </div>
         </div>
 
-    
+
 
     </EditForm>
 </div>
@@ -249,8 +228,9 @@
 @code {
     private bool Loading = false;
 
-    [Parameter]
-    public string? Id { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string? ReturnUrl { get; set; }
+    [SupplyParameterFromQuery] public int? PageIndex {get;set;}
 
     public Customer? Model { get; set; }
 
@@ -268,6 +248,21 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("CustomerMaskInit");
+
+        if (firstRender)
+            await GetParamFromQuery();
+    }
+
+    private async Task GetParamFromQuery() 
+    {
+        var uriBuilder = new UriBuilder(NavigationManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+
+        if (int.TryParse(q["PageIndex"], out int page))
+        {
+            if (page > 0)
+                PageIndex = page;
+        }
     }
 
     private async Task LoadCustomerAsync()
@@ -296,7 +291,11 @@
         {
             //TODO: ALTERAR PARA TOAST
             await JSRuntime!.InvokeVoidAsync("alert", "Cliente cadastrado!");
-            NavigationManager!.NavigateTo("/customer/list");
+
+            if (PageIndex.HasValue && PageIndex > 0)
+                NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+            else
+                NavigationManager!.NavigateTo("/customer/list");
         }
     }
 
@@ -306,7 +305,11 @@
 
         //TODO: ALTERAR PARA TOAST
         await JSRuntime!.InvokeVoidAsync("alert", "Cliente atualizado!");
-        NavigationManager!.NavigateTo("/customer/list");
+
+        if (PageIndex.HasValue && PageIndex > 0)
+            NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+        else
+            NavigationManager!.NavigateTo("/customer/list");
     }
 
     private async Task RollbackDataAsync()

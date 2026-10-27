@@ -1,4 +1,6 @@
 ﻿@page "/customer/list"
+@page "/customer/list/{PageIndex:int}"
+
 @using Gestao.Domain.Libraries.Utilities
 
 @rendermode InteractiveServer
@@ -17,11 +19,11 @@
         <div class="card-header align-items-center d-flex">
 
             <h4 class="card-title mb-0 flex-grow-1">
-                <i class="ri-contacts-line me-1" />Clientes
+                <i class="ri-contacts-line me-1"></i>Clientes
             </h4>
             <div class="flex-shrink-0">
                 <a href="/customer/edit" class="btn btn-info btn-sm material-shadow-none">
-                    <i class="ri-user-add-line me-1" />novo cliente
+                    <i class="ri-user-add-line me-1"></i>novo cliente
                 </a>
             </div>
         </div><!-- end card header -->
@@ -31,12 +33,12 @@
             <!-- Pesquisa -->
             <div class="col-lg-8">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @bind="SearchWord" @oninput="OnInput">
-                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"  /></button>
+                    <input type="text" class="form-control" placeholder="Digite sua pesquisa"  @oninput="OnInput">
+                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"></i></button>
                 </div>
             </div>
 
-            <div class="table-responsive mt-4 table-card-company">
+            <div class="table-responsive mt-4 table-list">
                 <table class="table table-borderless table-centered align-middle table-nowrap mb-0 table-container">
                     <thead class="text-muted table-light">
                         <tr>
@@ -64,14 +66,14 @@
                             {
                                 <tr>
                                     <td>
-                                        <a href="/customer/edit/@customer.Id" style="width:100%;display:block">
+                                    <a href="@URLToEdit(customer.Id)" style="width:100%;display:block">
                                             @customer.Name
                                         </a>
                                     </td>
                                     <td>@(customer.TipoPessoa == TipoPessoaEnum.PessoaFisica ? "Pessoa Física" : "Pessoa Jurídica")</td>
                                     <td>                                        
-                                        <a href="/customer/edit/@customer.Id" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line" /></a>
-                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line" /></a>
+                                        <a href="@URLToEdit(customer.Id)" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line"></i></a>
+                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -89,73 +91,38 @@
     </div>
 </div>
 
-<style>
-    .table-card-company {
-        margin-left: -16px;
-        margin-right: -16px;
-        height: calc(100vh - 320px) !important;
-        max-height: calc(100vh - 320px) !important;
-    }
-    
-    tbody {
-        overflow-y: auto !important;
-    }
-
-    tbody tr:nth-child(even) {        
-        background-color: #f3f6f9;
-    }
-
-    th {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
-
-    td a {
-        color: var(--vz-table-color);              
-        padding: 0.24rem !important;          
-        @* background-color: aqua; *@
-    }
-
-    td a:hover {
-        color: var(--vz-table-color);                                
-        border: 0.01rem solid var(--vz-table-color);
-        padding: 0.23rem 0.18rem !important;          
-        background-color: lightgray;
-        opacity: 0.7;
-        border-radius: 5px;
-    }
-
-    table td {
-        padding: 0.50rem !important;
-    }
-
-    table td:hover {
-        @* padding: 0.39rem !important; *@
-    }
-
-    .icon-action{
-        width: 30px;
-        height: 30px;
-        font-size: 0.756rem;
-    }
-
-
-</style>
-
 @code {
     private IPaginatedList<Customer> Customers { get; set; }
-    private int PageIndex = 1;
+    [Parameter] public int? PageIndex { get; set; } 
     private int PageSize = 12;
     private ApplicationUser User;
+    private string SearchWord {get;set;} = string.Empty;
 
-    private string SearchWord { get; set; }
+    private string URLToEdit(Guid userId)
+    {
+        string result = $"/customer/edit/{userId}?PageIndex={PageIndex}";
+
+        if (!string.IsNullOrEmpty(SearchWord))
+            result += $"&SearchWord={SearchWord}";
+
+        return result;
+    }
+
+
 
     protected async override Task OnInitializedAsync()
     {
-        await LoadAuthenticatedUserAsync();
-        await LoadDataAsync();
+        await LoadAuthenticatedUserAsync();        
+        await LoadDataAsync(PageIndex ,string.Empty);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!PageIndex.HasValue || PageIndex.Value <= 0)
+            PageIndex = 1;
+
+        if (string.IsNullOrEmpty(SearchWord))
+            SearchWord = string.Empty;
     }
 
     private async Task LoadAuthenticatedUserAsync()
@@ -170,32 +137,45 @@
     private async Task OnPageChanged(int pageNumber)
     {
         PageIndex = pageNumber;
-        await LoadDataAsync();
+        await LoadDataAsync(pageNumber, SearchWord);
         StateHasChanged();
     }
 
 
-    private async Task LoadDataAsync()
+    private async Task LoadDataAsync(int? pageIndex, string search)
     {
         if (User == null)
             return;
 
-        Customers = await CustomerService.ListAsync((Guid)User.CompanyId, PageIndex, PageSize, SearchWord);
+        if (pageIndex == null)
+            pageIndex = 1;
+
+        Customers = await CustomerService.ListAsync((Guid)User.CompanyId, (int)pageIndex, PageSize, search);
     }
 
     private async Task OnSearch()
-    {
-        Console.WriteLine("OnSearch...");       
-        PageIndex = 1;
-        await LoadDataAsync();
+    {        
+        await LoadDataAsync(PageIndex, SearchWord);
         StateHasChanged();
     }
 
-    private async Task OnInput()
-    {
-        if (SearchWord.Length > 3 || SearchWord.Length == 0) {
-            await LoadDataAsync();
-            StateHasChanged();
+    private async Task OnInput(ChangeEventArgs args)
+    {   
+        if (args.Value != null) {
+
+            var value = (string)args.Value;
+
+            if (value.Length >= 3 || (string.IsNullOrEmpty(value) && SearchWord.Length > 0))
+            {
+                PageIndex = 1;
+                SearchWord = value;
+
+                await LoadDataAsync(PageIndex, SearchWord);
+                StateHasChanged();
+
+            } else {
+                SearchWord = value;
+            }
         }
     }
 }
