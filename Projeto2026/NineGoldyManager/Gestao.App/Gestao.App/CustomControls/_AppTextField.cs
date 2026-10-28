@@ -2,9 +2,9 @@
 
 namespace Ninegoldy.Components.CustomControls
 {
-    public class AppTextField : AppTextBase<string>
+    public class _AppTextField : _AppTextBase<string>
     {
-        public AppTextField()
+        public _AppTextField()
             : base(InputType.Text)
         {
 

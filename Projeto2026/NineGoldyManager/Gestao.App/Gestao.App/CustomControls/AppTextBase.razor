@@ -1,0 +1,19 @@
+@using MudBlazor
+
+@typeparam T
+@inherits MudTextField<T>
+
+@{ 
+    base.BuildRenderTree(__builder); 
+}    
+
+@code {
+    public AppTextBase()
+    {
+        // Padrões da aplicação (o consumidor ainda pode sobrescrever via parâmetro)
+        Variant = Variant.Outlined;
+        Margin = Margin.Dense;
+        Immediate = true;
+        Clearable = true;
+    }
+}

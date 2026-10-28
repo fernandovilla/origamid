@@ -1,0 +1,35 @@
+@page "/product/list"
+@page "/product/list/{PageIndex:int}"
+
+@inherits AuthenticatedPageBase
+@rendermode InteractiveServer
+
+<PageTitle>
+    Produtos e Serviços
+</PageTitle>
+
+
+<div style="height:calc(100vh - 90px);overflow:hidden;">
+    <div class="card">
+
+        <div class="card-header align-items-center d-flex">
+
+            <h4 class="card-title mb-0 flex-grow-1">
+                <i class="ri-barcode-line"></i> Produtos | Serviços
+            </h4>
+
+            <div class="flex-shrink-0">                
+                <a href="/product/edit" class="btn btn-info btn-sm material-shadow-none">
+                    <i class="ri-add-circle-line"></i> novo produto | serviço
+                </a>                                    
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    [Parameter] public int? PageIndex { get; set; } 
+
+
+}

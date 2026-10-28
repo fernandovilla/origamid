@@ -2,9 +2,9 @@
 
 namespace Ninegoldy.Components.CustomControls
 {
-    public class AppTextBase<T> : MudTextField<T>
+    public class _AppTextBase<T> : MudTextField<T>
     {
-        public AppTextBase(InputType inputType)
+        public _AppTextBase(InputType inputType)
         {
             InputType = inputType;
             Margin = Margin.Dense;

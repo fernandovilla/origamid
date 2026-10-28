@@ -1,0 +1,37 @@
+@page "/product/edit"
+@page "/product/edit/{id:Guid}"
+
+@rendermode InteractiveServer
+@inherits AuthenticatedPageBase
+
+<PageTitle>
+    Produto | Serviço - @(Id != null ? "Atualização" : "Cadastro")
+</PageTitle>
+
+<h5 class="mb-2">
+    @(Id != null ? "Atualização de produto" : "Cadastro de Produto")
+</h5>
+
+<div class="overflow-y-visible overflow-x-visible">
+
+    <MudFocusTrap>
+    
+        <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel">
+            <Morris.Blazor.Validation.Validate/>
+
+        </EditForm>
+    </MudFocusTrap>
+</div>
+
+@code {
+
+    [Parameter] public Guid? Id {get;set;}
+
+    private object? Model {get;set;}
+
+    private async Task OnSubmitAsync()
+    {
+        
+    }
+
+}

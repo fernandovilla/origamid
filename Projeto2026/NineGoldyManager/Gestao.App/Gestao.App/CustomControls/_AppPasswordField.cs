@@ -4,9 +4,9 @@ using MudBlazor;
 
 namespace Ninegoldy.Components.CustomControls
 {
-    public class AppPasswordField : AppTextBase<string>
+    public class _AppPasswordField : _AppTextBase<string>
     {
-        public AppPasswordField() : base(InputType.Password)
+        public _AppPasswordField() : base(InputType.Password)
         {            
             AdornmentIcon = Icons.Material.Filled.VisibilityOff;
             AdornmentAriaLabel = "Mostrar";
