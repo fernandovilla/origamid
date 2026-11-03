@@ -1,0 +1,29 @@
+@page "/anamnesis/edit"
+@page "/anamnesis/edit/{id:Guid}"
+
+@inherits AuthenticatedPageBase
+
+<PageTitle>
+    Registro de Anamnese - Estética
+</PageTitle>
+
+<h5 class="mb-2">
+    @(Id == null ? "Nova Anamnese" : "Edição Anamnese")
+</h5>
+
+<ModelSelector ModelType="@ModelType" ModelCode="@ModelCode" JsonModel="@JsonAnamnese" />
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private AnamnesisModelTypeEnum? ModelType { get;set;} = AnamnesisModelTypeEnum.None;
+    private string? ModelCode {get;set;} = "";
+    private string? JsonAnamnese {get;set;} = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        ModelType = AnamnesisModelTypeEnum.MedicalSpa;
+        ModelCode = "0001";
+        JsonAnamnese = "{ model: '0001' }";
+    }
+}

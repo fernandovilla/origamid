@@ -1,0 +1,21 @@
+@page "/clinic/session/edit"
+@page "/clinic/session/edit/{id:Guid}"
+
+@rendermode InteractiveServer
+@inherits AuthenticatedPageBase
+
+<PageTitle>
+    Registro de Sessão
+</PageTitle>
+
+<h5 class="mb-2">
+    @(Id == null ? "Nova Sessão" : "Edição Produto")
+</h5>
+
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+
+
+}

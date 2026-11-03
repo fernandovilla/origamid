@@ -1,0 +1,21 @@
+@using Gestao.App.Components.Pages.Clinic.Anamnesis.MedSpa
+
+<p>@ModelCode</p>
+<p>@ModelType</p>
+
+@if(ModelType == AnamnesisModelTypeEnum.MedicalSpa) 
+{
+    @if (ModelCode == "0001") 
+    {
+        <Model0010001 JsonModel="@JsonModel" />
+    }
+}
+
+
+@code {
+    [Parameter] public AnamnesisModelTypeEnum? ModelType { get; set; }
+
+    [Parameter] public string? ModelCode { get; set; }
+
+    [Parameter] public string? JsonModel { get; set; }
+}
