@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Gestao.Domain.Model;
 using Gestao.Domain.Model.Customers;
 using Gestao.App.Data.Converters;
+using Gestao.Domain.Model.Sessions;
 
 namespace Gestao.App.Data
 {
@@ -13,7 +14,7 @@ namespace Gestao.App.Data
     {
         public DbSet<Company> Companies { get; set; }
         public DbSet<Customer> Customers { get; set; }
-
+        public DbSet<Session> Sessions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -62,6 +63,10 @@ namespace Gestao.App.Data
                 .HasOne(i => i.Company)
                 .WithMany(i => i.Customers);
 
+            builder.Entity<Session>()
+                .HasOne(i => i.Customer)
+                .WithMany(i => i.Sessions);
+
 
             //builder.Entity<Account>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             //builder.Entity<Category>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
@@ -71,6 +76,7 @@ namespace Gestao.App.Data
             builder.Entity<ApplicationUser>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Company>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
             builder.Entity<Customer>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
+            builder.Entity<Session>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);
 
             
             //builder.Entity<Document>().HasQueryFilter(a => a.Status != Domain.Interfaces.StatusEnum.Deleted);            

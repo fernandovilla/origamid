@@ -1,0 +1,19 @@
+@using Gestao.App.Components.Pages.Clinic.Session.MedSpa
+
+<p>@ModelCode</p>
+<p>@ModelType</p>
+
+@if(ModelType == SessionModelTypeEnum.MedicalSpa) 
+{
+    @if (ModelCode == "0001") 
+    {
+        <Session0010001 JsonModel="@JsonModel" />
+    }
+}
+
+
+@code {
+    [Parameter] public SessionModelTypeEnum? ModelType { get; set; }
+    [Parameter] public string? ModelCode { get; set; }
+    [Parameter] public string? JsonModel { get; set; }
+}

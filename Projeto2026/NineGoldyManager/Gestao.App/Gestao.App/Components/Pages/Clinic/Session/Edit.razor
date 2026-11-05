@@ -5,17 +5,109 @@
 @inherits AuthenticatedPageBase
 
 <PageTitle>
-    Registro de Sessão
+    Registro de Sessão - Estética
 </PageTitle>
 
 <h5 class="mb-2">
-    @(Id == null ? "Nova Sessão" : "Edição Produto")
+    @(Id == null ? "Nova Sessão" : "Edição Sessão")
 </h5>
+
+@* SELEÇÃO DO CLIENTE *@
+
+<div class="overflow-y-visible overflow-x-visible">
+
+    <MudFocusTrap>
+    
+        <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel">
+
+            <Morris.Blazor.Validation.Validate/>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h6 class="card-title mb-0 flex-grow-1">Cliente</h6>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <p>Selecione o cliente...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h6 class="card-title mb-0 flex-grow-1">Informações da Sessão</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xxl-2 col-md-6">
+                                    <label for="sessionDate" class="form-label">Data Sessão</label>
+                                    <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" disabled/>
+                                    <ValidationMessage For="() => Model!.SessionDate"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="obs" class="form-label">Procedimento</label>
+                                    <InputTextArea @bind-Value="Model!.Observation" class="form-control" id="obs" />
+                                    <ValidationMessage For="() => Model!.Observation"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h6 class="card-title mb-0 flex-grow-1">Assinatura do Cliente</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xxl-2 col-md-6">
+                                    <InputTextArea @bind-Value="Model!.Signature" class="form-control" id="signature" />
+                                    <ValidationMessage For="() => Model!.Signature"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+
+
+    </MudFocusTrap>
+
+
+
+</div>
+
+
+
+
+
 
 
 @code {
     [Parameter] public Guid? Id { get; set; }
 
+    private Session? Model { get; set; }
+    private SessionModelTypeEnum? ModelType { get;set;} = SessionModelTypeEnum.None;
+    private string? ModelCode {get;set;} = "";
+    private string? JsonSession {get;set;} = "";
 
+    protected override async Task OnInitializedAsync()
+    {
+        Model ??= new();    
 
+        ModelType = SessionModelTypeEnum.MedicalSpa;
+        ModelCode = "0001";
+        JsonSession = "{ model: '0001' }";
+    }
+
+    private async Task OnSubmitAsync()
+    {
+        
+    }
 }

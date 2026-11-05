@@ -1,0 +1,42 @@
+Desenvolvimento da Aplicação:
+ - Computador, Tablet e Smartphone
+ - Hospedagem online
+
+Módulo Básico:
+ - $49,90/mês
+ - Cadastro de Clientes
+	- Tab Dados
+		Nome, Dasta Nasc, Idade, Sexo, Estado Civil
+		CEP, Endereço, Número, Bairro, Cidade
+		Fones: celular, residencial, comercial
+		Email
+		Nacionalidade, RG, CPF
+		Indicação
+		Queixas				
+	- Tab Anamnese
+		Lista de opções (apenas leitura)
+		Inclusão/Edição de sessão
+	- Tab Lista de Sessões
+		Histórico das sessões (apenas leitura)
+			
+ - Cadastro de Tratamentos:
+	- Nome, Preço Custo, Preço Venda
+	
+ - Controle de Sessão:
+	- Seleção de cliente, data, descrição do procedimento, assinatura do cliente, fotos
+	- Assinatura do cliente
+	
+ - Anamnese
+	- Seleção de cliente
+	- Lista de Opções S/N + OBSERVAÇÃO
+	- Termo de Responsabilidade
+		- Lista do tratamento proposto
+	- Assinatura do cliente
+		
+	 
+Módulos Adicionais: 
+ - Agenda				+ 15$
+ - Controle de Caixa 	+ 20$
+ - Emissão de NF-e		+ 60$ (desktop)
+ - Relatórios			+ 40$
+ 

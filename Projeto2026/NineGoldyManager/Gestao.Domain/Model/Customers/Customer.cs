@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Gestao.Domain.Interfaces;
 using Gestao.Domain.Model.Companies;
+using Gestao.Domain.Model.Sessions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -42,6 +43,7 @@ namespace Gestao.Domain.Model.Customers
 
         public Guid? CompanyId { get; set; } = null;
         public Company? Company { get; set; } = null;
+        public IEnumerable<Session>? Sessions { get; set; } = null;
 
         public StatusEnum Status { get; set; } = StatusEnum.Normal;
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
