@@ -1,5 +1,6 @@
 @page "/clinic/session/edit"
 @page "/clinic/session/edit/{id:Guid}"
+@using Gestao.App.CustomControls
 
 @rendermode InteractiveServer
 @inherits AuthenticatedPageBase
@@ -31,7 +32,17 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <p>Selecione o cliente...</p>
+                                <div class="col-4">
+                                    <SelectSearch DisplayValue="Selecione o cliente..." >
+                                        <option>OK</option>
+                                        <option>OK</option>
+                                        <option>OK</option>
+                                        <option>OK</option>
+                                        <option>OK</option>
+                                    </SelectSearch>
+                                </div>
+
+                                
                             </div>
                         </div>
                     </div>
@@ -108,6 +119,11 @@
 
     private async Task OnSubmitAsync()
     {
-        
+
+    }
+
+    private async Task TesteAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("alert", "teste");
     }
 }

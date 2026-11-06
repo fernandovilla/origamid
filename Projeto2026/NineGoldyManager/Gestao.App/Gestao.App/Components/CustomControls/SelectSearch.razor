@@ -1,0 +1,133 @@
+@using System.Reflection.Emit
+@using Microsoft.AspNetCore.Identity
+@inject IJSRuntime JSRuntime
+
+ <div class="select-search position-relative" @attributes="@Attributes" >
+    <button @onclick="ButtonSearchClickAsync" type="button" class="form-control">
+        <div class="d-flex justify-content-between" >            
+            @if (!string.IsNullOrEmpty(DisplayValue))
+            {
+                <span>@DisplayValue</span>
+            } else
+            {
+                <span>Selecione...</span>        
+            }    
+            <i class="ri-arrow-down-s-line icon @(ClassValue)"></i>
+        </div>
+    </button>
+
+    <div class="menu form-control @(ClassValue)" >
+        <div class="combobox-search">
+            <InputText @bind-Value="SearchText" type="text" @ref="InputSearch" class="form-control " placeholder="Digite para buscar..." autocomplete="off" aria-label="Search…">
+        </div>
+        <div class="menu-options">
+            @if(ChildContent != null)
+            {
+                @ChildContent
+            } 
+            else
+            {                
+                <span class="no-results">Nenhum resultado</span>
+            }
+
+        </div>
+        <div class="combobox-no-results d-none">No results found</div>
+    </div>
+</div>
+
+<style>
+    .select-search {
+        width: 100%;     
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        margin-top: 2px;
+        left: 0px;
+        right: 0px;
+        padding: 4px;    
+    }
+
+    .menu-options {        
+        margin-top: 5px;
+        padding: 5px;
+        height: fit-content;
+        max-height: 200px;
+        overflow-y: auto;        
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-options button {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .menu-options button span {
+        text-align: left;
+    }
+
+    .menu.active {
+        display: block;
+    }
+    
+    .no-results{
+        text-align: center;
+        font-style: italic;
+        opacity: 0.8;
+        padding: 10px;
+    }
+
+    .icon {
+        margin: 0px;
+        padding: 0px;
+        font-size: 14px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .icon.active {
+        transform: rotate(180deg);
+    }
+
+</style>
+
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+     public Dictionary<string, object>? Attributes {get;set;}
+    
+    [Parameter] 
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter] 
+    public string? DisplayValue {get; set; } 
+
+    private InputText InputSearch {get;set;}
+
+    private string? SearchText {get;set;}
+
+    private bool ActiveMenu { get; set; }
+    private string ClassValue { get; set; } = "";
+
+    private async Task ButtonSearchClickAsync()
+    {        
+        ActiveMenu = !ActiveMenu;
+
+        if (ActiveMenu) {
+            ClassValue = "active";
+            if (InputSearch?.Element != null){
+                await InputSearch.Element!.Value.FocusAsync();
+            }
+        }
+        else
+            ClassValue = "";
+    }
+
+    private async Task ButtonItemClickAsync(string pais)
+    {
+        JSRuntime.InvokeVoidAsync("alert", $"Item: {pais}");
+    }
+
+}
