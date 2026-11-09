@@ -28,6 +28,12 @@ namespace Gestao.App.Services.Customers
             return await unit.CustomerRepository.FindByIdAsync(id);
         }
 
+        public async Task<IQueryable<Customer>> FindByNameAsync(Guid companyId, string name)
+        {
+            using var unit = UnitOfWorkFactory.Create();
+            return await unit.CustomerRepository.FindByNameAsync(companyId, name);
+        }
+
         public async Task<IPaginatedList<Customer>> ListAsync(Guid companyId, int pageIndex, int pageSize, string? searchCustomerName)
         {
             using var unit = UnitOfWorkFactory.Create();

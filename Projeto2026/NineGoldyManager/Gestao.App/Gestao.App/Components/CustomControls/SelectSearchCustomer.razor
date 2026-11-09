@@ -1,0 +1,23 @@
+@inject ICustomerService CustomerService
+
+<SelectSearch DisplayValue="Selecione o cliente..." OnSearching="OnSearchingClientesAsync" >
+    @if(Customers != null)
+    {
+        @foreach(var customer in Customers)
+        {
+            <option>@customer.Name</option>
+        }
+    }
+    </SelectSearch>
+
+@code{
+    [Parameter] public Guid? CompanyId { get; set; }
+    [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }    
+
+    private IQueryable<Customer> Customers {get; set;}
+
+    private async Task OnSearchingClientesAsync(string value)
+    {        
+        Customers = await CustomerService.FindByNameAsync(CompanyId!.Value, value);
+    }
+}

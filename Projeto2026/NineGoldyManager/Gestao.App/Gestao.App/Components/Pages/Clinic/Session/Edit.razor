@@ -33,13 +33,15 @@
 
                             <div class="row">
                                 <div class="col-4">
-                                    <SelectSearch DisplayValue="Selecione o cliente..." >
+                                    @* <SelectSearch DisplayValue="Selecione o cliente..." OnSearching="OnSearchingClientesAsync" >
                                         <option>OK</option>
                                         <option>OK</option>
                                         <option>OK</option>
                                         <option>OK</option>
                                         <option>OK</option>
-                                    </SelectSearch>
+                                    </SelectSearch> *@
+
+                                    <SelectSearchCustomer CompanyId="base.AuthenticatedUser.CompanyId" SelectedCustomer="SelectedCustomerAsync" />
                                 </div>
 
                                 
@@ -86,17 +88,9 @@
                 </div>
             </div>
         </EditForm>
-
-
     </MudFocusTrap>
 
-
-
 </div>
-
-
-
-
 
 
 
@@ -107,6 +101,17 @@
     private SessionModelTypeEnum? ModelType { get;set;} = SessionModelTypeEnum.None;
     private string? ModelCode {get;set;} = "";
     private string? JsonSession {get;set;} = "";
+    private ApplicationUser User;
+
+    protected override void OnInitialized()
+    {
+        LoadAuthenticatedUser();
+    }
+
+    private void LoadAuthenticatedUser()
+    {
+        User = base.AuthenticatedUser;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,5 +130,10 @@
     private async Task TesteAsync()
     {
         await JSRuntime.InvokeVoidAsync("alert", "teste");
+    }
+
+    private async Task SelectedCustomerAsync(Customer customer)
+    {
+
     }
 }

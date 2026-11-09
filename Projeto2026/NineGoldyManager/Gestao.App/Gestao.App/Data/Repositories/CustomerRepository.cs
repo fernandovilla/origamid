@@ -3,6 +3,7 @@ using Gestao.Domain.Model.Customers;
 using Gestao.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
+using MudBlazor.Extensions;
 
 namespace Gestao.App.Data.Repositories
 {
@@ -26,6 +27,17 @@ namespace Gestao.App.Data.Repositories
         public async Task<Customer?> FindByIdAsync(Guid id)
         {
             return await DbContext.Customers.FindAsync(id);
+        }
+
+        public async Task<IQueryable<Customer>> FindByNameAsync(Guid companyId, string name)
+        {
+            var itens = await DbContext.Customers
+                .Where(i => i.CompanyId.Equals(companyId))
+                .Where(i => i.Name.ToUpper().Contains(name.ToUpper()))
+                .OrderBy(i => i.Name)
+                .ToListAsync();
+                
+                return itens.AsQueryable();
         }
 
         public async Task<IQueryable<Customer>> GetAsync()

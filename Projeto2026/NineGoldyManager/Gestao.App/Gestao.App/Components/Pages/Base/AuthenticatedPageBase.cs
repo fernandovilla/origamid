@@ -13,19 +13,43 @@ namespace Gestao.App.Components.Pages.Base
         [Inject] protected AuthenticationStateProvider? AuthProvider { get; set; }
         [Inject] protected IApplicationUserService? ApplicationUserService { get; set; }
 
-        protected ApplicationUser AuthenticatedUser { get; private set; }
+        private ApplicationUser _authenticatedUser = null;
+
+        protected ApplicationUser AuthenticatedUser
+        {
+            get
+            {
+                if (_authenticatedUser == null)
+                    LoadAuthenticatedUserAsync();
+
+                return _authenticatedUser;
+            }
+        }
+            
 
         protected async override Task OnInitializedAsync()
         {
-            await LoadAuthenticatedUserAsync();
+            //await LoadAuthenticatedUserAsync();
         }
 
         private async Task LoadAuthenticatedUserAsync()
         {
             var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
 
+            ApplicationUser user = null;
+
             if (userId != Guid.Empty)
-                AuthenticatedUser = await ApplicationUserService.FindByIdAsync(userId);
+                user =  await ApplicationUserService.FindByIdAsync(userId);
+
+            _authenticatedUser = user;
         }
+
+        // private async Task LoadAuthenticatedUserAsyncx()
+        // {        
+        //     var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+        //
+        //     if (userId != Guid.Empty)
+        //         User = await ApplicationUserService.FindByIdAsync(userId);
+        // }
     }
 }
