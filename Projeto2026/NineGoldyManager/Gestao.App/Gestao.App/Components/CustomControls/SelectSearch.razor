@@ -8,43 +8,36 @@
 
 @implements IDisposable
 
- <div class="select-search position-relative" @attributes="@Attributes" >
+<div class="select-search position-relative" @attributes="@Attributes">
     <button @onclick="DropDownButtonClickAsync" type="button" class="form-control">
-        <div class="d-flex justify-content-between" >            
-            @if (!string.IsNullOrEmpty(DisplayValue))
+        <div class="d-flex justify-content-between">
+            @if (!string.IsNullOrEmpty(DisplayText))
             {
-                <span>@DisplayValue</span>
-            } else
+                <span>@DisplayText</span>
+            }
+            else
             {
-                <span>Selecione...</span>        
-            }    
+                <span>Selecione...</span>
+            }
             <i class="ri-arrow-down-s-line icon @(ClassValue)"></i>
         </div>
     </button>
 
-    <div class="menu form-control @(ClassValue)" >
+    <div class="menu form-control @(ClassValue)">
         <div class="combobox-search">
-            <input 
-                value="@SearchText" 
-                @oninput="OnAfterAsync"
-                @ref="InputSearch" 
-                type="text" 
-                class="form-control " 
-                placeholder="Digite para buscar..." 
-                autocomplete="off" 
-                aria-label="Search…" />
+            <input value="@SearchText" @oninput="OnAfterAsync" @ref="InputSearch" type="text" class="form-control " placeholder="Digite para buscar..." autocomplete="off" aria-label="Search…" />
         </div>
         <div class="menu-options">
-            @if(ChildContent != null)
+            @if (ChildContent != null)
             {
                 @ChildContent
-            } 
-            else if(searching)
-            {                
+            }
+            else if (searching)
+            {
                 <span class="no-results">Buscando. Aguarde...</span>
             }
             else
-            {                
+            {
                 <span class="no-results">Nenhum resultado</span>
             }
 
@@ -55,7 +48,7 @@
 
 <style>
     .select-search {
-        width: 100%;     
+        width: 100%;
     }
 
     .menu {
@@ -65,15 +58,15 @@
         margin-top: 2px;
         left: 0px;
         right: 0px;
-        padding: 4px;    
+        padding: 4px;
     }
 
-    .menu-options {        
+    .menu-options {
         margin-top: 5px;
         padding: 5px;
         height: fit-content;
         max-height: 200px;
-        overflow-y: auto;        
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
     }
@@ -91,7 +84,7 @@
         display: block;
     }
     
-    .no-results{
+    .no-results {
         text-align: center;
         font-style: italic;
         opacity: 0.8;
@@ -108,38 +101,46 @@
     .icon.active {
         transform: rotate(180deg);
     }
-
 </style>
 
 
 @code {
     [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object>? Attributes {get;set;}
+    public Dictionary<string, object>? Attributes { get; set; }
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public string? DisplayValue {get; set; } 
-    [Parameter] public int DelaySeconds {get;set;} = 3;
+    [Parameter] public string? DisplayText { get; set; }
+    [Parameter] public int DelaySeconds { get; set; } = 3;
     [Parameter] public int MinCharacterSearch { get; set; } = 3;
-    [Parameter] public EventCallback<string> OnSearching {get;set;}
+    [Parameter] public EventCallback<string> OnSearching { get; set; }
+    
+    [Parameter]
+    public bool ShowMenu
+    {
+        get => ActiveMenu;
+        set
+        {
+            DropDownButtonClickAsync();
+        }
+    }
 
-
-    private ElementReference InputSearch {get;set;}
+    private ElementReference InputSearch { get; set; }
 
     private bool ActiveMenu { get; set; }
     private string ClassValue { get; set; } = "";
 
-    private string? SearchText {get;set;}    
+    private string? SearchText { get; set; }
     private bool searching;
     private CancellationTokenSource? cancTokenSource;
 
     private async Task DropDownButtonClickAsync()
-    {        
+    {
         ActiveMenu = !ActiveMenu;
 
-        if (ActiveMenu) 
+        if (ActiveMenu)
         {
-            ClassValue = "active";            
-            await JSRuntime.FocusAsync(InputSearch);           
+            ClassValue = "active";
+            await JSRuntime.FocusAsync(InputSearch);
         }
         else
         {
@@ -153,6 +154,12 @@
         cancTokenSource?.Dispose();
         cancTokenSource = null;
 
+        if (!string.IsNullOrEmpty(SearchText) && string.IsNullOrEmpty(args.Value.ToString()))
+        {
+            await OnSearching.InvokeAsync(string.Empty);
+            return;
+        }
+        
         SearchText = args.Value.ToString();
 
         if (SearchText.Trim().Length < MinCharacterSearch)
@@ -166,7 +173,7 @@
 
         try
         {
-            await Task.Delay(DelaySeconds*1000, token);
+            await Task.Delay(DelaySeconds * 1000, token);
 
             searching = true;
             await OnSearching.InvokeAsync(SearchText);
@@ -176,7 +183,7 @@
         catch (OperationCanceledException)
         {
 
-        } 
+        }
         finally
         {
             if (!token.IsCancellationRequested)

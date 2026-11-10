@@ -1,23 +1,52 @@
 @inject ICustomerService CustomerService
 
-<SelectSearch DisplayValue="Selecione o cliente..." OnSearching="OnSearchingClientesAsync" >
-    @if(Customers != null)
+<SelectSearch DisplayText="@DisplayText" OnSearching="OnSearchingClientesAsync" DelaySeconds="1" ShowMenu="@ShowMenu">
+    @if (Customers != null)
     {
-        @foreach(var customer in Customers)
+        @foreach (var customer in Customers)
         {
-            <option>@customer.Name</option>
+            <a class="select-search-item" @onclick="@(() => OnSelectCustomer(customer))">@customer.Name</a>
         }
     }
-    </SelectSearch>
+</SelectSearch>
 
-@code{
+<style>
+    .select-search-item {
+        padding: 10px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .select-search-item:hover {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.05);
+        color: black;
+    }
+</style>
+
+
+@code {
     [Parameter] public Guid? CompanyId { get; set; }
-    [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }    
+    [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
+    [Parameter] public string DisplayText { get; set; } = "Selecione o cliente...";
+    
+    private bool ShowMenu { get; set; }
 
-    private IQueryable<Customer> Customers {get; set;}
+    private IQueryable<Customer> Customers { get; set; }
 
     private async Task OnSearchingClientesAsync(string value)
-    {        
-        Customers = await CustomerService.FindByNameAsync(CompanyId!.Value, value);
+    {
+        if (string.IsNullOrEmpty(value))
+            Customers = null;
+        else
+            Customers = await CustomerService.FindByNameAsync(CompanyId!.Value, value);
+
+        StateHasChanged();
+    }
+
+    private async Task OnSelectCustomer(Customer customer)
+    {
+        await SelectedCustomer.InvokeAsync(customer);
+        ShowMenu = false;
     }
 }

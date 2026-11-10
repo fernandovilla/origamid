@@ -21,7 +21,7 @@
     
         <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel">
 
-            <Morris.Blazor.Validation.Validate/>
+            <Morris.Blazor.Validation.Validate />
 
             <div class="row">
                 <div class="col-lg-12">
@@ -57,8 +57,8 @@
                             <div class="row">
                                 <div class="col-xxl-2 col-md-6">
                                     <label for="sessionDate" class="form-label">Data Sessão</label>
-                                    <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" disabled/>
-                                    <ValidationMessage For="() => Model!.SessionDate"/>
+                                    <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" disabled />
+                                    <ValidationMessage For="() => Model!.SessionDate" />
                                 </div>
                             </div>
 
@@ -66,7 +66,7 @@
                                 <div class="col-12">
                                     <label for="obs" class="form-label">Procedimento</label>
                                     <InputTextArea @bind-Value="Model!.Observation" class="form-control" id="obs" />
-                                    <ValidationMessage For="() => Model!.Observation"/>
+                                    <ValidationMessage For="() => Model!.Observation" />
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <div class="row">
                                 <div class="col-xxl-2 col-md-6">
                                     <InputTextArea @bind-Value="Model!.Signature" class="form-control" id="signature" />
-                                    <ValidationMessage For="() => Model!.Signature"/>
+                                    <ValidationMessage For="() => Model!.Signature" />
                                 </div>
                             </div>
                         </div>
@@ -98,9 +98,9 @@
     [Parameter] public Guid? Id { get; set; }
 
     private Session? Model { get; set; }
-    private SessionModelTypeEnum? ModelType { get;set;} = SessionModelTypeEnum.None;
-    private string? ModelCode {get;set;} = "";
-    private string? JsonSession {get;set;} = "";
+    private SessionModelTypeEnum? ModelType { get; set; } = SessionModelTypeEnum.None;
+    private string? ModelCode { get; set; } = "";
+    private string? JsonSession { get; set; } = "";
     private ApplicationUser User;
 
     protected override void OnInitialized()
@@ -115,7 +115,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model ??= new();    
+        Model ??= new();
 
         ModelType = SessionModelTypeEnum.MedicalSpa;
         ModelCode = "0001";

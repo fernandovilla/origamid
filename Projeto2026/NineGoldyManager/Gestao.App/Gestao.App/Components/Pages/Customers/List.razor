@@ -33,7 +33,7 @@
             <!-- Pesquisa -->
             <div class="col-lg-8">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Digite sua pesquisa"  @oninput="OnInput">
+                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @oninput="OnInput">
                     <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"></i></button>
                 </div>
             </div>
@@ -66,12 +66,10 @@
                             {
                                 <tr>
                                     <td>
-                                    <a href="@URLToEdit(customer.Id)" style="width:100%;display:block">
-                                            @customer.Name
-                                        </a>
+                                        <a href="@URLToEdit(customer.Id)" style="width:100%; display:block">@customer.Name</a>
                                     </td>
                                     <td>@(customer.TipoPessoa == TipoPessoaEnum.PessoaFisica ? "Pessoa Física" : "Pessoa Jurídica")</td>
-                                    <td>                                        
+                                    <td>
                                         <a href="@URLToEdit(customer.Id)" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line"></i></a>
                                         <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line"></i></a>
                                     </td>
@@ -93,10 +91,10 @@
 
 @code {
     private IPaginatedList<Customer> Customers { get; set; }
-    [Parameter] public int? PageIndex { get; set; } 
+    [Parameter] public int? PageIndex { get; set; }
     private int PageSize = 12;
     private ApplicationUser User;
-    private string SearchWord {get;set;} = string.Empty;
+    private string SearchWord { get; set; } = string.Empty;
 
     private string URLToEdit(Guid userId)
     {
@@ -112,8 +110,8 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await LoadAuthenticatedUserAsync();        
-        await LoadDataAsync(PageIndex ,string.Empty);
+        await LoadAuthenticatedUserAsync();
+        await LoadDataAsync(PageIndex, string.Empty);
     }
 
     protected override async Task OnParametersSetAsync()
@@ -126,7 +124,7 @@
     }
 
     private async Task LoadAuthenticatedUserAsync()
-    {        
+    {
         var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
 
         if (userId != Guid.Empty)
@@ -154,14 +152,15 @@
     }
 
     private async Task OnSearch()
-    {        
+    {
         await LoadDataAsync(PageIndex, SearchWord);
         StateHasChanged();
     }
 
     private async Task OnInput(ChangeEventArgs args)
-    {   
-        if (args.Value != null) {
+    {
+        if (args.Value != null)
+        {
 
             var value = (string)args.Value;
 
@@ -173,7 +172,9 @@
                 await LoadDataAsync(PageIndex, SearchWord);
                 StateHasChanged();
 
-            } else {
+            }
+            else
+            {
                 SearchWord = value;
             }
         }
