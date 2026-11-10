@@ -1,3 +1,4 @@
+@using Humanizer
 @inject ICustomerService CustomerService
 
 <SelectSearch DisplayText="@DisplayText" OnSearching="OnSearchingClientesAsync" DelaySeconds="1" ShowMenu="@ShowMenu">
@@ -25,12 +26,18 @@
 </style>
 
 
-@code {
+    @code {
     [Parameter] public Guid? CompanyId { get; set; }
     [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
     [Parameter] public string DisplayText { get; set; } = "Selecione o cliente...";
-    
-    private bool ShowMenu { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            ShowMenu = false;
+    }
+
+    private bool? ShowMenu { get; set; } = null;
 
     private IQueryable<Customer> Customers { get; set; }
 
@@ -46,7 +53,9 @@
 
     private async Task OnSelectCustomer(Customer customer)
     {
-        await SelectedCustomer.InvokeAsync(customer);
         ShowMenu = false;
+        DisplayText = customer.Name;
+        await SelectedCustomer.InvokeAsync(customer);
+        
     }
 }

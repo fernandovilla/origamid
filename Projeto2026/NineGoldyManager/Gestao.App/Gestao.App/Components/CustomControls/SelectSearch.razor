@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers
+@using Microsoft.EntityFrameworkCore.Query.SqlExpressions
 @inject IJSRuntime JSRuntime
 
 @implements IDisposable
@@ -113,16 +114,31 @@
     [Parameter] public int DelaySeconds { get; set; } = 3;
     [Parameter] public int MinCharacterSearch { get; set; } = 3;
     [Parameter] public EventCallback<string> OnSearching { get; set; }
+
+    [Parameter] 
+    public bool? SelectedItem { 
+        get => _selectedItem; 
+        set {
+            if (value != null && value == true)
+            {
+                _selectedItem = value;
+                DropDownButtonClickAsync();
+            }
+        }
+    }
     
     [Parameter]
-    public bool ShowMenu
+    public bool? ShowMenu
     {
         get => ActiveMenu;
         set
         {
-            DropDownButtonClickAsync();
+            if (value != null && !searching)
+                DropDownButtonClickAsync();
         }
     }
+
+    private bool _selectedItem = false;
 
     private ElementReference InputSearch { get; set; }
 
@@ -153,6 +169,8 @@
         cancTokenSource?.Cancel();
         cancTokenSource?.Dispose();
         cancTokenSource = null;
+        
+        _selectedItem = false;
 
         if (!string.IsNullOrEmpty(SearchText) && string.IsNullOrEmpty(args.Value.ToString()))
         {

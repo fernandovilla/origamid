@@ -15,13 +15,15 @@ namespace Gestao.App.Components.Pages.Base
 
         private ApplicationUser _authenticatedUser = null;
 
-        protected ApplicationUser AuthenticatedUser
-        {
-            get
-            {
+        protected ApplicationUser? AuthenticatedUser
+        {            
+            get {
                 if (_authenticatedUser == null)
-                    LoadAuthenticatedUserAsync();
-
+                {
+                    var task = new Task(async () => await LoadAuthenticatedUserAsync());
+                    task.RunSynchronously();
+                }
+                    
                 return _authenticatedUser;
             }
         }
