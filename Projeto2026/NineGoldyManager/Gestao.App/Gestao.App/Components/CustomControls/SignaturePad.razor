@@ -1,0 +1,67 @@
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div class="signature-pad">
+    <canvas @ref="canvas" class="signature-pad__canvas" aria-label="Área para assinatura"></canvas>
+
+    <div class="d-flex gap-2 mt-2">
+        <button type="button" class="btn btn-light" @onclick="ClearAsync">Limpar</button>
+        <button type="button" class="btn btn-primary" @onclick="ConfirmAsync">Confirmar</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Value))
+    {
+        <div class="mt-3">
+            <img class="signature-pad__preview" src="@Value" alt="Assinatura confirmada" />
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference canvas;
+    private IJSObjectReference? module;
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public EventCallback<string?> ConfirmedImage { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/CustomControls/SignaturePad.razor.js");
+        await module.InvokeVoidAsync("initialize", canvas, Value);
+    }
+
+    private async Task ClearAsync()
+    {
+        if (module is null)
+            return;
+
+        await module.InvokeVoidAsync("clear", canvas);
+        await ValueChanged.InvokeAsync(null);
+    }
+
+    private async Task ConfirmAsync()
+    {
+        if (module is null)
+            return;
+
+        var image = await module.InvokeAsync<string?>("exportSignature", canvas);
+            
+        if (!string.IsNullOrEmpty(image)){
+            await ValueChanged.InvokeAsync(image);
+            await ConfirmedImage.InvokeAsync(image);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is null)
+            return;
+
+        await module.InvokeVoidAsync("dispose", canvas);
+        await module.DisposeAsync();
+    }
+}

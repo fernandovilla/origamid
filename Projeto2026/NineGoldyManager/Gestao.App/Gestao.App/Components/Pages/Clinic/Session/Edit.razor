@@ -32,7 +32,7 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 col-xxl-6">
                                     <label for="customer" class="form-label">Cliente</label>
                                     <SelectSearchCustomer CompanyId="base.AuthenticatedUser?.CompanyId" SelectedCustomer="SelectedCustomerAsync" />
                                 </div>                                
@@ -58,12 +58,7 @@
                             <h6 class="card-title mb-0 flex-grow-1">Assinatura do Cliente</h6>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-xxl-2 col-md-6">
-                                    <InputTextArea @bind-Value="Model!.Signature" class="form-control" id="signature" />
-                                    <ValidationMessage For="() => Model!.Signature" />
-                                </div>
-                            </div>
+                            <SignaturePad @bind-Value="Model!.Signature" ConfirmedImage="ConfirmedImageAsync" />
                         </div>
                     </div>
                 </div>
@@ -77,7 +72,6 @@
             </div>
         </EditForm>
     </MudFocusTrap>
-
 </div>
 
 
@@ -114,6 +108,7 @@
     private async Task OnSubmitAsync()
     {
         await JSRuntime.InvokeVoidAsync("alert", "Registrado!");
+        await JSRuntime.InvokeVoidAsync("alert", Model.Signature);
     }
 
     private async Task TesteAsync()
@@ -124,10 +119,17 @@
     private async Task SelectedCustomerAsync(Customer customer)
     {
         //await JSRuntime.InvokeVoidAsync("alert", customer.Name);
+        Model.Customer= customer;
+        Model.CustumerId = customer.Id;
     }
 
     private async Task RollbackDataAsync()
     {
         //DbContext.ChangeTracker.Clear();
+    }
+
+    private async Task ConfirmedImageAsync(string? image)
+    {
+        Model.Signature = image;
     }
 }

@@ -1,0 +1,18 @@
+.signature-pad__canvas {
+    display: block;
+    width: 100%;
+    height: 220px;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .375rem;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.signature-pad__preview {
+    max-width: 100%;
+    max-height: 180px;
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .375rem;
+}
