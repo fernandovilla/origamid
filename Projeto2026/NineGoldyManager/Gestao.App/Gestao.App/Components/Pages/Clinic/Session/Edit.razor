@@ -27,42 +27,31 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h6 class="card-title mb-0 flex-grow-1">Cliente</h6>
+                            <h6 class="card-title mb-0 flex-grow-1">Dados da Sessão</h6>
                         </div>
                         <div class="card-body">
-
-                            <div class="row">
-                                <div class="col-4">
-                                    <SelectSearchCustomer CompanyId="base.AuthenticatedUser.CompanyId" SelectedCustomer="SelectedCustomerAsync" />
-                                </div>
-
-                                
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header align-items-center d-flex">
-                            <h6 class="card-title mb-0 flex-grow-1">Informações da Sessão</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-xxl-2 col-md-6">
-                                    <label for="sessionDate" class="form-label">Data Sessão</label>
-                                    <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" disabled />
-                                    <ValidationMessage For="() => Model!.SessionDate" />
-                                </div>
-                            </div>
 
                             <div class="row">
                                 <div class="col-12">
+                                    <label for="customer" class="form-label">Cliente</label>
+                                    <SelectSearchCustomer CompanyId="base.AuthenticatedUser?.CompanyId" SelectedCustomer="SelectedCustomerAsync" />
+                                </div>                                
+
+                                <div class="col-xxl-2 col-md-6">
+                                    <label for="sessionDate" class="form-label">Data Sessão</label>
+                                    <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" />
+                                    <ValidationMessage For="() => Model!.SessionDate" />
+                                </div>
+
+                                <div class="col-12">
                                     <label for="obs" class="form-label">Procedimento</label>
-                                    <InputTextArea @bind-Value="Model!.Observation" class="form-control" id="obs" />
+                                    <InputTextArea @bind-Value="Model!.Observation" class="form-control" id="obs" rows="10" />
                                     <ValidationMessage For="() => Model!.Observation" />
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -79,6 +68,13 @@
                     </div>
                 </div>
             </div>
+
+              <div class="row mt-3">
+                <div class="d-flex justify-content-start">
+                    <a href="customer/list" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
+                    <ButtonSave type="submit"/>
+                </div>
+            </div>
         </EditForm>
     </MudFocusTrap>
 
@@ -89,11 +85,12 @@
 @code {
     [Parameter] public Guid? Id { get; set; }
 
+    private Customer? Customer{get;set;}
     private Session? Model { get; set; }
     private SessionModelTypeEnum? ModelType { get; set; } = SessionModelTypeEnum.None;
     private string? ModelCode { get; set; } = "";
     private string? JsonSession { get; set; } = "";
-    private ApplicationUser User;
+    //private ApplicationUser? User;
 
     protected override void OnInitialized()
     {
@@ -102,7 +99,7 @@
 
     private void LoadAuthenticatedUser()
     {
-        User = base.AuthenticatedUser;
+        //User = base.AuthenticatedUser;
     }
 
     protected override async Task OnInitializedAsync()
@@ -116,7 +113,7 @@
 
     private async Task OnSubmitAsync()
     {
-
+        await JSRuntime.InvokeVoidAsync("alert", "Registrado!");
     }
 
     private async Task TesteAsync()
@@ -126,6 +123,11 @@
 
     private async Task SelectedCustomerAsync(Customer customer)
     {
-        await JSRuntime.InvokeVoidAsync("alert", customer.Name);
+        //await JSRuntime.InvokeVoidAsync("alert", customer.Name);
+    }
+
+    private async Task RollbackDataAsync()
+    {
+        //DbContext.ChangeTracker.Clear();
     }
 }

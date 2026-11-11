@@ -119,9 +119,9 @@
     public bool? SelectedItem { 
         get => _selectedItem; 
         set {
-            if (value != null && value == true)
+            if (value.HasValue && value.Value == true)
             {
-                _selectedItem = value;
+                _selectedItem = value.Value;
                 DropDownButtonClickAsync();
             }
         }

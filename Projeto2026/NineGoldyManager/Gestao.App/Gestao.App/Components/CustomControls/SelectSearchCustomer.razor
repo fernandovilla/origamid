@@ -55,7 +55,7 @@
     {
         ShowMenu = false;
         DisplayText = customer.Name;
-        await SelectedCustomer.InvokeAsync(customer);
-        
+        //await SelectedCustomer.InvokeAsync(customer);
+        StateHasChanged();
     }
 }
