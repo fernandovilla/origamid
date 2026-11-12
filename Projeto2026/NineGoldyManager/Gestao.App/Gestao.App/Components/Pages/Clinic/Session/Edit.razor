@@ -32,12 +32,12 @@
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-12 col-xxl-6">
+                                <div class="col-xxl-6 col-md-8">
                                     <label for="customer" class="form-label">Cliente</label>
                                     <SelectSearchCustomer CompanyId="base.AuthenticatedUser?.CompanyId" SelectedCustomer="SelectedCustomerAsync" />
                                 </div>                                
 
-                                <div class="col-xxl-2 col-md-6">
+                                <div class="col-xxl-2 col-md-4">
                                     <label for="sessionDate" class="form-label">Data Sessão</label>
                                     <InputDate @bind-Value="Model!.SessionDate" class="form-control" id="sessionDate" />
                                     <ValidationMessage For="() => Model!.SessionDate" />
@@ -59,6 +59,7 @@
                         </div>
                         <div class="card-body">
                             <SignaturePad @bind-Value="Model!.Signature" ConfirmedImage="ConfirmedImageAsync" />
+                            <ValidationMessage For="() => Model!.Signature" />
                         </div>
                     </div>
                 </div>

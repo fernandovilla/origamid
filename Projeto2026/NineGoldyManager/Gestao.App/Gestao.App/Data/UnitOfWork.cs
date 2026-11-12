@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using Gestao.App.Data.Repositories;
-using Gestao.Domain.Repositories;
-//using Microsoft.Identity.Client;
-using Microsoft.AspNetCore.Identity;
-using Gestao.Domain.Model.Users;
+﻿using Gestao.App.Data.Repositories;
 using Gestao.Domain.Model.Companies;
+using Gestao.Domain.Model.Customers;
+using Gestao.Domain.Model.Sessions;
+using Gestao.Domain.Model.Users;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace Gestao.App.Data
 {
@@ -13,12 +12,11 @@ namespace Gestao.App.Data
     {        
         private ICompanyRepository? _companyRepository;
         private ICustomerRepository? _customerRepository;
+        private ISessionRepository? _sessionRepository;
 
-        
-
-        
         public ICompanyRepository CompanyRepository => _companyRepository ??= new CompanyRepository(_context);
         public ICustomerRepository CustomerRepository => _customerRepository ??= new CustomerRepository(_context);
+        public ISessionRepository SessionRepository => _sessionRepository ??= new SessionRepository(_context);
     }
 
 

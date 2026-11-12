@@ -187,6 +187,46 @@ namespace Gestao.App.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Gestao.Domain.Model.Sessions.Session", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("CustumerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Observation")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("SessionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Signature")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Sessions");
+                });
+
             modelBuilder.Entity("Gestao.Domain.Model.Users.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -431,6 +471,15 @@ namespace Gestao.App.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("Gestao.Domain.Model.Sessions.Session", b =>
+                {
+                    b.HasOne("Gestao.Domain.Model.Customers.Customer", "Customer")
+                        .WithMany("Sessions")
+                        .HasForeignKey("CustomerId");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Gestao.Domain.Model.Users.ApplicationUser", b =>
                 {
                     b.HasOne("Gestao.Domain.Model.Companies.Company", "Company")
@@ -547,6 +596,11 @@ namespace Gestao.App.Migrations
                     b.Navigation("Customers");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Gestao.Domain.Model.Customers.Customer", b =>
+                {
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

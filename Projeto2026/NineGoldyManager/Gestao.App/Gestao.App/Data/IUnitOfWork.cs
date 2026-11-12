@@ -1,9 +1,6 @@
-﻿using Gestao.App.Data.Repositories;
-using Gestao.Domain.Model.Companies;
-using Gestao.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Gestao.Domain.Model.Companies;
+using Gestao.Domain.Model.Customers;
+using Gestao.Domain.Model.Sessions;
 
 namespace Gestao.App.Data
 {
@@ -11,7 +8,7 @@ namespace Gestao.App.Data
     {       
         ICompanyRepository CompanyRepository { get; }
         ICustomerRepository CustomerRepository { get; }
-
+        ISessionRepository SessionRepository { get; }
 
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

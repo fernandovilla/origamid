@@ -30,7 +30,7 @@
     [Parameter] public Guid? CompanyId { get; set; }
     [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
     [Parameter] public string DisplayText { get; set; } = "Selecione o cliente...";
-
+    
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)

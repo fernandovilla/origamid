@@ -1,6 +1,6 @@
 ﻿using Gestao.Domain.Libraries.Utilities;
 
-namespace Gestao.Domain.Repositories
+namespace Gestao.Domain.Model
 {
     public interface IRepositoryBase<T> where T : class
     {

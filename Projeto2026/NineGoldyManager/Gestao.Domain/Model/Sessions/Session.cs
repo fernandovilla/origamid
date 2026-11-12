@@ -28,6 +28,9 @@ namespace Gestao.Domain.Model.Sessions
             RuleFor(i => i.Observation)
                 .NotEmpty().WithMessage("Nenhuma observação informada para a sessão")
                 .Length(2, 500).WithMessage("Informar ao menos 2 e no máximo 500 caracteres");
+
+            RuleFor(i => i.Signature)
+                .NotEmpty().WithMessage("Sessão não assinada ou assinatura não confirmada");
         }
     }
 }
