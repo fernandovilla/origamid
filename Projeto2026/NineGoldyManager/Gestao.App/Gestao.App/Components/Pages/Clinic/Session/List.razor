@@ -1,0 +1,183 @@
+
+@page "/clinic/session"
+@page "/clinic/session/{PageIndex:int}"
+
+@using Gestao.Domain.Libraries.Utilities
+
+@rendermode InteractiveServer
+
+@inherits AuthenticatedPageBase
+@inject ISessionService SessionService 
+
+
+<PageTitle>
+    Sessões
+</PageTitle>
+
+<div style="height:calc(100vh - 90px);overflow:hidden;">
+    <div class="card">
+
+        <div class="card-header align-items-center d-flex">
+
+            <h4 class="card-title mb-0 flex-grow-1">
+                <i class="ri-contacts-line me-1"></i>Sessões
+            </h4>
+            <div class="flex-shrink-0">
+                <a href="/clinic/session/edit" class="btn btn-info btn-sm material-shadow-none">
+                    <i class="ri-user-add-line me-1"></i>nova sessão
+                </a>
+            </div>
+        </div><!-- end card header -->
+
+        <div class="card-body">
+
+            <!-- Pesquisa -->
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Digite sua pesquisa" @oninput="OnInput">
+                    <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"></i></button>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-4 table-list">
+                <table class="table table-borderless table-centered align-middle table-nowrap mb-0 table-container">
+                    <thead class="text-muted table-light">
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Data Sessão</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Sessions == null)
+                        {
+                            <tr>
+                                <td colspan="4">Carregando...</td>
+                            </tr>
+                        }
+                        else if (Sessions.Items.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="4">Nenhuma sessão cadastrada</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var session in Sessions.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@URLToEdit(session.Id)" style="width:100%; display:block">@session.Customer?.Name</a>
+                                    </td>
+                                    <td>@session.CreatedAt.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <a href="@URLToEdit(session.Id)" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line"></i></a>
+                                        <a href="/session/detail/@session.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                        <!-- end tr -->
+                    </tbody><!-- end tbody -->
+                </table><!-- end table -->
+            </div>
+
+            <Pagination PaginatedData="Sessions" OnPageChanged="OnPageChanged" />
+        </div>
+
+        
+    </div>
+</div>
+
+@code {
+    private IPaginatedList<Session> Sessions { get; set; }
+    [Parameter] public int? PageIndex { get; set; }
+    private int PageSize = 12;
+    private ApplicationUser User;
+    private string SearchWord { get; set; } = string.Empty;
+
+    private string URLToEdit(Guid userId)
+    {
+        string result = $"/clinic/session/edit/{userId}?PageIndex={PageIndex}";
+
+        if (!string.IsNullOrEmpty(SearchWord))
+            result += $"&SearchWord={SearchWord}";
+
+        return result;
+    }
+
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadAuthenticatedUserAsync();
+        await LoadDataAsync(PageIndex, string.Empty);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!PageIndex.HasValue || PageIndex.Value <= 0)
+            PageIndex = 1;
+
+        if (string.IsNullOrEmpty(SearchWord))
+            SearchWord = string.Empty;
+    }
+
+    private async Task LoadAuthenticatedUserAsync()
+    {
+        var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+
+        if (userId != Guid.Empty)
+            User = await ApplicationUserService.FindByIdAsync(userId);
+    }
+
+
+    private async Task OnPageChanged(int pageNumber)
+    {
+        PageIndex = pageNumber;
+        await LoadDataAsync(pageNumber, SearchWord);
+        StateHasChanged();
+    }
+
+
+    private async Task LoadDataAsync(int? pageIndex, string search)
+    {
+        if (User == null)
+            return;
+
+        if (pageIndex == null)
+            pageIndex = 1;
+
+        Sessions = await SessionService.ListAsync((Guid)User.CompanyId, (int)pageIndex, PageSize);
+    }
+
+    private async Task OnSearch()
+    {
+        await LoadDataAsync(PageIndex, SearchWord);
+        StateHasChanged();
+    }
+
+    private async Task OnInput(ChangeEventArgs args)
+    {
+        if (args.Value != null)
+        {
+
+            var value = (string)args.Value;
+
+            if (value.Length >= 3 || (string.IsNullOrEmpty(value) && SearchWord.Length > 0))
+            {
+                PageIndex = 1;
+                SearchWord = value;
+
+                await LoadDataAsync(PageIndex, SearchWord);
+                StateHasChanged();
+
+            }
+            else
+            {
+                SearchWord = value;
+            }
+        }
+    }
+}

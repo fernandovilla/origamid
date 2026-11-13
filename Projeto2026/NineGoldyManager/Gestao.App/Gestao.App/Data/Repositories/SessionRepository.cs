@@ -1,5 +1,6 @@
 using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model.Sessions;
+using Gestao.Domain.Model.Customers;
 using Gestao.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
@@ -10,39 +11,67 @@ namespace Gestao.App.Data.Repositories
     public class SessionRepository(ApplicationDbContext DbContext)
         : ISessionRepository
     {
-        public Task<Session> CreateAsync(Session entity)
+        public async Task<Session> CreateAsync(Session entity)
         {
-            throw new NotImplementedException();
+            await DbContext.Sessions.AddAsync(entity);
+            return entity;
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var session = await FindByIdAsync(id);
+
+            if (session != null)
+                DbContext.Sessions.Remove(session);
         }
 
-        public Task<Session?> FindByIdAsync(Guid id)
+        public async Task<Session?> FindByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await DbContext.Sessions.FindAsync(id);
         }
 
-        public Task<IQueryable<Session>> GetAsync()
+        public async Task<IQueryable<Session>> GetAsync()
         {
-            throw new NotImplementedException();
+            return DbContext.Sessions.AsQueryable();
         }
 
-        public Task<IPaginatedList<Session>> ListAsync(Guid companyId, int pageIndex, int pageSize)
+        public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+            var itens = await DbContext.Sessions    
+                    .Where(i => i.Customer!.CompanyId.Equals(companyId))
+                    .OrderBy(i => i.CreatedAt)
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+                    
+            var countSessions = await DbContext.Sessions
+                .CountAsync(i => i.Customer!.CompanyId.Equals(companyId));
+
+            var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
+
+            return new PaginatedList<Session>(itens, pageIndex, totalPages);
         }
 
-        public Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize)
+        public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+                var itens = await DbContext.Sessions    
+                    .Where(i => i.CustumerId.Equals(customerId))
+                    .OrderBy(i => i.CreatedAt)
+                    .Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)                    
+                    .ToListAsync();
+                    
+            var countSessions = await DbContext.Sessions
+                .CountAsync(i => i.CustumerId.Equals(customerId));
+
+            var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
+
+            return new PaginatedList<Session>(itens, pageIndex, totalPages);
         }
 
-        public Task UpdateAsync(Session entity)
+        public async Task UpdateAsync(Session entity)
         {
-            throw new NotImplementedException();
+            DbContext.Sessions.Update(entity);
         }
     }
 }

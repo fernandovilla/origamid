@@ -1,0 +1,236 @@
+@inject ICustomerService CustomerService
+@inject IJSRuntime JSRuntime
+@inject AuthenticationStateProvider AuthProvider;
+@inject IApplicationUserService ApplicationUserService;
+
+@implements IDisposable
+
+
+
+<div class="select-search position-relative" @attributes="@Attributes">
+    <div class="combobox-search">
+        @* <input type="text" class="form-control" placeholder="Digite sua pesquisa" @oninput="OnInput">
+        <button class="btn btn-outline-success" type="button"><i class="ri-search-line" @onclick="OnSearch"></i></button> *@
+
+        <label for="search" class="form-label">Cliente</label>
+        <InputGroup IconEnd="ri-search-line">
+            @* <input id="search" type="text" value="@SearchText" @oninput="OnInput" class="form-control" autocomplete="off" maxlength="100" placeholder="Digite o nome do cliente"  /> *@
+            <input value="@SearchText" @oninput="OnInputAsync" @ref="InputSearch" type="text" class="form-control " placeholder="Digite para buscar..." autocomplete="off" aria-label="Search…" />            
+        </InputGroup>
+    </div>
+
+    <div class="menu form-control @(ClassValue)">
+        <div class="menu-options">
+            @if (searching && Customers == null)
+            {
+                <span class="no-results">Buscando clientes...</span>
+            }
+            else if (!searching && Customers == null)
+            {
+                <span class="no-results">Nenhum cliente encontrado</span>
+            }
+            else if (Customers != null)
+            {
+                @foreach (var customer in Customers)
+                {
+                    <a class="select-search-item" @onclick="() => OnSelectCustomer(customer)">@customer.Name</a>
+                }
+            }
+        </div>
+        <div class="combobox-no-results d-none">No results found</div>
+    </div>
+</div>
+
+
+<style>
+    .select-search {
+        width: 100%;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        margin-top: 2px;
+        left: 0px;
+        right: 0px;
+        padding: 4px;
+    }
+
+    .menu-options {
+        margin-top: 5px;
+        padding: 5px;
+        height: fit-content;
+        max-height: 200px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu-options button {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .menu-options button span {
+        text-align: left;
+    }
+
+    .menu.active {
+        display: block;
+    }
+    
+    .no-results {
+        text-align: center;
+        font-style: italic;
+        opacity: 0.8;
+        padding: 10px;
+    }
+
+    .icon {
+        margin: 0px;
+        padding: 0px;
+        font-size: 14px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .icon.active {
+        transform: rotate(180deg);
+    }
+
+    .select-search-item {
+        padding: 10px;
+        color: black;
+        cursor: pointer;
+    }
+
+    .select-search-item:hover {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.05);
+        color: black;
+    }
+</style>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]  public Dictionary<string, object>? Attributes { get; set; }
+    [Parameter] public EventCallback<string> OnSearchEvent { get; set; }
+    [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
+    [Parameter] public int DelaySeconds { get; set; } = 3;
+    [Parameter] public int MinCharacterSearch { get; set; } = 3;
+    private IQueryable<Customer>? Customers { get; set; }
+    private string ClassValue { get; set; }
+    
+    private bool searching {get;set;} = false;
+    private bool _selectedItem {get;set;} = false;
+    private CancellationTokenSource? cancTokenSource;
+    private string SearchText;
+    private ElementReference InputSearch {get;set;}
+
+    private ApplicationUser? User;
+    private Guid? CompanyId { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        DelaySeconds = 2;
+        MinCharacterSearch = 3;
+
+        await LoadAuthenticatedUser();
+    }
+
+    private async Task LoadAuthenticatedUser()
+    {
+        var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+
+        if (userId != Guid.Empty)
+            User = await ApplicationUserService.FindByIdAsync(userId);
+
+        //await ConsoleLog($"LoadAuthenticatedUser: CompanyId: {User?.CompanyId}");
+    }
+
+    private async Task OnInputAsync(ChangeEventArgs e)
+    {
+        cancTokenSource?.Cancel();
+        cancTokenSource?.Dispose();
+        cancTokenSource = null;
+
+        _selectedItem = false;
+
+        SearchText = e.Value.ToString();
+        
+        await ConsoleLog($"OnInput: SearchText: {SearchText}");
+
+        if (SearchText.Trim().Length < MinCharacterSearch)
+        {
+            searching = false;
+            await ActiveMenu(false);
+            return;
+        }
+
+        cancTokenSource = new CancellationTokenSource();
+        var token = cancTokenSource.Token;
+
+        try
+        {
+            await Task.Delay(DelaySeconds * 1000, token);
+
+            await OnSearhing(SearchText);
+
+            token.ThrowIfCancellationRequested();
+        }
+        catch (OperationCanceledException)
+        {
+
+        }
+        finally
+        {
+            if (!token.IsCancellationRequested)
+                searching = false;
+        }
+    }
+
+    private async Task OnSearhing(string value)
+    {
+        searching = true;
+
+        await ConsoleLog($"OnSearching('{value}) - CompanyId: {User?.CompanyId}");        
+        await ActiveMenu(true);
+
+        if (string.IsNullOrEmpty(value))
+            Customers = null;
+        else
+            Customers = await CustomerService.FindByNameAsync(null, value);
+
+        searching = false;    
+    }
+
+    private async Task OnSelectCustomer(Customer customer)
+    {        
+        SearchText = customer.Name;
+        await SelectedCustomer.InvokeAsync(customer);
+        await ActiveMenu(false);
+    }
+
+    private async Task OnSearch()
+    {
+        await OnSearchEvent.InvokeAsync(SearchText);
+    }
+
+    public void Dispose()
+    {
+        cancTokenSource?.Cancel();
+        cancTokenSource?.Dispose();
+    }
+
+    private async Task ConsoleLog(string message)
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", message);
+    }
+    
+    private async Task ActiveMenu(bool active)
+    {
+        await ConsoleLog($"ActiveMenu: {active}");
+        ClassValue = active ? "active" : "";        
+    }
+    
+}

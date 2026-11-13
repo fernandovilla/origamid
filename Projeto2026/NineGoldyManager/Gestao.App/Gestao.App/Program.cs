@@ -9,6 +9,7 @@ using Gestao.App.Data.Repositories;
 using Gestao.App.Libraries.Services;
 using Gestao.App.Services.Companies;
 using Gestao.App.Services.Customers;
+using Gestao.App.Services.Sessions;
 using Gestao.App.Services.Users;
 using Gestao.Domain.Model;
 using Gestao.Domain.Model.Companies;
@@ -166,6 +167,7 @@ builder.Services.AddQueue();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
 

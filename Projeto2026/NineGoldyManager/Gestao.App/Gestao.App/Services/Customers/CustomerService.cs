@@ -28,7 +28,7 @@ namespace Gestao.App.Services.Customers
             return await unit.CustomerRepository.FindByIdAsync(id);
         }
 
-        public async Task<IQueryable<Customer>> FindByNameAsync(Guid companyId, string name)
+        public async Task<IQueryable<Customer>> FindByNameAsync(Guid? companyId, string name)
         {
             using var unit = UnitOfWorkFactory.Create();
             return await unit.CustomerRepository.FindByNameAsync(companyId, name);

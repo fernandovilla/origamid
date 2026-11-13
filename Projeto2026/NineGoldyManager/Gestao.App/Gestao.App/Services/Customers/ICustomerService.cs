@@ -7,7 +7,7 @@ namespace Gestao.App.Services.Customers
     {
         Task<Customer> CreateAscyn(Customer customer);
         Task<Customer> FindByIdAsync(Guid id);
-        Task<IQueryable<Customer>> FindByNameAsync(Guid companyId, string name);
+        Task<IQueryable<Customer>> FindByNameAsync(Guid? companyId, string name);
         Task UpdateAsync(Customer customer);
         Task DeleteAsync(Guid id);
         Task<IPaginatedList<Customer>> ListAsync(Guid companyId, int pageIndex, int pageSize, string? searchCustomerName);

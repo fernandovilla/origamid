@@ -1,4 +1,6 @@
 @using Humanizer
+@inject AuthenticationStateProvider AuthProvider
+@inject IApplicationUserService ApplicationUserService
 @inject ICustomerService CustomerService
 
 <SelectSearch DisplayText="@DisplayText" OnSearching="OnSearchingClientesAsync" DelaySeconds="1" ShowMenu="@ShowMenu">
@@ -26,27 +28,45 @@
 </style>
 
 
-    @code {
-    [Parameter] public Guid? CompanyId { get; set; }
+@code {
     [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
-    [Parameter] public string DisplayText { get; set; } = "Selecione o cliente...";
-    
+    [Parameter] public string DisplayText { get; set; } = "Selecione o cliente...";    
+    [Parameter] public bool OnlyCompanyCustomers {get;set;} = false;
+
+    private Guid? CompanyId { get; set; }
+    private bool? ShowMenu { get; set; } = null;
+
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
             ShowMenu = false;
     }
 
-    private bool? ShowMenu { get; set; } = null;
+    override protected async Task OnInitializedAsync()
+    {
+        await LoadAuthenticatedUser();
+    }
+
+    private async Task LoadAuthenticatedUser()
+    {
+        var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+
+        if (userId != Guid.Empty)
+        {
+            var user = await ApplicationUserService.FindByIdAsync(userId);
+            CompanyId = user.CompanyId;
+        }
+    }
+    
 
     private IQueryable<Customer> Customers { get; set; }
 
     private async Task OnSearchingClientesAsync(string value)
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(value) || (CompanyId == null && OnlyCompanyCustomers)) 
             Customers = null;
         else
-            Customers = await CustomerService.FindByNameAsync(CompanyId!.Value, value);
+            Customers = await CustomerService.FindByNameAsync(CompanyId, value);
 
         StateHasChanged();
     }

@@ -29,10 +29,10 @@ namespace Gestao.App.Data.Repositories
             return await DbContext.Customers.FindAsync(id);
         }
 
-        public async Task<IQueryable<Customer>> FindByNameAsync(Guid companyId, string name)
+        public async Task<IQueryable<Customer>> FindByNameAsync(Guid? companyId, string name)
         {
             var itens = await DbContext.Customers
-                .Where(i => i.CompanyId.Equals(companyId))
+                .Where(i => companyId == null || i.CompanyId.Equals(companyId))
                 .Where(i => i.Name.ToUpper().Contains(name.ToUpper()))
                 .OrderBy(i => i.Name)
                 .ToListAsync();
@@ -45,10 +45,10 @@ namespace Gestao.App.Data.Repositories
             return DbContext.Customers.AsQueryable();
         }
 
-        public async Task<IPaginatedList<Customer>> ListAsync(Guid companyId, int pageIndex, int pageSize, string? searchCustomerName = null)
+        public async Task<IPaginatedList<Customer>> ListAsync(Guid? companyId, int pageIndex, int pageSize, string? searchCustomerName = null)
         {
             var itens = await DbContext.Customers
-                .Where(i => i.CompanyId.Equals(companyId))
+                .Where(i => companyId == null || i.CompanyId.Equals(companyId))
                 .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.ToUpper().Contains(searchCustomerName.ToUpper()))
                 .OrderBy(i => i.Name)
                 .Skip((pageIndex - 1) * pageSize)
@@ -56,9 +56,9 @@ namespace Gestao.App.Data.Repositories
                 .ToListAsync();
 
             var countCustomer = await DbContext.Customers
-                .Where(i => i.CompanyId.Equals(companyId))
+                .Where(i => companyId == null || i.CompanyId.Equals(companyId))
                 .Where(i => string.IsNullOrEmpty(searchCustomerName) || i.Name.ToUpper().Contains(searchCustomerName.ToUpper()))
-                .CountAsync(i => i.CompanyId.Equals(companyId));
+                .CountAsync();
 
             var totalPages = (int)Math.Ceiling((decimal)countCustomer / pageSize);  //.Ceiling arredonda pra cima    
 

@@ -51,8 +51,6 @@ namespace Gestao.App.Services.Sessions
             await unit.SessionRepository.UpdateAsync(session);
 
             await unit.SaveChangesAsync();
-        }
-    {
-        
+        }    
     }
 }
