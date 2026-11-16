@@ -7,6 +7,7 @@
 @rendermode InteractiveServer
 
 @inherits AuthenticatedPageBase
+@inject ISessionService SessionService
 
 <PageTitle>
     Registro de Sessão - Estética
@@ -102,7 +103,8 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadAuthenticatedUser();
+        if (firstRender)
+            await LoadAuthenticatedUser();
     }
 
     private async Task LoadAuthenticatedUser()
@@ -116,12 +118,47 @@
             User = await ApplicationUserService.FindByIdAsync(userId); *@
     }
 
-    
-
     private async Task OnSubmitAsync()
     {
         await JSRuntime.InvokeVoidAsync("alert", "Registrado!");
         await JSRuntime.InvokeVoidAsync("alert", Model.Signature);
+
+        if (Model == null)
+            return;
+
+        if (!Id.HasValue)
+            await CreateSessionAsync();
+        else
+            await UpdateSessionAsync();
+    }
+
+    private async Task CreateSessionAsync()
+    {        
+        var newSession = await SessionService.CreateAsync(Model);
+
+        if (newSession != null)
+        {
+            //TODO: ALTERAR PARA TOAST
+            await JSRuntime!.InvokeVoidAsync("alert", "Sessão registrada!");
+
+            @* if (PageIndex.HasValue && PageIndex > 0)
+                NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+            else
+                NavigationManager!.NavigateTo("/customer/list"); *@
+        }
+    }
+
+    private async Task UpdateSessionAsync()
+    {
+        await SessionService.UpdateAsync(Model);
+
+        //TODO: ALTERAR PARA TOAST
+        await JSRuntime!.InvokeVoidAsync("alert", "Sessão atualizada!");
+
+        @* if (PageIndex.HasValue && PageIndex > 0)
+            NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+        else
+            NavigationManager!.NavigateTo("/customer/list"); *@
     }
 
     private async Task TesteAsync()
