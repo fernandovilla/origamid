@@ -19,7 +19,6 @@ namespace Gestao.App.Migrations
                     SessionDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     Observation = table.Column<string>(type: "text", nullable: true),
                     Signature = table.Column<string>(type: "text", nullable: true),
-                    CustumerId = table.Column<Guid>(type: "uuid", nullable: true),
                     CustomerId = table.Column<Guid>(type: "uuid", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),

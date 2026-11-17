@@ -8,10 +8,10 @@ namespace Gestao.Domain.Model.Sessions
     {
         public Guid Id { get; set; }
         
-        public DateTimeOffset? SessionDate { get; set; } = DateTimeOffset.Now;
+        public DateTimeOffset? SessionDate { get; set; } = DateTimeOffset.UtcNow;
         public string? Observation { get; set; }
         public string? Signature { get; set; } //conteudo da imagem
-        public Guid? CustumerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         
 

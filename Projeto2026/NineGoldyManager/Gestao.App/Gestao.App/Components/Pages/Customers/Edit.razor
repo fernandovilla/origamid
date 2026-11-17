@@ -213,6 +213,48 @@
                 </div>
             </div>
 
+            @* TODO: Implementar abas para dados pessoais e sessões registradas do cliente. *@
+            <div class="row">
+                <div class="d-flex">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <NavLink class="nav-link active" 
+                                id="nav-1-tab" 
+                                data-bs-toggle="tab" 
+                                data-bs-target="#nav-profile" 
+                                role="tab" 
+                                aria-controls="nav-sessions" 
+                                aria-selected="true">Dados Pessoais</NavLink>
+                        </li>
+
+                        <li class="nav-item mt-1">
+                            <NavLink class="nav-link" 
+                                id="nav-2-tab" 
+                                data-bs-toggle="tab" 
+                                data-bs-target="#nav-sessions" 
+                                role="tab" 
+                                aria-controls="nav-sessions" 
+                                aria-selected="false">Sessões Registradas</NavLink>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content p-3" id="nav-tabContent">
+                        <div id="nav-profile" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-1-tab" tabindex="0">
+                            <p>Dados Pessoais</p>
+                        </div>
+
+                        <div id="nav-sessions" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-2-tab">
+                            <p>Sessões Registradas</p>
+                        </div>
+                    </div>
+
+                    
+                </div>
+
+            </div>
+
+
+
 
             <div class="row mt-3">
                 <div class="d-flex justify-content-start">
@@ -221,6 +263,7 @@
                     <ButtonSave type="submit"/>
                 </div>
             </div>
+
 
 
 

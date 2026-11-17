@@ -3,6 +3,7 @@
 
 @using Gestao.App.CustomControls
 @using Gestao.Domain.Libraries.Utilities
+@using Serilog
 
 @rendermode InteractiveServer
 
@@ -71,19 +72,21 @@
               <div class="row mt-3">
                 <div class="d-flex justify-content-start">
                     <a href="customer/list" class="btn btn-light mr-2" @onclick="RollbackDataAsync">Voltar</a>
-                    <ButtonSave type="submit"/>
+                    <ButtonSave type="submit"/>                                       
                 </div>
             </div>
         </EditForm>
     </MudFocusTrap>
 </div>
 
+<Toast @ref="_toastSucess" Title="SESSÃO REGISTRADA COM SUCESSO!" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-success text-bg-primary rounded"/>
+<Toast @ref="_toastError" Title="OCORREU ERRO" Message="Ocorreu erro registrando a sessão. Entre em contato com o desnvolvedor" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-danger text-bg-primary"/>
 
 
 @code {
     [Parameter] public Guid? Id { get; set; }
 
-    private Customer? Customer{get;set;}
+    private Customer? Customer {get;set;}
     private Session? Model { get; set; }
     private SessionModelTypeEnum? ModelType { get; set; } = SessionModelTypeEnum.None;
     private string? ModelCode { get; set; } = "";
@@ -91,6 +94,8 @@
     private ApplicationUser? User;
     private Guid? CompanyId { get; set; } = null;
 
+    private Toast _toastSucess = default!;
+    private Toast _toastError = default!;
 
     protected override async Task OnInitializedAsync()
     {        
@@ -120,8 +125,7 @@
 
     private async Task OnSubmitAsync()
     {
-        await JSRuntime.InvokeVoidAsync("alert", "Registrado!");
-        await JSRuntime.InvokeVoidAsync("alert", Model.Signature);
+        //await JSRuntime.InvokeVoidAsync("alert", Model.Signature);
 
         if (Model == null)
             return;
@@ -134,18 +138,25 @@
 
     private async Task CreateSessionAsync()
     {        
-        var newSession = await SessionService.CreateAsync(Model);
-
-        if (newSession != null)
+        try 
         {
-            //TODO: ALTERAR PARA TOAST
-            await JSRuntime!.InvokeVoidAsync("alert", "Sessão registrada!");
+            Session newSession = await SessionService.CreateAsync(Model);
 
-            @* if (PageIndex.HasValue && PageIndex > 0)
-                NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
-            else
-                NavigationManager!.NavigateTo("/customer/list"); *@
+            if (newSession != null)
+                await _toastSucess.ShowAsync();
+            
+        } 
+        catch(Exception ex) 
+        {
+            await _toastError.ShowAsync();
+            Log.Error(ex, "Erro ao registrar sessão");
+            return;
         }
+
+        @* if (PageIndex.HasValue && PageIndex > 0)
+            NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+        else
+            NavigationManager!.NavigateTo("/customer/list"); *@
     }
 
     private async Task UpdateSessionAsync()
@@ -168,8 +179,8 @@
 
     private async Task SelectedCustomerAsync(Customer customer)
     {
-        Model.Customer= customer;
-        Model.CustumerId = customer.Id;
+        Customer = customer;
+        Model.CustomerId = customer.Id;
     }
 
     private async Task RollbackDataAsync()

@@ -55,14 +55,14 @@ namespace Gestao.App.Data.Repositories
         public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize)
         {
                 var itens = await DbContext.Sessions    
-                    .Where(i => i.CustumerId.Equals(customerId))
+                    .Where(i => i.CustomerId.Equals(customerId))
                     .OrderBy(i => i.CreatedAt)
                     .Skip((pageIndex - 1) * pageSize)
                     .Take(pageSize)                    
                     .ToListAsync();
                     
             var countSessions = await DbContext.Sessions
-                .CountAsync(i => i.CustumerId.Equals(customerId));
+                .CountAsync(i => i.CustomerId.Equals(customerId));
 
             var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
 
