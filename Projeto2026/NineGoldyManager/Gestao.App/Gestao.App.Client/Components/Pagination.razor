@@ -3,7 +3,7 @@
 @if (PaginatedData != null)
 {
     <!--Paginação-->
-    <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+    <div class="align-items-center justify-content-between row text-center text-sm-start">
         <div class="col-sm">
             <div class="text-muted">
                 Mostrando página <span class="fw-semibold">@(PaginatedData.TotalPages == 0 ? "0" : PaginatedData.PageIndex)</span> de <span class="fw-semibold">@PaginatedData.TotalPages</span>.
