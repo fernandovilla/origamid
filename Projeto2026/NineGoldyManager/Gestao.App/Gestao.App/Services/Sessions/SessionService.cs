@@ -44,6 +44,12 @@ namespace Gestao.App.Services.Sessions
             return await unit.SessionRepository.ListAsync(companyId, customerId, pageIndex, pageSize);
         }
 
+        public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include)
+        {
+            using var unit = UnitOfWorkFactory.Create();
+            return await unit.SessionRepository.ListAsync(companyId, customerId, pageIndex, pageSize, include);
+        }
+
         public async Task UpdateAsync(Session session)
         {
             using var unit = UnitOfWorkFactory.Create();

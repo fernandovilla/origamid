@@ -76,6 +76,7 @@
     /// <summary>Aplica animação de fade.</summary>
     [Parameter] public bool Animation { get; set; } = true;
 
+    
     private async Task<IJSObjectReference> GetModuleAsync() 
     {
         if (_module is null)
@@ -84,7 +85,7 @@
         return _module;
     }
 
-    public async Task ShowAsync()
+    public async Task ShowAsync(bool sleepDelay = false)
     {
         var module = await GetModuleAsync();
 
@@ -94,6 +95,9 @@
             delay = Delay,
             animation = Animation
         });
+
+        if (sleepDelay)
+            System.Threading.Thread.Sleep(Delay);
     }
 
     public async Task HideAsync()

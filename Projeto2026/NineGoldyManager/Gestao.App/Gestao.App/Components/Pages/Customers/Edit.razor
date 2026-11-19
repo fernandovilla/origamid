@@ -1,11 +1,14 @@
 ﻿@page "/customer/edit"
 @page "/customer/edit/{id:Guid}"
+@using Gestao.App.Components.Pages.Clinic.Session
+@using Gestao.Domain.Libraries.Utilities
 
 @rendermode InteractiveServer
 
 @inherits AuthenticatedPageBase
 @inject ICepServices CepService
 @inject ICustomerService CustomerService
+@inject ISessionService SessionService
 
 <PageTitle>
     Cliente - @(Id != null ? "Atualização" : "Cadastro")
@@ -18,7 +21,7 @@
 <div class="overflow-y-visible overflow-x-visible">
 
     <MudFocusTrap>    
-        <EditForm Model=@Model OnValidSubmit="OnSubmitAsync" FormName="UpdateModel">
+        <EditForm Model=@Model FormName="UpdateModel">
             <Morris.Blazor.Validation.Validate />
 
 
@@ -27,9 +30,8 @@
             <div>                
                     <ul class="nav nav-pills d-flex mb-1">
 
-                        <li class="nav-item">
-                            
-                            <NavLink class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Dados do Cliente</NavLink>
+                        <li class="nav-item">                            
+                            <NavLink class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Dados Pessoais</NavLink>
                         </li>
 
                         <li class="nav-item">
@@ -53,6 +55,7 @@
 
                     <div class="tab-content" id="nav-tabContent">
 
+                        <!-- PERFIL DO CLIENTE -->
                         <div id="nav-profile" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-profile" tabindex="0">                            
                             <div class="card">
                                 <div class="card-body">
@@ -105,6 +108,7 @@
                             
                         </div>
 
+                        <!-- ENDEREÇO DO CLIENTE -->
                         <div id="nav-address" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-address" tabindex="1">
                                                     
                             <div class="card">                                    
@@ -168,6 +172,7 @@
                             </div>                                
                         </div>
 
+                        <!-- CONTATOS DO CLIENTE -->
                         <div id="nav-contact" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-contact" tabindex="2">
                                                         
                             <div class="card">                                        
@@ -235,10 +240,11 @@
                             </div>                                
                         </div>
 
+                        <!-- SESSÕES DO CLIENTE -->
                         <div id="nav-sessions" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-sessions">
                             <div class="card">
                                 <div class="card-body">
-                                    sessões                                    
+                                    <ListSession Sessions="Sessions" HideName=true />
                                 </div>
                             </div>
                         </div>
@@ -253,7 +259,7 @@
                     <a href="customer/list/@PageIndex" class="btn btn-light mr-2" @onclick="RollbackDataAsync">
                         <i class="ri-arrow-go-back-line me-1"></i>Voltar
                     </a>
-                    <ButtonSave type="submit" />
+                    <ButtonSave @onclick="OnSubmitAsync" />
                 </div>
             </div>
 
@@ -265,6 +271,10 @@
     </MudFocusTrap>
 </div>
 
+<Toast @ref="_toastCreateOk" Delay=3000 Title="CLIENTE CADASTRADO COM SUCESSO!" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-success text-bg-primary rounded"/>
+<Toast @ref="_toastUpdateOk" Delay=3000 Title="CLIENTE ATULIZADO COM SUCESSO!" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-success text-bg-primary rounded"/>
+<Toast @ref="_toastError" Title="OCORREU ERRO" Message="Ocorreu erro registrando a sessão. Entre em contato com o desnvolvedor" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-danger text-bg-primary"/>
+
 @code {
     private bool Loading = false;
 
@@ -273,6 +283,12 @@
     [SupplyParameterFromQuery] public int? PageIndex { get; set; }
 
     public Customer? Model { get; set; }
+    private IPaginatedList<Session>? Sessions {get;set;}
+    private Toast _toastCreateOk = default!;
+    private Toast _toastUpdateOk = default!;
+    private Toast _toastError = default!;
+
+    private int PageIndexSession {get;set;} = 1;
 
     protected override void OnInitialized()
     {
@@ -307,7 +323,12 @@
 
     private async Task LoadCustomerAsync()
     {
+        throw new Exception("CONTINUAR IMPLEMENTAÇÃO DE SELEÇÃO DE CLIENTE COM SESSOES REGISTRADAS!!!");
+
         Model = await CustomerService.FindByIdAsync(Guid.Parse(Id));
+
+        if (Model?.CompanyId != null)
+            Sessions = await SessionService.ListAsync(null, Model.Id, PageIndexSession, 12, true);        
     }
 
     private async Task OnSubmitAsync()
@@ -325,26 +346,44 @@
     {
         Model.CompanyId = AuthenticatedUser.CompanyId;
 
-        var newCustomer = await CustomerService.CreateAscyn(Model);
-
-        if (newCustomer != null)
+        try 
         {
-            //TODO: ALTERAR PARA TOAST
-            await JSRuntime!.InvokeVoidAsync("alert", "Cliente cadastrado!");
+            var newCustomer = await CustomerService.CreateAscyn(Model);
 
-            if (PageIndex.HasValue && PageIndex > 0)
-                NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
-            else
-                NavigationManager!.NavigateTo("/customer/list");
+            if (newCustomer != null){
+                await _toastCreateOk.ShowAsync();
+                await _toastUpdateOk.ShowAsync(true);
+            }
+        } 
+        catch(Exception ex)
+        {   
+            await _toastError.ShowAsync(true);
+            Log.Error(ex, "Erro ao cadastrar cliente");
+            return;
         }
+
+        
+
+        if (PageIndex.HasValue && PageIndex > 0)
+            NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+        else
+            NavigationManager!.NavigateTo("/customer/list");
     }
 
     private async Task UpdateCustomerAsync()
     {
-        await CustomerService.UpdateAsync(Model);
+        try 
+        {
+            await CustomerService.UpdateAsync(Model);
 
-        //TODO: ALTERAR PARA TOAST
-        await JSRuntime!.InvokeVoidAsync("alert", "Cliente atualizado!");
+            await _toastUpdateOk.ShowAsync(true);
+        } 
+        catch(Exception ex)
+        {
+            await _toastError.ShowAsync(true);
+            Log.Error(ex, "Erro ao atualizar cliente");
+            return;     
+        }
 
         if (PageIndex.HasValue && PageIndex > 0)
             NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");

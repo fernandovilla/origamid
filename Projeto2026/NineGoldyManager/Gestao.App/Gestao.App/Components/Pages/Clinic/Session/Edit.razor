@@ -143,8 +143,7 @@
             Session newSession = await SessionService.CreateAsync(Model);
 
             if (newSession != null)
-                await _toastSucess.ShowAsync();
-            
+                await _toastSucess.ShowAsync();            
         } 
         catch(Exception ex) 
         {
@@ -161,11 +160,19 @@
 
     private async Task UpdateSessionAsync()
     {
-        await SessionService.UpdateAsync(Model);
+        try 
+        {
+            await SessionService.UpdateAsync(Model);
 
-        //TODO: ALTERAR PARA TOAST
-        await JSRuntime!.InvokeVoidAsync("alert", "Sessão atualizada!");
-
+            await _toastSucess.ShowAsync();
+        } 
+        catch(Exception ex)
+        {
+            await _toastError.ShowAsync();
+            Log.Error(ex, "Erro ao registrar sessão");
+            return;
+        }
+        
         @* if (PageIndex.HasValue && PageIndex > 0)
             NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
         else
