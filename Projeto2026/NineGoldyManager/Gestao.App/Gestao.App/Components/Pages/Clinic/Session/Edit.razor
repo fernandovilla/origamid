@@ -63,7 +63,7 @@
                         </div>
                         <div class="card-body">
                             <SignaturePad @bind-Value="Model!.Signature" ConfirmedImage="ConfirmedImageAsync" />
-                            <ValidationMessage For="() => Model!.Signature" />
+                            @* <ValidationMessage For="() => Model!.Signature" /> *@
                         </div>
                     </div>
                 </div>
@@ -82,6 +82,8 @@
 <Toast @ref="_toastSucess" Title="SESSÃO REGISTRADA COM SUCESSO!" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-success text-bg-primary rounded"/>
 <Toast @ref="_toastError" Title="OCORREU ERRO" Message="Ocorreu erro registrando a sessão. Entre em contato com o desnvolvedor" Animation=true PositionCss="bottom-0 end-0" ClassHeader="bg-danger text-bg-primary"/>
 
+<Dialog @ref="_dialog" />
+
 
 @code {
     [Parameter] public Guid? Id { get; set; }
@@ -96,6 +98,8 @@
 
     private Toast _toastSucess = default!;
     private Toast _toastError = default!;
+
+    private Dialog _dialog = default!;
 
     protected override async Task OnInitializedAsync()
     {        
@@ -123,12 +127,22 @@
             User = await ApplicationUserService.FindByIdAsync(userId); *@
     }
 
+    
+
     private async Task OnSubmitAsync()
     {
         //await JSRuntime.InvokeVoidAsync("alert", Model.Signature);
 
         if (Model == null)
             return;
+
+        if (string.IsNullOrEmpty(Model.Signature))
+        {
+            bool? result = await _dialog.ShowAsync("Documento Não Assinado", "Registro da sessão não foi assinado ou a assinatura não foi confirmada. \nDeseja continuar?", DialogStyleEnum.Question, DialogIconEnum.Question);
+
+            if (result.HasValue && !result.Value)
+                return;
+        }
 
         if (!Id.HasValue)
             await CreateSessionAsync();

@@ -70,8 +70,8 @@
                                     </td>
                                     <td>@(customer.TipoPessoa == TipoPessoaEnum.PessoaFisica ? "Pessoa Física" : "Pessoa Jurídica")</td>
                                     <td>
-                                        <a href="@URLToEdit(customer.Id)" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line"></i></a>
-                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line"></i></a>
+                                        <a href="@URLToEdit(customer.Id)" class="btn btn-sm btn-info icon-action"><i class="ri-edit-line"></i></a>
+                                        <a href="/customer/detail/@customer.Id" class="btn btn-sm btn-danger icon-action"><i class="ri-delete-bin-line"></i></a>
                                     </td>
                                 </tr>
                             }

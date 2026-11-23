@@ -244,7 +244,7 @@
                         <div id="nav-sessions" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-sessions">
                             <div class="card">
                                 <div class="card-body">
-                                    <ListSession Sessions="Sessions" HideName=true />
+                                    <ListSession Sessions="Sessions" />
                                 </div>
                             </div>
                         </div>
@@ -323,7 +323,7 @@
 
     private async Task LoadCustomerAsync()
     {
-        throw new Exception("CONTINUAR IMPLEMENTAÇÃO DE SELEÇÃO DE CLIENTE COM SESSOES REGISTRADAS!!!");
+        //throw new Exception("CONTINUAR IMPLEMENTAÇÃO DE SELEÇÃO DE CLIENTE COM SESSOES REGISTRADAS!!!");
 
         Model = await CustomerService.FindByIdAsync(Guid.Parse(Id));
 

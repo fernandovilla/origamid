@@ -5,9 +5,6 @@
     <table class="table table-borderless table-centered align-middle table-nowrap mb-0 table-container">
         <thead class="text-muted table-light">
             <tr>
-                @if(!HideName){
-                    <th scope="col">Cliente</th>
-                }
                 <th scope="col">Data Sessão</th>
                 <th scope="col">Ações</th>
             </tr>
@@ -26,19 +23,26 @@
                 </tr>
             }
             else
-            {
-                @foreach (var session in Sessions.Items)
+            {                
+                @foreach (var session in Sessions!.Items)
                 {
-                    <tr>
-                        @if(!HideName) {
-                            <td>
-                                <a @onclick="() => OnEditSessionAsync(session)" style="width:100%; display:block">@session.Customer?.Name</a>
-                            </td>
-                        }
-                        <td>@session.CreatedAt.ToString("dd/MM/yyyy")</td>
+                    <tr>                       
                         <td>
-                            <a @onclick="() => OnEditSessionAsync(session)" class="btn btn-sm btn-soft-info icon-action"><i class="ri-edit-line"></i></a>
-                            <a @onclick="() => OnDeleteSessionAsync(session)" class="btn btn-sm btn-soft-danger icon-action"><i class="ri-delete-bin-line"></i></a>
+                            @session.CreatedAt.ToString("dd/MM/yyyy")
+                            @if (!string.IsNullOrEmpty(session.Signature))
+                            {
+                                <span class="badge text-bg-success ms-1">ASSINADA</span>
+                            }
+                        </td>
+                        <td>
+                            @if(string.IsNullOrEmpty(session.Signature)){
+                                <a @onclick="() => OnEditSessionAsync(session)" class="btn btn-sm btn-info icon-action"><i class="ri-edit-line"></i></a>
+                            } 
+                            else
+                            {
+                                <a @onclick="() => OnViewSessionAsync(session)" class="btn btn-sm btn-success icon-action"><i class="ri-eye-line"></i></a>
+                            }
+                            <a @onclick="() => OnDeleteSessionAsync(session)" class="btn btn-sm btn-danger icon-action ms-1"><i class="ri-delete-bin-line"></i></a>
                         </td>
                     </tr>
                 }
@@ -53,8 +57,8 @@
 
     [Parameter] public IPaginatedList<Session>? Sessions {get;set;}
     [Parameter] public bool Loading {get;set;} = false;
-    [Parameter] public bool HideName { get;set;}  = false;
     [Parameter] public EventCallback<Session> EditSessionAsync { get; set;}
+    [Parameter] public EventCallback<Session> ViewSessionAsync { get; set;}
     [Parameter] public EventCallback<Session> DeleteSessionAsync { get; set;}
 
 
@@ -62,6 +66,11 @@
     private async Task OnEditSessionAsync(Session session)
     {
         await EditSessionAsync.InvokeAsync(session);
+    }
+
+    private async Task OnViewSessionAsync(Session session)
+    {
+        await ViewSessionAsync.InvokeAsync(session);
     }
 
     private async Task OnDeleteSessionAsync(Session session)

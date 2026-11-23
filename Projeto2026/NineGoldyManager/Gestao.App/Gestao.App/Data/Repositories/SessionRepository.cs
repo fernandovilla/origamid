@@ -85,8 +85,8 @@ namespace Gestao.App.Data.Repositories
         public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include)
         {            
             var sessions = await DbContext.Sessions                    
-                .Where(i => companyId != null  ? i.Customer!.CompanyId.Equals(companyId): false)
-                .Where(i => customerId != null ? i.CustomerId.Equals(customerId) : false)                
+                .Where(i => companyId != null  ? i.Customer!.CompanyId.Equals(companyId): true)
+                .Where(i => customerId != null ? i.CustomerId.Equals(customerId) : true)                
                 .Include(i => include ? i.Customer : null)
                 .OrderBy(i => i.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
