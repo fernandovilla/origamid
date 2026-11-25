@@ -1,3 +1,4 @@
+@using System.Runtime.InteropServices
 @using Gestao.Domain.Libraries.Utilities
 @inject ISessionService SessionService 
 
@@ -42,7 +43,8 @@
                             {
                                 <a @onclick="() => OnViewSessionAsync(session)" class="btn btn-sm btn-success icon-action"><i class="ri-eye-line"></i></a>
                             }
-                            <a @onclick="() => OnDeleteSessionAsync(session)" class="btn btn-sm btn-danger icon-action ms-1"><i class="ri-delete-bin-line"></i></a>
+                            <a @onclick="() => OnPrintSessionAsync(session)" class="btn btn-sm btn-info icon-action ms-1"><i class="ri-printer-line"></i></a>
+                            <a @onclick="() => OnDeleteSessionAsync(session)" class="btn btn-sm btn-danger icon-action ms-1"><i class="ri-delete-bin-line"></i></a>                            
                         </td>
                     </tr>
                 }
@@ -76,5 +78,10 @@
     private async Task OnDeleteSessionAsync(Session session)
     {
         await DeleteSessionAsync!.InvokeAsync(session);
+    }
+
+    private async Task OnPrintSessionAsync(Session session)
+    {
+        
     }
 }

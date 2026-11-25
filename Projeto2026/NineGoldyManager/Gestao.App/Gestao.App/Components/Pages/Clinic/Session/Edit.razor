@@ -38,7 +38,7 @@
 
                             <div class="row">
                                 <div class="col-xxl-6 col-md-8">
-                                    <SearchCustomer SelectedCustomer="SelectedCustomerAsync" />                                    
+                                    <SearchCustomer SelectedCustomer="SelectedCustomerAsync" Value="@Customer?.Name" />                                    
                                 </div>                                
 
                                 <div class="col-xxl-2 col-md-4">
@@ -86,8 +86,7 @@
 
 
 @code {
-    [Parameter] public Guid? Id { get; set; }
-
+    [Parameter] public string? Id { get; set; }
     private Customer? Customer {get;set;}
     private Session? Model { get; set; }
     private SessionModelTypeEnum? ModelType { get; set; } = SessionModelTypeEnum.None;
@@ -120,11 +119,20 @@
     {
         User = base.AuthenticatedUser;
         CompanyId = User?.CompanyId;
+    }
 
-        @* var userId = (await AuthenticationHelper.GetAuthenticatedUserIdAsync(AuthProvider))!.Value;
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Id))
+            await LoadSessionAsync(Id);
+    }
 
-        if (userId != Guid.Empty)
-            User = await ApplicationUserService.FindByIdAsync(userId); *@
+    private async Task LoadSessionAsync(string id)
+    {
+        Guid sessionId = new Guid(id);
+
+        Model = await SessionService.FindByIdAsync(sessionId);
+        Customer = Model.Customer;
     }
 
     
@@ -144,7 +152,7 @@
                 return;
         }
 
-        if (!Id.HasValue)
+        if (string.IsNullOrEmpty(Id))
             await CreateSessionAsync();
         else
             await UpdateSessionAsync();

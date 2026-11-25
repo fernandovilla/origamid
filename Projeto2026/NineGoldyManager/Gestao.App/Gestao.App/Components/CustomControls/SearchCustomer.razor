@@ -117,9 +117,11 @@
     [Parameter] public EventCallback<Customer> SelectedCustomer { get; set; }
     [Parameter] public int DelaySeconds { get; set; } = 3;
     [Parameter] public int MinCharacterSearch { get; set; } = 3;
+    [Parameter] public string Value { get; set;}
+
     private IQueryable<Customer>? Customers { get; set; }
     private string ClassValue { get; set; }
-    
+
     private bool searching {get;set;} = false;
     private bool _selectedItem {get;set;} = false;
     private CancellationTokenSource? cancTokenSource;
@@ -136,6 +138,15 @@
         MinCharacterSearch = 3;
 
         await LoadAuthenticatedUser();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Value) && SearchText != Value)
+        {
+            SearchText = Value;
+            StateHasChanged();
+        }
     }
 
     private async Task LoadAuthenticatedUser()

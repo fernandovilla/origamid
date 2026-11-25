@@ -244,7 +244,7 @@
                         <div id="nav-sessions" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-sessions">
                             <div class="card">
                                 <div class="card-body">
-                                    <ListSession Sessions="Sessions" />
+                                    <ListSession Sessions="Sessions" EditSessionAsync="OnEditSessionAsync" />
                                 </div>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
             return;
         }
 
-        
+
 
         if (PageIndex.HasValue && PageIndex > 0)
             NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
@@ -386,14 +386,19 @@
         }
 
         if (PageIndex.HasValue && PageIndex > 0)
-            NavigationManager!.NavigateTo($"/customer/list/{PageIndex}");
+            NavigationManager.NavigateTo($"/customer/list/{PageIndex}");
         else
-            NavigationManager!.NavigateTo("/customer/list");
+            NavigationManager.NavigateTo("/customer/list");
     }
 
     private async Task RollbackDataAsync()
     {
         //DbContext.ChangeTracker.Clear();
+    }
+
+    private async Task OnEditSessionAsync(Session session)
+    {
+        NavigationManager.NavigateTo($"/clinic/session/edit/{session.Id}");
     }
 
     private async Task<Guid> GetAuthenticatedUserAsync()
@@ -431,7 +436,6 @@
             Loading = false;
         }
     }
-
 
 
 }
