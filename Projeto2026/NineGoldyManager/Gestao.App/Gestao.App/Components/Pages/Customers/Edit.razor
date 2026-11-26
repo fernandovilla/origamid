@@ -1,5 +1,6 @@
 ﻿@page "/customer/edit"
 @page "/customer/edit/{id:Guid}"
+
 @using Gestao.App.Components.Pages.Clinic.Session
 @using Gestao.Domain.Libraries.Utilities
 
@@ -24,31 +25,33 @@
         <EditForm Model=@Model FormName="UpdateModel">
             <Morris.Blazor.Validation.Validate />
 
-
             @* TODO: Implementar abas para dados pessoais e sessões registradas do cliente. *@
             
             <div>                
                     <ul class="nav nav-pills d-flex mb-1">
 
                         <li class="nav-item">                            
-                            <NavLink class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Dados Pessoais</NavLink>
+                            <NavLink class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" role="tab" aria-controls="nav-profile">
+                                Dados Pessoais
+                            </NavLink>
                         </li>
 
-                        <li class="nav-item">
-                            
-                            <NavLink class="nav-link" id="nav-address-tab" data-bs-toggle="tab" data-bs-target="#nav-address" role="tab" aria-controls="nav-addres" aria-selected="false">
+                        <li class="nav-item">                            
+                            <NavLink class="nav-link" id="nav-address-tab" data-bs-toggle="tab" data-bs-target="#nav-address" role="tab" aria-controls="nav-addres" >
                                 Endereço
                             </NavLink>
                         </li>
 
                         <li class="nav-item">
-                            <NavLink class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">
+                            <NavLink class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" role="tab" aria-controls="nav-contact" >
                                 Contatos
                             </NavLink>
                         </li>
 
                         <li class="nav-item">
-                            <NavLink class="nav-link" id="nav-sessions-tab" data-bs-toggle="tab" data-bs-target="#nav-sessions" role="tab" aria-controls="nav-sessions" aria-selected="false">Sessões</NavLink>
+                            <NavLink class="nav-link" id="nav-sessions-tab" data-bs-toggle="tab" data-bs-target="#nav-sessions" role="tab" aria-controls="nav-sessions" aria-selected="false">
+                                Sessões
+                            </NavLink>
                         </li>
                         
                     </ul>
@@ -252,20 +255,14 @@
 
             </div>
 
-
             @* TODO: DEIXAR SEMPRE NO FIM DA PAGINA *@
             <div class="row mt-3 fixed-bottom bg-light p-2 border-top">
                 <div class="d-flex justify-content-end">
-                    <a href="customer/list/@PageIndex" class="btn btn-light mr-2" @onclick="RollbackDataAsync">
-                        <i class="ri-arrow-go-back-line me-1"></i>Voltar
-                    </a>
-                    <ButtonSave @onclick="OnSubmitAsync" />
+                    @* <a  class="btn btn-light mr-2" @onclick="ReturnBackAsync"><i class="ri-arrow-go-back-line me-1"></i>Voltar</a> *@
+                    <ButtonBack @onclick="ReturnPageAsync" class="me-1" />
+                    <ButtonSave @onclick="OnSubmitAsync" />                    
                 </div>
             </div>
-
-
-
-
         </EditForm>
 
     </MudFocusTrap>
@@ -287,6 +284,7 @@
     private Toast _toastCreateOk = default!;
     private Toast _toastUpdateOk = default!;
     private Toast _toastError = default!;
+    private string selectedTab = "nav-profile-tab";
 
     private int PageIndexSession {get;set;} = 1;
 
@@ -384,11 +382,13 @@
             Log.Error(ex, "Erro ao atualizar cliente");
             return;     
         }
+    }
 
-        if (PageIndex.HasValue && PageIndex > 0)
-            NavigationManager.NavigateTo($"/customer/list/{PageIndex}");
-        else
-            NavigationManager.NavigateTo("/customer/list");
+    private async Task ReturnPageAsync()
+    {
+        await RollbackDataAsync();
+
+        await JSRuntime.InvokeVoidAsync("history.back");
     }
 
     private async Task RollbackDataAsync()
