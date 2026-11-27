@@ -7,5 +7,6 @@ namespace Gestao.Domain.Model.Sessions
         Task<IPaginatedList<Session>> ListAsync(Guid companyId, int pageIndex, int pageSize);
         Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize);
         Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include);
+        Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include, string searchText);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update;
 using MudBlazor.Extensions;
 using FluentValidation.Validators;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Gestao.App.Data.Repositories
 {
@@ -46,60 +47,36 @@ namespace Gestao.App.Data.Repositories
         }
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, int pageIndex, int pageSize)
-        {
-            var sessions = await DbContext.Sessions    
-                    .Where(i => i.Customer!.CompanyId.Equals(companyId))
-                    .OrderBy(i => i.CreatedAt)
-                    .Skip((pageIndex - 1) * pageSize)
-                    .Take(pageSize)
-                    .Include(i => i.Customer)
-                    .ToListAsync();
-                    
-            var countSessions = await DbContext.Sessions
-                .CountAsync(i => i.Customer!.CompanyId.Equals(companyId));
-
-            var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
-
-            //sessions.ForEach(async s => await DbContext.Entry(s).Reference(i => i.Customer).LoadAsync());
-
-            return new PaginatedList<Session>(sessions, pageIndex, totalPages);
-        }
+             => await ListAsync(companyId, null, pageIndex, pageSize, false, string.Empty);            
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize)
-        {
-            var sessions = await DbContext.Sessions    
-                .Where(i => i.CustomerId.Equals(customerId))
-                .OrderBy(i => i.CreatedAt)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)                    
-                .ToListAsync();
-
-            var countSessions = await DbContext.Sessions
-                .CountAsync(i => i.CustomerId.Equals(customerId));
-
-            var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
-
-            return new PaginatedList<Session>(sessions, pageIndex, totalPages);
-        }
+            => await ListAsync(companyId, customerId, pageIndex, pageSize, false, string.Empty);            
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include)
-        {            
+            => await ListAsync(companyId, customerId, pageIndex, pageSize, include, string.Empty);            
+
+        public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include, string searchText)
+        {
             var sessions = await DbContext.Sessions                    
                 .Where(i => companyId != null  ? i.Customer!.CompanyId.Equals(companyId): true)
                 .Where(i => customerId != null ? i.CustomerId.Equals(customerId) : true)                
+                .Where(i => !string.IsNullOrEmpty(searchText) ? i.Customer!.Name.Contains(searchText) : true)
                 .Include(i => include ? i.Customer : null)
-                .OrderBy(i => i.CreatedAt)
+                .OrderByDescending(i => i.CreatedAt)
+                .OrderByDescending(i => i.UpdatedAt)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)                                    
                 .ToListAsync();
 
             var countSessions = await DbContext.Sessions
-                .CountAsync(i => i.CustomerId.Equals(customerId));
+                .Where(i => companyId != null  ? i.Customer!.CompanyId.Equals(companyId): true)
+                .Where(i => customerId != null ? i.CustomerId.Equals(customerId) : true)                
+                .Where(i => !string.IsNullOrEmpty(searchText) ? i.Customer!.Name.Contains(searchText) : true)
+                .CountAsync();
 
             var totalPages = (int)Math.Ceiling((decimal)countSessions / pageSize);  //.Ceiling arredonda pra cima    
 
             return new PaginatedList<Session>(sessions, pageIndex, totalPages);
-            
         }
 
         public async Task UpdateAsync(Session entity)

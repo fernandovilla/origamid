@@ -1,3 +1,4 @@
+using Gestao.App.Components.Account.Pages.Manage;
 using Gestao.App.Data;
 using Gestao.Domain.Libraries.Utilities;
 using Gestao.Domain.Model.Sessions;
@@ -33,21 +34,18 @@ namespace Gestao.App.Services.Sessions
         }
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, int pageIndex, int pageSize)
-        {
-            using var unit = UnitOfWorkFactory.Create();
-            return await unit.SessionRepository.ListAsync(companyId, pageIndex, pageSize);
-        }
+            => await ListAsync(companyId, null, pageIndex, pageSize, true, string.Empty);
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid companyId, Guid customerId, int pageIndex, int pageSize)
-        {
-            using var unit = UnitOfWorkFactory.Create();
-            return await unit.SessionRepository.ListAsync(companyId, customerId, pageIndex, pageSize);
-        }
+            => await ListAsync(companyId, customerId, pageIndex, pageSize, true, string.Empty);
 
         public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include)
+            => await ListAsync(companyId, customerId, pageIndex, pageSize, include, string.Empty);
+
+        public async Task<IPaginatedList<Session>> ListAsync(Guid? companyId, Guid? customerId, int pageIndex, int pageSize, bool include, string searchText)
         {
             using var unit = UnitOfWorkFactory.Create();
-            return await unit.SessionRepository.ListAsync(companyId, customerId, pageIndex, pageSize, include);
+            return await unit.SessionRepository.ListAsync(companyId, customerId, pageIndex, pageSize, include, searchText);
         }
 
         public async Task UpdateAsync(Session session)
